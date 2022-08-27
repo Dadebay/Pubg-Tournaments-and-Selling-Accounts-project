@@ -1,0 +1,6 @@
+{
+    "dart.lineLength": 300,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    }
+}
