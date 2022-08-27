@@ -233,6 +233,7 @@ class _Page4State extends State<Page4> {
                 print(response.statusCode);
                 print(response.reasonPhrase);
                 print(response.isRedirect);
+
                 print(response.stream);
                 print(response.stream);
                 if (response.statusCode == 200) {
