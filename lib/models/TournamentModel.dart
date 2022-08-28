@@ -3,11 +3,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:game_app/controllers/TournamentController.dart';
-import 'package:game_app/models/UserModels/AuthModel.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:game_app/constants/index.dart';
+import '../controllers/tournamentController.dart';
 
 class TournamentModel extends GetxController {
   TournamentModel({this.id, this.awards, this.winners, this.participated_users, this.title, this.description_tm, this.description_ru, this.image, this.price, this.finish_date, this.start_date, this.map, this.mode});
@@ -61,7 +59,7 @@ class TournamentModel extends GetxController {
       for (final Map product in responseJson["results"]) {
         tournamentList.add(TournamentModel.fromJson(product));
       }
-      Get.find<TournamentController>().getData(tournamentList);
+      Get.find<TournamentController>().getData(list: tournamentList);
 
       return tournamentList;
     } else {

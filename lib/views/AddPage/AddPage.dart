@@ -9,7 +9,7 @@ import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:game_app/models/UserModels/AuthModel.dart';
 import 'package:http/http.dart' as http;
-import 'VideoUpload.dart';
+import 'videoUpload.dart';
 import 'package:async/async.dart';
 import 'package:http_parser/http_parser.dart';
 

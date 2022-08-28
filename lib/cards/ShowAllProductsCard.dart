@@ -2,11 +2,11 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:game_app/constants/Price.dart';
+import 'package:game_app/constants/price.dart';
 import 'package:game_app/constants/constants.dart';
 import 'package:game_app/constants/widgets.dart';
-import 'package:game_app/models/AccountsForSaleModel.dart';
-import 'package:game_app/views/OtherPages/AccountProfilPage.dart';
+import 'package:game_app/models/accoutsForSaleModel.dart';
+import 'package:game_app/views/OtherPages/accountProfilPage.dart';
 import 'package:get/get.dart';
 
 import '../buttons/favButton.dart';

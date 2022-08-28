@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/HistoryOrderModel.dart';
+import 'package:game_app/models/historyOrderModel.dart';
 
 class HistoryOrdersPage extends StatelessWidget {
   const HistoryOrdersPage({Key? key}) : super(key: key);

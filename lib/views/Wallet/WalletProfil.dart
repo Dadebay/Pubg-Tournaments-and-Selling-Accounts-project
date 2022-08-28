@@ -2,10 +2,10 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/buttons/AddCartButton.dart';
-import 'package:game_app/constants/Price.dart';
+import 'package:game_app/constants/price.dart';
 import 'package:game_app/constants/index.dart';
 
-import '../../models/UcModels.dart';
+import '../../models/ucModels.dart';
 
 class WalletProfil extends StatelessWidget {
   final UcModel model;

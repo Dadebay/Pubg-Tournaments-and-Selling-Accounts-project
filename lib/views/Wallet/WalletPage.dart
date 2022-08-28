@@ -1,8 +1,8 @@
-import 'package:game_app/cards/UCCard.dart';
+import 'package:game_app/cards/uCCard.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/controllers/WalletController.dart';
-import 'package:game_app/models/UcModels.dart';
-import 'package:game_app/views/Wallet/OrderPage.dart';
+import 'package:game_app/controllers/walletController.dart';
+import 'package:game_app/models/ucModels.dart';
+import 'package:game_app/views/Wallet/orderPage.dart';
 
 class WalletPage extends StatelessWidget {
   WalletPage({Key? key}) : super(key: key);

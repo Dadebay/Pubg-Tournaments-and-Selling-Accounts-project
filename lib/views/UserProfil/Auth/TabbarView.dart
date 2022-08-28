@@ -2,8 +2,8 @@
 
 import 'package:game_app/constants/index.dart';
 
-import 'Login.dart';
-import 'SignIn.dart';
+import 'login.dart';
+import 'signIn.dart';
 
 class TabBarViewPage extends StatelessWidget {
   const TabBarViewPage({Key? key}) : super(key: key);

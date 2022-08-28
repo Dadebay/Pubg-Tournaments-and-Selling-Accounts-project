@@ -2,10 +2,10 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/buttons/favButton.dart';
-import 'package:game_app/constants/Price.dart';
+import 'package:game_app/constants/price.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/AccountsForSaleModel.dart';
-import 'package:game_app/views/OtherPages/AccountProfilPage.dart';
+import 'package:game_app/models/accoutsForSaleModel.dart';
+import 'package:game_app/views/OtherPages/accountProfilPage.dart';
 
 class HomePageCard extends StatelessWidget {
   const HomePageCard({Key? key, required this.vip, required this.model}) : super(key: key);

@@ -3,8 +3,8 @@
 import 'dart:ui';
 
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/controllers/WalletController.dart';
-import 'package:game_app/models/AccountsForSaleModel.dart';
+import 'package:game_app/controllers/walletController.dart';
+import 'package:game_app/models/accoutsForSaleModel.dart';
 
 class FavButton extends StatefulWidget {
   const FavButton({Key? key, this.color, required this.model}) : super(key: key);

@@ -2,13 +2,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/HomePageModel.dart';
-import 'package:game_app/views/AddPage/AddPage.dart';
-import 'package:game_app/views/HomePage/HomePage.dart';
-import 'package:game_app/views/TournamentPage/Tournament.dart';
+import 'package:game_app/models/homePageModel.dart';
+import 'package:game_app/views/AddPage/addPage.dart';
+import 'package:game_app/views/HomePage/homePage.dart';
+import 'package:game_app/views/TournamentPage/tournament.dart';
 
-import 'views/UserProfil/UserProfil.dart';
-import 'views/Wallet/WalletPage.dart';
+import 'views/UserProfil/userProfil.dart';
+import 'views/Wallet/walletPage.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const TournamentPage(),
     Container(),
     WalletPage(),
-    UserProfil(),
+    const UserProfil(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -196,8 +196,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               ),
             ),
             customDivider(),
-            FutureBuilder<List<PubgTypes>>(
-              future: PubgTypes().getTypes(),
+            FutureBuilder<List<PubgTypesModel>>(
+              future: PubgTypesModel().getTypes(),
               builder: (BuildContext context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());

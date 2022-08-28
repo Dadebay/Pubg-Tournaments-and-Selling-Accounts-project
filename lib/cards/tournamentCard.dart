@@ -2,8 +2,8 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/TournamentModel.dart';
-import 'package:game_app/views/TournamentPage/TournamentProfilPage.dart';
+import 'package:game_app/models/tournamentModel.dart';
+import 'package:game_app/views/TournamentPage/tournamentProfilPage.dart';
 
 class TournamentCard extends StatelessWidget {
   final int index;

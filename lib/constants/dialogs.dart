@@ -229,7 +229,7 @@ void defaultBottomSheet({required String name, required Widget child}) {
   ));
 }
 
-Future<dynamic> selectCity({required Function() onTap}) {
+Future<dynamic> selectCityAdd({required Function() onTap}) {
   return Get.defaultDialog(
       barrierDismissible: false,
       title: "selectCityTitle".tr,

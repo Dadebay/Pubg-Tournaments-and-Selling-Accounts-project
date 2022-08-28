@@ -33,6 +33,7 @@ dependencies:
   flick_video_player: null
   vibration: ^1.7.5
   mime: ^1.0.1
+  pull_to_refresh: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

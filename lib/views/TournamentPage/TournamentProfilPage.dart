@@ -2,11 +2,11 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/controllers/TournamentController.dart';
-import 'package:game_app/models/TournamentModel.dart';
-import 'package:game_app/views/TournamentPage/TabPage1.dart';
-import 'package:game_app/views/TournamentPage/TabPage2.dart';
-import 'package:game_app/views/TournamentPage/TabPage3.dart';
+import 'package:game_app/controllers/tournamentController.dart';
+import 'package:game_app/models/tournamentModel.dart';
+import 'package:game_app/views/TournamentPage/tabPage1.dart';
+import 'package:game_app/views/TournamentPage/tabPage2.dart';
+import 'package:game_app/views/TournamentPage/tabPage3.dart';
 
 class TournamentProfilPage extends StatefulWidget {
   const TournamentProfilPage({

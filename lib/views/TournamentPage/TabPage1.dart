@@ -2,7 +2,7 @@
 
 import 'package:flutter_html/flutter_html.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/TournamentModel.dart';
+import 'package:game_app/models/tournamentModel.dart';
 import 'package:game_app/models/UserModels/UserSignInModel.dart';
 
 import '../../models/UserModels/AuthModel.dart';

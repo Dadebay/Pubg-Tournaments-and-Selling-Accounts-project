@@ -1,13 +1,11 @@
-// ignore_for_file: file_names
-
+import 'package:game_app/cards/homePageCard.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/AccountsForSaleModel.dart';
-import 'package:game_app/models/HomePageModel.dart';
-import 'package:game_app/views/OtherPages/ShowAllProducts.dart';
+import 'package:game_app/controllers/homePageController.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../cards/HomePageCard.dart';
+import '../../models/indexModel.dart';
 import 'Banners.dart';
-import 'PubgTypesHomePage.dart';
+import 'pubgTypes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,16 +15,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<List<HomePageModel>> futureBanner;
-  late Future<List<PubgTypes>> futurePubgType;
-  late Future<List<AccountsForSaleModel>> futureLatestProducts;
+  HomePageController homePageController = Get.put(HomePageController());
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
-    futureBanner = HomePageModel().getBanners();
-    futurePubgType = PubgTypes().getTypes();
-    futureLatestProducts = AccountsForSaleModel().getAccounts(0);
+    _onRefresh();
+  }
+
+  void _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    homePageController.list.clear();
+    homePageController.pageNumber.value = 1;
+    homePageController.text.value = "Yokary Cekin";
+    AccountsForSaleModel().getAccounts(parametrs: {"page": "${homePageController.pageNumber}", "size": "10"});
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    if (mounted) {
+      homePageController.pageNumber.value += 1;
+      AccountsForSaleModel().getAccounts(parametrs: {"page": "${homePageController.pageNumber}", "size": "10"});
+    }
+    _refreshController.loadComplete();
   }
 
   @override
@@ -35,119 +48,44 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
           backgroundColor: kPrimaryColorBlack,
           appBar: const MyAppBar(fontSize: 0, backArrow: false, iconRemove: true, name: "Pubg House", elevationWhite: false),
-          body: SingleChildScrollView(
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
+          body: SmartRefresher(
+            footer: footer(),
+            controller: _refreshController,
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
+            enablePullDown: true,
+            enablePullUp: true,
+            physics: const BouncingScrollPhysics(),
+            header: const MaterialClassicHeader(
+              color: kPrimaryColor,
+            ),
+            child: ListView(
               children: [
-                SizedBox(
-                    width: Get.size.width,
-                    child: Banners(
-                      future: futureBanner,
-                    )),
-                namePart("pubgTypes".tr, false),
-                PubgTypesHomePage(
-                  future: futurePubgType,
-                ),
-                namePart("accountsForSale".tr, true),
-                latestProducts()
+                Banners(future: homePageController.futureBanner),
+                listViewName("pubgTypes".tr, false),
+                PubgTypes(future: homePageController.futurePubgType),
+                listViewName("accountsForSale".tr, true),
+                Obx(() {
+                  if (homePageController.loading.value == 2) {
+                    return cannotLoadData(false);
+                  } else if (homePageController.list.isEmpty && homePageController.loading.value != 1) {
+                    return cannotLoadData(true);
+                  } else if (homePageController.list.isEmpty && homePageController.loading.value != 0) {
+                    return waitingData();
+                  }
+                  return ListView.builder(
+                    itemCount: homePageController.list.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return HomePageCard(vip: homePageController.list[index].vip ?? false, model: homePageController.list[index]);
+                    },
+                  );
+                }),
               ],
             ),
           )),
-    );
-  }
-
-  FutureBuilder<List<AccountsForSaleModel>> latestProducts() {
-    return FutureBuilder<List<AccountsForSaleModel>>(
-        future: futureLatestProducts,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: 10,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
-                  height: 170,
-                  decoration: BoxDecoration(borderRadius: borderRadius15, color: kPrimaryColorBlack1.withOpacity(0.4)),
-                  child: Center(
-                    child: spinKit(),
-                  ),
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return cannotLoadData();
-          } else if (snapshot.data == null) {
-            return cannotLoadData();
-          }
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            physics: const NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return HomePageCard(vip: snapshot.data![index].vip ?? false, model: snapshot.data![index]);
-            },
-          );
-        });
-  }
-
-  Center cannotLoadData() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              "errorPubgAccounts".tr,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
-            ),
-          ),
-          ElevatedButton(
-              onPressed: () {
-                AccountsForSaleModel().getAccounts(0);
-              },
-              style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-              child: Text(
-                "noConnection3".tr,
-                style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
-              ))
-        ],
-      ),
-    );
-  }
-
-  Padding namePart(String text, bool icon) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: icon ? 20 : 0, left: 15, right: 15, top: icon ? 0 : 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            text,
-            style: const TextStyle(color: Colors.white, fontSize: 22, fontFamily: josefinSansSemiBold),
-          ),
-          icon
-              ? IconButton(
-                  onPressed: () {
-                    Get.to(() => const ShowAllProducts(
-                          name: "accountsForSale",
-                          type: 0,
-                        ));
-                  },
-                  icon: const Icon(
-                    IconlyLight.arrowRightCircle,
-                    color: Colors.white,
-                  ))
-              : const SizedBox.shrink()
-        ],
-      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/UcModels.dart';
+import 'package:game_app/models/ucModels.dart';
 
 class WalletController extends GetxController {
   final storage = GetStorage();

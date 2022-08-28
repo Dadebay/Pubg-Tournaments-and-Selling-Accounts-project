@@ -3,7 +3,7 @@
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/UserModels/UserSignInModel.dart';
 
-import 'OTPCheck.dart';
+import 'otpCheck.dart';
 
 class Login extends StatelessWidget {
   TextEditingController fullNameController = TextEditingController();

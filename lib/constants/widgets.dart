@@ -1,8 +1,11 @@
 // ignore_for_file: deprecated_member_use, duplicate_ignore, implementation_imports, avoid_positional_boolean_parameters, unnecessary_null_comparison, always_use_package_imports
 
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/views/UserProfil/Pages/Cash.dart';
+import 'package:game_app/models/indexModel.dart';
+import 'package:game_app/views/OtherPages/showAllAcconts.dart';
+import 'package:game_app/views/UserProfil/Pages/cash.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 SnackbarController showSnackBar(String title, String subtitle, Color color) {
   return Get.snackbar(
@@ -86,6 +89,126 @@ customDivider() {
     height: 1,
   );
 }
+
+//------------------ HOME PAGE --------------------//
+
+Container noBannerImage() {
+  return Container(
+      margin: const EdgeInsets.all(15),
+      width: Get.size.width,
+      height: 220,
+      decoration: const BoxDecoration(borderRadius: borderRadius15, color: kPrimaryColorBlack1),
+      child: Center(
+          child: Text(
+        "noImageBanner".tr,
+        style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
+      )));
+}
+
+Padding listViewName(String text, bool icon) {
+  return Padding(
+    padding: EdgeInsets.only(bottom: icon ? 20 : 0, left: 15, right: 15, top: icon ? 0 : 20),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          text,
+          style: const TextStyle(color: Colors.white, fontSize: 22, fontFamily: josefinSansSemiBold),
+        ),
+        icon
+            ? IconButton(
+                onPressed: () {
+                  Get.to(() => const ShowAllAccounts(
+                        name: "accountsForSale",
+                        pubgID: 0,
+                      ));
+                },
+                icon: const Icon(
+                  IconlyLight.arrowRightCircle,
+                  color: Colors.white,
+                ))
+            : const SizedBox.shrink()
+      ],
+    ),
+  );
+}
+
+CustomFooter footer() {
+  return CustomFooter(
+    builder: (BuildContext context, LoadStatus? mode) {
+      Widget body;
+      if (mode == LoadStatus.idle) {
+        body = const Text("");
+      } else if (mode == LoadStatus.loading) {
+        body = const CircularProgressIndicator(
+          color: kPrimaryColor,
+        );
+      } else if (mode == LoadStatus.failed) {
+        body = const Text("Load Failed!Click retry!");
+      } else if (mode == LoadStatus.canLoading) {
+        body = const Text("");
+      } else {
+        body = const Text("No more Data");
+      }
+      return SizedBox(
+        height: 55.0,
+        child: Center(child: body),
+      );
+    },
+  );
+}
+
+ListView waitingData() {
+  return ListView.builder(
+    scrollDirection: Axis.vertical,
+    itemCount: 10,
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        margin: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
+        height: 170,
+        decoration: BoxDecoration(borderRadius: borderRadius15, color: kPrimaryColorBlack1.withOpacity(0.4)),
+        child: Center(
+          child: spinKit(),
+        ),
+      );
+    },
+  );
+}
+
+Center cannotLoadData(bool type) {
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(15),
+          child: Text(
+            type ? "errorPubgAccounts".tr : "Hic Hilis satlyk akkaunt yok",
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
+          ),
+        ),
+        type
+            ? ElevatedButton(
+                onPressed: () {
+                  AccountsForSaleModel().getAccounts(parametrs: {});
+                },
+                style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                child: Text(
+                  "noConnection3".tr,
+                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
+                ))
+            : const SizedBox.shrink()
+      ],
+    ),
+  );
+}
+
+//------------------ HOME PAGE --------------------//
 
 showDeleteDialog(BuildContext context, String text, String text2, Function() onTap) {
   showGeneralDialog(

@@ -2,13 +2,13 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/HomePageModel.dart';
-import 'package:game_app/views/OtherPages/ShowAllProducts.dart';
+import 'package:game_app/models/homePageModel.dart';
+import 'package:game_app/views/OtherPages/showAllAcconts.dart';
 
-class PubgTypesHomePage extends StatelessWidget {
-  const PubgTypesHomePage({Key? key, required this.future}) : super(key: key);
+class PubgTypes extends StatelessWidget {
+  const PubgTypes({Key? key, required this.future}) : super(key: key);
 
-  final Future<List<PubgTypes>> future;
+  final Future<List<PubgTypesModel>> future;
 
   Column cannotLoadData() {
     return Column(
@@ -26,7 +26,7 @@ class PubgTypesHomePage extends StatelessWidget {
         ),
         ElevatedButton(
             onPressed: () {
-              PubgTypes().getTypes();
+              PubgTypesModel().getTypes();
             },
             style: ElevatedButton.styleFrom(primary: kPrimaryColor),
             child: Text(
@@ -37,15 +37,10 @@ class PubgTypesHomePage extends StatelessWidget {
     );
   }
 
-  GestureDetector circleCard(
-    PubgTypes type,
-  ) {
+  GestureDetector circleCard(PubgTypesModel type) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => ShowAllProducts(
-              name: type.title!,
-              type: type.id!,
-            ));
+        Get.to(() => ShowAllAccounts(name: type.title!, pubgID: type.id!));
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 20, right: 15, top: 15),
@@ -100,7 +95,7 @@ class PubgTypesHomePage extends StatelessWidget {
         ),
         color: kPrimaryColorBlack,
         alignment: Alignment.center,
-        child: FutureBuilder<List<PubgTypes>>(
+        child: FutureBuilder<List<PubgTypesModel>>(
             future: future,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

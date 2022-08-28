@@ -2,7 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/views/OtherPages/VideoPlayerProfile.dart';
+import 'package:game_app/views/OtherPages/videoPlayerProfile.dart';
 import 'package:lottie/lottie.dart';
 
 class VideoCard extends StatelessWidget {

@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/cards/OrderCard.dart';
+import 'package:game_app/cards/orderCard.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/controllers/WalletController.dart';
-import 'package:game_app/models/UcModels.dart';
+import 'package:game_app/controllers/walletController.dart';
+import 'package:game_app/models/ucModels.dart';
 import 'package:game_app/models/UserModels/AuthModel.dart';
 
 class OrderPage extends StatelessWidget {

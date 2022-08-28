@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, deprecated_member_use
 
-import 'package:game_app/constants/SetttingsButton.dart';
+import 'package:game_app/constants/setttingsButton.dart';
 import 'package:game_app/constants/dialogs.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:share/share.dart';

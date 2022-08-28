@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/controllers/WalletController.dart';
+import 'package:game_app/controllers/walletController.dart';
 
 class FavPage extends StatelessWidget {
   FavPage({Key? key}) : super(key: key);

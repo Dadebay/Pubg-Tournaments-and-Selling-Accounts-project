@@ -45,3 +45,36 @@ const String ruIcon = "assets/lang/ru.png";
 const String loremImpsum =
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
 //App Name
+
+List sortData = [
+  {
+    "id": 1,
+    "name": "sortDefault",
+    "sort_column": "price",
+    "sort_direction": "",
+  },
+  {
+    "id": 2,
+    "name": "sortPriceLowToHigh",
+    "sort_column": "price",
+    "sort_direction": "high",
+  },
+  {
+    "id": 3,
+    "name": "sortPriceHighToLow",
+    "sort_column": "price",
+    "sort_direction": "low",
+  },
+  {
+    "id": 4,
+    "name": "sortCreatedAtHighToLow",
+    "sort_column": "date",
+    "sort_direction": "new",
+  },
+  {
+    "id": 5,
+    "name": "sortCreatedAtLowToHigh",
+    "sort_column": "date",
+    "sort_direction": "old",
+  },
+];

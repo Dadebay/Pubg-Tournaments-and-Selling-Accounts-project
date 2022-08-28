@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, must_be_immutable
 
-import 'package:game_app/BottomNavBar.dart';
+import 'package:game_app/bottomNavBar.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/UserModels/UserSignInModel.dart';
 

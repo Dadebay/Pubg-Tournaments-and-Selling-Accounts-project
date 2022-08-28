@@ -2,7 +2,7 @@
 
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/UserModels/UserSignInModel.dart';
-import 'package:game_app/views/UserProfil/Auth/OTPCheck.dart';
+import 'package:game_app/views/UserProfil/Auth/otpCheck.dart';
 
 class SingIn extends StatelessWidget {
   TextEditingController fullNameController = TextEditingController();

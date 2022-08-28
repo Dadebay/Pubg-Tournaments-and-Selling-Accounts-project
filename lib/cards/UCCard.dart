@@ -2,10 +2,10 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/buttons/AddCartButton.dart';
-import 'package:game_app/constants/Price.dart';
+import 'package:game_app/constants/price.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/UcModels.dart';
-import 'package:game_app/views/Wallet/WalletProfil.dart';
+import 'package:game_app/models/ucModels.dart';
+import 'package:game_app/views/Wallet/walletProfil.dart';
 
 class UCCard extends StatelessWidget {
   const UCCard({Key? key, required this.model}) : super(key: key);

@@ -1,11 +1,11 @@
 // ignore_for_file: file_names, deprecated_member_use
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/cards/VideoCard.dart';
+import 'package:game_app/cards/videoCard.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/SettingsController.dart';
-import 'package:game_app/models/AccountsForSaleModel.dart';
-import 'package:game_app/models/HomePageModel.dart';
+import 'package:game_app/models/accoutsForSaleModel.dart';
+import 'package:game_app/models/homePageModel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AccountProfilPage extends StatefulWidget {
@@ -36,7 +36,7 @@ class _AccountProfilPageState extends State<AccountProfilPage> {
                 } else if (snapshot.data == null) {
                   return const Text("Error");
                 }
-                PubgTypes().getTypes().then((value) {
+                PubgTypesModel().getTypes().then((value) {
                   for (var element in value) {
                     if (element.id.toString() == snapshot.data!.pubgType.toString()) {
                       Get.find<SettingsController>().pubgType.value = element.title.toString();

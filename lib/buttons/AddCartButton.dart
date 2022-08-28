@@ -2,8 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/controllers/WalletController.dart';
-import 'package:game_app/models/UcModels.dart';
+import 'package:game_app/controllers/walletController.dart';
+import 'package:game_app/models/ucModels.dart';
 
 class AddCartButton extends StatefulWidget {
   final bool productProfil;

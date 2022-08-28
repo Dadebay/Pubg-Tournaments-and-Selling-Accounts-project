@@ -4,7 +4,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/controllers/WalletController.dart';
+import 'package:game_app/controllers/walletController.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard({Key? key, required this.name, required this.image, required this.price, required this.id, required this.count}) : super(key: key);

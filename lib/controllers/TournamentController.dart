@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/TournamentModel.dart';
+import 'package:game_app/models/tournamentModel.dart';
 
 class TournamentController extends GetxController {
   late Future<List<TournamentModel>> getTournaments;
@@ -10,7 +10,7 @@ class TournamentController extends GetxController {
   RxInt tournamentLoading = 0.obs;
   RxBool sliverBool = false.obs;
 
-  getData(List<TournamentModel> list) {
+  getData({required List<TournamentModel> list}) {
     tournamentList.clear();
     tournamentFinisedList.clear();
     if (list.isEmpty) {

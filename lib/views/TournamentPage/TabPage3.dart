@@ -2,7 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/TournamentModel.dart';
+import 'package:game_app/models/tournamentModel.dart';
 
 class TabPage3 extends StatelessWidget {
   const TabPage3({Key? key, required this.model}) : super(key: key);

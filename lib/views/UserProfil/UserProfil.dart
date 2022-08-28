@@ -1,21 +1,21 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/constants/ProfilButton.dart';
+import 'package:game_app/constants/profilButton.dart';
 import 'package:game_app/constants/dialogs.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/SettingsController.dart';
-import 'package:game_app/controllers/WalletController.dart';
+import 'package:game_app/controllers/walletController.dart';
 import 'package:game_app/models/UserModels/AuthModel.dart';
-import 'package:game_app/views/UserProfil/Pages/FavPage.dart';
-import 'package:game_app/views/UserProfil/Pages/HistoryOrdersPage.dart';
-import 'package:game_app/views/UserProfil/Pages/ProfileSettings.dart';
-import 'package:game_app/views/UserProfil/Pages/Settings.dart';
+import 'package:game_app/views/UserProfil/Pages/favPage.dart';
+import 'package:game_app/views/UserProfil/Pages/historyOrdersPage.dart';
+import 'package:game_app/views/UserProfil/Pages/profileSettings.dart';
+import 'package:game_app/views/UserProfil/Pages/settings.dart';
 
-import 'Auth/TabbarView.dart';
-import 'Pages/AboutUs.dart';
-import 'Pages/Cash.dart';
-import 'Pages/EditWorkProfil.dart';
-import 'Pages/FAQs.dart';
+import 'Auth/tabbarView.dart';
+import 'Pages/aboutUs.dart';
+import 'Pages/cash.dart';
+import 'Pages/editWorkProfil.dart';
+import 'Pages/fAQs.dart';
 
 class UserProfil extends StatefulWidget {
   const UserProfil({Key? key}) : super(key: key);

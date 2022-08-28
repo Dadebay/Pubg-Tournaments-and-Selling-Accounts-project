@@ -2,7 +2,8 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:game_app/controllers/FilterController.dart';
+import 'package:game_app/controllers/homePageController.dart';
+import 'package:game_app/controllers/showAllAccountsController.dart';
 import 'package:http/http.dart' as http;
 import 'package:game_app/constants/index.dart';
 
@@ -35,51 +36,91 @@ class AccountsForSaleModel extends GetxController {
     );
   }
 
-  final int? id;
-  final String? nickname;
-
-  final int? pubgType;
-  final int? location;
-  final int? user;
-  final bool? verified;
-  final bool? forSale;
-  final bool? vip;
-  final String? phone;
   final String? bio;
-  final String? points;
-
   final String? createdDate;
   final String? email;
   final String? firstName;
-  final String? lastName;
-
+  final bool? forSale;
+  final int? id;
   final String? image;
+  final String? lastName;
+  final int? location;
+  final String? nickname;
+  final String? phone;
+  final String? points;
   final String? pointsFromTurnir;
   final String? price;
   final String? pubgId;
+  final int? pubgType;
   final String? updatedDate;
+  final int? user;
+  final bool? verified;
+  final bool? vip;
 
-  Future<List<AccountsForSaleModel>> getAccounts(int type) async {
+  Future<List<AccountsForSaleModel>> getAccounts({required Map<String, String> parametrs}) async {
     final List<AccountsForSaleModel> accountList = [];
-    final FilterController controller = Get.put(FilterController());
+    Get.find<HomePageController>().loading.value = 0;
     final response = await http.get(
         Uri.parse(
-          type != 0 ? "$serverURL/api/accounts/type-accounts/$type/?${controller.sortName}=${controller.sortType}&${controller.sortName1}=${controller.sortType1}&${controller.sortNamePrice}&${controller.sortTypePrice}" : "$serverURL/api/accounts/get-accounts/",
-        ),
+          "$serverURL/api/accounts/get-accounts/",
+        ).replace(queryParameters: parametrs),
         headers: <String, String>{
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         });
+
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
       for (final Map product in responseJson["results"]) {
         if (AccountsForSaleModel.fromJson(product).forSale == true) {
           accountList.add(AccountsForSaleModel.fromJson(product));
-        } else {}
+          Get.find<HomePageController>().list.add(AccountsForSaleModel.fromJson(product));
+        }
       }
-
+      Get.find<HomePageController>().loading.value = 1;
       return accountList;
+    } else if (response.statusCode == 404) {
+      Get.find<HomePageController>().loading.value = 1;
+      Get.find<HomePageController>().text.value = "Gutardy boldyyyyy";
+      Get.find<HomePageController>().pageNumber.value -= 1;
+      return [];
     } else {
+      Get.find<HomePageController>().loading.value = 2;
+      return [];
+    }
+  }
+
+  Future<List<AccountsForSaleModel>> getTypeAccounts({required Map<String, String> parametrs, required int type}) async {
+    final List<AccountsForSaleModel> accountList = [];
+    Get.find<ShowAllAccountsController>().loading.value = 0;
+    final response = await http.get(
+        Uri.parse(
+          type != 0 ? "$serverURL/api/accounts/type-accounts/$type/" : "$serverURL/api/accounts/get-accounts/",
+        ).replace(queryParameters: parametrs),
+        headers: <String, String>{
+          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        });
+    print(parametrs);
+    print(type != 0 ? "$serverURL/api/accounts/type-accounts/$type/" : "$serverURL/api/accounts/get-accounts/");
+    print(response.body);
+    if (response.statusCode == 200) {
+      var decoded = utf8.decode(response.bodyBytes);
+      final responseJson = json.decode(decoded);
+      for (final Map product in responseJson["results"]) {
+        if (AccountsForSaleModel.fromJson(product).forSale == true) {
+          accountList.add(AccountsForSaleModel.fromJson(product));
+          Get.find<ShowAllAccountsController>().list.add(AccountsForSaleModel.fromJson(product));
+        }
+      }
+      Get.find<ShowAllAccountsController>().loading.value = 1;
+      return accountList;
+    } else if (response.statusCode == 404) {
+      Get.find<ShowAllAccountsController>().loading.value = 1;
+      Get.find<HomePageController>().text.value = "Gutardy boldyyyyy";
+      Get.find<ShowAllAccountsController>().pageNumber.value -= 1;
+      return [];
+    } else {
+      Get.find<HomePageController>().loading.value = 2;
       return [];
     }
   }
@@ -135,28 +176,27 @@ class AccountByIdModel extends GetxController {
     );
   }
 
-  final int? id;
-  final String? pubgUsername;
-  final String? pubgId;
-  final String? firsName;
-  final String? lastName;
-  final String? email;
-  final String? phone;
+  final String? bgImage;
   final String? bio;
+  final String? createdDate;
+  final String? email;
+  final String? firsName;
+  final bool? forSale;
+  final int? id;
+  final String? image;
+  final String? lastName;
+  final int? location;
+  final String? phone;
   final String? points;
   final String? pointsFromTurnir;
-  final String? image;
-  final bool? forSale;
   final String? price;
-  final String? bgImage;
-
-  final bool? verified;
-  final bool? vip;
-  final String? createdDate;
+  final String? pubgId;
+  final int? pubgType;
+  final String? pubgUsername;
   final String? updatedDate;
   final int? user;
-  final int? pubgType;
-  final int? location;
+  final bool? verified;
+  final bool? vip;
 
   Future<AccountByIdModel> getAccountById(int id) async {
     final response = await http.get(
@@ -192,8 +232,8 @@ class GetAccountVideos extends GetxController {
   }
 
   final int? id;
-  final String? video;
   final String? poster;
+  final String? video;
 
   Future<List<GetAccountVideos>> getVideos(int id) async {
     final List<GetAccountVideos> accountList = [];

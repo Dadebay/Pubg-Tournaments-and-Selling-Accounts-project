@@ -2,8 +2,8 @@
 
 import 'package:game_app/cards/tournamentCard.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/controllers/TournamentController.dart';
-import 'package:game_app/models/TournamentModel.dart';
+import 'package:game_app/controllers/tournamentController.dart';
+import 'package:game_app/models/tournamentModel.dart';
 
 class TournamentPage extends StatefulWidget {
   const TournamentPage({Key? key}) : super(key: key);

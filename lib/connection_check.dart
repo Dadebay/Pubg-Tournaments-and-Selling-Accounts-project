@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, avoid_positional_boolean_parameters, avoid_void_async, always_declare_return_types, always_use_package_imports
 
 import 'dart:io';
-import 'package:game_app/BottomNavBar.dart';
+import 'package:game_app/bottomNavBar.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:lottie/lottie.dart';
 
