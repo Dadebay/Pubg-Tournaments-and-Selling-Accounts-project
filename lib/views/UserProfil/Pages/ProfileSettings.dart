@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, deprecated_member_use, prefer_typing_uninitialized_variables
 
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/models/UserModels/UserSignInModel.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings({Key? key}) : super(key: key);
@@ -10,18 +11,17 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
-  TextEditingController nameController = TextEditingController();
-  FocusNode nameFocusNode = FocusNode();
+  TextEditingController pubgNameController = TextEditingController();
+  FocusNode pubgNameFocusNode = FocusNode();
   TextEditingController phoneController = TextEditingController();
   FocusNode phoneFocusNode = FocusNode();
-  TextEditingController emailController = TextEditingController();
-  FocusNode emailFocsNode = FocusNode();
-  @override
-  void initState() {
-    super.initState();
-    nameController.text = "Gurbanow Dadebay";
-    phoneController.text = "62 990344";
-    emailController.text = "dadebaygurbanow333@gmail.com";
+  TextEditingController pubgIDController = TextEditingController();
+  FocusNode pubgIDFocusNode = FocusNode();
+
+  changeData(String name, String phone, String pubgID) {
+    pubgNameController.text = name;
+    phoneController.text = phone;
+    pubgIDController.text = pubgID;
   }
 
   @override
@@ -29,35 +29,64 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
       appBar: const MyAppBar(backArrow: true, fontSize: 0.0, iconRemove: true, elevationWhite: true, name: "profil"),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              textpart("fullName"),
-              CustomTextField(labelName: "", controller: nameController, borderRadius: true, focusNode: nameFocusNode, requestfocusNode: phoneFocusNode, isNumber: false),
-              textpart("phone"),
-              PhoneNumber(
-                mineFocus: phoneFocusNode,
-                controller: phoneController,
-                requestFocus: emailFocsNode,
-                style: false,
+      body: FutureBuilder<GetMeModel>(
+          future: GetMeModel().getMe(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: spinKit());
+            } else if (snapshot.hasError) {
+              return const Center(child: Text("Error"));
+            } else if (snapshot.data == null) {
+              return const Center(child: Text("Empty"));
+            }
+            changeData(snapshot.data!.nickname!, snapshot.data!.phone!, snapshot.data!.pubgId!);
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    textpart("signIn1"),
+                    CustomTextField(
+                      labelName: "",
+                      controller: pubgNameController,
+                      borderRadius: true,
+                      focusNode: pubgNameFocusNode,
+                      requestfocusNode: phoneFocusNode,
+                      isNumber: false,
+                      disabled: false,
+                    ),
+                    textpart("signIn2"),
+                    CustomTextField(
+                      labelName: "",
+                      controller: pubgIDController,
+                      borderRadius: true,
+                      focusNode: pubgIDFocusNode,
+                      requestfocusNode: pubgNameFocusNode,
+                      isNumber: false,
+                      disabled: false,
+                    ),
+                    textpart("userPhoneNumber"),
+                    PhoneNumber(
+                      mineFocus: phoneFocusNode,
+                      controller: phoneController,
+                      requestFocus: pubgIDFocusNode,
+                      style: false,
+                      disabled: false,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    AgreeButton(onTap: () {
+                      showSnackBar("Succesful", "Succefully Changed name", kPrimaryColor);
+                      Get.back();
+                    })
+                  ],
+                ),
               ),
-              textpart("email"),
-              CustomTextField(labelName: "", controller: emailController, borderRadius: true, focusNode: emailFocsNode, requestfocusNode: nameFocusNode, isNumber: false),
-              const SizedBox(
-                height: 25,
-              ),
-              AgreeButton(onTap: () {
-                showSnackBar("Succesful", "Succefully Changed name", kPrimaryColor);
-                Get.back();
-              })
-            ],
-          ),
-        ),
-      ),
+            );
+          }),
     );
   }
 

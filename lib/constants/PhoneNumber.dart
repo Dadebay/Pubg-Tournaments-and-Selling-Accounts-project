@@ -6,21 +6,18 @@ import 'package:game_app/constants/constants.dart';
 import 'package:get/get.dart';
 
 class PhoneNumber extends StatelessWidget {
-  const PhoneNumber({
-    required this.mineFocus,
-    required this.controller,
-    required this.requestFocus,
-    required this.style,
-  });
+  const PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, this.disabled});
   final TextEditingController controller;
   final FocusNode mineFocus;
   final FocusNode requestFocus;
   final bool style;
+  final bool? disabled;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 15),
       child: TextFormField(
+        enabled: disabled ?? true,
         style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansMedium),
         cursorColor: Colors.white,
         textInputAction: TextInputAction.next,

@@ -10,12 +10,14 @@ class CustomTextField extends StatelessWidget {
   final FocusNode requestfocusNode;
   final bool isNumber;
   final bool? borderRadius;
+  final bool? disabled;
 
   const CustomTextField({
     Key? key,
     required this.labelName,
     this.maxline,
     this.borderRadius,
+    this.disabled,
     required this.controller,
     required this.focusNode,
     required this.requestfocusNode,
@@ -41,6 +43,7 @@ class CustomTextField extends StatelessWidget {
         keyboardType: isNumber ? TextInputType.number : TextInputType.text,
         maxLines: maxline ?? 1,
         focusNode: focusNode,
+        enabled: disabled ?? true,
         decoration: InputDecoration(
           errorMaxLines: 2,
           errorStyle: const TextStyle(fontFamily: josefinSansMedium),
