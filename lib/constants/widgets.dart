@@ -1,9 +1,9 @@
 // ignore_for_file: deprecated_member_use, duplicate_ignore, implementation_imports, avoid_positional_boolean_parameters, unnecessary_null_comparison, always_use_package_imports
 
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/indexModel.dart';
-import 'package:game_app/views/OtherPages/showAllAcconts.dart';
-import 'package:game_app/views/UserProfil/Pages/cash.dart';
+import 'package:game_app/models/index_model.dart';
+import 'package:game_app/views/other_pages/show_all_acconts.dart';
+import 'package:game_app/views/user_profil/Pages/cash.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -46,6 +46,16 @@ Widget dividerr() {
     width: double.infinity,
     height: 1,
   );
+}
+
+Center noData(String text) {
+  return Center(
+      child: Text(
+    text.tr,
+    maxLines: 2,
+    textAlign: TextAlign.center,
+    style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+  ));
 }
 
 Widget spinKit() {

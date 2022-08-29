@@ -88,6 +88,7 @@ class MyTranslations extends Translations {
           "tournamentInfo9": "Gutardy",
           "tournamentInfo10": "Garaşylýar",
           "tournamentInfo11": "Gatnaşmak",
+          "cannot_find_data_tournament": "Şu wagtlykça turnir ýok",
           "orders": "Sargytlarym",
           "orderPage": "Sargyt",
           "orderPage1": "UC sany : ",
@@ -134,8 +135,13 @@ class MyTranslations extends Translations {
           "correctData1": "Ulanyjy maglumatlaryňyzy dogrylygyny tassyklaň !",
           "loginError": "Ulgama giriň",
           "loginErrorTurnir": "Turnir gatnaşmak üçin ulgama giriň !",
+          "account_profil_not_found": "Ulanyjy maglumatlary tapylmady täzeden synanşyň",
+          "account_profil_not_video": "Ulanyjyda şu wagt wideo ýok !"
         },
         'ru': {
+          "cannot_find_data_tournament": "Турнира пока нет",
+          "account_profil_not_video": "У пользователя в настоящее время нет видео!",
+          "account_profil_not_found": "Данные пользователя не найдены Пожалуйста, попробуйте еще раз",
           "loginError": "Авторизоваться",
           "loginErrorTurnir": "Войдите, чтобы принять участие в турнире!",
           "correctData": "Проверьте информацию",

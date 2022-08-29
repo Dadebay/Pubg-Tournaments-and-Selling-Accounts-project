@@ -7,7 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:game_app/constants/index.dart';
 
 import 'connection_check.dart';
-import 'controllers/AllContollerBindings.dart';
+import 'controllers/all_controller_bindings.dart';
 import 'utils/translations.dart';
 
 AndroidNotificationChannel channel = const AndroidNotificationChannel(

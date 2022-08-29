@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:game_app/constants/index.dart';
 
-import 'package:game_app/controllers/SettingsController.dart';
-import 'package:game_app/models/UserModels/AuthModel.dart';
+import 'package:game_app/controllers/settings_controller.dart';
+import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:restart_app/restart_app.dart';
 
 void logOut(BuildContext context) {
