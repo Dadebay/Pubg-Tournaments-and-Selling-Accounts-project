@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/tournament_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
+import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/tournament_page/tab_age2.dart';
 import 'package:game_app/views/tournament_page/tab_age3.dart';
 import 'package:game_app/views/tournament_page/tab_page1.dart';
@@ -27,6 +28,7 @@ class TournamentProfilPage extends StatefulWidget {
 class _TournamentProfilPageState extends State<TournamentProfilPage> {
   final ScrollController _sliverScrollController = ScrollController();
   final TournamentController controller = Get.put(TournamentController());
+  String buttonName = "tournamentInfo11".tr;
   @override
   void initState() {
     super.initState();
@@ -35,6 +37,18 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
         controller.sliverBool.value = true;
       } else if (controller.sliverBool.value && _sliverScrollController.hasClients && _sliverScrollController.offset <= 130.0) {
         controller.sliverBool.value = false;
+      }
+    });
+    checkStatus();
+  }
+
+  checkStatus() async {
+    final token = await Auth().getToken();
+    TournamentModel().checkStatus(tournamentID: widget.tournamentId, value: false).then((value) {
+      if (value == 400) {
+        buttonName = "tournamentInfo11".tr;
+      } else {
+        buttonName = "tournamentInfo12".tr;
       }
     });
   }
@@ -56,21 +70,23 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: spinKit());
                   } else if (snapshot.hasError) {
-                    return const Center(child: Text("Error"));
+                    return noData("tournamentInfo14");
                   } else if (snapshot.data == null) {
-                    return const Center(child: Text("Empty"));
+                    return noData("tournamentInfo14");
                   }
                   return TabBarView(children: <Widget>[
                     TabPage1(
                       finised: widget.finised,
                       model: snapshot.data!,
+                      buttonName: buttonName,
                     ),
                     TabPage2(
                       model: snapshot.data!,
                     ),
                     snapshot.data!.participated_users!.isEmpty
-                        ? const Center(
-                            child: Text("Hic kim gatnasanok"),
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: noData("tournamentInfo13"),
                           )
                         : TabPage3(
                             model: snapshot.data!,

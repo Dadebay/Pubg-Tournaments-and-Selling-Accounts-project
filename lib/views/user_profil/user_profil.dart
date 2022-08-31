@@ -5,7 +5,6 @@ import 'package:game_app/constants/dialogs.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
-import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/user_profil/Pages/fav_page.dart';
 import 'package:game_app/views/user_profil/Pages/history_orders_page.dart';
 import 'package:game_app/views/user_profil/Pages/settings.dart';
@@ -26,20 +25,6 @@ class UserProfil extends StatefulWidget {
 
 class _UserProfilState extends State<UserProfil> {
   final SettingsController settingsController = Get.put(SettingsController());
-  @override
-  void initState() {
-    super.initState();
-    changeUI();
-  }
-
-  changeUI() async {
-    final token = await Auth().getToken();
-    if (token != null) {
-      settingsController.loginUser.value = true;
-    } else {
-      settingsController.loginUser.value = false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

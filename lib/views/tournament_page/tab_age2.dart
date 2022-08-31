@@ -34,8 +34,8 @@ class TabPage2 extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    model.awards![index].award.toString() + " UC",
-                    style: const TextStyle(color: Colors.white, fontFamily: josefinSansRegular),
+                    model.awards![index].award.toString().substring(0, model.awards![index].award!.length - 3) + " TMT",
+                    style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: josefinSansRegular),
                   ),
                 ),
               ],

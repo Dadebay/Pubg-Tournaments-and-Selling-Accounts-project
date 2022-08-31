@@ -66,12 +66,12 @@ class _HomePageState extends State<HomePage> {
                 PubgTypes(future: homePageController.futurePubgType),
                 listViewName("accountsForSale".tr, true),
                 Obx(() {
-                  if (homePageController.loading.value == 2) {
+                  if (homePageController.list.isEmpty && homePageController.loading.value == 0) {
+                    return waitingData();
+                  } else if (homePageController.loading.value == 2) {
                     return cannotLoadData(false);
                   } else if (homePageController.list.isEmpty && homePageController.loading.value != 1) {
                     return cannotLoadData(true);
-                  } else if (homePageController.list.isEmpty && homePageController.loading.value != 0) {
-                    return waitingData();
                   }
                   return ListView.builder(
                     itemCount: homePageController.list.length,

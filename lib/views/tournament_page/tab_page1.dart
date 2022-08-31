@@ -9,9 +9,14 @@ import '../../models/user_models/auth_model.dart';
 
 class TabPage1 extends StatelessWidget {
   final bool finised;
+  final String buttonName;
   final TournamentModel model;
 
-  const TabPage1({Key? key, required this.finised, required this.model}) : super(key: key);
+  const TabPage1({Key? key, required this.finised, required this.buttonName, required this.model}) : super(key: key);
+  checkStatus() async {
+    final token = await Auth().getToken();
+    TournamentModel().checkStatus(tournamentID: model.id!, value: true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +67,19 @@ class TabPage1 extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   onPressed: () async {
                     final token = await Auth().getToken();
-                    if (token != null && token != "") {
-                      subscribeTurnir();
+                    print(token);
+                    if (buttonName == "Kody görkez") {
+                      checkStatus();
                     } else {
-                      showSnackBar("Ulgama girin", "Turnir gosulmakucin Ulgama girin", Colors.red);
+                      if (token != null && token != "") {
+                        subscribeTurnir();
+                      } else {
+                        showSnackBar("loginError", "loginErrorTurnir", Colors.red);
+                      }
                     }
                   },
                   child: Text(
-                    "tournamentInfo11".tr,
+                    buttonName.tr,
                     style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
                   ),
                 ),
@@ -139,10 +149,14 @@ class TabPage1 extends StatelessWidget {
                   else
                     const SizedBox.shrink(),
                   AgreeButton(onTap: () {
-                    TournamentModel().participateTournament(userID: userID, tournamentID: model.id!).then((value) {
-                      Get.back();
-
-                      showSnackBar("OH yeeee", "We Participated", kPrimaryColorBlack);
+                    TournamentModel().participateTournament(tournamentID: model.id!).then((value) {
+                      if (value == 200) {
+                        Get.back();
+                        showSnackBar("tournamentInfo18", "WetournamentInfo17", kPrimaryColor);
+                      } else {
+                        Get.back();
+                        showSnackBar("noConnection3", "tournamentInfo19", Colors.red);
+                      }
                     });
                   }),
                 ],

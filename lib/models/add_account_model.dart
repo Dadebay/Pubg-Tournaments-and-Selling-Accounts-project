@@ -61,7 +61,6 @@ class AddAccountModel extends GetxController {
 
   Future sendData(Map<String, dynamic> body) async {
     final token = await Auth().getToken();
-    print(token);
     //  FormData formData = FormData.;
     final response = await http.post(Uri.parse("$serverURL/api/accounts/update-account/"),
         headers: <String, String>{
@@ -73,6 +72,24 @@ class AddAccountModel extends GetxController {
     print(response.statusCode);
     if (response.statusCode == 200) {
       return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future getConsts() async {
+    final response = await http.get(
+      Uri.parse("$serverURL/api/about/consts/"),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      },
+    );
+    if (response.statusCode == 200) {
+      var decoded = utf8.decode(response.bodyBytes);
+      final responseJson = json.decode(decoded);
+      print(responseJson["price_for_vip"]);
+
+      return responseJson;
     } else {
       return false;
     }

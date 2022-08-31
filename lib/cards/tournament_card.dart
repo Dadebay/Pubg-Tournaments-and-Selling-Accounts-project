@@ -24,7 +24,7 @@ class TournamentCard extends StatelessWidget {
       },
       child: Container(
         width: Get.size.width,
-        margin: EdgeInsets.only(top: index == 0 ? 15 : 0, bottom: 12, right: 12, left: 12),
+        margin: EdgeInsets.only(top: index == 0 ? 15 : 0, bottom: 18, right: 12, left: 12),
         decoration: const BoxDecoration(color: kPrimaryColorBlack, borderRadius: borderRadius30),
         child: Stack(
           children: [
@@ -53,7 +53,7 @@ class TournamentCard extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.centerLeft,
-              child: Container(decoration: BoxDecoration(borderRadius: borderRadius30, color: kPrimaryColorBlack.withOpacity(0.55))),
+              child: Container(decoration: BoxDecoration(borderRadius: borderRadius30, color: kPrimaryColorBlack.withOpacity(0.4))),
             ),
             Align(
                 alignment: Alignment.center,

@@ -2,8 +2,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/controllers/settings_controller.dart';
+import 'package:game_app/models/add_account_model.dart';
 import 'package:game_app/models/home_page_model.dart';
 
+import 'models/index_model.dart';
 import 'views/Wallet/wallet_page.dart';
 import 'views/add_page/add_account_page.dart';
 import 'views/home_page/home_page.dart';
@@ -176,25 +179,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         margin: const EdgeInsets.all(15),
         child: Wrap(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox.shrink(),
-                  Text(
-                    "pubgTypes".tr,
-                    style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: const Icon(CupertinoIcons.xmark_circle, size: 24, color: Colors.white),
-                  )
-                ],
-              ),
-            ),
+            namePart("pubgTypes"),
             customDivider(),
             FutureBuilder<List<PubgTypesModel>>(
               future: PubgTypesModel().getTypes(),
@@ -225,7 +210,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         style: const TextStyle(
                           color: Colors.white,
                           fontFamily: josefinSansMedium,
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                       ),
                     );
@@ -236,77 +221,184 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ],
         )));
   }
-}
 
-Future<dynamic> secondBottomSheet(int pubgTypeID) {
-  return Get.bottomSheet(Container(
-      decoration: const BoxDecoration(
-        borderRadius: borderRadius15,
-        color: kPrimaryColorBlack,
-      ),
-      margin: const EdgeInsets.all(15),
-      child: Wrap(
+  Padding namePart(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox.shrink(),
-                Text(
-                  "selectCityTitle".tr,
-                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: const Icon(CupertinoIcons.xmark_circle, size: 24, color: Colors.white),
-                )
-              ],
-            ),
+          const SizedBox.shrink(),
+          Text(
+            text.tr,
+            style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
           ),
-          customDivider(),
-          FutureBuilder<List<Cities>>(
-            future: Cities().getCities(),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: spinKit());
-              } else if (snapshot.hasError) {
-                return const Center(child: Text("Error"));
-              } else if (snapshot.data == null) {
-                return const Center(child: Text("Empty"));
-              }
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    onTap: () {
-                      Get.back();
-                      Get.to(() => AddPage(
-                            pubgType: pubgTypeID,
-                            locationID: snapshot.data![index].id!,
-                          ));
-                    },
-                    trailing: const Icon(
-                      IconlyLight.arrowRightCircle,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      Get.locale!.toLanguageTag().toString() == "tr" ? snapshot.data![index].name_tm.toString() : snapshot.data![index].name_ru.toString(),
-                      maxLines: 2,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontFamily: josefinSansMedium,
-                        fontSize: 16,
-                      ),
-                    ),
-                  );
-                },
-              );
+          GestureDetector(
+            onTap: () {
+              Get.back();
             },
+            child: const Icon(CupertinoIcons.xmark_circle, size: 24, color: Colors.white),
           )
         ],
-      )));
+      ),
+    );
+  }
+
+  Future<dynamic> secondBottomSheet(int pubgTypeID) {
+    return Get.bottomSheet(Container(
+        decoration: const BoxDecoration(
+          borderRadius: borderRadius15,
+          color: kPrimaryColorBlack,
+        ),
+        margin: const EdgeInsets.all(15),
+        child: Wrap(
+          children: [
+            namePart("selectCityTitle"),
+            customDivider(),
+            FutureBuilder<List<Cities>>(
+              future: Cities().getCities(),
+              builder: (BuildContext context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: spinKit());
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text("Error"));
+                } else if (snapshot.data == null) {
+                  return const Center(child: Text("Empty"));
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      onTap: () {
+                        Get.back();
+                        thridBottomSheet(pubgTypeID, snapshot.data![index].id!);
+                      },
+                      trailing: const Icon(
+                        IconlyLight.arrowRightCircle,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        Get.locale!.toLanguageTag().toString() == "tr" ? snapshot.data![index].name_tm.toString() : snapshot.data![index].name_ru.toString(),
+                        maxLines: 2,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: josefinSansMedium,
+                          fontSize: 18,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            )
+          ],
+        )));
+  }
+
+  Future<dynamic> thridBottomSheet(int pubgTypeID, int locationID) {
+    return Get.bottomSheet(Container(
+        decoration: const BoxDecoration(
+          borderRadius: borderRadius15,
+          color: kPrimaryColorBlack,
+        ),
+        margin: const EdgeInsets.all(15),
+        child: Wrap(
+          children: [
+            namePart("account_type_Vip_or_not"),
+            customDivider(),
+            FutureBuilder(
+              future: AddAccountModel().getConsts(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: spinKit());
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text("Error"));
+                } else if (snapshot.data == null) {
+                  return const Center(child: Text("Empty"));
+                }
+
+                return Wrap(
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        double b = 0.0;
+                        double a = 0.0;
+                        if (snapshot.data!["price_for_vip"] != null) {
+                          b = double.parse(snapshot.data!["price_for_vip"]);
+                        }
+                        if (Get.find<SettingsController>().userMoney.toString() != "null") {
+                          a = double.parse(Get.find<SettingsController>().userMoney.toString());
+                        }
+
+                        if (a >= b && a != 0.0) {
+                          Get.back();
+                          Get.to(() => AddPage(
+                                pubgType: pubgTypeID,
+                                locationID: locationID,
+                              ));
+                        } else if (b >= a) {
+                          showSnackBar("money_error_title", "money_error_subtitle", Colors.red);
+                        } else {
+                          showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
+                        }
+                      },
+                      trailing: const Icon(
+                        IconlyLight.arrowRightCircle,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        "price_for_vip".tr + " ${snapshot.data!["price_for_vip"]}" + " TMT",
+                        maxLines: 2,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: josefinSansMedium,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    ListTile(
+                      onTap: () {
+                        double b = 0.0;
+                        double a = 0.0;
+                        if (snapshot.data!["price_for_vip"] != null) {
+                          b = double.parse(snapshot.data!["price_for_vip"]);
+                        }
+                        if (Get.find<SettingsController>().userMoney.toString() != "null") {
+                          a = double.parse(Get.find<SettingsController>().userMoney.toString());
+                        }
+
+                        if (a >= b && a != 0.0) {
+                          Get.back();
+                          Get.to(() => AddPage(
+                                pubgType: pubgTypeID,
+                                locationID: locationID,
+                              ));
+                        } else if (b >= a) {
+                          showSnackBar("money_error_title", "money_error_subtitle", Colors.red);
+                        } else {
+                          showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
+                        }
+                      },
+                      trailing: const Icon(
+                        IconlyLight.arrowRightCircle,
+                        color: Colors.white,
+                      ),
+                      title: Text(
+                        "price_for_not_vip".tr + " ${snapshot.data!["price_for_not_vip"]}" + " TMT",
+                        maxLines: 2,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: josefinSansMedium,
+                          fontSize: 18,
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              },
+            )
+          ],
+        )));
+  }
 }

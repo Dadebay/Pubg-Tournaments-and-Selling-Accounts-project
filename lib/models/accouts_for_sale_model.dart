@@ -7,6 +7,8 @@ import 'package:game_app/controllers/show_all_account_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:game_app/constants/index.dart';
 
+import 'user_models/auth_model.dart';
+
 class AccountsForSaleModel extends GetxController {
   AccountsForSaleModel(
       {this.id, this.pubgType, this.vip, this.location, this.user, this.verified, this.forSale, this.bio, this.createdDate, this.email, this.firstName, this.image, this.lastName, this.nickname, this.phone, this.points, this.pointsFromTurnir, this.price, this.pubgId, this.updatedDate});
@@ -67,9 +69,11 @@ class AccountsForSaleModel extends GetxController {
         headers: <String, String>{
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         });
-
+    print(response.body);
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
+      print(decoded);
+
       final responseJson = json.decode(decoded);
       for (final Map product in responseJson["results"]) {
         if (AccountsForSaleModel.fromJson(product).forSale == true) {
@@ -81,7 +85,7 @@ class AccountsForSaleModel extends GetxController {
       return accountList;
     } else if (response.statusCode == 404) {
       Get.find<HomePageController>().loading.value = 1;
-      Get.find<HomePageController>().text.value = "Gutardy boldyyyyy";
+      Get.find<HomePageController>().text.value = "";
       Get.find<HomePageController>().pageNumber.value -= 1;
       return [];
     } else {
@@ -202,6 +206,26 @@ class AccountByIdModel extends GetxController {
         ),
         headers: <String, String>{
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        });
+    if (response.statusCode == 200) {
+      var decoded = utf8.decode(response.bodyBytes);
+      final responseJson = json.decode(decoded);
+      return AccountByIdModel.fromJson(responseJson);
+    } else {
+      return AccountByIdModel();
+    }
+  }
+
+  Future<AccountByIdModel> getMe() async {
+    final token = await Auth().getToken();
+
+    final response = await http.get(
+        Uri.parse(
+          "$serverURL/api/accounts/get-my-account/",
+        ),
+        headers: <String, String>{
+          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
         });
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);

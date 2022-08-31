@@ -26,45 +26,46 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
     return Column(
       children: [
         AppBar(
-            elevation: 0,
-            centerTitle: true,
-            leadingWidth: 60,
-            leading: backArrow
-                ? IconButton(
-                    icon: Icon(
-                      IconlyLight.arrowLeftCircle,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      Get.back();
-                    },
-                  )
-                : SizedBox.shrink(),
-            actions: [
-              if (iconRemove == true)
-                SizedBox.shrink()
-              else
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: icon,
+          elevation: 0,
+          centerTitle: true,
+          leadingWidth: 60,
+          leading: backArrow
+              ? IconButton(
+                  icon: Icon(
+                    IconlyLight.arrowLeftCircle,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Get.back();
+                  },
                 )
-            ],
-            automaticallyImplyLeading: false,
-            backgroundColor: kPrimaryColorBlack,
-            title: Text(
-              name.tr,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: josefinSansSemiBold,
-                  fontSize: fontSize == 0.0
-                      ? sizeWidth > 800
-                          ? 35
-                          : 25
-                      : fontSize),
-            )),
+              : SizedBox.shrink(),
+          actions: [
+            if (iconRemove == true)
+              SizedBox.shrink()
+            else
+              Padding(
+                padding: const EdgeInsets.only(right: 15),
+                child: icon,
+              )
+          ],
+          automaticallyImplyLeading: false,
+          backgroundColor: kPrimaryColorBlack,
+          title: Text(
+            name.tr,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: josefinSansSemiBold,
+                fontSize: fontSize == 0.0
+                    ? sizeWidth > 800
+                        ? 35
+                        : 25
+                    : fontSize),
+          ),
+        ),
         elevationWhite ? customDivider() : SizedBox.shrink(),
       ],
     );
