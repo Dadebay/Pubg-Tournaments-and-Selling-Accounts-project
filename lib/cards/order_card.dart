@@ -65,6 +65,8 @@ class OrderCard extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             Get.find<WalletController>().removeCart(id);
+                            double b = double.parse(price);
+                            Get.find<WalletController>().finalPRice.value -= b;
                           },
                           child: const Padding(
                             padding: EdgeInsets.only(
@@ -88,9 +90,9 @@ class OrderCard extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
-                          "Sany : ",
-                          style: TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 16),
+                        Text(
+                          "count".tr,
+                          style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 16),
                         ),
                         Text(
                           count.toString(),

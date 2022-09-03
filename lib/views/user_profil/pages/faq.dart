@@ -17,9 +17,19 @@ class FAQs extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: spinKit());
               } else if (snapshot.hasError) {
-                return const Center(child: Text("Error"));
+                return cannotLoadData(
+                    withButton: true,
+                    onTap: () {
+                      FAQModel().getFAQ();
+                    },
+                    text: "tournamentInfo14".tr);
               } else if (snapshot.data == null) {
-                return const Center(child: Text("Empty"));
+                return cannotLoadData(
+                    withButton: true,
+                    onTap: () {
+                      FAQModel().getFAQ();
+                    },
+                    text: "tournamentInfo14".tr);
               }
               return ListView.builder(
                 itemCount: snapshot.data!.length,
@@ -41,7 +51,7 @@ class FAQs extends StatelessWidget {
                     children: [
                       Text(
                         Get.locale?.languageCode == "tr" ? snapshot.data![index].content_tm! : snapshot.data![index].content_ru!,
-                        style: const TextStyle(color: Colors.white70, fontSize: 16, fontFamily: josefinSansRegular),
+                        style: const TextStyle(color: Colors.white70, fontSize: 16, height: 1.5, fontFamily: josefinSansRegular),
                       )
                     ],
                   );

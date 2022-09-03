@@ -37,7 +37,10 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(const Duration(milliseconds: 1000));
     if (mounted) {
       homePageController.pageNumber.value += 1;
-      AccountsForSaleModel().getAccounts(parametrs: {"page": "${homePageController.pageNumber}", "size": "10"});
+      AccountsForSaleModel().getAccounts(parametrs: {
+        "page": "${homePageController.pageNumber}",
+        "size": "10",
+      });
     }
     _refreshController.loadComplete();
   }
@@ -69,9 +72,19 @@ class _HomePageState extends State<HomePage> {
                   if (homePageController.list.isEmpty && homePageController.loading.value == 0) {
                     return waitingData();
                   } else if (homePageController.loading.value == 2) {
-                    return cannotLoadData(false);
+                    return cannotLoadData(
+                        withButton: false,
+                        onTap: () {
+                          AccountsForSaleModel().getAccounts(parametrs: {});
+                        },
+                        text: "errorPubgAccounts".tr);
                   } else if (homePageController.list.isEmpty && homePageController.loading.value != 1) {
-                    return cannotLoadData(true);
+                    return cannotLoadData(
+                        withButton: true,
+                        onTap: () {
+                          AccountsForSaleModel().getAccounts(parametrs: {});
+                        },
+                        text: "errorPubgAccounts".tr);
                   }
                   return ListView.builder(
                     itemCount: homePageController.list.length,

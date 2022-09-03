@@ -15,7 +15,6 @@ class TabbarPage1 extends StatelessWidget {
         Obx(() {
           return infoPartText("accountDetaile3", Get.find<SettingsController>().pubgType.value.toString(), false);
         }),
-        model.pointsFromTurnir != null ? infoPartText("accountDetaile4", model.pointsFromTurnir ?? "", false) : const SizedBox.shrink(),
         infoPartText("accountDetaile5", model.price!.substring(0, model.price!.length - 3), true),
         infoPartText("accountDetaile6", model.createdDate!.substring(0, 10), false),
         Padding(
@@ -29,7 +28,6 @@ class TabbarPage1 extends StatelessWidget {
           ),
         ),
         infoPartText("accountDetaile7", "${model.firsName ?? ""} ${model.lastName ?? ""}", false),
-        model.email != null ? infoPartText("accountDetaile8", model.email ?? "", false) : const SizedBox.shrink(),
         infoPartText("accountDetaile9", model.phone ?? "", false),
         Obx(() {
           return infoPartText("accountDetaile10", Get.find<SettingsController>().locationName.value, false);

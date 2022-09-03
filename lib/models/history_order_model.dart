@@ -8,20 +8,23 @@ import 'package:http/http.dart' as http;
 
 import 'package:game_app/constants/index.dart';
 
-class HistoryOrderModel extends GetxController {
-  HistoryOrderModel({this.id, this.status, this.created_date});
+class HistoryOrderModel {
+  HistoryOrderModel({this.id, this.status, this.created_date, this.note, this.price});
 
   factory HistoryOrderModel.fromJson(Map<dynamic, dynamic> json) {
-    return HistoryOrderModel(id: json["id"], status: json["status"], created_date: json["created_date"]);
+    return HistoryOrderModel(id: json["id"], status: json["status"] ?? "pending", price: json['price'].toString(), note: json['note'] ?? "", created_date: json["created_date"]);
   }
 
   final int? id;
   final String? status;
   final String? created_date;
+  final String? price;
+  final String? note;
 
   Future<List<HistoryOrderModel>> getOrders() async {
     final token = await Auth().getToken();
     final List<HistoryOrderModel> tournamentList = [];
+    print(token);
     final response = await http.get(
         Uri.parse(
           "$serverURL/api/carts/",
@@ -33,7 +36,6 @@ class HistoryOrderModel extends GetxController {
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-
       for (final Map product in responseJson) {
         tournamentList.add(HistoryOrderModel.fromJson(product));
       }
@@ -43,8 +45,29 @@ class HistoryOrderModel extends GetxController {
       return [];
     }
   }
+}
 
-  Future<HistoryOrderModel> getOrderByID(int id) async {
+class HistoryIDModel {
+  HistoryIDModel({this.id, this.status, this.created_date, this.note, this.price, this.cartItems});
+
+  factory HistoryIDModel.fromJson(Map<dynamic, dynamic> json) {
+    return HistoryIDModel(
+      id: json["id"],
+      status: json["status"] ?? "pending",
+      price: json['price'].toString(),
+      note: json['note'] ?? "",
+      created_date: json["created_date"],
+      cartItems: ((json['cart_items'] ?? []) as List).map((json) => CartItems.fromJson(json)).toList(),
+    );
+  }
+
+  final int? id;
+  final String? price;
+  final String? status;
+  final String? note;
+  final String? created_date;
+  final List<CartItems>? cartItems;
+  Future<HistoryIDModel> getOrderByID(int id) async {
     final token = await Auth().getToken();
 
     final response = await http.get(
@@ -59,9 +82,23 @@ class HistoryOrderModel extends GetxController {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
 
-      return HistoryOrderModel.fromJson(responseJson);
+      return HistoryIDModel.fromJson(responseJson);
     } else {
-      return HistoryOrderModel();
+      return HistoryIDModel();
     }
   }
+}
+
+class CartItems {
+  CartItems({this.id, this.code, this.count});
+
+  factory CartItems.fromJson(Map<String, dynamic> json) {
+    return CartItems(id: json["id"], code: json["code"], count: json["count"]);
+  }
+
+  final int? id;
+  final int? count;
+  final String? code;
+  // final String? ucName;
+  // final String? ucImage;
 }

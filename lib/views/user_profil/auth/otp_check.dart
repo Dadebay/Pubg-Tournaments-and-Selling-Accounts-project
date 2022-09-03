@@ -13,6 +13,7 @@ class OtpCheck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: kPrimaryColorBlack,
         appBar: const MyAppBar(fontSize: 0.0, backArrow: true, iconRemove: false, name: "Otp check", elevationWhite: false),
         body: Container(
           color: kPrimaryColorBlack,
@@ -29,6 +30,9 @@ class OtpCheck extends StatelessWidget {
                 ),
               ),
               Form(key: _otpCheck, child: CustomTextField(labelName: "otp", controller: otpController, focusNode: otpFocusNode, requestfocusNode: otpFocusNode, borderRadius: true, isNumber: true)),
+              const SizedBox(
+                height: 15,
+              ),
               AgreeButton(onTap: () {
                 if (_otpCheck.currentState!.validate()) {
                   UserSignInModel().otpCheck(otp: otpController.text, phoneNumber: phoneNumber).then((value) {

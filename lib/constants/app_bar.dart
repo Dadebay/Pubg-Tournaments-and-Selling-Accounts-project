@@ -45,7 +45,7 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
               SizedBox.shrink()
             else
               Padding(
-                padding: const EdgeInsets.only(right: 15),
+                padding: const EdgeInsets.only(right: 5),
                 child: icon,
               )
           ],

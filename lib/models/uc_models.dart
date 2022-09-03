@@ -39,17 +39,14 @@ class UcModel extends GetxController {
   final String? image;
   final String? created_date;
 
-  Future addCart(List list) async {
+  Future addCart(List list, bool ask) async {
     final String? token = await Auth().getToken();
-    print(token);
-    print(list);
     final response = await http.post(Uri.parse("$serverURL/api/carts/add-cart/"),
         headers: <String, String>{
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },
-        body: jsonEncode(list));
-    print(response.body);
+        body: jsonEncode(<String, dynamic>{"list": list, "ask": ask}));
     if (response.statusCode == 200) {
       return true;
     } else {

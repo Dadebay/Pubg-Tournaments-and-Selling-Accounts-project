@@ -23,11 +23,15 @@ class TabBarViewPage extends StatelessWidget {
                 child: Container(
                     height: 180,
                     width: 180,
+                    padding: const EdgeInsets.all(15),
                     decoration: const BoxDecoration(borderRadius: borderRadius30, color: Colors.white),
                     alignment: Alignment.center,
-                    child: const Text(
-                      "Logo",
-                      style: TextStyle(color: Colors.black),
+                    child: ClipRRect(
+                      borderRadius: borderRadius30,
+                      child: Image.asset(
+                        "assets/image/logo.png",
+                        fit: BoxFit.contain,
+                      ),
                     )),
               ),
             ),

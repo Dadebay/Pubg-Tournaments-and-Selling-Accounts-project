@@ -16,7 +16,8 @@ import 'package:http_parser/http_parser.dart';
 class AddPage extends StatefulWidget {
   final int locationID;
   final int pubgType;
-  const AddPage({Key? key, required this.locationID, required this.pubgType}) : super(key: key);
+  final int vipOrNot;
+  const AddPage({Key? key, required this.locationID, required this.pubgType, required this.vipOrNot}) : super(key: key);
 
   @override
   State<AddPage> createState() => _AddPageState();
@@ -26,10 +27,6 @@ class _AddPageState extends State<AddPage> {
   TextEditingController bioController = TextEditingController();
 
   FocusNode bioFocusNode = FocusNode();
-
-  TextEditingController emailController = TextEditingController();
-
-  FocusNode emailFocusNode = FocusNode();
 
   FocusNode firstNameFocusNode = FocusNode();
 
@@ -77,7 +74,6 @@ class _AddPageState extends State<AddPage> {
         selectedImage1 = imageTemporary;
       });
     } catch (error) {
-      print("error: $error");
       showSnackBar("noConnection3", "$error", Colors.red);
     }
   }
@@ -110,38 +106,44 @@ class _AddPageState extends State<AddPage> {
               ),
               CustomTextField(labelName: "enterUserName", controller: fisrtNameController, focusNode: firstNameFocusNode, requestfocusNode: lastNameFocusNode, isNumber: false, borderRadius: true),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: CustomTextField(labelName: "enterSurname", controller: lastNameController, focusNode: lastNameFocusNode, requestfocusNode: emailFocusNode, isNumber: false, borderRadius: true),
+                padding: const EdgeInsets.only(top: 8),
+                child: CustomTextField(labelName: "enterSurname", controller: lastNameController, focusNode: lastNameFocusNode, requestfocusNode: priceFocusNode, isNumber: false, borderRadius: true),
               ),
-              CustomTextField(labelName: "email", controller: emailController, focusNode: emailFocusNode, requestfocusNode: bioFocusNode, isNumber: false, borderRadius: true),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                child: CustomTextField(labelName: "accountPrice", controller: priceController, focusNode: priceFocusNode, requestfocusNode: userNameFocusNode, isNumber: true, borderRadius: true),
+                child: CustomTextField(labelName: "accountPrice", controller: priceController, focusNode: priceFocusNode, requestfocusNode: bioFocusNode, isNumber: true, borderRadius: true),
               ),
               CustomTextField(
                 labelName: "add_page1",
                 controller: bioController,
                 focusNode: bioFocusNode,
-                requestfocusNode: priceFocusNode,
+                requestfocusNode: userNameFocusNode,
                 isNumber: false,
                 borderRadius: true,
                 maxline: 6,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30, left: 20),
+                child: Text(
+                  "select_user_image".tr,
+                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
+                ),
               ),
               selectedImage != null
                   ? GestureDetector(
                       onTap: () {
                         pickImage();
                       },
-                      child: Container(
-                        margin: const EdgeInsets.all(5),
-                        decoration: const BoxDecoration(borderRadius: borderRadius10),
-                        child: Material(
-                          elevation: 2,
-                          borderRadius: borderRadius10,
-                          child: ClipRRect(
-                            borderRadius: borderRadius10,
-                            child: Image.file(selectedImage!, fit: BoxFit.cover),
+                      child: Center(
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          margin: const EdgeInsets.only(top: 25),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [BoxShadow(color: Colors.white30, blurRadius: 15.0, offset: Offset(1.0, 1.0), spreadRadius: 5.0)],
                           ),
+                          child: ClipOval(child: Material(elevation: 3, child: Image.file(selectedImage!, fit: BoxFit.cover))),
                         ),
                       ),
                     )
@@ -153,33 +155,49 @@ class _AddPageState extends State<AddPage> {
                       },
                       child: Center(
                         child: Container(
-                          margin: const EdgeInsets.all(10),
-                          width: 80,
-                          height: 80,
+                          width: 120,
+                          height: 120,
+                          margin: const EdgeInsets.only(top: 25),
                           child: DottedBorder(
                             borderType: BorderType.Oval,
                             radius: const Radius.circular(12),
                             padding: const EdgeInsets.all(6),
                             strokeWidth: 2,
                             color: kPrimaryColor,
-                            child: const Center(child: Text("Profil Surat Saylan")),
+                            child: const Center(
+                                child: Icon(
+                              Icons.add_circle_outline_sharp,
+                              color: kPrimaryColor,
+                              size: 35,
+                            )),
                           ),
                         ),
                       ),
                     ),
+              Padding(
+                padding: const EdgeInsets.only(top: 40, left: 20, bottom: 20),
+                child: Text(
+                  "select_user_bg_image".tr,
+                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
+                ),
+              ),
               selectedImage1 != null
                   ? GestureDetector(
                       onTap: () {
                         pickImage1();
                       },
                       child: Container(
-                        margin: const EdgeInsets.all(5),
-                        decoration: const BoxDecoration(borderRadius: borderRadius10),
+                        margin: const EdgeInsets.only(left: 20, bottom: 20, right: 20, top: 10),
+                        height: 170,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          boxShadow: [BoxShadow(color: Colors.white30, blurRadius: 15.0, offset: Offset(1.0, 1.0), spreadRadius: 5.0)],
+                        ),
                         child: Material(
                           elevation: 2,
-                          borderRadius: borderRadius10,
+                          borderRadius: borderRadius15,
                           child: ClipRRect(
-                            borderRadius: borderRadius10,
+                            borderRadius: borderRadius15,
                             child: Image.file(selectedImage1!, fit: BoxFit.cover),
                           ),
                         ),
@@ -190,7 +208,9 @@ class _AddPageState extends State<AddPage> {
                         pickImage1();
                       },
                       child: Container(
-                        margin: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.only(left: 10, bottom: 25, right: 10, top: 10),
+                        height: 150,
+                        width: double.infinity,
                         child: DottedBorder(
                           borderType: BorderType.RRect,
                           radius: const Radius.circular(12),
@@ -207,51 +227,56 @@ class _AddPageState extends State<AddPage> {
                         ),
                       ),
                     ),
-              RaisedButton(onPressed: () async {
-                final token = await Auth().getToken();
-                Get.to(() => const Page4());
-                print(token);
-              }),
-              AgreeButton(onTap: () async {
-                final token = await Auth().getToken();
-                var headers = {'Authorization': 'Bearer $token'};
-                var request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/update-account/'));
-                request.fields.addAll({
-                  'pubg_username': userNameController.text,
-                  'pubg_id': pubgIDController.text,
-                  'first_name': fisrtNameController.text,
-                  'last_name': 'asdasd',
-                  'email': 'asdasd',
-                  'bio': 'qwdqwdq',
-                  'location': '${widget.locationID}',
-                  'pubg_type': '${widget.pubgType}',
-                  'for_sale': '1',
-                  'price': '1500'
-                });
-                request.headers.addAll(headers);
+              RaisedButton(
+                onPressed: () {
+                  Get.to(() => const Page4());
+                },
+                child: const Text("Video Upload Page"),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: AgreeButton(onTap: () async {
+                  final token = await Auth().getToken();
+                  var headers = {'Authorization': 'Bearer $token'};
+                  var request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/update-account/'));
+                  request.fields.addAll({
+                    'pubg_username': userNameController.text,
+                    'pubg_id': pubgIDController.text,
+                    'first_name': fisrtNameController.text,
+                    'last_name': lastNameController.text,
+                    'email': "",
+                    'bio': bioController.text,
+                    'location': '${widget.locationID}',
+                    'pubg_type': '${widget.pubgType}',
+                    'for_sale': '1',
+                    "vip": "${widget.vipOrNot}",
+                    'price': priceController.text
+                  });
+                  request.headers.addAll(headers);
 
-                final String fileName = selectedImage!.path.split("/").last;
-                final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
-                final length = await selectedImage!.length();
-                final mimeTypeData = lookupMimeType(selectedImage!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-                final multipartFileSign = http.MultipartFile('image', stream, length, filename: fileName, contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
-                request.files.add(multipartFileSign);
+                  final String fileName = selectedImage!.path.split("/").last;
+                  final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
+                  final length = await selectedImage!.length();
+                  final mimeTypeData = lookupMimeType(selectedImage!.path, headerBytes: [0xFF, 0xD8])!.split('/');
+                  final multipartFileSign = http.MultipartFile('image', stream, length, filename: fileName, contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
+                  request.files.add(multipartFileSign);
 
-                final String fileName1 = selectedImage1!.path.split("/").last;
-                final stream1 = http.ByteStream(DelegatingStream.typed(selectedImage1!.openRead()));
-                final length1 = await selectedImage1!.length();
-                final mimeTypeData1 = lookupMimeType(selectedImage1!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-                final multipartFileSign1 = http.MultipartFile('bg_image', stream1, length1, filename: fileName1, contentType: MediaType(mimeTypeData1[0], mimeTypeData1[1]));
-                request.files.add(multipartFileSign1);
+                  final String fileName1 = selectedImage1!.path.split("/").last;
+                  final stream1 = http.ByteStream(DelegatingStream.typed(selectedImage1!.openRead()));
+                  final length1 = await selectedImage1!.length();
+                  final mimeTypeData1 = lookupMimeType(selectedImage1!.path, headerBytes: [0xFF, 0xD8])!.split('/');
+                  final multipartFileSign1 = http.MultipartFile('bg_image', stream1, length1, filename: fileName1, contentType: MediaType(mimeTypeData1[0], mimeTypeData1[1]));
+                  request.files.add(multipartFileSign1);
 
-                http.StreamedResponse response = await request.send();
-
-                if (response.statusCode == 200) {
-                  print(await response.stream.bytesToString());
-                } else {
-                  print(response.reasonPhrase);
-                }
-              })
+                  http.StreamedResponse response = await request.send();
+                  print(response.statusCode);
+                  if (response.statusCode == 200) {
+                    Get.to(() => const Page4());
+                  } else {
+                    showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
+                  }
+                }),
+              )
             ],
           ),
         ),

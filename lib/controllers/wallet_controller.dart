@@ -1,12 +1,17 @@
 // ignore_for_file: file_names
 
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/models/index_model.dart';
 import 'package:game_app/models/uc_models.dart';
+import 'package:game_app/models/user_models/auth_model.dart';
 
 class WalletController extends GetxController {
   final storage = GetStorage();
+
+  RxDouble finalPRice = 0.0.obs;
   RxList cartList = [].obs;
   RxList favList = [].obs;
+  RxString userMoney = "".obs;
 
   dynamic addCart({required UcModel ucModel}) {
     if (cartList.isEmpty) {
@@ -47,6 +52,17 @@ class WalletController extends GetxController {
   //   final List list = await storage.read('cart');
   //   print(list);
   // }
+
+  getUserMoney() async {
+    final token = await Auth().getToken();
+    if (token != null) {
+      AccountByIdModel().getMe().then((value) {
+        userMoney.value = value.points.toString();
+      });
+    } else {
+      userMoney.value = "0.0";
+    }
+  }
 
   dynamic addFavList({required int id, required String price, required String name, required String image, required String pubID}) {
     if (favList.isEmpty) {

@@ -68,8 +68,6 @@ class AddAccountModel extends GetxController {
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },
         body: jsonEncode(body));
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -87,8 +85,6 @@ class AddAccountModel extends GetxController {
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      print(responseJson["price_for_vip"]);
-
       return responseJson;
     } else {
       return false;

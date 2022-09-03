@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use, duplicate_ignore, implementation_imports, avoid_positional_boolean_parameters, unnecessary_null_comparison, always_use_package_imports
 
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/index_model.dart';
+import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/views/other_pages/show_all_acconts.dart';
 import 'package:game_app/views/user_profil/Pages/cash.dart';
 import 'package:lottie/lottie.dart';
@@ -65,27 +65,23 @@ Widget spinKit() {
 Widget balIcon() {
   return GestureDetector(
     onTap: () {
-      Get.to(() => const MyCash());
+      Get.to(() => MyCash());
     },
     child: Padding(
       padding: const EdgeInsets.only(top: 5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          Text("150", style: TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22)),
-          Padding(
+        children: [
+          Obx(() {
+            double a = double.parse(Get.find<WalletController>().userMoney.toString());
+            return Text(a.toStringAsFixed(0), style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 23));
+          }),
+          const Padding(
               padding: EdgeInsets.only(
                 left: 5,
                 right: 5,
               ),
-              child: Text("TMT")
-              // Image.asset(
-              //   "assets/icons/token.png",
-              //   width: 30,
-              //   fit: BoxFit.cover,
-              //   height: 30,
-              // ),
-              ),
+              child: Text("TMT")),
         ],
       ),
     ),
@@ -187,7 +183,7 @@ ListView waitingData() {
   );
 }
 
-Center cannotLoadData(bool type) {
+Center cannotLoadData({required bool withButton, required Function() onTap, required String text}) {
   return Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -196,21 +192,20 @@ Center cannotLoadData(bool type) {
         Padding(
           padding: const EdgeInsets.all(15),
           child: Text(
-            type ? "errorPubgAccounts".tr : "Hic Hilis satlyk akkaunt yok",
+            text, // withButton ? "errorPubgAccounts".tr : "Hic Hilis satlyk akkaunt yok",
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: josefinSansMedium),
           ),
         ),
-        type
+        withButton
             ? ElevatedButton(
-                onPressed: () {
-                  AccountsForSaleModel().getAccounts(parametrs: {});
-                },
+                onPressed: onTap,
                 style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                 child: Text(
                   "noConnection3".tr,
-                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
+                  style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansMedium),
                 ))
             : const SizedBox.shrink()
       ],

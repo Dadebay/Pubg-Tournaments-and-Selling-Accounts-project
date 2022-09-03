@@ -1,12 +1,26 @@
 import 'package:game_app/cards/uc_card.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
+import 'package:game_app/models/index_model.dart';
 import 'package:game_app/models/uc_models.dart';
+import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/Wallet/order_page.dart';
 
-class WalletPage extends StatelessWidget {
-  WalletPage({Key? key}) : super(key: key);
+class WalletPage extends StatefulWidget {
+  const WalletPage({Key? key}) : super(key: key);
+
+  @override
+  State<WalletPage> createState() => _WalletPageState();
+}
+
+class _WalletPageState extends State<WalletPage> {
   final WalletController walletController = Get.put(WalletController());
+  @override
+  void initState() {
+    super.initState();
+    Get.find<WalletController>().getUserMoney();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +31,6 @@ class WalletPage extends StatelessWidget {
             firstChild: const SizedBox.shrink(), secondChild: orderButton(), crossFadeState: walletController.cartList.isEmpty ? CrossFadeState.showFirst : CrossFadeState.showSecond, duration: const Duration(milliseconds: 500), alignment: Alignment.center, sizeCurve: Curves.easeInOut);
       }),
       body: FutureBuilder<List<UcModel>>(
-          // future: Get.find<SettingsController>().getData,
           future: UcModel().getUCS(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -45,17 +58,26 @@ class WalletPage extends StatelessWidget {
 
   ElevatedButton orderButton() {
     return ElevatedButton(
-        onPressed: () {
-          double value = 0.0;
-          for (var element in walletController.cartList) {
-            value += double.parse(element["price"]) * element["count"];
+        onPressed: () async {
+          final token = await Auth().getToken();
+          if (token != null) {
+            double value = 0.0;
+            for (var element in walletController.cartList) {
+              value += double.parse(element["price"]) * element["count"];
+            }
+            String userName = "";
+            await AccountByIdModel().getMe().then((value) {
+              setState(() {
+                userName = value.pubgUsername.toString();
+              });
+            });
+            Get.find<WalletController>().finalPRice.value = value;
+            Get.to(() => OrderPage(
+                  userName: userName,
+                ));
+          } else {
+            showSnackBar("noConnection3", "order_error_subtitle", Colors.red);
           }
-
-          Get.to(() => OrderPage(
-                finalPrice: value,
-                userID: "15435",
-                userName: "Amanow Aman",
-              ));
         },
         style: ElevatedButton.styleFrom(elevation: 1, primary: kPrimaryColor, shape: const RoundedRectangleBorder(borderRadius: borderRadius15), padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
         child: Row(

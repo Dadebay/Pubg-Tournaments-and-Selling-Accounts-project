@@ -55,7 +55,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       focusNode: pubgNameFocusNode,
                       requestfocusNode: phoneFocusNode,
                       isNumber: false,
-                      disabled: false,
+                      disabled: true,
                     ),
                     textpart("signIn2"),
                     CustomTextField(
@@ -65,7 +65,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       focusNode: pubgIDFocusNode,
                       requestfocusNode: pubgNameFocusNode,
                       isNumber: false,
-                      disabled: false,
+                      disabled: true,
                     ),
                     textpart("userPhoneNumber"),
                     PhoneNumber(

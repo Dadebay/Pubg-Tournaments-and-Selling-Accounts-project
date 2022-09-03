@@ -9,10 +9,10 @@ import 'package:game_app/views/user_profil/Pages/fav_page.dart';
 import 'package:game_app/views/user_profil/Pages/history_orders_page.dart';
 import 'package:game_app/views/user_profil/Pages/settings.dart';
 import 'package:game_app/views/user_profil/Pages/profile_settings.dart';
+import 'package:game_app/views/user_profil/pages/add_cash.dart';
 
 import 'Auth/tab_bar_view.dart';
 import 'Pages/about_us.dart';
-import 'Pages/cash.dart';
 import 'Pages/edit_work_profil.dart';
 import 'Pages/faq.dart';
 
@@ -68,7 +68,7 @@ class _UserProfilState extends State<UserProfil> {
                         ProfilButton(
                             name: "bal",
                             onTap: () {
-                              Get.to(() => const MyCash());
+                              Get.to(() => AddCash());
                             },
                             icon: IconlyLight.wallet),
                         ProfilButton(

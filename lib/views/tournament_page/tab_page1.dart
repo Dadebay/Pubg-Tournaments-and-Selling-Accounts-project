@@ -13,10 +13,6 @@ class TabPage1 extends StatelessWidget {
   final TournamentModel model;
 
   const TabPage1({Key? key, required this.finised, required this.buttonName, required this.model}) : super(key: key);
-  checkStatus() async {
-    final token = await Auth().getToken();
-    TournamentModel().checkStatus(tournamentID: model.id!, value: true);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +65,7 @@ class TabPage1 extends StatelessWidget {
                     final token = await Auth().getToken();
                     print(token);
                     if (buttonName == "Kody görkez") {
-                      checkStatus();
+                      await TournamentModel().checkStatus(tournamentID: model.id!, value: true);
                     } else {
                       if (token != null && token != "") {
                         subscribeTurnir();
@@ -152,7 +148,10 @@ class TabPage1 extends StatelessWidget {
                     TournamentModel().participateTournament(tournamentID: model.id!).then((value) {
                       if (value == 200) {
                         Get.back();
-                        showSnackBar("tournamentInfo18", "WetournamentInfo17", kPrimaryColor);
+                        showSnackBar("tournamentInfo18", "tournamentInfo17", kPrimaryColor);
+                      } else if (value == 400) {
+                        Get.back();
+                        showSnackBar("noConnection3", "tournamentInfo20", Colors.red);
                       } else {
                         Get.back();
                         showSnackBar("noConnection3", "tournamentInfo19", Colors.red);

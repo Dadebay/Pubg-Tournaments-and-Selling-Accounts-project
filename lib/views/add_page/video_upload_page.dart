@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import 'package:mime/mime.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
@@ -33,7 +32,8 @@ class _Page4State extends State<Page4> {
         selectedImage = imageTemporary;
       });
     } catch (error) {
-      print("error: $error");
+      showSnackBar("noConnection3", "$error", Colors.red);
+      // print("error: $error");
     }
   }
 
@@ -46,10 +46,12 @@ class _Page4State extends State<Page4> {
       XFile? video = await ImagePicker().pickVideo(source: ImageSource.gallery, maxDuration: const Duration(seconds: 30));
       if (video == null) return;
       final imageTemporary = File(video.path);
-      VideoPlayerController testLengthController = VideoPlayerController.file(File(video.path)); //Your file here
+      VideoPlayerController testLengthController = VideoPlayerController.file(
+        File(video.path),
+      ); //Your file here
       await testLengthController.initialize();
       if (testLengthController.value.duration.inSeconds > 60) {
-        showSnackBar("Video ", "Vagty uly basga video al", Colors.red);
+        showSnackBar("noConnection3", "video_upload_subtitle_error", Colors.red);
         video = null;
       } else {
         setState(() {
@@ -63,7 +65,7 @@ class _Page4State extends State<Page4> {
         });
       }
     } catch (error) {
-      print("error: $error");
+      showSnackBar("noConnection3", "$error", Colors.red);
     }
   }
 
@@ -78,132 +80,123 @@ class _Page4State extends State<Page4> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: kPrimaryColorBlack,
+        appBar: const MyAppBar(fontSize: 20, backArrow: true, iconRemove: false, name: "videoUpload", elevationWhite: true),
         body: Container(
             color: kPrimaryColorBlack,
             width: Get.size.width,
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 5),
             child: ListView(children: [
-              Text(
-                "Video Sayla".tr,
-                textAlign: TextAlign.start,
-                style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18),
-              ),
-              Text(
-                "5 sany videosayla".tr,
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.grey[400], fontFamily: josefinSansRegular, fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Text(
+                  "video_upload_title".tr,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
+                ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              selectedImage != null
-                  ? GestureDetector(
-                      onTap: () {
-                        pickImage();
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.all(5),
-                        decoration: const BoxDecoration(borderRadius: borderRadius10),
-                        child: Material(
-                          elevation: 2,
-                          borderRadius: borderRadius10,
-                          child: ClipRRect(
-                            borderRadius: borderRadius10,
-                            child: Image.file(selectedImage!, fit: BoxFit.cover),
+              // selectedImage != null
+              //     ? GestureDetector(
+              //         onTap: () {
+              //           pickImage();
+              //         },
+              //         child: Container(
+              //           margin: const EdgeInsets.all(5),
+              //           decoration: const BoxDecoration(borderRadius: borderRadius10),
+              //           child: Material(
+              //             elevation: 2,
+              //             borderRadius: borderRadius10,
+              //             child: ClipRRect(
+              //               borderRadius: borderRadius10,
+              //               child: Image.file(selectedImage!, fit: BoxFit.cover),
+              //             ),
+              //           ),
+              //         ),
+              //       )
+              //     : GestureDetector(
+              //         onTap: () async {
+              //           await Permission.camera.request();
+              //           await Permission.photos.request();
+              //           pickImage();
+              //         },
+              //         child: Container(
+              //           margin: const EdgeInsets.all(10),
+              //           child: DottedBorder(
+              //             borderType: BorderType.RRect,
+              //             radius: const Radius.circular(12),
+              //             padding: const EdgeInsets.all(6),
+              //             strokeWidth: 2,
+              //             color: kPrimaryColor,
+              //             child: Center(
+              //               child: Row(
+              //                 crossAxisAlignment: CrossAxisAlignment.center,
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: const [
+              //                   Text(
+              //                     "Poster",
+              //                     style: TextStyle(color: kPrimaryColor),
+              //                   ),
+              //                   Icon(
+              //                     Icons.add,
+              //                     color: kPrimaryColor,
+              //                     size: 50,
+              //                   ),
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+
+              FutureBuilder(
+                future: _initializeVideoPlayerFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return Container(
+                      height: 250,
+                      margin: const EdgeInsets.symmetric(vertical: 15),
+                      width: double.infinity,
+                      child: FlickVideoPlayer(
+                          flickVideoWithControls: FlickVideoWithControls(
+                            controls: FlickPortraitControls(
+                              progressBarSettings: FlickProgressBarSettings(),
+                            ),
+                            videoFit: BoxFit.fitHeight,
                           ),
-                        ),
-                      ),
-                    )
-                  : GestureDetector(
+                          preferredDeviceOrientation: const [
+                            DeviceOrientation.portraitDown,
+                            DeviceOrientation.portraitUp,
+                          ],
+                          preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
+                          flickManager: flickManager!),
+                    );
+                  } else {
+                    return GestureDetector(
                       onTap: () async {
-                        await Permission.camera.request();
-                        await Permission.photos.request();
-                        pickImage();
+                        pickVideo();
                       },
                       child: Container(
-                        margin: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.only(left: 10, bottom: 25, right: 10, top: 10),
+                        height: 150,
+                        width: double.infinity,
                         child: DottedBorder(
                           borderType: BorderType.RRect,
                           radius: const Radius.circular(12),
                           padding: const EdgeInsets.all(6),
                           strokeWidth: 2,
                           color: kPrimaryColor,
-                          child: Center(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  "Poster",
-                                  style: TextStyle(color: kPrimaryColor),
-                                ),
-                                Icon(
-                                  Icons.add,
-                                  color: kPrimaryColor,
-                                  size: 50,
-                                ),
-                              ],
+                          child: const Center(
+                            child: Icon(
+                              Icons.add,
+                              color: kPrimaryColor,
+                              size: 50,
                             ),
                           ),
                         ),
                       ),
-                    ),
-              GestureDetector(
-                onTap: () async {
-                  pickVideo();
-                },
-                child: Container(
-                  margin: const EdgeInsets.all(10),
-                  child: DottedBorder(
-                    borderType: BorderType.RRect,
-                    radius: const Radius.circular(12),
-                    padding: const EdgeInsets.all(6),
-                    strokeWidth: 2,
-                    color: kPrimaryColor,
-                    child: Center(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            "video",
-                            style: TextStyle(color: kPrimaryColor),
-                          ),
-                          Icon(
-                            Icons.add,
-                            color: kPrimaryColor,
-                            size: 50,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              FutureBuilder(
-                future: _initializeVideoPlayerFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return Center(
-                      child: AspectRatio(
-                        aspectRatio: _controller!.value.aspectRatio,
-                        child: FlickVideoPlayer(
-                            flickVideoWithControls: FlickVideoWithControls(
-                              controls: FlickPortraitControls(
-                                progressBarSettings: FlickProgressBarSettings(),
-                              ),
-                            ),
-                            preferredDeviceOrientation: const [
-                              DeviceOrientation.portraitDown,
-                              DeviceOrientation.portraitUp,
-                            ],
-                            preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
-                            flickManager: flickManager!),
-                      ),
-                    );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
                     );
                   }
                 },
@@ -213,6 +206,14 @@ class _Page4State extends State<Page4> {
                 var headers = {'Authorization': 'Bearer $token'};
                 var request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/upload-video/'));
                 request.headers.addAll(headers);
+
+                // final imageTemporary = File(selectedVideo!.path);
+                // final uint8list = await VideoThumbnail.thumbnailData(
+                //   video: imageTemporary.path,
+                //   imageFormat: ImageFormat.JPEG,
+                //   maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
+                //   quality: 100,
+                // );
 
                 final String fileName = selectedImage!.path.split("/").last;
                 final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
@@ -229,17 +230,17 @@ class _Page4State extends State<Page4> {
                 request.files.add(multipartFileSign1);
 
                 http.StreamedResponse response = await request.send();
-                print(response.stream);
-                print(response.statusCode);
-                print(response.reasonPhrase);
-                print(response.isRedirect);
+                // print(response.stream);
+                // print(response.statusCode);
+                // print(response.reasonPhrase);
+                // print(response.isRedirect);
 
-                print(response.stream);
-                print(response.stream);
+                // print(response.stream);
+                // print(response.stream);
                 if (response.statusCode == 200) {
-                  print(await response.stream.bytesToString());
+                  // print(await response.stream.bytesToString());
                 } else {
-                  print(response.reasonPhrase);
+                  // print(response.reasonPhrase);
                 }
               })
             ])),

@@ -2,6 +2,7 @@
 import 'package:game_app/cards/tournament_card.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/tournament_controller.dart';
+import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
 
 class TournamentPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _TournamentPageState extends State<TournamentPage> {
   void initState() {
     super.initState();
     TournamentModel().getTournaments();
+    Get.find<WalletController>().getUserMoney();
   }
 
   TabBar tabbar() {
@@ -70,10 +72,11 @@ class _TournamentPageState extends State<TournamentPage> {
       length: 2,
       child: SafeArea(
         child: Scaffold(
-            appBar: const MyAppBar(
-              fontSize: 20.0,
+            appBar: MyAppBar(
+              fontSize: 22.0,
               backArrow: false,
-              iconRemove: true,
+              iconRemove: false,
+              icon: balIcon(),
               name: "tournament",
               elevationWhite: true,
             ),

@@ -69,11 +69,8 @@ class AccountsForSaleModel extends GetxController {
         headers: <String, String>{
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         });
-    print(response.body);
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
-      print(decoded);
-
       final responseJson = json.decode(decoded);
       for (final Map product in responseJson["results"]) {
         if (AccountsForSaleModel.fromJson(product).forSale == true) {
@@ -104,6 +101,7 @@ class AccountsForSaleModel extends GetxController {
         headers: <String, String>{
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         });
+    print(parametrs);
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);

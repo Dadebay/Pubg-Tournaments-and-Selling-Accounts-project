@@ -56,7 +56,6 @@ class TournamentModel {
         headers: <String, String>{
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         });
-    print(response.body);
     if (response.statusCode == 200) {
       controller.tournamentLoading.value = 2;
       var decoded = utf8.decode(response.bodyBytes);
@@ -65,7 +64,6 @@ class TournamentModel {
         abc.add(TournamentModel.fromJson(product));
       }
       controller.addToList(list: abc);
-
       return abc;
     } else {
       controller.tournamentLoading.value = 1;
@@ -86,6 +84,7 @@ class TournamentModel {
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
+
       return TournamentModel.fromJson(responseJson);
     } else {
       return TournamentModel();
@@ -101,15 +100,13 @@ class TournamentModel {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
       value == true ? showSnackBar("tournamentInfo15", "${responseJson["code"]}", kPrimaryColor) : null;
       return response.statusCode;
     } else {
-      value == true ? showSnackBar("tournamentInfo15", "tournamentInfo16", kPrimaryColorBlack) : null;
+      value == true ? showSnackBar("tournamentInfo15", "tournamentInfo16", kPrimaryColor) : null;
       return response.statusCode;
     }
   }
@@ -124,7 +121,6 @@ class TournamentModel {
         body: jsonEncode(<String, dynamic>{
           "turnir_id": tournamentID,
         }));
-    print(response.body);
     if (response.statusCode == 200) {
       return response.statusCode;
     } else {

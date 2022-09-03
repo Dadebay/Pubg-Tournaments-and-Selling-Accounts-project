@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/tournament_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
-import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/tournament_page/tab_age2.dart';
 import 'package:game_app/views/tournament_page/tab_age3.dart';
 import 'package:game_app/views/tournament_page/tab_page1.dart';
@@ -43,12 +42,13 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
   }
 
   checkStatus() async {
-    final token = await Auth().getToken();
-    TournamentModel().checkStatus(tournamentID: widget.tournamentId, value: false).then((value) {
-      if (value == 400) {
-        buttonName = "tournamentInfo11".tr;
-      } else {
+    await TournamentModel().checkStatus(tournamentID: widget.tournamentId, value: false).then((value) {
+      if (value == 200) {
         buttonName = "tournamentInfo12".tr;
+      } else if (value == 204) {
+        buttonName = "tournamentInfo12".tr;
+      } else {
+        buttonName = "tournamentInfo11".tr;
       }
     });
   }

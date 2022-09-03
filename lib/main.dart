@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -82,8 +81,6 @@ class MyAppRun extends StatefulWidget {
 
 class _MyAppRunState extends State<MyAppRun> {
   final storage = GetStorage();
-  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   firebaseMessagingPart() {
     FirebaseMessaging.instance.subscribeToTopic('EVENT');
@@ -114,7 +111,7 @@ class _MyAppRunState extends State<MyAppRun> {
   void initState() {
     super.initState();
     FirebaseMessaging.instance.getToken().then((value) {
-      print(value);
+      // print(value);
     });
     firebaseMessagingPart();
   }

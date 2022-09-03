@@ -2,11 +2,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/controllers/settings_controller.dart';
+import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/add_account_model.dart';
-import 'package:game_app/models/home_page_model.dart';
 
 import 'models/index_model.dart';
+import 'models/user_models/auth_model.dart';
 import 'views/Wallet/wallet_page.dart';
 import 'views/add_page/add_account_page.dart';
 import 'views/home_page/home_page.dart';
@@ -27,7 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const HomePage(),
     const TournamentPage(),
     Container(),
-    WalletPage(),
+    const WalletPage(),
     const UserProfil(),
   ];
   @override
@@ -123,14 +123,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   Widget buttonTop({required Color color, required Widget icon, required Widget activeIcon, required String name, required int index}) {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          if (index == 2) {
+      onTap: () async {
+        if (index == 2) {
+          final token = await Auth().getToken();
+          if (token != null) {
             firstBottomSheet();
           } else {
-            selectedIndex = index;
+            showSnackBar("loginError", "add_account_login_error", Colors.red);
           }
-        });
+        } else {
+          setState(() {
+            selectedIndex = index;
+          });
+        }
       },
       child: Column(
         children: [
@@ -324,18 +329,18 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       onTap: () {
                         double b = 0.0;
                         double a = 0.0;
-                        if (snapshot.data!["price_for_vip"] != null) {
+                        if (snapshot.data!["price_for_vip"].toString() != "null") {
                           b = double.parse(snapshot.data!["price_for_vip"]);
                         }
-                        if (Get.find<SettingsController>().userMoney.toString() != "null") {
-                          a = double.parse(Get.find<SettingsController>().userMoney.toString());
+                        if (Get.find<WalletController>().userMoney.toString() != "null") {
+                          a = double.parse(Get.find<WalletController>().userMoney.toString());
                         }
-
                         if (a >= b && a != 0.0) {
                           Get.back();
                           Get.to(() => AddPage(
                                 pubgType: pubgTypeID,
                                 locationID: locationID,
+                                vipOrNot: 0,
                               ));
                         } else if (b >= a) {
                           showSnackBar("money_error_title", "money_error_subtitle", Colors.red);
@@ -364,8 +369,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         if (snapshot.data!["price_for_vip"] != null) {
                           b = double.parse(snapshot.data!["price_for_vip"]);
                         }
-                        if (Get.find<SettingsController>().userMoney.toString() != "null") {
-                          a = double.parse(Get.find<SettingsController>().userMoney.toString());
+                        if (Get.find<WalletController>().userMoney.toString() != "null") {
+                          a = double.parse(Get.find<WalletController>().userMoney.toString());
                         }
 
                         if (a >= b && a != 0.0) {
@@ -373,6 +378,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                           Get.to(() => AddPage(
                                 pubgType: pubgTypeID,
                                 locationID: locationID,
+                                vipOrNot: 1,
                               ));
                         } else if (b >= a) {
                           showSnackBar("money_error_title", "money_error_subtitle", Colors.red);

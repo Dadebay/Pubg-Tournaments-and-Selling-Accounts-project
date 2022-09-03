@@ -79,7 +79,7 @@ class CustomFlexibleSpace extends StatelessWidget {
                       ),
                   placeholder: (context, url) => Center(child: spinKit()),
                   errorWidget: (context, url, error) => Image.asset(
-                        account_back_image,
+                        accountBackImage,
                         fit: BoxFit.cover,
                       )),
             ),

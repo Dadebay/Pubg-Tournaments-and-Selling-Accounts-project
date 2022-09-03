@@ -12,12 +12,10 @@ class AboutUsModel {
     this.id,
     this.address_ru,
     this.address_tm,
-    this.description_ru,
-    this.description_tm,
   });
 
   factory AboutUsModel.fromJson(Map<String, dynamic> json) {
-    return AboutUsModel(phone: json["phone"] as String, email: json["email"] as String, address_tm: json["address_tm"] as String, address_ru: json["address_ru"] as String, description_tm: json["description_tm"] as String, description_ru: json["description_ru"] as String, id: json['id'] as int);
+    return AboutUsModel(phone: json["phone"] as String, email: json["email"] as String, address_tm: json["address_tm"] as String, address_ru: json["address_ru"] as String, id: json['id'] as int);
   }
 
   final String? phone;
@@ -25,8 +23,6 @@ class AboutUsModel {
   final String? email;
   final String? address_tm;
   final String? address_ru;
-  final String? description_tm;
-  final String? description_ru;
   Future<AboutUsModel> getAboutUs() async {
     final response = await http.get(
         Uri.parse(
@@ -45,28 +41,28 @@ class AboutUsModel {
     }
   }
 
-  Future sendMessage({
-    required String fullname,
-    required String phone,
-    required String email,
-    required String message,
-  }) async {
-    final response = await http.post(Uri.parse("$serverURL/api/about/add-message/"),
-        headers: <String, String>{
-          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, dynamic>{
-          "phone": phone,
-          "fullname": fullname,
-          "email": email,
-          "message": message,
-        }));
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return response.statusCode;
-    }
-  }
+  // Future sendMessage({
+  //   required String fullname,
+  //   required String phone,
+  //   required String email,
+  //   required String message,
+  // }) async {
+  //   final response = await http.post(Uri.parse("$serverURL/api/about/add-message/"),
+  //       headers: <String, String>{
+  //         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+  //       },
+  //       body: jsonEncode(<String, dynamic>{
+  //         "phone": phone,
+  //         "fullname": fullname,
+  //         "email": email,
+  //         "message": message,
+  //       }));
+  //   if (response.statusCode == 200) {
+  //     return true;
+  //   } else {
+  //     return response.statusCode;
+  //   }
+  // }
 }
 
 class FAQModel {
