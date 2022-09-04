@@ -36,6 +36,7 @@ class HistoryOrderModel {
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
+      print(responseJson);
       for (final Map product in responseJson) {
         tournamentList.add(HistoryOrderModel.fromJson(product));
       }
@@ -81,6 +82,7 @@ class HistoryIDModel {
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
+      print(responseJson);
 
       return HistoryIDModel.fromJson(responseJson);
     } else {
@@ -90,15 +92,87 @@ class HistoryIDModel {
 }
 
 class CartItems {
-  CartItems({this.id, this.code, this.count});
+  CartItems({this.id, this.code, this.count, this.ucImage, this.ucName});
 
   factory CartItems.fromJson(Map<String, dynamic> json) {
-    return CartItems(id: json["id"], code: json["code"], count: json["count"]);
+    return CartItems(id: json["id"], code: json["code"], count: json["count"], ucImage: json["image"], ucName: json["name"]);
   }
 
   final int? id;
   final int? count;
   final String? code;
-  // final String? ucName;
-  // final String? ucImage;
+  final String? ucName;
+  final String? ucImage;
+}
+
+class TransactionHistoryModel {
+  TransactionHistoryModel({
+    this.id,
+    this.count,
+    this.fromTurnir,
+    this.created_date,
+  });
+
+  factory TransactionHistoryModel.fromJson(Map<dynamic, dynamic> json) {
+    return TransactionHistoryModel(
+      id: json["id"],
+      count: json["count"],
+      fromTurnir: json["from_turnir"],
+      created_date: json["created_date"],
+    );
+  }
+
+  final int? id;
+  final String? count;
+  final bool? fromTurnir;
+  final String? created_date;
+  Future<List<TransactionHistoryModel>> getTransactions() async {
+    final token = await Auth().getToken();
+    final List<TransactionHistoryModel> tournamentList = [];
+    final response = await http.get(
+        Uri.parse(
+          "$serverURL/api/accounts/points/",
+        ),
+        headers: <String, String>{
+          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        });
+    if (response.statusCode == 200) {
+      var decoded = utf8.decode(response.bodyBytes);
+      final responseJson = json.decode(decoded);
+      print(responseJson);
+      for (final Map product in responseJson) {
+        tournamentList.add(TransactionHistoryModel.fromJson(product));
+      }
+
+      return tournamentList;
+    } else {
+      return [];
+    }
+  }
+
+  Future requestCash({
+    required String fullname,
+    required String phone,
+    required String message,
+  }) async {
+    final token = await Auth().getToken();
+    final response = await http.post(Uri.parse("$serverURL/api/about/add-message/"),
+        headers: <String, String>{
+          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+        body: jsonEncode(<String, dynamic>{
+          "phone": phone,
+          "name": fullname,
+          "message": message,
+        }));
+    print(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return response.statusCode;
+    } else {
+      return response.statusCode;
+    }
+  }
 }

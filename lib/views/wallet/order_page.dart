@@ -1,15 +1,16 @@
 // ignore_for_file: file_names
 
-import 'package:flutter/cupertino.dart';
 import 'package:game_app/cards/order_card.dart';
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
-import 'package:game_app/models/uc_models.dart';
-import 'package:game_app/models/user_models/auth_model.dart';
 
 class OrderPage extends StatefulWidget {
-  const OrderPage({Key? key, required this.userName}) : super(key: key);
-  final String userName;
+  const OrderPage({
+    Key? key,
+    required this.orderType,
+  }) : super(key: key);
+  final bool orderType;
 
   @override
   State<OrderPage> createState() => _OrderPageState();
@@ -18,6 +19,19 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   final WalletController walletController = Get.put(WalletController());
   bool value = false;
+  final _signUp = GlobalKey<FormState>();
+  TextEditingController userIDController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Get.defaultDialog(
+        title: "UserId yaz",
+        content: Column(
+          children: [Form(key: _signUp, child: TextFormField()), AgreeButton(onTap: () {})],
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,22 +42,24 @@ class _OrderPageState extends State<OrderPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-              flex: 3,
+              flex: widget.orderType ? 3 : 4,
               child: Obx(() {
-                return ListView.builder(
-                  itemCount: walletController.cartList.length,
-                  itemExtent: 120,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (BuildContext context, int index) {
-                    return OrderCard(
-                      id: walletController.cartList[index]["id"],
-                      image: "$serverURL${walletController.cartList[index]["image"]}",
-                      name: walletController.cartList[index]["name"] ?? "Aman",
-                      price: walletController.cartList[index]["price"].toString(),
-                      count: walletController.cartList[index]["count"],
-                    );
-                  },
-                );
+                return walletController.cartList.isEmpty
+                    ? noData("Sargyt zat yok")
+                    : ListView.builder(
+                        itemCount: walletController.cartList.length,
+                        itemExtent: 120,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (BuildContext context, int index) {
+                          return OrderCard(
+                            id: walletController.cartList[index]["id"],
+                            image: "$serverURL${walletController.cartList[index]["image"]}",
+                            name: walletController.cartList[index]["name"] ?? "Aman",
+                            price: walletController.cartList[index]["price"].toString(),
+                            count: walletController.cartList[index]["count"],
+                          );
+                        },
+                      );
               })),
           customDivider(),
           Expanded(
@@ -62,24 +78,15 @@ class _OrderPageState extends State<OrderPage> {
                         style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 20),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Ask Payment"),
-                        CupertinoSwitch(
-                            value: value,
-                            onChanged: (bool valuee) {
-                              setState(() {
-                                value = valuee;
-                              });
-                            })
-                      ],
-                    ),
-                    text("orderPage1", walletController.cartList.length.toString()),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: text("orderPage2", widget.userName),
-                    ),
+                    Obx(() {
+                      return text("orderPage1", walletController.cartList.length.toString());
+                    }),
+                    widget.orderType
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            child: text("orderPage2", "User Id yazsa"),
+                          )
+                        : const SizedBox.shrink(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -89,7 +96,7 @@ class _OrderPageState extends State<OrderPage> {
                         ),
                         Obx(() {
                           return Text(
-                            "${Get.find<WalletController>().finalPRice} TMT",
+                            "${walletController.finalPRice} TMT",
                             style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 20),
                           );
                         }),
@@ -97,28 +104,29 @@ class _OrderPageState extends State<OrderPage> {
                     ),
                     Center(
                       child: AgreeButton(onTap: () async {
-                        final token = await Auth().getToken();
-                        if (token != null) {
-                          List list = [];
-                          for (var element in walletController.cartList) {
-                            list.add({
-                              "uc": element["id"],
-                              "count": element["count"],
-                            });
-                          }
-                          UcModel().addCart(list, value).then((value) {
-                            if (value == true) {
-                              Get.find<WalletController>().cartList.clear();
-                              Get.find<WalletController>().cartList.refresh();
-                              Get.back();
-                              showSnackBar("Tassyklandy", "Sizin sargydynyz tassyklandy", Colors.green);
-                            } else {
-                              showSnackBar("Bir zat yalnys", "Bir zada yalnys gitdi", Colors.red);
-                            }
-                          });
-                        } else {
-                          showSnackBar("Ulgama girin", "Sargyt etmek ucin ulgama girin", Colors.red);
-                        }
+                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+                        // final token = await Auth().getToken();
+                        // if (token != null) {
+                        //   List list = [];
+                        //   for (var element in walletController.cartList) {
+                        //     list.add({
+                        //       "uc": element["id"],
+                        //       "count": element["count"],
+                        //     });
+                        //   }
+                        //   UcModel().addCart(list, value).then((value) {
+                        //     if (value == true) {
+                        //       walletController.cartList.clear();
+                        //       walletController.cartList.refresh();
+                        //       Get.back();
+                        //       showSnackBar("copySucces", "orderSubtitle", Colors.green);
+                        //     } else {
+                        //       showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
+                        //     }
+                        //   });
+                        // } else {
+                        //   showSnackBar("loginError", "loginError1", Colors.red);
+                        // }
                       }),
                     ),
                   ],

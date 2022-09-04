@@ -73,16 +73,13 @@ class AccountsForSaleModel extends GetxController {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
       for (final Map product in responseJson["results"]) {
-        if (AccountsForSaleModel.fromJson(product).forSale == true) {
-          accountList.add(AccountsForSaleModel.fromJson(product));
-          Get.find<HomePageController>().list.add(AccountsForSaleModel.fromJson(product));
-        }
+        accountList.add(AccountsForSaleModel.fromJson(product));
+        Get.find<HomePageController>().list.add(AccountsForSaleModel.fromJson(product));
       }
       Get.find<HomePageController>().loading.value = 1;
       return accountList;
     } else if (response.statusCode == 404) {
       Get.find<HomePageController>().loading.value = 1;
-      Get.find<HomePageController>().text.value = "";
       Get.find<HomePageController>().pageNumber.value -= 1;
       return [];
     } else {
@@ -115,7 +112,6 @@ class AccountsForSaleModel extends GetxController {
       return accountList;
     } else if (response.statusCode == 404) {
       Get.find<ShowAllAccountsController>().loading.value = 1;
-      Get.find<HomePageController>().text.value = "Gutardy boldyyyyy";
       Get.find<ShowAllAccountsController>().pageNumber.value -= 1;
       return [];
     } else {

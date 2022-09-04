@@ -66,7 +66,10 @@ class OrderCard extends StatelessWidget {
                           onTap: () {
                             Get.find<WalletController>().removeCart(id);
                             double b = double.parse(price);
-                            Get.find<WalletController>().finalPRice.value -= b;
+                            Get.find<WalletController>().finalPRice.value -= b * count;
+                            if (Get.find<WalletController>().finalPRice.value == 0) {
+                              Get.back();
+                            }
                           },
                           child: const Padding(
                             padding: EdgeInsets.only(

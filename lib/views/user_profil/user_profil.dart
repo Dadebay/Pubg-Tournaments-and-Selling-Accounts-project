@@ -66,9 +66,9 @@ class _UserProfilState extends State<UserProfil> {
                   ? Column(
                       children: [
                         ProfilButton(
-                            name: "bal",
+                            name: "cashHistory",
                             onTap: () {
-                              Get.to(() => AddCash());
+                              Get.to(() => const AddCash());
                             },
                             icon: IconlyLight.wallet),
                         ProfilButton(

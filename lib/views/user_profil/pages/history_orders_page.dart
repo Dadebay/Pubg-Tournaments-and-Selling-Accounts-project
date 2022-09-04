@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/history_order_model.dart';
 
@@ -125,16 +126,37 @@ class OrderByID extends StatelessWidget {
                             children: [
                               ClipRRect(
                                 borderRadius: borderRadius15,
-                                child: Image.asset(
-                                  logo,
-                                  width: 65,
-                                  height: 65,
-                                  fit: BoxFit.cover,
-                                ),
+                                child: CachedNetworkImage(
+                                    fadeInCurve: Curves.ease,
+                                    imageUrl: "$serverURL${snapshot.data!.cartItems![index].ucImage}",
+                                    imageBuilder: (context, imageProvider) => Container(
+                                          width: 75,
+                                          height: 75,
+                                          decoration: BoxDecoration(
+                                            borderRadius: borderRadius20,
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                    placeholder: (context, url) => Center(child: spinKit()),
+                                    errorWidget: (context, url, error) => const Text("No Image")),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Text("UC ady ${snapshot.data!.cartItems![index].count}", textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20)),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Padding(
+                                          padding: const EdgeInsets.only(bottom: 4),
+                                          child: Text(snapshot.data!.cartItems![index].ucName.toString(), textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 16))),
+                                      Text("orderPage1".tr + snapshot.data!.cartItems![index].count.toString(), textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.grey, fontFamily: josefinSansMedium, fontSize: 14)),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ],
                           ),

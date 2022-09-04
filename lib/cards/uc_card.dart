@@ -12,6 +12,7 @@ class UCCard extends StatelessWidget {
   final UcModel model;
   @override
   Widget build(BuildContext context) {
+    double a = double.parse(model.price.toString());
     return GestureDetector(
       onTap: () {
         Get.to(() => WalletProfil(
@@ -62,13 +63,13 @@ class UCCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: Colors.black, fontFamily: josefinSansSemiBold, fontSize: 18),
                     ),
-                    Price(showDiscountedPrice: false, price: model.price.toString())
+                    Price(showDiscountedPrice: false, price: a.toStringAsFixed(1))
                   ],
                 ),
               ),
             ),
             AddCartButton(
-              productProfil: true,
+              productProfil: false,
               ucModel: model,
             ),
           ],

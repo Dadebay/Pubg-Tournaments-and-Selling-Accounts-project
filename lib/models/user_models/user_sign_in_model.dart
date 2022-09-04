@@ -151,4 +151,26 @@ class GetMeModel extends GetxController {
       return GetMeModel();
     }
   }
+
+  Future shortUpdate({
+    required String pubgUserName,
+    required String pubgUserId,
+  }) async {
+    final token = await Auth().getToken();
+    final response = await http.post(Uri.parse("$serverURL/api/accounts/short-update/"),
+        headers: <String, String>{
+          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+        body: jsonEncode(<String, dynamic>{
+          "fullname": pubgUserName,
+          "message": pubgUserId,
+        }));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return response.statusCode;
+    } else {
+      return response.statusCode;
+    }
+  }
 }

@@ -3,7 +3,6 @@
 import 'package:game_app/cards/show_all_accounts_card.dart';
 import 'package:game_app/constants/dialogs.dart';
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/controllers/home_page_controller.dart';
 import 'package:game_app/controllers/show_all_account_controller.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';
 import 'package:game_app/models/home_page_model.dart';
@@ -37,7 +36,6 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
     super.initState();
     controller.clearData();
     value = 0;
-    Get.find<HomePageController>().text.value = "Yokary Cekin";
     AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {"page": "${controller.pageNumber}", "size": "10"});
   }
 
@@ -311,7 +309,6 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
     controller.pageNumber.value = 1;
     controller.clearData();
     value = 0;
-    Get.find<HomePageController>().text.value = "Yokary Cekin";
     AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {"page": "${controller.pageNumber}", "size": "10"});
     _refreshController.refreshCompleted();
   }

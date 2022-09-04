@@ -17,17 +17,17 @@ class Price extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: showDiscountedPrice ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Text(price,
-            style: const TextStyle(
-              color: kPrimaryColor,
+            style: TextStyle(
+              color: showDiscountedPrice ? Colors.white : kPrimaryColor,
               fontSize: 23,
               fontFamily: josefinSansSemiBold,
             )),
-        const Text(" TMT",
+        Text(" TMT",
             style: TextStyle(
-              color: kPrimaryColor,
+              color: showDiscountedPrice ? Colors.white : kPrimaryColor,
               fontSize: 14,
               fontFamily: josefinSansSemiBold,
             )),

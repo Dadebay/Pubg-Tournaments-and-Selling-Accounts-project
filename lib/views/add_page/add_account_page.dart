@@ -233,6 +233,7 @@ class _AddPageState extends State<AddPage> {
                 },
                 child: const Text("Video Upload Page"),
               ),
+              AgreeButton(onTap: () {}),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: AgreeButton(onTap: () async {

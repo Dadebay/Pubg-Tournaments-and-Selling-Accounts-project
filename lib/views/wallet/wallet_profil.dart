@@ -8,45 +8,9 @@ import 'package:game_app/constants/index.dart';
 import '../../models/uc_models.dart';
 
 class WalletProfil extends StatelessWidget {
-  final UcModel model;
   const WalletProfil({Key? key, required this.model}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.9),
-      extendBody: true,
-      appBar: MyAppBar(
-          fontSize: 22,
-          backArrow: true,
-          icon: IconButton(
-            icon: const Icon(IconlyLight.arrowLeftCircle, color: Colors.white),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-          iconRemove: true,
-          name: model.title!,
-          elevationWhite: true),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            imagepart(),
-            textPart(),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-              child: AddCartButton(
-                productProfil: false,
-                ucModel: model,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
+  final UcModel model;
 
   Padding textPart() {
     return Padding(
@@ -114,9 +78,41 @@ class WalletProfil extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.9),
+      extendBody: true,
+      appBar: MyAppBar(
+          fontSize: 22,
+          backArrow: true,
+          icon: IconButton(
+            icon: const Icon(IconlyLight.arrowLeftCircle, color: Colors.white),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          iconRemove: true,
+          name: model.title!,
+          elevationWhite: true),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            imagepart(),
+            textPart(),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+              child: AddCartButton(
+                productProfil: true,
+                ucModel: model,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
-
-
-// 146.19.196.163
-// 95.174.68.161
-// 88.210.37.45

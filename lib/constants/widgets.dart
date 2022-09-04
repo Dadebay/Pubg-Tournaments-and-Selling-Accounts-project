@@ -3,7 +3,7 @@
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/views/other_pages/show_all_acconts.dart';
-import 'package:game_app/views/user_profil/Pages/cash.dart';
+import 'package:game_app/views/user_profil/pages/add_cash.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -65,7 +65,7 @@ Widget spinKit() {
 Widget balIcon() {
   return GestureDetector(
     onTap: () {
-      Get.to(() => MyCash());
+      Get.to(() => const AddCash());
     },
     child: Padding(
       padding: const EdgeInsets.only(top: 5),

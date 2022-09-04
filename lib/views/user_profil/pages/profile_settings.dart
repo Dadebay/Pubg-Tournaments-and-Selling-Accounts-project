@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, deprecated_member_use, prefer_typing_uninitialized_variables
 
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 
 class ProfileSettings extends StatefulWidget {
@@ -79,8 +80,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       height: 25,
                     ),
                     AgreeButton(onTap: () {
-                      showSnackBar("Succesful", "Succefully Changed name", kPrimaryColor);
-                      Get.back();
+                      Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+                      GetMeModel().shortUpdate(pubgUserId: pubgIDController.text, pubgUserName: pubgNameController.text).then((value) {
+                        if (value == 200) {
+                          Get.back();
+                          showSnackBar("copySucces", "smsSuccesfullySent", Colors.green);
+                          pubgNameController.clear();
+                          pubgIDController.clear();
+                        } else {
+                          showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
+                        }
+                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+                      });
                     })
                   ],
                 ),

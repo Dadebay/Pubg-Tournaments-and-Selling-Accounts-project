@@ -47,6 +47,8 @@ class UcModel extends GetxController {
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },
         body: jsonEncode(<String, dynamic>{"list": list, "ask": ask}));
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       return true;
     } else {

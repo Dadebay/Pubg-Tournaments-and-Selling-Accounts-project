@@ -40,29 +40,6 @@ class AboutUsModel {
       return AboutUsModel();
     }
   }
-
-  // Future sendMessage({
-  //   required String fullname,
-  //   required String phone,
-  //   required String email,
-  //   required String message,
-  // }) async {
-  //   final response = await http.post(Uri.parse("$serverURL/api/about/add-message/"),
-  //       headers: <String, String>{
-  //         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-  //       },
-  //       body: jsonEncode(<String, dynamic>{
-  //         "phone": phone,
-  //         "fullname": fullname,
-  //         "email": email,
-  //         "message": message,
-  //       }));
-  //   if (response.statusCode == 200) {
-  //     return true;
-  //   } else {
-  //     return response.statusCode;
-  //   }
-  // }
 }
 
 class FAQModel {

@@ -28,8 +28,7 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(const Duration(milliseconds: 1000));
     homePageController.list.clear();
     homePageController.pageNumber.value = 1;
-    homePageController.text.value = "Yokary Cekin";
-    AccountsForSaleModel().getAccounts(parametrs: {"page": "${homePageController.pageNumber}", "size": "10"});
+    AccountsForSaleModel().getAccounts(parametrs: {"page": "${homePageController.pageNumber}", "size": "10", "vip": "true", "for_sale": "true"});
     _refreshController.refreshCompleted();
   }
 
