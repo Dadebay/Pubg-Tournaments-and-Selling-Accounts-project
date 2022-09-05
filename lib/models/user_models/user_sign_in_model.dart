@@ -34,6 +34,7 @@ class UserSignInModel {
           "pubg_username": username,
           "pubg_id": pubgID,
         }));
+    print(response.body);
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -74,6 +75,8 @@ class UserSignInModel {
         body: jsonEncode(<String, String>{
           "phone": phone,
         }));
+    print(response.body);
+
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -163,8 +166,8 @@ class GetMeModel extends GetxController {
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },
         body: jsonEncode(<String, dynamic>{
-          "fullname": pubgUserName,
-          "message": pubgUserId,
+          "pubg_username": pubgUserName,
+          "pubg_id": pubgUserId,
         }));
     print(response.statusCode);
     if (response.statusCode == 200) {

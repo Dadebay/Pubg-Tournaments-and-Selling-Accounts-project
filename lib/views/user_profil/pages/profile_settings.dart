@@ -84,7 +84,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       GetMeModel().shortUpdate(pubgUserId: pubgIDController.text, pubgUserName: pubgNameController.text).then((value) {
                         if (value == 200) {
                           Get.back();
-                          showSnackBar("copySucces", "smsSuccesfullySent", Colors.green);
+                          showSnackBar("copySucces", "changedData", Colors.green);
                           pubgNameController.clear();
                           pubgIDController.clear();
                         } else {

@@ -89,6 +89,7 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
                             child: noData("tournamentInfo13"),
                           )
                         : TabPage3(
+                            finised: widget.finised,
                             model: snapshot.data!,
                           ),
                   ]);

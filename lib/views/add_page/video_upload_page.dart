@@ -13,14 +13,14 @@ import 'package:async/async.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:video_player/video_player.dart';
 
-class Page4 extends StatefulWidget {
-  const Page4({Key? key}) : super(key: key);
+class VideoUploadPage extends StatefulWidget {
+  const VideoUploadPage({Key? key}) : super(key: key);
 
   @override
-  State<Page4> createState() => _Page4State();
+  State<VideoUploadPage> createState() => _VideoUploadPageState();
 }
 
-class _Page4State extends State<Page4> {
+class _VideoUploadPageState extends State<VideoUploadPage> {
   File? selectedImage;
 
   Future pickImage() async {
@@ -98,59 +98,6 @@ class _Page4State extends State<Page4> {
               const SizedBox(
                 height: 10,
               ),
-              // selectedImage != null
-              //     ? GestureDetector(
-              //         onTap: () {
-              //           pickImage();
-              //         },
-              //         child: Container(
-              //           margin: const EdgeInsets.all(5),
-              //           decoration: const BoxDecoration(borderRadius: borderRadius10),
-              //           child: Material(
-              //             elevation: 2,
-              //             borderRadius: borderRadius10,
-              //             child: ClipRRect(
-              //               borderRadius: borderRadius10,
-              //               child: Image.file(selectedImage!, fit: BoxFit.cover),
-              //             ),
-              //           ),
-              //         ),
-              //       )
-              //     : GestureDetector(
-              //         onTap: () async {
-              //           await Permission.camera.request();
-              //           await Permission.photos.request();
-              //           pickImage();
-              //         },
-              //         child: Container(
-              //           margin: const EdgeInsets.all(10),
-              //           child: DottedBorder(
-              //             borderType: BorderType.RRect,
-              //             radius: const Radius.circular(12),
-              //             padding: const EdgeInsets.all(6),
-              //             strokeWidth: 2,
-              //             color: kPrimaryColor,
-              //             child: Center(
-              //               child: Row(
-              //                 crossAxisAlignment: CrossAxisAlignment.center,
-              //                 mainAxisAlignment: MainAxisAlignment.center,
-              //                 children: const [
-              //                   Text(
-              //                     "Poster",
-              //                     style: TextStyle(color: kPrimaryColor),
-              //                   ),
-              //                   Icon(
-              //                     Icons.add,
-              //                     color: kPrimaryColor,
-              //                     size: 50,
-              //                   ),
-              //                 ],
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-
               FutureBuilder(
                 future: _initializeVideoPlayerFuture,
                 builder: (context, snapshot) {
@@ -159,92 +106,100 @@ class _Page4State extends State<Page4> {
                       height: 250,
                       margin: const EdgeInsets.symmetric(vertical: 15),
                       width: double.infinity,
-                      child: FlickVideoPlayer(
-                          flickVideoWithControls: FlickVideoWithControls(
-                            controls: FlickPortraitControls(
-                              progressBarSettings: FlickProgressBarSettings(),
+                      child: ClipRRect(
+                        borderRadius: borderRadius25,
+                        child: FlickVideoPlayer(
+                            flickVideoWithControls: FlickVideoWithControls(
+                              controls: FlickPortraitControls(
+                                progressBarSettings: FlickProgressBarSettings(),
+                              ),
+                              videoFit: BoxFit.fitHeight,
                             ),
-                            videoFit: BoxFit.fitHeight,
-                          ),
-                          preferredDeviceOrientation: const [
-                            DeviceOrientation.portraitDown,
-                            DeviceOrientation.portraitUp,
-                          ],
-                          preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
-                          flickManager: flickManager!),
-                    );
-                  } else {
-                    return GestureDetector(
-                      onTap: () async {
-                        pickVideo();
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 10, bottom: 25, right: 10, top: 10),
-                        height: 150,
-                        width: double.infinity,
-                        child: DottedBorder(
-                          borderType: BorderType.RRect,
-                          radius: const Radius.circular(12),
-                          padding: const EdgeInsets.all(6),
-                          strokeWidth: 2,
-                          color: kPrimaryColor,
-                          child: const Center(
-                            child: Icon(
-                              Icons.add,
-                              color: kPrimaryColor,
-                              size: 50,
-                            ),
-                          ),
-                        ),
+                            preferredDeviceOrientation: const [
+                              DeviceOrientation.portraitDown,
+                              DeviceOrientation.portraitUp,
+                            ],
+                            preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
+                            flickManager: flickManager!),
                       ),
                     );
+                  } else {
+                    return selectVideo();
                   }
                 },
               ),
-              AgreeButton(onTap: () async {
-                final token = await Auth().getToken();
-                var headers = {'Authorization': 'Bearer $token'};
-                var request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/upload-video/'));
-                request.headers.addAll(headers);
-
-                // final imageTemporary = File(selectedVideo!.path);
-                // final uint8list = await VideoThumbnail.thumbnailData(
-                //   video: imageTemporary.path,
-                //   imageFormat: ImageFormat.JPEG,
-                //   maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
-                //   quality: 100,
-                // );
-
-                final String fileName = selectedImage!.path.split("/").last;
-                final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
-                final length = await selectedImage!.length();
-                final mimeTypeData = lookupMimeType(selectedImage!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-                final multipartFileSign = http.MultipartFile('poster', stream, length, filename: fileName, contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
-                request.files.add(multipartFileSign);
-
-                final String fileName1 = selectedVideo!.path.split("/").last;
-                final stream1 = http.ByteStream(DelegatingStream.typed(selectedVideo!.openRead()));
-                final length1 = await selectedVideo!.length();
-                final mimeTypeData1 = lookupMimeType(selectedVideo!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-                final multipartFileSign1 = http.MultipartFile('video', stream1, length1, filename: fileName1, contentType: MediaType(mimeTypeData1[0], mimeTypeData1[1]));
-                request.files.add(multipartFileSign1);
-
-                http.StreamedResponse response = await request.send();
-                // print(response.stream);
-                // print(response.statusCode);
-                // print(response.reasonPhrase);
-                // print(response.isRedirect);
-
-                // print(response.stream);
-                // print(response.stream);
-                if (response.statusCode == 200) {
-                  // print(await response.stream.bytesToString());
-                } else {
-                  // print(response.reasonPhrase);
-                }
-              })
+              button()
             ])),
       ),
     );
+  }
+
+  GestureDetector selectVideo() {
+    return GestureDetector(
+      onTap: () async {
+        pickVideo();
+      },
+      child: Container(
+        margin: const EdgeInsets.only(left: 10, bottom: 25, right: 10, top: 10),
+        height: 200,
+        width: double.infinity,
+        child: DottedBorder(
+          borderType: BorderType.RRect,
+          radius: const Radius.circular(12),
+          padding: const EdgeInsets.all(6),
+          strokeWidth: 2,
+          color: kPrimaryColor,
+          child: const Center(
+            child: Icon(
+              Icons.add,
+              color: kPrimaryColor,
+              size: 50,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget button() {
+    return AgreeButton(onTap: () async {
+      final token = await Auth().getToken();
+      var headers = {'Authorization': 'Bearer $token'};
+      var request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/upload-video/'));
+      request.headers.addAll(headers);
+
+      // final imageTemporary = File(selectedVideo!.path);
+      // final uint8list = await VideoThumbnail.thumbnailData(
+      //   video: imageTemporary.path,
+      //   imageFormat: ImageFormat.JPEG,
+      //   maxWidth: 128, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
+      //   quality: 100,
+      // );
+
+      final String fileName = selectedImage!.path.split("/").last;
+      final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
+      final length = await selectedImage!.length();
+      final mimeTypeData = lookupMimeType(selectedImage!.path, headerBytes: [0xFF, 0xD8])!.split('/');
+      final multipartFileSign = http.MultipartFile('poster', stream, length, filename: fileName, contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
+      request.files.add(multipartFileSign);
+
+      final String fileName1 = selectedVideo!.path.split("/").last;
+      final stream1 = http.ByteStream(DelegatingStream.typed(selectedVideo!.openRead()));
+      final length1 = await selectedVideo!.length();
+      final mimeTypeData1 = lookupMimeType(selectedVideo!.path, headerBytes: [0xFF, 0xD8])!.split('/');
+      final multipartFileSign1 = http.MultipartFile('video', stream1, length1, filename: fileName1, contentType: MediaType(mimeTypeData1[0], mimeTypeData1[1]));
+      request.files.add(multipartFileSign1);
+
+      http.StreamedResponse response = await request.send();
+      print(response.stream);
+      print(response.statusCode);
+      print(response.reasonPhrase);
+      print(response.isRedirect);
+      if (response.statusCode == 200) {
+        print(await response.stream.bytesToString());
+      } else {
+        print(response.reasonPhrase);
+      }
+    });
   }
 }

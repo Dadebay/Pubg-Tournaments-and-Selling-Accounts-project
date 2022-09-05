@@ -5,13 +5,14 @@ import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/tournament_model.dart';
 
 class TabPage3 extends StatelessWidget {
-  const TabPage3({Key? key, required this.model}) : super(key: key);
+  const TabPage3({Key? key, required this.model, required this.finised}) : super(key: key);
   final TournamentModel model;
+  final bool finised;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: model.participated_users!.length,
+      itemCount: finised ? model.winners!.length : model.participated_users!.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
@@ -30,7 +31,7 @@ class TabPage3 extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: CachedNetworkImage(
                       fadeInCurve: Curves.ease,
-                      imageUrl: "$serverURL${model.participated_users![index].userImage}",
+                      imageUrl: finised ? "$serverURL${model.winners![index].account_image}" : "$serverURL${model.participated_users![index].userImage}",
                       imageBuilder: (context, imageProvider) => Container(
                         width: 60,
                         height: 60,
@@ -56,7 +57,7 @@ class TabPage3 extends StatelessWidget {
                     )),
                 Expanded(
                   child: Text(
-                    model.participated_users![index].userName.toString(),
+                    finised ? model.winners![index].account_nickname.toString() : model.participated_users![index].userName.toString(),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),

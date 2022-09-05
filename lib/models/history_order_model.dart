@@ -24,7 +24,6 @@ class HistoryOrderModel {
   Future<List<HistoryOrderModel>> getOrders() async {
     final token = await Auth().getToken();
     final List<HistoryOrderModel> tournamentList = [];
-    print(token);
     final response = await http.get(
         Uri.parse(
           "$serverURL/api/carts/",
@@ -36,7 +35,6 @@ class HistoryOrderModel {
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      print(responseJson);
       for (final Map product in responseJson) {
         tournamentList.add(HistoryOrderModel.fromJson(product));
       }
@@ -82,8 +80,6 @@ class HistoryIDModel {
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      print(responseJson);
-
       return HistoryIDModel.fromJson(responseJson);
     } else {
       return HistoryIDModel();
@@ -140,7 +136,6 @@ class TransactionHistoryModel {
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      print(responseJson);
       for (final Map product in responseJson) {
         tournamentList.add(TransactionHistoryModel.fromJson(product));
       }
@@ -167,8 +162,6 @@ class TransactionHistoryModel {
           "name": fullname,
           "message": message,
         }));
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return response.statusCode;
     } else {

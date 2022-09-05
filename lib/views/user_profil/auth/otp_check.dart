@@ -2,6 +2,7 @@
 
 import 'package:game_app/bottom_nav_bar.dart';
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 
 class OtpCheck extends StatelessWidget {
@@ -35,6 +36,8 @@ class OtpCheck extends StatelessWidget {
               ),
               AgreeButton(onTap: () {
                 if (_otpCheck.currentState!.validate()) {
+                  Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+
                   UserSignInModel().otpCheck(otp: otpController.text, phoneNumber: phoneNumber).then((value) {
                     if (value == true) {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) {
@@ -47,6 +50,7 @@ class OtpCheck extends StatelessWidget {
                 } else {
                   showSnackBar("Maglumatlar Doldur", "Doldur su maglumatlary", Colors.red);
                 }
+                Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
               })
             ],
           ),

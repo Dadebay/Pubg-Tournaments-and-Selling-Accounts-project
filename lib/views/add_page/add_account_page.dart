@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:game_app/constants/index.dart';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:game_app/controllers/settings_controller.dart';
 import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
@@ -227,16 +228,13 @@ class _AddPageState extends State<AddPage> {
                         ),
                       ),
                     ),
-              RaisedButton(
-                onPressed: () {
-                  Get.to(() => const Page4());
-                },
-                child: const Text("Video Upload Page"),
-              ),
-              AgreeButton(onTap: () {}),
+              AgreeButton(onTap: () {
+                Get.to(() => const VideoUploadPage());
+              }),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: AgreeButton(onTap: () async {
+                  Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
                   final token = await Auth().getToken();
                   var headers = {'Authorization': 'Bearer $token'};
                   var request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/update-account/'));
@@ -271,8 +269,11 @@ class _AddPageState extends State<AddPage> {
 
                   http.StreamedResponse response = await request.send();
                   print(response.statusCode);
+                  print(response.reasonPhrase);
+                  print(response.isRedirect);
                   if (response.statusCode == 200) {
-                    Get.to(() => const Page4());
+                    Get.to(() => const VideoUploadPage());
+                    Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
                   } else {
                     showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
                   }

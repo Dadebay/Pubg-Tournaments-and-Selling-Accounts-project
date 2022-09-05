@@ -63,7 +63,6 @@ class _AddCartButtonState extends State<AddCartButton> {
                   number--;
                 }
                 setState(() {});
-                print(walletController.cartList);
               },
               child: const Icon(
                 CupertinoIcons.minus_circle,
@@ -79,7 +78,6 @@ class _AddCartButtonState extends State<AddCartButton> {
                 number++;
                 walletController.addCart(ucModel: widget.ucModel);
                 setState(() {});
-                print(walletController.cartList);
               },
               child: const Icon(
                 CupertinoIcons.add_circled,

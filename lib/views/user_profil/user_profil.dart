@@ -25,9 +25,10 @@ class UserProfil extends StatefulWidget {
 
 class _UserProfilState extends State<UserProfil> {
   final SettingsController settingsController = Get.put(SettingsController());
-
+  int a = 1;
   @override
   Widget build(BuildContext context) {
+    print("Tazeden cagyrdy");
     return Scaffold(
         backgroundColor: kPrimaryColorBlack,
         appBar: const MyAppBar(
@@ -37,8 +38,8 @@ class _UserProfilState extends State<UserProfil> {
           name: "profil",
           elevationWhite: true,
         ),
-        body: SingleChildScrollView(child: Obx(() {
-          return Column(
+        body: Obx(() {
+          return ListView(
             children: [
               settingsController.loginUser.value
                   ? ProfilButton(
@@ -107,6 +108,6 @@ class _UserProfilState extends State<UserProfil> {
                   icon: IconlyLight.login),
             ],
           );
-        })));
+        }));
   }
 }

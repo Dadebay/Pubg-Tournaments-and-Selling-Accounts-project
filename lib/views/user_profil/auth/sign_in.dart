@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, must_be_immutable
 
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 import 'package:game_app/views/user_profil/auth/otp_check.dart';
 
@@ -42,8 +43,9 @@ class SingIn extends StatelessWidget {
               style: false,
             ),
             AgreeButton(onTap: () {
-              // Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
               if (_signUp.currentState!.validate()) {
+                Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+
                 UserSignInModel().signUp(username: fullNameController.text, pubgID: idController.text, phoneNumber: phoneNumberController.text).then((value) {
                   if (value == true) {
                     Get.to(() => OtpCheck(
@@ -56,7 +58,7 @@ class SingIn extends StatelessWidget {
               } else {
                 showSnackBar("Maglumatlar Doldur", "Doldur su maglumatlary", Colors.red);
               }
-              // Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+              Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
             })
           ],
         ),

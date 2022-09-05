@@ -77,8 +77,8 @@ class _AddCashState extends State<AddCash> {
             itemCount: snapshot.data!.length,
             scrollDirection: Axis.vertical,
             physics: const BouncingScrollPhysics(),
-            reverse: true,
-            shrinkWrap: true,
+            // reverse: false,
+            // shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               double a = double.parse(snapshot.data![index].count.toString());
               return ListTile(
@@ -86,7 +86,7 @@ class _AddCashState extends State<AddCash> {
                   children: [
                     Expanded(
                       child: Text(
-                        "cash".tr + " ${index + 1}",
+                        "cash".tr + " ${snapshot.data!.length - index}",
                         textAlign: TextAlign.start,
                         style: const TextStyle(
                           color: Colors.white,

@@ -30,6 +30,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const WalletPage(),
     const UserProfil(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -366,15 +367,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       onTap: () {
                         double b = 0.0;
                         double a = 0.0;
-                        if (snapshot.data!["price_for_vip"] != null) {
-                          b = double.parse(snapshot.data!["price_for_vip"]);
-                        }
-                        if (Get.find<WalletController>().userMoney.toString() != "null") {
-                          a = double.parse(Get.find<WalletController>().userMoney.toString());
-                        }
-
-                        if (a >= b && a != 0.0) {
-                          Get.back();
+                        b = double.parse(snapshot.data!["price_for_vip"].toString());
+                        a = double.parse(Get.find<WalletController>().userMoney.toString());
+                        if (a >= b) {
+                          // Get.back();
                           Get.to(() => AddPage(
                                 pubgType: pubgTypeID,
                                 locationID: locationID,

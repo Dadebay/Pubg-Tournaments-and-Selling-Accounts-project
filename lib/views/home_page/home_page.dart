@@ -28,7 +28,12 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(const Duration(milliseconds: 1000));
     homePageController.list.clear();
     homePageController.pageNumber.value = 1;
-    AccountsForSaleModel().getAccounts(parametrs: {"page": "${homePageController.pageNumber}", "size": "10", "vip": "true", "for_sale": "true"});
+    AccountsForSaleModel().getAccounts(parametrs: {
+      "page": "${homePageController.pageNumber}",
+      "size": "10",
+      "vip": "1",
+      "for_sale": "1",
+    });
     _refreshController.refreshCompleted();
   }
 
@@ -39,6 +44,8 @@ class _HomePageState extends State<HomePage> {
       AccountsForSaleModel().getAccounts(parametrs: {
         "page": "${homePageController.pageNumber}",
         "size": "10",
+        "vip": "1",
+        "for_sale": "1",
       });
     }
     _refreshController.loadComplete();
@@ -74,14 +81,24 @@ class _HomePageState extends State<HomePage> {
                     return cannotLoadData(
                         withButton: false,
                         onTap: () {
-                          AccountsForSaleModel().getAccounts(parametrs: {});
+                          AccountsForSaleModel().getAccounts(parametrs: {
+                            "page": "${homePageController.pageNumber}",
+                            "size": "10",
+                            "vip": "1",
+                            "for_sale": "1",
+                          });
                         },
                         text: "errorPubgAccounts".tr);
                   } else if (homePageController.list.isEmpty && homePageController.loading.value != 1) {
                     return cannotLoadData(
                         withButton: true,
                         onTap: () {
-                          AccountsForSaleModel().getAccounts(parametrs: {});
+                          AccountsForSaleModel().getAccounts(parametrs: {
+                            "page": "${homePageController.pageNumber}",
+                            "size": "10",
+                            "vip": "1",
+                            "for_sale": "1",
+                          });
                         },
                         text: "errorPubgAccounts".tr);
                   }

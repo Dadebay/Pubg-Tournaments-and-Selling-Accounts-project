@@ -5,6 +5,8 @@ import 'package:game_app/bottom_nav_bar.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:lottie/lottie.dart';
 
+import 'controllers/wallet_controller.dart';
+
 class ConnectionCheck extends StatefulWidget {
   const ConnectionCheck({Key? key}) : super(key: key);
 
@@ -20,6 +22,7 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
   void initState() {
     super.initState();
     checkConnection();
+    Get.find<WalletController>().getUserMoney();
   }
 
   void checkConnection() async {

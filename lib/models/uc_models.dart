@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:game_app/constants/index.dart';
 
-class UcModel extends GetxController {
+class UcModel {
   UcModel({
     this.id,
     this.title,
@@ -50,7 +50,7 @@ class UcModel extends GetxController {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      return true;
+      return response.statusCode;
     } else {
       return response.statusCode;
     }
@@ -65,6 +65,7 @@ class UcModel extends GetxController {
         headers: <String, String>{
           HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         });
+    print(response.body);
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);

@@ -4,33 +4,23 @@ import 'package:game_app/cards/order_card.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
+import 'package:game_app/models/uc_models.dart';
+import 'package:game_app/models/user_models/auth_model.dart';
 
 class OrderPage extends StatefulWidget {
   const OrderPage({
     Key? key,
     required this.orderType,
+    required this.userID,
   }) : super(key: key);
   final bool orderType;
-
+  final String userID;
   @override
   State<OrderPage> createState() => _OrderPageState();
 }
 
 class _OrderPageState extends State<OrderPage> {
   final WalletController walletController = Get.put(WalletController());
-  bool value = false;
-  final _signUp = GlobalKey<FormState>();
-  TextEditingController userIDController = TextEditingController();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Get.defaultDialog(
-        title: "UserId yaz",
-        content: Column(
-          children: [Form(key: _signUp, child: TextFormField()), AgreeButton(onTap: () {})],
-        ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +74,7 @@ class _OrderPageState extends State<OrderPage> {
                     widget.orderType
                         ? Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
-                            child: text("orderPage2", "User Id yazsa"),
+                            child: text("orderPage2", widget.userID),
                           )
                         : const SizedBox.shrink(),
                     Row(
@@ -104,29 +94,33 @@ class _OrderPageState extends State<OrderPage> {
                     ),
                     Center(
                       child: AgreeButton(onTap: () async {
-                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                        // final token = await Auth().getToken();
-                        // if (token != null) {
-                        //   List list = [];
-                        //   for (var element in walletController.cartList) {
-                        //     list.add({
-                        //       "uc": element["id"],
-                        //       "count": element["count"],
-                        //     });
-                        //   }
-                        //   UcModel().addCart(list, value).then((value) {
-                        //     if (value == true) {
-                        //       walletController.cartList.clear();
-                        //       walletController.cartList.refresh();
-                        //       Get.back();
-                        //       showSnackBar("copySucces", "orderSubtitle", Colors.green);
-                        //     } else {
-                        //       showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
-                        //     }
-                        //   });
-                        // } else {
-                        //   showSnackBar("loginError", "loginError1", Colors.red);
-                        // }
+                        final token = await Auth().getToken();
+                        if (token != null) {
+                          Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+
+                          List list = [];
+                          for (var element in walletController.cartList) {
+                            list.add({
+                              "uc": element["id"],
+                              "count": element["count"],
+                            });
+                          }
+                          UcModel().addCart(list, widget.orderType).then((value) {
+                            if (value == 200) {
+                              walletController.cartList.clear();
+                              walletController.cartList.refresh();
+                              Get.back();
+                              showSnackBar("copySucces", "orderSubtitle", Colors.green);
+                            } else if (value == 404) {
+                              showSnackBar("money_error_title", "money_error_subtitle", Colors.red);
+                            } else {
+                              showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
+                            }
+                            Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+                          });
+                        } else {
+                          showSnackBar("loginError", "loginError1", Colors.red);
+                        }
                       }),
                     ),
                   ],

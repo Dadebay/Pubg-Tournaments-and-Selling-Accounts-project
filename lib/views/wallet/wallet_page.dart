@@ -2,7 +2,6 @@ import 'package:game_app/cards/uc_card.dart';
 import 'package:game_app/constants/dialogs.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
-import 'package:game_app/models/index_model.dart';
 import 'package:game_app/models/uc_models.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/wallet/order_page.dart';
@@ -26,6 +25,10 @@ class _WalletPageState extends State<WalletPage> {
     Get.find<WalletController>().getUserMoney();
   }
 
+  final _userIDKEy = GlobalKey<FormState>();
+  TextEditingController userIDController = TextEditingController();
+  FocusNode userIDFocusNode = FocusNode();
+
   ElevatedButton orderButton() {
     return ElevatedButton(
         onPressed: () async {
@@ -35,14 +38,19 @@ class _WalletPageState extends State<WalletPage> {
             for (var element in walletController.cartList) {
               value += double.parse(element["price"]) * element["count"];
             }
+            userIDController.clear();
+
             defaultBottomSheet(
                 child: Column(
                   children: [
                     ListTile(
                       onTap: () {
                         walletController.finalPRice.value = value;
+                        Get.back();
+
                         Get.to(() => const OrderPage(
                               orderType: false,
+                              userID: "",
                             ));
                       },
                       title: Text(
@@ -63,8 +71,50 @@ class _WalletPageState extends State<WalletPage> {
                     ListTile(
                       onTap: () {
                         walletController.finalPRice.value = value;
-                        Get.to(() => const OrderPage(
-                              orderType: true,
+                        Get.defaultDialog(
+                            backgroundColor: kPrimaryColorBlack,
+                            title: "signIn2".tr,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                            titlePadding: const EdgeInsets.only(top: 15),
+                            titleStyle: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 20),
+                            content: Form(
+                              key: _userIDKEy,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    child: CustomTextField(
+                                      labelName: "signIn2",
+                                      controller: userIDController,
+                                      focusNode: userIDFocusNode,
+                                      requestfocusNode: userIDFocusNode,
+                                      isNumber: false,
+                                      borderRadius: true,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          if (_userIDKEy.currentState!.validate()) {
+                                            Get.back();
+                                            Get.back();
+                                            Get.to(() => OrderPage(
+                                                  orderType: true,
+                                                  userID: userIDController.text,
+                                                ));
+                                          } else {
+                                            showSnackBar("Maglumatlar Doldur", "Doldur su maglumatlary", Colors.red);
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(14), primary: Colors.white, shape: const RoundedRectangleBorder(borderRadius: borderRadius20)),
+                                        child: Text(
+                                          "agree".tr,
+                                          style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18),
+                                        )),
+                                  ),
+                                ],
+                              ),
                             ));
                       },
                       title: Text(

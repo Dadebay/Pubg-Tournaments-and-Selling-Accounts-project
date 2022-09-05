@@ -176,9 +176,10 @@ class MyTranslations extends Translations {
           "orderType": "Sargyt görnüşi",
           "orderType1": "Epin bilen salmak",
           "orderType2": "ID bilen salmak",
-          "": "",
+          "changedData": "Maglumatlaryňyz üýtgedildi",
         },
         'ru': {
+          "changedData": "Ваша информация была изменена",
           "orderType1": "Загрузить с Эпином",
           "orderType2": "загрузить с ИД",
           "orderType": "Тип заказа",

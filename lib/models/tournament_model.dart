@@ -26,7 +26,7 @@ class TournamentModel {
       image: json["image"],
       price: json["price"].toString(),
       awards: ((json['awards'] ?? []) as List).map((json) => Awards.fromJson(json)).toList(),
-      winners: json["winners"],
+      winners: ((json['winners'] ?? []) as List).map((json) => Winners.fromJson(json)).toList(),
       participated_users: ((json['participated_users'] ?? []) as List).map((json) => ParticipatedUsers.fromJson(json)).toList(),
     );
   }
@@ -43,7 +43,7 @@ class TournamentModel {
   final String? price;
   final String? start_date;
   final String? title;
-  final List? winners;
+  final List<Winners>? winners;
 
   Future<List<TournamentModel>> getTournaments() async {
     TournamentController controller = Get.put(TournamentController());
@@ -80,11 +80,9 @@ class TournamentModel {
           'Content-Type': 'application/json;charset=UTF-8',
           'Charset': 'utf-8',
         });
-
     if (response.statusCode == 200) {
       var decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-
       return TournamentModel.fromJson(responseJson);
     } else {
       return TournamentModel();
@@ -145,6 +143,34 @@ class Awards {
   final int? id;
   final int? place;
   final int? turnir;
+}
+
+class Winners {
+  Winners({this.id, this.award, this.account_image, this.account_location_ru, this.account_location_tm, this.account_nickname, this.created_date, this.turnir, this.user});
+
+  factory Winners.fromJson(Map<String, dynamic> json) {
+    return Winners(
+      id: json["id"] ?? 0,
+      turnir: json["turnir"] ?? 0,
+      user: json["user"] ?? 0,
+      award: json["award"] ?? "0.0",
+      account_image: json["account_image"] ?? "",
+      account_location_ru: json["account_location_ru"] ?? "",
+      account_location_tm: json["account_location_tm"] ?? "",
+      account_nickname: json["account_nickname"] ?? "",
+      created_date: json["created_date"] ?? "",
+    );
+  }
+
+  final int? id;
+  final int? turnir;
+  final int? user;
+  final String? account_image;
+  final String? account_nickname;
+  final String? account_location_tm;
+  final String? account_location_ru;
+  final String? created_date;
+  final int? award;
 }
 
 class ParticipatedUsers {
