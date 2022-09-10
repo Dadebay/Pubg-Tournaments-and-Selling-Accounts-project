@@ -2,61 +2,98 @@
 
 import 'dart:io';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/models/user_models/user_sign_in_model.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class EditWorkProfile extends StatefulWidget {
-  const EditWorkProfile({Key? key}) : super(key: key);
+  final GetMeModel model;
+  const EditWorkProfile({required this.model, Key? key}) : super(key: key);
 
   @override
   State<EditWorkProfile> createState() => _EditWorkProfileState();
 }
 
 class _EditWorkProfileState extends State<EditWorkProfile> {
-  var _image;
+  TextEditingController bioController = TextEditingController();
 
-  final picker = ImagePicker();
+  FocusNode bioFocusNode = FocusNode();
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  FocusNode firstNameFocusNode = FocusNode();
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {}
-    });
-  }
+  TextEditingController fisrtNameController = TextEditingController();
 
-  TextEditingController nameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
 
-  FocusNode nameFocusNode = FocusNode();
+  FocusNode lastNameFocusNode = FocusNode();
 
-  TextEditingController phoneController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
 
-  FocusNode phoneFocusNode = FocusNode();
+  FocusNode priceFocusNode = FocusNode();
 
-  TextEditingController emailController = TextEditingController();
+  TextEditingController pubgIDController = TextEditingController();
 
-  FocusNode emailFocsNode = FocusNode();
+  FocusNode pubgIDFocusNode = FocusNode();
 
-  TextEditingController workController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
 
-  FocusNode workFocusNode = FocusNode();
+  FocusNode userNameFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    nameController.text = "Satlyk akkaunt ady";
-    phoneController.text = "62 990344";
-    emailController.text =
-        "Siziň üçin ähli gözellik serişdeleriniň hem-de öýe gerekli bolan himiýa harytlary saýtlar bir ýerde jemlenen. Brendowyý we ýokary hilli gözellik serişdeleri hem-de öýüňiziň arasaçylygy üçin niýetlenen himiýa harytlary gysga wagtyň içinde bu ýerde tapyp bilersiňiz, dowam edýän aksiýalardan we arzanladyşlardan habarly boluň. Hödür etmek bizden, saýlamak sizden";
-    workController.text = "Ashgabat";
+    changeData();
+  }
+
+  dynamic changeData() {
+    userNameController.text = widget.model.nickname.toString();
+    pubgIDController.text = widget.model.pubgId.toString();
+    fisrtNameController.text = widget.model.firstName.toString();
+    lastNameController.text = widget.model.lastName.toString();
+    priceController.text = widget.model.price.toString();
+    bioController.text = widget.model.bio.toString();
+  }
+
+  File? selectedImage;
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) {
+        return;
+      }
+      final imageTemporary = File(image.path);
+      setState(() {
+        selectedImage = imageTemporary;
+      });
+    } catch (error) {
+      showSnackBar('noConnection3', '$error', Colors.red);
+    }
+  }
+
+  File? selectedImage1;
+
+  Future pickImage1() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) {
+        return;
+      }
+      final imageTemporary = File(image.path);
+      setState(() {
+        selectedImage1 = imageTemporary;
+      });
+    } catch (error) {
+      showSnackBar('noConnection3', '$error', Colors.red);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
-      appBar: const MyAppBar(backArrow: true, fontSize: 0.0, iconRemove: true, elevationWhite: true, name: "profil"),
+      appBar: const MyAppBar(backArrow: true, fontSize: 0.0, iconRemove: true, elevationWhite: true, name: 'profil'),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
@@ -64,81 +101,156 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: Stack(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                      height: 110,
-                      width: 110,
-                      decoration: const BoxDecoration(color: backgroundColor, borderRadius: borderRadius20),
-                      child: ClipRRect(
-                          borderRadius: borderRadius20,
-                          child: _image != null
-                              ? GestureDetector(
-                                  onTap: () {
-                                    getImage();
-                                  },
-                                  child: Image.file(
-                                    _image,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : GestureDetector(
-                                  onTap: () {
-                                    getImage();
-                                  },
-                                  child: const Icon(
-                                    IconlyBold.profile,
-                                    size: 45,
-                                    color: Colors.black,
-                                  ),
-                                )),
-                    ),
-                    Positioned(
-                        bottom: 0,
-                        right: 8,
-                        child: GestureDetector(
-                          onTap: () {
-                            getImage();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: const BoxDecoration(color: kPrimaryColor, borderRadius: borderRadius10),
-                            child: const Icon(
-                              IconlyLight.edit,
-                              color: Colors.black,
-                            ),
-                          ),
-                        )),
-                  ],
-                ),
+              CustomTextField(labelName: 'signIn1', controller: userNameController, focusNode: userNameFocusNode, requestfocusNode: pubgIDFocusNode, isNumber: false, borderRadius: true),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: CustomTextField(labelName: 'signIn2', controller: pubgIDController, focusNode: pubgIDFocusNode, requestfocusNode: firstNameFocusNode, isNumber: false, borderRadius: true),
               ),
-              textpart("UserName"),
-              CustomTextField(labelName: "", controller: nameController, borderRadius: true, focusNode: nameFocusNode, requestfocusNode: phoneFocusNode, isNumber: false),
-              textpart("phone"),
-              PhoneNumber(
-                mineFocus: phoneFocusNode,
-                controller: phoneController,
-                requestFocus: emailFocsNode,
-                style: false,
+              CustomTextField(labelName: 'enterUserName', controller: fisrtNameController, focusNode: firstNameFocusNode, requestfocusNode: lastNameFocusNode, isNumber: false, borderRadius: true),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: CustomTextField(labelName: 'enterSurname', controller: lastNameController, focusNode: lastNameFocusNode, requestfocusNode: priceFocusNode, isNumber: false, borderRadius: true),
               ),
-              textpart("Description"),
-              CustomTextField(labelName: "", controller: emailController, maxline: 8, borderRadius: true, focusNode: emailFocsNode, requestfocusNode: workFocusNode, isNumber: false),
-              textpart("selectCity"),
-              CustomTextField(labelName: "", controller: workController, borderRadius: true, focusNode: workFocusNode, requestfocusNode: nameFocusNode, isNumber: false),
-              const SizedBox(
-                height: 25,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: CustomTextField(labelName: 'accountPrice', controller: priceController, focusNode: priceFocusNode, requestfocusNode: bioFocusNode, isNumber: true, borderRadius: true),
               ),
-              AgreeButton(onTap: () {
-                showSnackBar("Succesful", "Succefully Changed name", kPrimaryColor);
-                Get.back();
-              })
+              CustomTextField(
+                labelName: 'add_page1',
+                controller: bioController,
+                focusNode: bioFocusNode,
+                requestfocusNode: userNameFocusNode,
+                isNumber: false,
+                borderRadius: true,
+                maxline: 6,
+              ),
+              selectImageDesign(),
+              selectBackImage(),
+              AgreeButton(onTap: () {})
             ],
           ),
         ),
       ),
+    );
+  }
+
+  dynamic selectImageDesign() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 30, left: 20),
+          child: Text(
+            'select_user_image'.tr,
+            style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
+          ),
+        ),
+        selectedImage != null
+            ? GestureDetector(
+                onTap: () {
+                  pickImage();
+                },
+                child: Center(
+                  child: Container(
+                    width: 120,
+                    height: 120,
+                    margin: const EdgeInsets.only(top: 25),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [BoxShadow(color: Colors.white30, blurRadius: 15.0, offset: Offset(1.0, 1.0), spreadRadius: 5.0)],
+                    ),
+                    child: ClipOval(child: Material(elevation: 3, child: Image.file(selectedImage!, fit: BoxFit.cover))),
+                  ),
+                ),
+              )
+            : GestureDetector(
+                onTap: () async {
+                  await Permission.camera.request();
+                  await Permission.photos.request();
+                  await pickImage();
+                },
+                child: Center(
+                  child: Container(
+                    width: 120,
+                    height: 120,
+                    margin: const EdgeInsets.only(top: 25),
+                    child: DottedBorder(
+                      borderType: BorderType.Oval,
+                      radius: const Radius.circular(12),
+                      padding: const EdgeInsets.all(6),
+                      strokeWidth: 2,
+                      color: kPrimaryColor,
+                      child: const Center(
+                        child: Icon(
+                          Icons.add_circle_outline_sharp,
+                          color: kPrimaryColor,
+                          size: 35,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+      ],
+    );
+  }
+
+  dynamic selectBackImage() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 40, left: 20, bottom: 20),
+          child: Text(
+            'select_user_bg_image'.tr,
+            style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
+          ),
+        ),
+        selectedImage1 != null
+            ? GestureDetector(
+                onTap: () {
+                  pickImage1();
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 20, bottom: 20, right: 20, top: 10),
+                  height: 170,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    boxShadow: [BoxShadow(color: Colors.white30, blurRadius: 15.0, offset: Offset(1.0, 1.0), spreadRadius: 5.0)],
+                  ),
+                  child: Material(
+                    elevation: 2,
+                    borderRadius: borderRadius15,
+                    child: ClipRRect(
+                      borderRadius: borderRadius15,
+                      child: Image.file(selectedImage1!, fit: BoxFit.cover),
+                    ),
+                  ),
+                ),
+              )
+            : GestureDetector(
+                onTap: () async {
+                  await pickImage1();
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10, bottom: 25, right: 10, top: 10),
+                  height: 150,
+                  width: double.infinity,
+                  child: DottedBorder(
+                    borderType: BorderType.RRect,
+                    radius: const Radius.circular(12),
+                    padding: const EdgeInsets.all(6),
+                    strokeWidth: 2,
+                    color: kPrimaryColor,
+                    child: const Center(
+                      child: Icon(
+                        Icons.add,
+                        color: kPrimaryColor,
+                        size: 50,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+      ],
     );
   }
 

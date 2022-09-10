@@ -352,9 +352,9 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
                 child: spinKit(),
               );
             } else if (controller.loading.value == 2 && controller.list.isEmpty) {
-              return const Center(child: Text("Error"));
+              return noData("tournamentInfo14");
             } else if (controller.list.isEmpty && controller.loading.value == 1) {
-              return const Center(child: Text("Empty"));
+              return noData("notSaleAccount");
             }
             return Padding(
               padding: const EdgeInsets.all(8.0),

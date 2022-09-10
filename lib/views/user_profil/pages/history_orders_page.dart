@@ -181,25 +181,47 @@ class OrderByID extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Expanded(flex: 1, child: Text("tournamentInfo15".tr + " :  ", textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
-                                      Expanded(flex: 3, child: Text(snapshot.data!.cartItems![index].code ?? "tournamentInfo10".tr, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
+                                      Expanded(
+                                          flex: 3,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: snapshot.data!.cartItems![index].code!.length,
+                                            itemBuilder: (BuildContext context, int indexx) {
+                                              return Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Expanded(child: Text(snapshot.data!.cartItems![index].code![indexx].code.toString(), textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
+                                                  ElevatedButton.icon(
+                                                      onPressed: () {
+                                                        Clipboard.setData(ClipboardData(text: snapshot.data!.cartItems![index].code![indexx].code.toString())).then((value) {
+                                                          showSnackBar("copySucces", "copySuccesSubtitle", Colors.green);
+                                                        });
+                                                      },
+                                                      style: ElevatedButton.styleFrom(primary: kPrimaryColorBlack, elevation: 0.0, side: const BorderSide(color: kPrimaryColor)),
+                                                      icon: const Icon(
+                                                        Icons.copy_all,
+                                                        color: Colors.white,
+                                                      ),
+                                                      label: Text(
+                                                        "copy".tr,
+                                                        style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
+                                                      )),
+                                                ],
+                                              );
+                                            },
+                                          )),
                                     ],
                                   ),
                                 ),
-                                ElevatedButton.icon(
-                                    onPressed: () {
-                                      Clipboard.setData(ClipboardData(text: snapshot.data!.cartItems![index].code.toString())).then((value) {
-                                        showSnackBar("copySucces", "copySuccesSubtitle", Colors.green);
-                                      });
-                                    },
-                                    style: ElevatedButton.styleFrom(primary: kPrimaryColorBlack, elevation: 0.0, side: const BorderSide(color: kPrimaryColor)),
-                                    icon: const Icon(
-                                      Icons.copy_all,
-                                      color: Colors.white,
-                                    ),
-                                    label: Text(
-                                      "copy".tr,
-                                      style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
-                                    ))
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 15),
+                                  child: Row(
+                                    children: [
+                                      Expanded(flex: 1, child: Text("note".tr + " :  ", textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                      Expanded(flex: 3, child: Text(snapshot.data!.note ?? "tournamentInfo10".tr, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
+                                    ],
+                                  ),
+                                ),
                               ],
                             )
                           ],

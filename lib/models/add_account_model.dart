@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:game_app/constants/index.dart';
-import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:http/http.dart' as http;
 
 class AddAccountModel extends GetxController {
@@ -59,21 +58,20 @@ class AddAccountModel extends GetxController {
   final String? price;
   final String? pubgId;
 
-  Future sendData(Map<String, dynamic> body) async {
-    final token = await Auth().getToken();
-    //  FormData formData = FormData.;
-    final response = await http.post(Uri.parse("$serverURL/api/accounts/update-account/"),
-        headers: <String, String>{
-          HttpHeaders.contentTypeHeader: 'multipart/form-data',
-          HttpHeaders.authorizationHeader: 'Bearer $token',
-        },
-        body: jsonEncode(body));
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // Future sendData(Map<String, dynamic> body) async {
+  //   final token = await Auth().getToken();
+  //   final response = await http.post(Uri.parse("$serverURL/api/accounts/update-account/"),
+  //       headers: <String, String>{
+  //         HttpHeaders.contentTypeHeader: 'multipart/form-data',
+  //         HttpHeaders.authorizationHeader: 'Bearer $token',
+  //       },
+  //       body: jsonEncode(body));
+  //   if (response.statusCode == 200) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   Future getConsts() async {
     final response = await http.get(

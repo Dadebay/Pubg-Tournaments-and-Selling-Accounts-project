@@ -15,7 +15,7 @@ class OtpCheck extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: kPrimaryColorBlack,
-        appBar: const MyAppBar(fontSize: 0.0, backArrow: true, iconRemove: false, name: "Otp check", elevationWhite: false),
+        appBar: const MyAppBar(fontSize: 0.0, backArrow: true, iconRemove: false, name: "otp", elevationWhite: false),
         body: Container(
           color: kPrimaryColorBlack,
           padding: const EdgeInsets.all(14.0),
@@ -23,11 +23,11 @@ class OtpCheck extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  "Please enter the otp sms code",
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: josefinSansMedium),
+                  "otpSubtitle".tr,
+                  style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: josefinSansMedium),
                 ),
               ),
               Form(key: _otpCheck, child: CustomTextField(labelName: "otp", controller: otpController, focusNode: otpFocusNode, requestfocusNode: otpFocusNode, borderRadius: true, isNumber: true)),
@@ -44,11 +44,11 @@ class OtpCheck extends StatelessWidget {
                         return const BottomNavBar();
                       }));
                     } else {
-                      showSnackBar("Status Code", "$value", Colors.red);
+                      showSnackBar("tournamentInfo14", "$value", Colors.red);
                     }
                   });
                 } else {
-                  showSnackBar("Maglumatlar Doldur", "Doldur su maglumatlary", Colors.red);
+                  showSnackBar("tournamentInfo14", "signInDialog", Colors.red);
                 }
                 Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
               })

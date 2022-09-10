@@ -7,11 +7,11 @@ import 'package:game_app/models/add_account_model.dart';
 
 import 'models/index_model.dart';
 import 'models/user_models/auth_model.dart';
-import 'views/Wallet/wallet_page.dart';
 import 'views/add_page/add_account_page.dart';
 import 'views/home_page/home_page.dart';
 import 'views/tournament_page/tournament.dart';
 import 'views/user_profil/user_profil.dart';
+import 'views/wallet/wallet_two_part.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const HomePage(),
     const TournamentPage(),
     Container(),
-    const WalletPage(),
+    const WalletTwoPage(),
     const UserProfil(),
   ];
 
@@ -52,22 +52,22 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         size: 24,
                         color: Colors.white,
                       ),
-                      name: "bottomNavBar1".tr,
+                      name: 'bottomNavBar1'.tr,
                       index: 0)),
               Expanded(
                   child: buttonTop(
                       color: Colors.orange,
                       icon: Image.asset(
-                        "assets/icons/31.png",
+                        'assets/icons/31.png',
                         color: Colors.white,
                         width: 22,
                       ),
                       activeIcon: Image.asset(
-                        "assets/icons/3.png",
+                        'assets/icons/3.png',
                         color: Colors.white,
                         width: 22,
                       ),
-                      name: "bottomNavBar2".tr,
+                      name: 'bottomNavBar2'.tr,
                       index: 1)),
               Expanded(
                   child: buttonTop(
@@ -82,7 +82,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         size: 24,
                         color: Colors.white,
                       ),
-                      name: "add".tr,
+                      name: 'add'.tr,
                       index: 2)),
               Expanded(
                   child: buttonTop(
@@ -97,7 +97,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         size: 24,
                         color: Colors.white,
                       ),
-                      name: "Pubg UC",
+                      name: 'Pubg UC',
                       index: 3)),
               Expanded(
                   child: buttonTop(
@@ -112,7 +112,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         size: 24,
                         color: Colors.white,
                       ),
-                      name: "profil".tr,
+                      name: 'profil'.tr,
                       index: 4)),
             ],
           ),
@@ -128,9 +128,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
         if (index == 2) {
           final token = await Auth().getToken();
           if (token != null) {
-            firstBottomSheet();
+            await firstBottomSheet();
           } else {
-            showSnackBar("loginError", "add_account_login_error", Colors.red);
+            showSnackBar('loginError', 'add_account_login_error', Colors.red);
           }
         } else {
           setState(() {
@@ -185,7 +185,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         margin: const EdgeInsets.all(15),
         child: Wrap(
           children: [
-            namePart("pubgTypes"),
+            namePart('pubgTypes'),
             customDivider(),
             FutureBuilder<List<PubgTypesModel>>(
               future: PubgTypesModel().getTypes(),
@@ -193,9 +193,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
                 } else if (snapshot.hasError) {
-                  return const Center(child: Text("Error"));
+                  return const Center(child: Text('Error'));
                 } else if (snapshot.data == null) {
-                  return const Center(child: Text("Empty"));
+                  return const Center(child: Text('Empty'));
                 }
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
@@ -259,7 +259,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         margin: const EdgeInsets.all(15),
         child: Wrap(
           children: [
-            namePart("selectCityTitle"),
+            namePart('selectCityTitle'),
             customDivider(),
             FutureBuilder<List<Cities>>(
               future: Cities().getCities(),
@@ -267,9 +267,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
                 } else if (snapshot.hasError) {
-                  return const Center(child: Text("Error"));
+                  return const Center(child: Text('Error'));
                 } else if (snapshot.data == null) {
-                  return const Center(child: Text("Empty"));
+                  return const Center(child: Text('Empty'));
                 }
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
@@ -285,7 +285,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         color: Colors.white,
                       ),
                       title: Text(
-                        Get.locale!.toLanguageTag().toString() == "tr" ? snapshot.data![index].name_tm.toString() : snapshot.data![index].name_ru.toString(),
+                        Get.locale!.toLanguageTag().toString() == 'tr' ? snapshot.data![index].name_tm.toString() : snapshot.data![index].name_ru.toString(),
                         maxLines: 2,
                         style: const TextStyle(
                           color: Colors.white,
@@ -311,7 +311,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         margin: const EdgeInsets.all(15),
         child: Wrap(
           children: [
-            namePart("account_type_Vip_or_not"),
+            namePart('account_type_Vip_or_not'),
             customDivider(),
             FutureBuilder(
               future: AddAccountModel().getConsts(),
@@ -319,9 +319,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
                 } else if (snapshot.hasError) {
-                  return const Center(child: Text("Error"));
+                  return const Center(child: Text('Error'));
                 } else if (snapshot.data == null) {
-                  return const Center(child: Text("Empty"));
+                  return const Center(child: Text('Empty'));
                 }
 
                 return Wrap(
@@ -330,10 +330,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       onTap: () {
                         double b = 0.0;
                         double a = 0.0;
-                        if (snapshot.data!["price_for_vip"].toString() != "null") {
-                          b = double.parse(snapshot.data!["price_for_vip"]);
+                        if (snapshot.data!['price_for_vip'].toString() != 'null') {
+                          b = double.parse(snapshot.data!['price_for_vip']);
                         }
-                        if (Get.find<WalletController>().userMoney.toString() != "null") {
+                        if (Get.find<WalletController>().userMoney.toString() != 'null') {
                           a = double.parse(Get.find<WalletController>().userMoney.toString());
                         }
                         if (a >= b && a != 0.0) {
@@ -344,9 +344,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                 vipOrNot: 0,
                               ));
                         } else if (b >= a) {
-                          showSnackBar("money_error_title", "money_error_subtitle", Colors.red);
+                          showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
                         } else {
-                          showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
+                          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
                         }
                       },
                       trailing: const Icon(
@@ -354,7 +354,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         color: Colors.white,
                       ),
                       title: Text(
-                        "price_for_vip".tr + " ${snapshot.data!["price_for_vip"]}" + " TMT",
+                        'price_for_vip'.tr + " ${snapshot.data!["price_for_vip"]}" + ' TMT',
                         maxLines: 2,
                         style: const TextStyle(
                           color: Colors.white,
@@ -367,19 +367,18 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       onTap: () {
                         double b = 0.0;
                         double a = 0.0;
-                        b = double.parse(snapshot.data!["price_for_vip"].toString());
+                        b = double.parse(snapshot.data!['price_for_not_vip'].toString());
                         a = double.parse(Get.find<WalletController>().userMoney.toString());
                         if (a >= b) {
-                          // Get.back();
                           Get.to(() => AddPage(
                                 pubgType: pubgTypeID,
                                 locationID: locationID,
                                 vipOrNot: 1,
                               ));
                         } else if (b >= a) {
-                          showSnackBar("money_error_title", "money_error_subtitle", Colors.red);
+                          showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
                         } else {
-                          showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
+                          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
                         }
                       },
                       trailing: const Icon(
@@ -387,7 +386,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         color: Colors.white,
                       ),
                       title: Text(
-                        "price_for_not_vip".tr + " ${snapshot.data!["price_for_not_vip"]}" + " TMT",
+                        'price_for_not_vip'.tr + " ${snapshot.data!["price_for_not_vip"]}" + ' TMT',
                         maxLines: 2,
                         style: const TextStyle(
                           color: Colors.white,

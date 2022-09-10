@@ -48,17 +48,17 @@ class _SettingsState extends State<Settings> {
                       fit: BoxFit.cover,
                     ),
                   ))),
-          SettingButton(
-              name: "termsAndCondition",
-              onTap: () {
-                termsAndConditionWidget();
-              },
-              icon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    IconlyLight.arrowRightCircle,
-                    color: Colors.white,
-                  ))),
+          // SettingButton(
+          //     name: "termsAndCondition",
+          //     onTap: () {
+          //       termsAndConditionWidget();
+          //     },
+          //     icon: IconButton(
+          //         onPressed: () {},
+          //         icon: const Icon(
+          //           IconlyLight.arrowRightCircle,
+          //           color: Colors.white,
+          //         ))),
           // SettingButton(
           //     name: "login".tr,
           //     onTap: () {
@@ -70,13 +70,13 @@ class _SettingsState extends State<Settings> {
           //           IconlyLight.arrowRightCircle,
           //           color: Colors.white,
           //         ))),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Divider(
-              color: Colors.grey,
-              thickness: 2,
-            ),
-          ),
+          // const Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          //   child: Divider(
+          //     color: Colors.grey,
+          //     thickness: 2,
+          //   ),
+          // ),
           SettingButton(
               name: "versia",
               onTap: () {},

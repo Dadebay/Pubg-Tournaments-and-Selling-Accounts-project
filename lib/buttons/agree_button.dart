@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, must_be_immutable
 
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
@@ -6,9 +6,12 @@ import 'package:game_app/controllers/settings_controller.dart';
 class AgreeButton extends StatelessWidget {
   final Function() onTap;
 
-  AgreeButton({Key? key, required this.onTap}) : super(key: key);
+  AgreeButton({
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
 
-  final SettingsController settingsController = Get.put(SettingsController());
+  SettingsController settingsController = Get.put(SettingsController());
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -34,7 +37,7 @@ class AgreeButton extends StatelessWidget {
                   ),
                 )
               : Text(
-                  "agree".tr,
+                  'agree'.tr,
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

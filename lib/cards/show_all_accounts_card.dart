@@ -9,8 +9,6 @@ import 'package:game_app/models/accouts_for_sale_model.dart';
 import 'package:game_app/views/other_pages/account_profil_page/account_profil_page.dart';
 import 'package:get/get.dart';
 
-import '../buttons/fav_button.dart';
-
 class ShowAllProductsCard extends StatelessWidget {
   final AccountsForSaleModel model;
   final bool fav;
@@ -67,12 +65,6 @@ class ShowAllProductsCard extends StatelessWidget {
                                   )),
                         ),
                       ),
-                      Positioned(
-                          top: 10,
-                          right: 10,
-                          child: FavButton(
-                            model: model,
-                          )),
                     ],
                   ),
                 )),

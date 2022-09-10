@@ -10,7 +10,6 @@ class WalletController extends GetxController {
 
   RxDouble finalPRice = 0.0.obs;
   RxList cartList = [].obs;
-  RxList favList = [].obs;
   RxString userMoney = "".obs;
 
   dynamic addCart({required UcModel ucModel}) {
@@ -62,27 +61,5 @@ class WalletController extends GetxController {
     } else {
       userMoney.value = "0.0";
     }
-  }
-
-  dynamic addFavList({required int id, required String price, required String name, required String image, required String pubID}) {
-    if (favList.isEmpty) {
-      favList.add({"id": id, "price": price, "name": name, "image": image, "pugID": pubID});
-    } else {
-      bool value = false;
-      for (var element in favList) {
-        if (element["id"] == id) {
-          value = true;
-        }
-      }
-      if (value == false) {
-        favList.add({"id": id, "price": price, "name": name, "image": image, "pugID": pubID});
-      }
-    }
-    storage.write("favList", favList);
-  }
-
-  dynamic removeFav(int id) {
-    favList.removeWhere((element) => element["id"] == id);
-    storage.write("favList", favList);
   }
 }

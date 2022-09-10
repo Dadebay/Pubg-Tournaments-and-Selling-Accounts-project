@@ -3,7 +3,6 @@
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/views/other_pages/show_all_acconts.dart';
-import 'package:game_app/views/user_profil/pages/add_cash.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -12,7 +11,7 @@ SnackbarController showSnackBar(String title, String subtitle, Color color) {
     title,
     subtitle,
     snackStyle: SnackStyle.FLOATING,
-    titleText: title == ""
+    titleText: title == ''
         ? const SizedBox.shrink()
         : Text(
             title.tr,
@@ -50,45 +49,42 @@ Widget dividerr() {
 
 Center noData(String text) {
   return Center(
-      child: Text(
-    text.tr,
-    maxLines: 2,
-    textAlign: TextAlign.center,
-    style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
-  ));
-}
-
-Widget spinKit() {
-  return Lottie.asset("assets/lottie/pubg.json", animate: true, width: 300, height: 300);
-}
-
-Widget balIcon() {
-  return GestureDetector(
-    onTap: () {
-      Get.to(() => const AddCash());
-    },
-    child: Padding(
-      padding: const EdgeInsets.only(top: 5),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Obx(() {
-            double a = double.parse(Get.find<WalletController>().userMoney.toString());
-            return Text(a.toStringAsFixed(0), style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 23));
-          }),
-          const Padding(
-              padding: EdgeInsets.only(
-                left: 5,
-                right: 5,
-              ),
-              child: Text("TMT")),
-        ],
-      ),
+    child: Text(
+      text.tr,
+      maxLines: 2,
+      textAlign: TextAlign.center,
+      style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
     ),
   );
 }
 
-customDivider() {
+Widget spinKit() {
+  return Lottie.asset('assets/lottie/pubg.json', animate: true, width: 300, height: 300);
+}
+
+Widget balIcon() {
+  return Padding(
+    padding: const EdgeInsets.only(top: 5),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Obx(() {
+          final double a = double.parse(Get.find<WalletController>().userMoney.toString());
+          return Text(a.toStringAsFixed(0), style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 23));
+        }),
+        const Padding(
+          padding: EdgeInsets.only(
+            left: 5,
+            right: 5,
+          ),
+          child: Text('TMT'),
+        ),
+      ],
+    ),
+  );
+}
+
+Divider customDivider() {
   return const Divider(
     thickness: 1,
     color: backgroundColor,
@@ -100,15 +96,17 @@ customDivider() {
 
 Container noBannerImage() {
   return Container(
-      margin: const EdgeInsets.all(15),
-      width: Get.size.width,
-      height: 220,
-      decoration: const BoxDecoration(borderRadius: borderRadius15, color: kPrimaryColorBlack1),
-      child: Center(
-          child: Text(
-        "noImageBanner".tr,
+    margin: const EdgeInsets.all(15),
+    width: Get.size.width,
+    height: 220,
+    decoration: const BoxDecoration(borderRadius: borderRadius15, color: kPrimaryColorBlack1),
+    child: Center(
+      child: Text(
+        'noImageBanner'.tr,
         style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
-      )));
+      ),
+    ),
+  );
 }
 
 Padding listViewName(String text, bool icon) {
@@ -124,15 +122,18 @@ Padding listViewName(String text, bool icon) {
         icon
             ? IconButton(
                 onPressed: () {
-                  Get.to(() => const ShowAllAccounts(
-                        name: "accountsForSale",
-                        pubgID: 0,
-                      ));
+                  Get.to(
+                    () => const ShowAllAccounts(
+                      name: 'accountsForSale',
+                      pubgID: 0,
+                    ),
+                  );
                 },
                 icon: const Icon(
                   IconlyLight.arrowRightCircle,
                   color: Colors.white,
-                ))
+                ),
+              )
             : const SizedBox.shrink()
       ],
     ),
@@ -144,17 +145,17 @@ CustomFooter footer() {
     builder: (BuildContext context, LoadStatus? mode) {
       Widget body;
       if (mode == LoadStatus.idle) {
-        body = const Text("");
+        body = const Text('');
       } else if (mode == LoadStatus.loading) {
         body = const CircularProgressIndicator(
           color: kPrimaryColor,
         );
       } else if (mode == LoadStatus.failed) {
-        body = const Text("Load Failed!Click retry!");
+        body = const Text('Load Failed!Click retry!');
       } else if (mode == LoadStatus.canLoading) {
-        body = const Text("");
+        body = const Text('');
       } else {
-        body = const Text("No more Data");
+        body = const Text('No more Data');
       }
       return SizedBox(
         height: 55.0,
@@ -204,9 +205,10 @@ Center cannotLoadData({required bool withButton, required Function() onTap, requ
                 onPressed: onTap,
                 style: ElevatedButton.styleFrom(primary: kPrimaryColor),
                 child: Text(
-                  "noConnection3".tr,
+                  'noConnection3'.tr,
                   style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansMedium),
-                ))
+                ),
+              )
             : const SizedBox.shrink()
       ],
     ),
@@ -215,68 +217,78 @@ Center cannotLoadData({required bool withButton, required Function() onTap, requ
 
 //------------------ HOME PAGE --------------------//
 
-showDeleteDialog(BuildContext context, String text, String text2, Function() onTap) {
-  showGeneralDialog(
-      transitionBuilder: (context, a1, a2, widget) {
-        final curvedValue = Curves.decelerate.transform(a1.value) - 1.0;
-        return Transform(
-          transform: Matrix4.translationValues(0.0, curvedValue * 400, 0.0),
-          child: Opacity(
-            opacity: a1.value,
-            child: AlertDialog(
-                backgroundColor: kPrimaryColorBlack,
-                shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
-                title: Text(
-                  text.tr,
-                  style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansSemiBold),
+Future<Object?> showDeleteDialog(BuildContext context, String text, String text2, Function() onTap) {
+  return showGeneralDialog(
+    transitionBuilder: (context, a1, a2, widget) {
+      final curvedValue = Curves.decelerate.transform(a1.value) - 1.0;
+      return Transform(
+        transform: Matrix4.translationValues(0.0, curvedValue * 400, 0.0),
+        child: Opacity(
+          opacity: a1.value,
+          child: AlertDialog(
+            backgroundColor: kPrimaryColorBlack,
+            shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
+            title: Text(
+              text.tr,
+              style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansSemiBold),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20, left: 6, right: 6),
+                  child: Text(
+                    text2.tr,
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansMedium),
+                  ),
                 ),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
+                Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20, left: 6, right: 6),
-                      child: Text(
-                        text2.tr,
-                        style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansMedium),
-                      ),
+                    dialogButton(
+                      'no',
+                      () {
+                        Get.back();
+                      },
+                      false,
                     ),
-                    Row(
-                      children: [
-                        dialogButton("no", () {
-                          Get.back();
-                        }, false),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        dialogButton("yes", onTap, true),
-                      ],
-                    )
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    dialogButton('yes', onTap, true),
                   ],
-                )),
+                )
+              ],
+            ),
           ),
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 500),
-      barrierDismissible: true,
-      barrierLabel: '',
-      context: context,
-      pageBuilder: (context, animation1, animation2) {
-        return const SizedBox.shrink();
-      });
+        ),
+      );
+    },
+    transitionDuration: const Duration(milliseconds: 500),
+    barrierDismissible: true,
+    barrierLabel: '',
+    context: context,
+    pageBuilder: (context, animation1, animation2) {
+      return const SizedBox.shrink();
+    },
+  );
 }
 
 //
 Widget dialogButton(String name, Function() onTap, bool color) {
   return Expanded(
-    child: RaisedButton(
-        onPressed: onTap,
-        elevation: 0,
+    child: ElevatedButton(
+      onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        shape: const RoundedRectangleBorder(
+          borderRadius: borderRadius20,
+        ),
+        primary: kPrimaryColorBlack1,
         padding: const EdgeInsets.symmetric(vertical: 14),
-        color: kPrimaryColorBlack1,
-        shape: const RoundedRectangleBorder(borderRadius: borderRadius20),
-        child: Text(
-          name.tr,
-          style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: color ? josefinSansMedium : josefinSansSemiBold),
-        )),
+      ),
+      child: Text(
+        name.tr,
+        style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
+      ),
+    ),
   );
 }

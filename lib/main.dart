@@ -9,16 +9,17 @@ import 'connection_check.dart';
 import 'controllers/all_controller_bindings.dart';
 import 'utils/translations.dart';
 
-AndroidNotificationChannel channel = const AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.', // description
-    importance: Importance.high);
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'high_importance_channel', // id
+  'High Importance Notifications', // title
+  description: 'This channel is used for important notifications.', // description
+  importance: Importance.high,
+);
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  flutterLocalNotificationsPlugin.show(
+  await flutterLocalNotificationsPlugin.show(
     message.data.hashCode,
     message.notification!.title,
     message.notification!.body,
@@ -57,14 +58,16 @@ Future<void> main() async {
   );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: (String? a) {});
 
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarBrightness: Brightness.light,
-    statusBarIconBrightness: Brightness.light,
-    systemNavigationBarColor: kPrimaryColorBlack,
-    statusBarColor: kPrimaryColorBlack,
-  ));
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: kPrimaryColorBlack,
+      statusBarColor: kPrimaryColorBlack,
+    ),
+  );
 
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
@@ -82,7 +85,7 @@ class MyAppRun extends StatefulWidget {
 class _MyAppRunState extends State<MyAppRun> {
   final storage = GetStorage();
 
-  firebaseMessagingPart() {
+  dynamic firebaseMessagingPart() {
     FirebaseMessaging.instance.subscribeToTopic('EVENT');
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       flutterLocalNotificationsPlugin.show(
@@ -131,13 +134,14 @@ class _MyAppRunState extends State<MyAppRun> {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
+
       theme: ThemeData(
         brightness: Brightness.dark,
         fontFamily: josefinSansRegular,
         useMaterial3: true,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      fallbackLocale: const Locale("tr"),
+      fallbackLocale: const Locale('tr'),
       translations: MyTranslations(),
       debugShowCheckedModeBanner: false,
       home: ConnectionCheck(),

@@ -37,11 +37,11 @@ class CustomFlexibleSpace extends StatelessWidget {
                   color: Colors.white.withOpacity(0.8),
                   thickness: 1,
                 ),
-                rowText(model.pointsFromTurnir!.substring(0, model.pointsFromTurnir!.length - 3), "accountTurnirPoint".tr, false),
-                VerticalDivider(
-                  color: Colors.white.withOpacity(0.8),
-                  thickness: 1,
-                ),
+                // rowText(model.pointsFromTurnir!.substring(0, model.pointsFromTurnir!.length - 3), "accountTurnirPoint".tr, false),
+                // VerticalDivider(
+                //   color: Colors.white.withOpacity(0.8),
+                //   thickness: 1,
+                // ),
                 Obx(() {
                   return rowText(Get.find<SettingsController>().pubgType.value.toString(), "accountPubgType".tr, false);
                 }),

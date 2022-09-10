@@ -47,9 +47,17 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           errorMaxLines: 2,
           errorStyle: const TextStyle(fontFamily: josefinSansMedium),
-          labelText: labelName.tr,
+          // labelText: labelName.tr,
+          hintMaxLines: 5,
+          helperMaxLines: 5,
+          label: Text(
+            labelName.tr,
+            maxLines: 5,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Colors.grey.shade500, fontFamily: josefinSansMedium),
+          ),
           contentPadding: const EdgeInsets.only(left: 25, top: 20, bottom: 20, right: 10),
-          labelStyle: TextStyle(color: Colors.grey.shade500, fontFamily: josefinSansMedium),
+          // labelStyle: TextStyle(color: Colors.grey.shade500, fontFamily: josefinSansMedium),
           border: OutlineInputBorder(
             borderRadius: borderRadius == null
                 ? borderRadius5

@@ -3,8 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../constants/index.dart';
 
 class BannerCard extends StatelessWidget {
-  const BannerCard({Key? key, required this.image}) : super(key: key);
   final String image;
+
+  const BannerCard({
+    required this.image,
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,20 +18,21 @@ class BannerCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: borderRadius15,
         child: CachedNetworkImage(
-            fadeInCurve: Curves.ease,
-            imageUrl: image,
-            imageBuilder: (context, imageProvider) => Container(
-                  width: Get.size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: borderRadius20,
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-            placeholder: (context, url) => Center(child: spinKit()),
-            errorWidget: (context, url, error) => noBannerImage()),
+          fadeInCurve: Curves.ease,
+          imageUrl: image,
+          imageBuilder: (context, imageProvider) => Container(
+            width: Get.size.width,
+            decoration: BoxDecoration(
+              borderRadius: borderRadius20,
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          placeholder: (context, url) => Center(child: spinKit()),
+          errorWidget: (context, url, error) => noBannerImage(),
+        ),
       ),
     );
   }
