@@ -25,21 +25,55 @@ class _AddCashState extends State<AddCash> {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
       appBar: const MyAppBar(backArrow: true, fontSize: 0.0, iconRemove: false, elevationWhite: true, name: 'cashHistory'),
-      floatingActionButton: ElevatedButton(
-        onPressed: () {
-          Get.to(
-            () => AskMoneyPage(
-              phoneNumber: widget.phoneNumber,
+      body: Column(
+        children: [
+          Expanded(child: page1()),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.to(
+                          () => AskMoneyPage(
+                            phoneNumber: widget.phoneNumber,
+                            text: 'message1',
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, padding: const EdgeInsets.all(15), shape: const RoundedRectangleBorder(borderRadius: borderRadius20)),
+                      child: Text(
+                        'requestCash1'.tr,
+                        style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.to(
+                        () => AskMoneyPage(
+                          phoneNumber: widget.phoneNumber,
+                          text: 'message',
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, padding: const EdgeInsets.all(15), shape: const RoundedRectangleBorder(borderRadius: borderRadius20)),
+                    child: Text(
+                      'requestCash'.tr,
+                      style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          );
-        },
-        style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, padding: const EdgeInsets.all(15), shape: const RoundedRectangleBorder(borderRadius: borderRadius20)),
-        child: Text(
-          'requestCash'.tr,
-          style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
-        ),
+          ),
+        ],
       ),
-      body: page1(),
     );
   }
 
@@ -107,7 +141,9 @@ class _AddCashState extends State<AddCash> {
 
 class AskMoneyPage extends StatefulWidget {
   final String phoneNumber;
+  final String text;
   const AskMoneyPage({
+    required this.text,
     required this.phoneNumber,
     Key? key,
   }) : super(key: key);
@@ -171,7 +207,7 @@ class _AskMoneyPageState extends State<AskMoneyPage> {
             CustomTextField(
               maxline: 4,
               borderRadius: true,
-              labelName: 'message',
+              labelName: widget.text,
               controller: messageController,
               focusNode: messageFocusNode,
               requestfocusNode: nameFocusNode,

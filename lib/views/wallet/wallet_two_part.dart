@@ -21,51 +21,74 @@ class _WalletTwoPageState extends State<WalletTwoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: kPrimaryColorBlack,
-        appBar: const MyAppBar(backArrow: false, fontSize: 0.0, iconRemove: true, elevationWhite: true, name: "Pubg UC"),
-        body: Column(
-          children: [
-            GestureDetector(
-              onTap: () {
-                Get.find<WalletController>().finalPRice.value = 0.0;
+      backgroundColor: kPrimaryColorBlack,
+      appBar: const MyAppBar(backArrow: false, fontSize: 0.0, iconRemove: true, elevationWhite: true, name: 'Pubg UC'),
+      body: Column(
+        children: [
+          card(
+            MediaQuery.of(context).size,
+            () {
+              Get.find<WalletController>().finalPRice.value = 0.0;
+              Get.to(() => const WalletPage());
+            },
+            epinImage,
+            'buyEpin'.tr,
+          ),
+          card(
+            MediaQuery.of(context).size,
+            () {
+              Get.find<WalletController>().finalPRice.value = 0.0;
+              Get.find<WalletController>().cartList.clear();
+              Get.to(
+                () => const OrderPage(
+                  orderType: true,
+                ),
+              );
+            },
+            idImage,
+            'buyID'.tr,
+          ),
+        ],
+      ),
+    );
+  }
 
-                Get.to(() => const WalletPage());
-              },
-              child: Container(
-                height: MediaQuery.of(context).size.height / 4,
-                width: double.infinity,
-                margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                decoration: BoxDecoration(color: kPrimaryColorBlack, borderRadius: borderRadius20, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.15), blurRadius: 10, spreadRadius: 3)]),
-                child: ClipRRect(
-                    borderRadius: borderRadius20,
-                    child: Image.asset(
-                      "assets/image/epin.jpg",
-                      fit: BoxFit.cover,
-                    )),
+  GestureDetector card(Size size, Function() ontapp, String image, String text) {
+    return GestureDetector(
+      onTap: ontapp,
+      child: Stack(
+        children: [
+          Container(
+            height: size.height / 4,
+            width: double.infinity,
+            margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
+            decoration: BoxDecoration(color: kPrimaryColorBlack, borderRadius: borderRadius25, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.15), blurRadius: 10, spreadRadius: 3)]),
+            child: ClipRRect(
+              borderRadius: borderRadius25,
+              child: Image.asset(
+                image,
+                fit: BoxFit.cover,
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                Get.find<WalletController>().finalPRice.value = 0.0;
-                Get.find<WalletController>().cartList.clear();
-                Get.to(() => const OrderPage(
-                      orderType: true,
-                    ));
-              },
-              child: Container(
-                height: MediaQuery.of(context).size.height / 4,
-                width: double.infinity,
-                margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                decoration: BoxDecoration(color: kPrimaryColorBlack, borderRadius: borderRadius20, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.15), blurRadius: 10, spreadRadius: 3)]),
-                child: ClipRRect(
-                    borderRadius: borderRadius20,
-                    child: Image.asset(
-                      "assets/image/id.jpg",
-                      fit: BoxFit.cover,
-                    )),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height / 4,
+            width: double.infinity,
+            margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
+            decoration: BoxDecoration(
+              borderRadius: borderRadius25,
+              color: Colors.black12.withOpacity(0.6),
+            ),
+            child: Center(
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 35),
               ),
             ),
-          ],
-        ));
+          )
+        ],
+      ),
+    );
   }
 }

@@ -282,7 +282,7 @@ Widget dialogButton(String name, Function() onTap, bool color) {
         shape: const RoundedRectangleBorder(
           borderRadius: borderRadius20,
         ),
-        primary: kPrimaryColorBlack1,
+        primary: color ? kPrimaryColor : kPrimaryColorBlack1,
         padding: const EdgeInsets.symmetric(vertical: 14),
       ),
       child: Text(

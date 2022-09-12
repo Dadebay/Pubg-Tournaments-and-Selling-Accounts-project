@@ -32,7 +32,7 @@ class Login extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8, top: 25),
               child: Text(
-                "signInDialog".tr,
+                'signInDialog'.tr,
                 style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
               ),
             ),
@@ -48,29 +48,32 @@ class Login extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AgreeButton(onTap: () {
-                  if (login.currentState!.validate()) {
-                    Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-
-                    UserSignInModel().login(phone: phoneNumberController.text).then((value) {
-                      if (value == true) {
-                        Get.to(() => OtpCheck(
-                              phoneNumber: phoneNumberController.text,
-                            ));
-                      } else {
-                        showSnackBar("Status Code", "$value", Colors.red);
-                      }
-                    });
-                  } else {
-                    showSnackBar("Maglumatlar Doldur", "Doldur su maglumatlary", Colors.red);
-                  }
-                  Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                }),
+                AgreeButton(onTap: onTapp),
               ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  dynamic onTapp() {
+    if (login.currentState!.validate()) {
+      Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+      UserSignInModel().login(phone: phoneNumberController.text).then((value) {
+        if (value == true) {
+          Get.to(
+            () => OtpCheck(
+              phoneNumber: phoneNumberController.text,
+            ),
+          );
+        } else {
+          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+        }
+      });
+    } else {
+      showSnackBar('tournamentInfo14', 'errorEmpty', Colors.red);
+    }
+    Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
   }
 }

@@ -29,7 +29,7 @@ class _AddCartButtonState extends State<AddCartButton> {
     checkInCart();
   }
 
- dynamic checkInCart() {
+  dynamic checkInCart() {
     for (var element in walletController.cartList) {
       if (element['id'] == widget.ucModel.id) {
         number = element['count'];
@@ -47,69 +47,70 @@ class _AddCartButtonState extends State<AddCartButton> {
   }
 
   Widget numPart() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () {
-              if (number - 1 == 0) {
-                value = false;
-                number = 1;
-                walletController.removeCart(widget.ucModel.id!);
-              } else {
-                number--;
-              }
-              setState(() {});
-            },
-            child: const Icon(
-              CupertinoIcons.minus_circle,
-              color: Colors.white,
-              size: 24,
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        GestureDetector(
+          onTap: onTapp,
+          child: const Icon(
+            CupertinoIcons.minus_circle,
+            color: Colors.white,
+            size: 24,
           ),
-          Text(
-            number.toString(),
-            style: TextStyle(color: kPrimaryColor, fontSize: widget.productProfil ? 22 : 20, fontFamily: josefinSansBold),
+        ),
+        Text(
+          number.toString(),
+          style: TextStyle(color: kPrimaryColor, fontSize: widget.productProfil ? 22 : 20, fontFamily: josefinSansBold),
+        ),
+        GestureDetector(
+          onTap: () {
+            number++;
+            walletController.addCart(ucModel: widget.ucModel);
+            setState(() {});
+          },
+          child: const Icon(
+            CupertinoIcons.add_circled,
+            color: Colors.white,
+            size: 24,
           ),
-          GestureDetector(
-            onTap: () {
-              number++;
-              walletController.addCart(ucModel: widget.ucModel);
-              setState(() {});
-            },
-            child: const Icon(
-              CupertinoIcons.add_circled,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
+  void onTapp() {
+    if (number - 1 == 0) {
+      value = false;
+      number = 1;
+      walletController.removeCart(widget.ucModel.id!);
+    } else {
+      number--;
+    }
+    setState(() {});
+  }
+
   int a = 0;
+  checkStatus() {
+    a = 0;
+    for (var element in walletController.cartList) {
+      if (element['id'] == widget.ucModel.id) {
+        a = 1;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // checkInCart();
     return Obx(() {
-      a = 0;
-      for (var element in walletController.cartList) {
-        if (element['id'] == widget.ucModel.id) {
-          a = 1;
-        }
-      }
-
+      checkStatus();
       return Container(
         width: Get.size.width,
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ElevatedButton(
-          style: ElevatedButton.styleFrom(primary: kPrimaryColorBlack, padding: EdgeInsets.symmetric(vertical: widget.productProfil ? 14 : 0, horizontal: value ? 15 : 0), elevation: 0, shape: RoundedRectangleBorder(borderRadius: widget.productProfil ? borderRadius20 : borderRadius15)),
+          style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColorBlack, padding: EdgeInsets.symmetric(vertical: widget.productProfil ? 14 : 0, horizontal: value ? 15 : 0), elevation: 0, shape: RoundedRectangleBorder(borderRadius: widget.productProfil ? borderRadius20 : borderRadius15)),
           onPressed: () {
             setState(() {
-              if (value == false) {
+              if (!value) {
                 walletController.addCart(ucModel: widget.ucModel);
                 value = !value;
               }

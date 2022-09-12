@@ -21,18 +21,16 @@ class TabBarViewPage extends StatelessWidget {
               height: Get.size.height / 2,
               child: Center(
                 child: SizedBox(
-                    height: 180,
-                    width: 180,
-                    // padding: const EdgeInsets.all(15),
-                    // decoration: const BoxDecoration(borderRadius: borderRadius30, color: Colors.white),
-                    // alignment: Alignment.center,
-                    child: ClipRRect(
-                      borderRadius: borderRadius30,
-                      child: Image.asset(
-                        "assets/image/logo.png",
-                        fit: BoxFit.cover,
-                      ),
-                    )),
+                  height: 180,
+                  width: 180,
+                  child: ClipRRect(
+                    borderRadius: borderRadius30,
+                    child: Image.asset(
+                      logo,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
               ),
             ),
             SingleChildScrollView(
@@ -47,25 +45,26 @@ class TabBarViewPage extends StatelessWidget {
                         alignment: Alignment.bottomLeft,
                         padding: const EdgeInsets.only(left: 8),
                         child: TabBar(
-                            indicatorSize: TabBarIndicatorSize.label,
-                            isScrollable: true,
-                            indicatorColor: kPrimaryColor,
-                            automaticIndicatorColorAdjustment: true,
-                            labelStyle: const TextStyle(fontFamily: josefinSansMedium, fontSize: 22),
-                            unselectedLabelStyle: const TextStyle(fontFamily: josefinSansRegular),
-                            labelColor: Colors.white,
-                            indicatorWeight: 4,
-                            indicatorPadding: const EdgeInsets.only(top: 45, right: 25),
-                            indicator: const BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                            unselectedLabelColor: Colors.grey,
-                            tabs: [
-                              Tab(
-                                text: "signUp".tr,
-                              ),
-                              Tab(
-                                text: "signIn".tr,
-                              )
-                            ]),
+                          indicatorSize: TabBarIndicatorSize.label,
+                          isScrollable: true,
+                          indicatorColor: kPrimaryColor,
+                          automaticIndicatorColorAdjustment: true,
+                          labelStyle: const TextStyle(fontFamily: josefinSansMedium, fontSize: 22),
+                          unselectedLabelStyle: const TextStyle(fontFamily: josefinSansRegular),
+                          labelColor: Colors.white,
+                          indicatorWeight: 4,
+                          indicatorPadding: const EdgeInsets.only(top: 45, right: 25),
+                          indicator: const BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                          unselectedLabelColor: Colors.grey,
+                          tabs: [
+                            Tab(
+                              text: 'signUp'.tr,
+                            ),
+                            Tab(
+                              text: 'signIn'.tr,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     customDivider(),
@@ -83,17 +82,19 @@ class TabBarViewPage extends StatelessWidget {
               ),
             ),
             Positioned(
-                top: 30,
-                left: 10,
-                child: IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(
-                      IconlyLight.arrowLeftCircle,
-                      color: Colors.white,
-                      size: 30,
-                    ))),
+              top: 30,
+              left: 10,
+              child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: const Icon(
+                  IconlyLight.arrowLeftCircle,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              ),
+            ),
           ],
         ),
       ),

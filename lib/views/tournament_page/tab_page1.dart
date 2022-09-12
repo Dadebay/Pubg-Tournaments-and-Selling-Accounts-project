@@ -2,6 +2,7 @@
 
 import 'package:flutter_html/flutter_html.dart';
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 
@@ -171,6 +172,10 @@ class TabPage1 extends StatelessWidget {
     TournamentModel().participateTournament(tournamentID: model.id!).then((value) {
       if (value == 200) {
         Get.back();
+        Get.back();
+        TournamentModel().getTournaments();
+        Get.find<WalletController>().getUserMoney();
+
         showSnackBar('tournamentInfo18', 'tournamentInfo17', kPrimaryColor);
       } else if (value == 400) {
         Get.back();

@@ -30,39 +30,44 @@ class SingIn extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
               child: Text(
-                "signInDialog".tr,
+                'signInDialog'.tr,
                 style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
               ),
             ),
-            CustomTextField(labelName: "signIn1", controller: fullNameController, focusNode: fullNameFocusNode, requestfocusNode: idFocusNode, borderRadius: true, isNumber: false),
-            CustomTextField(labelName: "signIn2", controller: idController, focusNode: idFocusNode, requestfocusNode: phoneNumberFocusNode, borderRadius: true, isNumber: false),
+            CustomTextField(labelName: 'signIn1', controller: fullNameController, focusNode: fullNameFocusNode, requestfocusNode: idFocusNode, borderRadius: true, isNumber: false),
+            CustomTextField(labelName: 'signIn2', controller: idController, focusNode: idFocusNode, requestfocusNode: phoneNumberFocusNode, borderRadius: true, isNumber: false),
             PhoneNumber(
               mineFocus: phoneNumberFocusNode,
               controller: phoneNumberController,
               requestFocus: fullNameFocusNode,
               style: false,
             ),
-            AgreeButton(onTap: () {
-              if (_signUp.currentState!.validate()) {
-                Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-
-                UserSignInModel().signUp(username: fullNameController.text, pubgID: idController.text, phoneNumber: phoneNumberController.text).then((value) {
-                  if (value == true) {
-                    Get.to(() => OtpCheck(
-                          phoneNumber: phoneNumberController.text,
-                        ));
-                  } else {
-                    showSnackBar("Status Code", "$value", Colors.red);
-                  }
-                });
-              } else {
-                showSnackBar("Maglumatlar Doldur", "Doldur su maglumatlary", Colors.red);
-              }
-              Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-            })
+            AgreeButton(onTap: onTapp)
           ],
         ),
       ),
     );
+  }
+
+  dynamic onTapp() {
+    if (_signUp.currentState!.validate()) {
+      Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+      UserSignInModel().signUp(username: fullNameController.text, pubgID: idController.text, phoneNumber: phoneNumberController.text).then((value) {
+        if (value == 200) {
+          Get.to(
+            () => OtpCheck(
+              phoneNumber: phoneNumberController.text,
+            ),
+          );
+        } else if (value == 409) {
+          showSnackBar('noConnection3', 'alreadyExist', Colors.red);
+        } else {
+          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+        }
+      });
+    } else {
+      showSnackBar('tournamentInfo14', 'errorEmpty', Colors.red);
+    }
+    Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
   }
 }

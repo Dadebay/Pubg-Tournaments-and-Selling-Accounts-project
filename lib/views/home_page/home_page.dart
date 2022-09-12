@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HomePageController homePageController = Get.put(HomePageController());
+
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
@@ -24,16 +25,63 @@ class _HomePageState extends State<HomePage> {
     _onRefresh();
   }
 
+  dynamic getData() {
+    if (homePageController.list.isEmpty && homePageController.loading.value == 0) {
+      return waitingData();
+    } else if (homePageController.loading.value == 2) {
+      return cannotLoadData(
+        withButton: false,
+        onTap: () {
+          AccountsForSaleModel().getAccounts(
+            parametrs: {
+              'page': '${homePageController.pageNumber}',
+              'size': '10',
+              'vip': '1',
+              'for_sale': '1',
+            },
+          );
+        },
+        text: 'errorPubgAccounts'.tr,
+      );
+    } else if (homePageController.list.isEmpty && homePageController.loading.value != 1) {
+      return cannotLoadData(
+        withButton: true,
+        onTap: () {
+          AccountsForSaleModel().getAccounts(
+            parametrs: {
+              'page': '${homePageController.pageNumber}',
+              'size': '10',
+              'vip': '1',
+              'for_sale': '1',
+            },
+          );
+        },
+        text: 'errorPubgAccounts'.tr,
+      );
+    }
+    return ListView.builder(
+      itemCount: homePageController.list.length,
+      physics: const NeverScrollableScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) {
+        return HomePageCard(vip: homePageController.list[index].vip ?? false, model: homePageController.list[index]);
+      },
+    );
+  }
+
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     homePageController.list.clear();
     homePageController.pageNumber.value = 1;
-    AccountsForSaleModel().getAccounts(parametrs: {
-      "page": "${homePageController.pageNumber}",
-      "size": "10",
-      "vip": "1",
-      "for_sale": "1",
-    });
+    await AccountsForSaleModel().getAccounts(
+      parametrs: {
+        'page': '${homePageController.pageNumber}',
+        'size': '10',
+        'vip': '1',
+        'for_sale': '1',
+      },
+    );
     _refreshController.refreshCompleted();
   }
 
@@ -41,80 +89,49 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(const Duration(milliseconds: 1000));
     if (mounted) {
       homePageController.pageNumber.value += 1;
-      AccountsForSaleModel().getAccounts(parametrs: {
-        "page": "${homePageController.pageNumber}",
-        "size": "10",
-        "vip": "1",
-        "for_sale": "1",
-      });
+      await AccountsForSaleModel().getAccounts(
+        parametrs: {
+          'page': '${homePageController.pageNumber}',
+          'size': '10',
+          'vip': '1',
+          'for_sale': '1',
+        },
+      );
     }
     _refreshController.loadComplete();
   }
 
+  // ignore: member-ordering-extended
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: kPrimaryColorBlack,
-          appBar: const MyAppBar(fontSize: 0, backArrow: false, iconRemove: true, name: "Pubg House", elevationWhite: false),
-          body: SmartRefresher(
-            footer: footer(),
-            controller: _refreshController,
-            onRefresh: _onRefresh,
-            onLoading: _onLoading,
-            enablePullDown: true,
-            enablePullUp: true,
-            physics: const BouncingScrollPhysics(),
-            header: const MaterialClassicHeader(
-              color: kPrimaryColor,
-            ),
-            child: ListView(
-              children: [
-                Banners(future: homePageController.futureBanner),
-                listViewName("pubgTypes".tr, false),
-                PubgTypes(future: homePageController.futurePubgType),
-                listViewName("accountsForSale".tr, true),
-                Obx(() {
-                  if (homePageController.list.isEmpty && homePageController.loading.value == 0) {
-                    return waitingData();
-                  } else if (homePageController.loading.value == 2) {
-                    return cannotLoadData(
-                        withButton: false,
-                        onTap: () {
-                          AccountsForSaleModel().getAccounts(parametrs: {
-                            "page": "${homePageController.pageNumber}",
-                            "size": "10",
-                            "vip": "1",
-                            "for_sale": "1",
-                          });
-                        },
-                        text: "errorPubgAccounts".tr);
-                  } else if (homePageController.list.isEmpty && homePageController.loading.value != 1) {
-                    return cannotLoadData(
-                        withButton: true,
-                        onTap: () {
-                          AccountsForSaleModel().getAccounts(parametrs: {
-                            "page": "${homePageController.pageNumber}",
-                            "size": "10",
-                            "vip": "1",
-                            "for_sale": "1",
-                          });
-                        },
-                        text: "errorPubgAccounts".tr);
-                  }
-                  return ListView.builder(
-                    itemCount: homePageController.list.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return HomePageCard(vip: homePageController.list[index].vip ?? false, model: homePageController.list[index]);
-                    },
-                  );
-                }),
-              ],
-            ),
-          )),
+        backgroundColor: kPrimaryColorBlack,
+        appBar: const MyAppBar(fontSize: 0, backArrow: false, iconRemove: true, name: appName, elevationWhite: false),
+        body: SmartRefresher(
+          footer: footer(),
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          enablePullDown: true,
+          enablePullUp: true,
+          physics: const BouncingScrollPhysics(),
+          header: const MaterialClassicHeader(
+            color: kPrimaryColor,
+          ),
+          child: ListView(
+            children: [
+              Banners(future: homePageController.futureBanner),
+              listViewName('pubgTypes'.tr, false),
+              PubgTypes(future: homePageController.futurePubgType),
+              listViewName('accountsForSale'.tr, true),
+              Obx(() {
+                return getData();
+              }),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

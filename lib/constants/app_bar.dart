@@ -3,22 +3,28 @@
 import 'package:game_app/constants/index.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSize {
-  final Widget? icon;
   final bool backArrow;
-  final bool iconRemove;
-
-  final String name;
   final bool elevationWhite;
   final double? fontSize;
+  final Widget? icon;
+  final bool iconRemove;
+  final String name;
+
   const MyAppBar({
-    Key? key,
-    this.icon,
     required this.fontSize,
     required this.backArrow,
     required this.iconRemove,
     required this.name,
     required this.elevationWhite,
+    this.icon,
+    Key? key,
   }) : super(key: key);
+
+  @override
+  Widget get child => Text('ad');
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight + 1);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +47,7 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
                 )
               : SizedBox.shrink(),
           actions: [
-            if (iconRemove == true)
+            if (iconRemove)
               SizedBox.shrink()
             else
               Padding(
@@ -57,23 +63,18 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: Colors.white,
-                fontFamily: josefinSansSemiBold,
-                fontSize: fontSize == 0.0
-                    ? sizeWidth > 800
-                        ? 35
-                        : 25
-                    : fontSize),
+              color: Colors.white,
+              fontFamily: josefinSansSemiBold,
+              fontSize: fontSize == 0.0
+                  ? sizeWidth > 800
+                      ? 35
+                      : 25
+                  : fontSize,
+            ),
           ),
         ),
         elevationWhite ? customDivider() : SizedBox.shrink(),
       ],
     );
   }
-
-  @override
-  Widget get child => Text("ad");
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight + 1);
 }

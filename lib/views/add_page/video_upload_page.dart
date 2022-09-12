@@ -3,6 +3,9 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:game_app/connection_check.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/add_account_model.dart';
@@ -12,6 +15,7 @@ import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoUploadPage extends StatefulWidget {
@@ -22,55 +26,41 @@ class VideoUploadPage extends StatefulWidget {
 }
 
 class _VideoUploadPageState extends State<VideoUploadPage> {
-  File? selectedImage;
-
-  Future pickImage() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) {
-        return;
-      }
-      final imageTemporary = File(image.path);
-      setState(() {
-        selectedImage = imageTemporary;
-      });
-    } catch (error) {
-      showSnackBar('noConnection3', '$error', Colors.red);
-    }
-  }
-
   VideoPlayerController? _controller;
   Future<void>? _initializeVideoPlayerFuture;
   File? selectedVideo;
+  late FlickManager flickManager;
+
   Future pickVideo() async {
     try {
-      XFile? video = await ImagePicker().pickVideo(source: ImageSource.gallery, maxDuration: const Duration(seconds: 30));
-      if (video == null) {
-        return;
-      }
-      final imageTemporary = File(video.path);
-      final bytes = imageTemporary.readAsBytesSync().lengthInBytes;
-      final kb = bytes / 1024;
-      final mb = kb / 1024;
-      final VideoPlayerController testLengthController = VideoPlayerController.file(
-        File(video.path),
-      ); //Your file here
-      await testLengthController.initialize();
-
-      if (testLengthController.value.duration.inSeconds > 60) {
-        showSnackBar('noConnection3', 'video_upload_subtitle_error', Colors.red);
-        video = null;
-      } else {
-        if (15.0 >= mb) {
-          setState(() {
-            selectedVideo = imageTemporary;
-            _controller = VideoPlayerController.file(selectedVideo!);
-            _controller!.pause();
-            _initializeVideoPlayerFuture = _controller!.initialize();
-          });
-        } else {
-          showSnackBar('noConnection3', 'video_size_error', Colors.amber);
+      if (a >= myNumber) {
+        XFile? video = await ImagePicker().pickVideo(source: ImageSource.gallery, maxDuration: const Duration(seconds: 30));
+        if (video == null) {
+          return;
+        }
+        final imageTemporary = File(video.path);
+        final bytes = imageTemporary.readAsBytesSync().lengthInBytes;
+        final kb = bytes / 1024;
+        final mb = kb / 1024;
+        final VideoPlayerController testLengthController = VideoPlayerController.file(
+          File(video.path),
+        ); //Your file here
+        await testLengthController.initialize();
+        if (testLengthController.value.duration.inSeconds > 60) {
+          showSnackBar('noConnection3', 'video_upload_subtitle_error', Colors.red);
           video = null;
+        } else {
+          if (30.0 >= mb) {
+            setState(() {
+              selectedVideo = imageTemporary;
+              _controller = VideoPlayerController.file(selectedVideo!);
+              _controller!.pause();
+              _initializeVideoPlayerFuture = _controller!.initialize();
+            });
+          } else {
+            showSnackBar('noConnection3', 'video_size_error', Colors.amber);
+            video = null;
+          }
         }
       }
     } catch (error) {
@@ -81,6 +71,9 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
   @override
   void dispose() {
     super.dispose();
+    flickManager.dispose();
+    Get.find<SettingsController>().agreeButton.value = false;
+
     _controller!.dispose();
   }
 
@@ -105,7 +98,7 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kPrimaryColorBlack,
-        appBar: const MyAppBar(fontSize: 20, backArrow: true, iconRemove: false, name: 'videoUpload', elevationWhite: true),
+        appBar: const MyAppBar(fontSize: 20, backArrow: false, iconRemove: false, name: 'videoUpload', elevationWhite: true),
         body: Container(
           color: kPrimaryColorBlack,
           width: Get.size.width,
@@ -122,20 +115,48 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
                   style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
                 ),
               ),
-              Text(
-                '$myNumber/$a',
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  '$myNumber/$a',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 25),
+                ),
               ),
-              Row(
-                children: [
-                  Expanded(child: selectImage()),
-                  Expanded(child: videoPlayer()),
-                ],
+              videoPlayer(),
+              const SizedBox(
+                height: 20,
               ),
               AgreeButton(
                 onTap: onTapp,
               ),
+              SizedBox(
+                width: Get.size.width,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return const ConnectionCheck();
+                        },
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kPrimaryColorBlack,
+                    elevation: 0.0,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    shape: const RoundedRectangleBorder(borderRadius: borderRadius20),
+                  ),
+                  child: Text(
+                    'pass'.tr,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 20),
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -143,63 +164,55 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
     );
   }
 
-  dynamic selectImage() {
-    if (selectedImage != null) {
-      return GestureDetector(
-        onTap: () {
-          pickImage();
-        },
-        child: Container(
-          height: 170,
-          padding: const EdgeInsets.only(top: 10, bottom: 10, right: 10),
-          child: ClipRRect(
-            borderRadius: borderRadius15,
-            child: Image.file(selectedImage!, fit: BoxFit.cover),
-          ),
-        ),
-      );
-    } else {
-      return GestureDetector(
-        onTap: () {
-          pickImage();
-        },
-        child: Container(
-          height: 170,
-          padding: const EdgeInsets.only(top: 10, bottom: 10, right: 10),
-          child: DottedBorder(
-            borderType: BorderType.RRect,
-            radius: const Radius.circular(12),
-            padding: const EdgeInsets.all(6),
-            strokeWidth: 2,
-            color: kPrimaryColor,
-            child: const Center(
-              child: Text(
-                'Video Poster Image',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 20),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-  }
-
   FutureBuilder<void> videoPlayer() {
     return FutureBuilder(
       future: _initializeVideoPlayerFuture,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.connectionState == ConnectionState.done && selectedVideo != null) {
           return GestureDetector(
             onTap: () {
               pickVideo();
             },
-            child: Container(
-              height: 170,
-              padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
-              child: const ClipRRect(
-                borderRadius: borderRadius15,
-                child: Text('asd'),
+            child: SizedBox(
+              height: 250,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: ClipRRect(
+                      borderRadius: borderRadius15,
+                      child: FlickVideoPlayer(
+                        flickVideoWithControls: FlickVideoWithControls(
+                          controls: FlickPortraitControls(
+                            progressBarSettings: FlickProgressBarSettings(),
+                          ),
+                          videoFit: BoxFit.fitHeight,
+                        ),
+                        preferredDeviceOrientation: const [
+                          DeviceOrientation.portraitDown,
+                          DeviceOrientation.portraitUp,
+                        ],
+                        preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
+                        flickManager: FlickManager(
+                          videoPlayerController: VideoPlayerController.file(selectedVideo!),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: IconButton(
+                      onPressed: () {
+                        pickVideo();
+                      },
+                      icon: const Icon(
+                        CupertinoIcons.xmark_circle,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
           );
@@ -209,7 +222,7 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
               pickVideo();
             },
             child: Container(
-              height: 170,
+              height: 250,
               padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
               child: DottedBorder(
                 borderType: BorderType.RRect,
@@ -233,42 +246,62 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
   }
 
   onTapp() async {
-    Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+    debugPrint(a.toString());
+    debugPrint(myNumber.toString());
+    if (a >= myNumber) {
+      if (!Get.find<SettingsController>().agreeButton.value) {
+        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
 
-    final token = await Auth().getToken();
-    final headers = {'Authorization': 'Bearer $token'};
-    final request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/upload-video/'));
-    request.headers.addAll(headers);
+        final token = await Auth().getToken();
+        final headers = {'Authorization': 'Bearer $token'};
+        final request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/upload-video/'));
+        request.headers.addAll(headers);
 
-    final String fileName = selectedImage!.path.split('/').last;
-    final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
-    final length = await selectedImage!.length();
-    final mimeTypeData = lookupMimeType(selectedImage!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-    final multipartFileSign = http.MultipartFile('poster', stream, length, filename: fileName, contentType: MediaType(mimeTypeData.first, mimeTypeData[1]));
-    request.files.add(multipartFileSign);
+        //Video Thumbnail Image
+        final thumbnailFile = await VideoCompress.getFileThumbnail(
+          selectedVideo!.path,
+          quality: 100, // default(100)
+          position: -1, // default(-1)
+        );
+        final String fileName = thumbnailFile.path.split('/').last;
+        final stream = http.ByteStream(DelegatingStream.typed(thumbnailFile.openRead()));
+        final length = await thumbnailFile.length();
+        final mimeTypeData = lookupMimeType(thumbnailFile.path, headerBytes: [0xFF, 0xD8])!.split('/');
+        final multipartFileSign = http.MultipartFile('poster', stream, length, filename: fileName, contentType: MediaType(mimeTypeData.first, mimeTypeData[1]));
+        request.files.add(multipartFileSign);
+        //Video Thumbnail Image
 
-    final String fileName1 = selectedVideo!.path.split('/').last;
-    final stream1 = http.ByteStream(DelegatingStream.typed(selectedVideo!.openRead()));
-    final length1 = await selectedVideo!.length();
-    final mimeTypeData1 = lookupMimeType(selectedVideo!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-    final multipartFileSign1 = http.MultipartFile('video', stream1, length1, filename: fileName1, contentType: MediaType(mimeTypeData1.first, mimeTypeData1[1]));
-    request.files.add(multipartFileSign1);
+        final String fileName1 = selectedVideo!.path.split('/').last;
+        final stream1 = http.ByteStream(DelegatingStream.typed(selectedVideo!.openRead()));
+        final length1 = await selectedVideo!.length();
+        final mimeTypeData1 = lookupMimeType(selectedVideo!.path, headerBytes: [0xFF, 0xD8])!.split('/');
+        final multipartFileSign1 = http.MultipartFile('video', stream1, length1, filename: fileName1, contentType: MediaType(mimeTypeData1.first, mimeTypeData1[1]));
+        request.files.add(multipartFileSign1);
 
-    final http.StreamedResponse response = await request.send();
-    print(response.stream);
-    print(response.statusCode);
-    print(response.reasonPhrase);
-    if (response.statusCode == 200) {
-      myNumber++;
-      showSnackBar('Video', '$myNumber video upload boldy', Colors.green);
-      setState(() {});
-      selectedImage = null;
-      await selectedVideo!.delete();
-
-      print('geeeeeeeeeeeeeeeeeeeeeeeeeeeecccccccccccccccccccddddddddddddddddddddddddddiiiiiiiiiiiiiiiiii');
+        final http.StreamedResponse response = await request.send();
+        debugPrint(response.statusCode.toString());
+        if (response.statusCode == 200) {
+          myNumber++;
+          selectedVideo = null;
+          await _controller!.pause();
+          showSnackBar('done', 'done1', Colors.green);
+          setState(() {});
+        } else {
+          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+        }
+        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+      } else {
+        showSnackBar('videoUploading', 'videoUploading1', kPrimaryColor);
+      }
     } else {
-      print(response.reasonPhrase);
+      await Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return const ConnectionCheck();
+          },
+        ),
+      );
+      showSnackBar('allUploadMax', 'allUpload', Colors.red);
     }
-    Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
   }
 }

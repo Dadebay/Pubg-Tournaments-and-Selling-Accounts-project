@@ -123,9 +123,11 @@ class _UserProfilState extends State<UserProfil> {
             ? ProfilButton(
                 name: 'editProfil',
                 onTap: () {
-                  Get.to(() => EditWorkProfile(
-                        model: model,
-                      ));
+                  Get.to(
+                    () => EditWorkProfile(
+                      model: model,
+                    ),
+                  );
                 },
                 icon: IconlyLight.category,
               )

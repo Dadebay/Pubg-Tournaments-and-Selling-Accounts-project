@@ -13,15 +13,15 @@ class CustomTextField extends StatelessWidget {
   final bool? disabled;
 
   const CustomTextField({
-    Key? key,
     required this.labelName,
-    this.maxline,
-    this.borderRadius,
-    this.disabled,
     required this.controller,
     required this.focusNode,
     required this.requestfocusNode,
     required this.isNumber,
+    this.maxline,
+    this.borderRadius,
+    this.disabled,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         validator: (value) {
           if (value!.isEmpty) {
-            return "errorEmpty".tr;
+            return 'errorEmpty'.tr;
           }
           return null;
         },

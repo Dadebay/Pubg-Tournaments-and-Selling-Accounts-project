@@ -8,9 +8,9 @@ class Price extends StatelessWidget {
   final String price;
   final String? discountedPrice;
   const Price({
-    Key? key,
     required this.showDiscountedPrice,
     required this.price,
+    Key? key,
     this.discountedPrice,
   }) : super(key: key);
   @override
@@ -19,18 +19,22 @@ class Price extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: showDiscountedPrice ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
-        Text(price,
-            style: TextStyle(
-              color: showDiscountedPrice ? Colors.white : kPrimaryColor,
-              fontSize: 23,
-              fontFamily: josefinSansSemiBold,
-            )),
-        Text(" TMT",
-            style: TextStyle(
-              color: showDiscountedPrice ? Colors.white : kPrimaryColor,
-              fontSize: 14,
-              fontFamily: josefinSansSemiBold,
-            )),
+        Text(
+          price,
+          style: TextStyle(
+            color: showDiscountedPrice ? Colors.white : kPrimaryColor,
+            fontSize: 23,
+            fontFamily: josefinSansSemiBold,
+          ),
+        ),
+        Text(
+          ' TMT',
+          style: TextStyle(
+            color: showDiscountedPrice ? Colors.white : kPrimaryColor,
+            fontSize: 14,
+            fontFamily: josefinSansSemiBold,
+          ),
+        ),
       ],
     );
   }

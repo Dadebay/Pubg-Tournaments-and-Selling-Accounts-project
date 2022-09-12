@@ -13,8 +13,8 @@ import 'text_part.dart';
 class AccountProfilPage extends StatefulWidget {
   final int userID;
   const AccountProfilPage({
-    Key? key,
     required this.userID,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -44,38 +44,40 @@ class _AccountProfilPageState extends State<AccountProfilPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          backgroundColor: kPrimaryColorBlack,
-          body: FutureBuilder<AccountByIdModel>(
-              future: AccountByIdModel().getAccountById(widget.userID),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: spinKit());
-                } else if (snapshot.hasError) {
-                  return noData(
-                    "account_profil_not_found".tr,
-                  );
-                } else if (snapshot.data == null) {
-                  return noData(
-                    "account_profil_not_found".tr,
-                  );
-                }
-                getData(snapshot.data!.pubgType.toString(), snapshot.data!.location.toString());
-                return NestedScrollView(
-                  headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                    return [sliverAppBar(snapshot.data!)];
-                  },
-                  body: TabBarView(
-                    children: [
-                      TabbarPage1(
-                        model: snapshot.data!,
-                      ),
-                      TabbarPage2(
-                        userID: widget.userID,
-                      ),
-                    ],
+        backgroundColor: kPrimaryColorBlack,
+        body: FutureBuilder<AccountByIdModel>(
+          future: AccountByIdModel().getAccountById(widget.userID),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: spinKit());
+            } else if (snapshot.hasError) {
+              return noData(
+                'account_profil_not_found'.tr,
+              );
+            } else if (snapshot.data == null) {
+              return noData(
+                'account_profil_not_found'.tr,
+              );
+            }
+            getData(snapshot.data!.pubgType.toString(), snapshot.data!.location.toString());
+            return NestedScrollView(
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                return [sliverAppBar(snapshot.data!)];
+              },
+              body: TabBarView(
+                children: [
+                  TabbarPage1(
+                    model: snapshot.data!,
                   ),
-                );
-              })),
+                  TabbarPage2(
+                    userID: widget.userID,
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -112,36 +114,37 @@ class _AccountProfilPageState extends State<AccountProfilPage> {
     return Padding(
       padding: const EdgeInsets.only(top: 10, right: 12),
       child: PopupMenuButton(
-          color: kPrimaryColorBlack,
-          padding: EdgeInsets.zero,
-          icon: Container(
-            padding: const EdgeInsets.all(9),
-            decoration: BoxDecoration(color: Colors.white.withOpacity(0.4), shape: BoxShape.circle),
-            child: const Icon(
-              Icons.more_horiz,
-              color: Colors.white,
+        color: kPrimaryColorBlack,
+        padding: EdgeInsets.zero,
+        icon: Container(
+          padding: const EdgeInsets.all(9),
+          decoration: BoxDecoration(color: Colors.white.withOpacity(0.4), shape: BoxShape.circle),
+          child: const Icon(
+            Icons.more_horiz,
+            color: Colors.white,
+          ),
+        ),
+        itemBuilder: (context) => <PopupMenuEntry<Text>>[
+          PopupMenuItem<Text>(
+            onTap: () async {
+              await launch('tel://${model.phone}');
+            },
+            child: Text(
+              'popUP1'.tr,
+              style: const TextStyle(fontFamily: josefinSansRegular),
             ),
           ),
-          itemBuilder: (context) => <PopupMenuEntry<Text>>[
-                PopupMenuItem<Text>(
-                  onTap: () async {
-                    await launch("tel://${model.phone}");
-                  },
-                  child: Text(
-                    'popUP1'.tr,
-                    style: const TextStyle(fontFamily: josefinSansRegular),
-                  ),
-                ),
-                PopupMenuItem<Text>(
-                  onTap: () async {
-                    await launch("sms:${model.phone}?body=Pubg House");
-                  },
-                  child: Text(
-                    'popUp2'.tr,
-                    style: const TextStyle(fontFamily: josefinSansRegular),
-                  ),
-                ),
-              ]),
+          PopupMenuItem<Text>(
+            onTap: () async {
+              await launch('sms:${model.phone}?body=Pubg House');
+            },
+            child: Text(
+              'popUp2'.tr,
+              style: const TextStyle(fontFamily: josefinSansRegular),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -154,25 +157,26 @@ class _AccountProfilPageState extends State<AccountProfilPage> {
           border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.2))),
         ),
         child: TabBar(
-            labelStyle: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 18),
-            unselectedLabelStyle: const TextStyle(color: Colors.grey, fontSize: 17, fontFamily: josefinSansRegular),
-            labelColor: kPrimaryColor,
-            unselectedLabelColor: Colors.grey,
-            indicatorSize: TabBarIndicatorSize.label,
-            indicatorColor: kPrimaryColor,
-            indicatorWeight: 4,
-            indicatorPadding: const EdgeInsets.only(
-              top: 45,
+          labelStyle: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 18),
+          unselectedLabelStyle: const TextStyle(color: Colors.grey, fontSize: 17, fontFamily: josefinSansRegular),
+          labelColor: kPrimaryColor,
+          unselectedLabelColor: Colors.grey,
+          indicatorSize: TabBarIndicatorSize.label,
+          indicatorColor: kPrimaryColor,
+          indicatorWeight: 4,
+          indicatorPadding: const EdgeInsets.only(
+            top: 45,
+          ),
+          indicator: const BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          tabs: [
+            Tab(
+              text: 'accountInfo'.tr,
             ),
-            indicator: const BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-            tabs: [
-              Tab(
-                text: "accountInfo".tr,
-              ),
-              Tab(
-                text: "accountVideos".tr,
-              ),
-            ]),
+            Tab(
+              text: 'accountVideos'.tr,
+            ),
+          ],
+        ),
       ),
     );
   }

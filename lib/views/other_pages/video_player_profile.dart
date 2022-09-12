@@ -56,17 +56,18 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
                   child: AspectRatio(
                     aspectRatio: _controller.value.aspectRatio,
                     child: FlickVideoPlayer(
-                        flickVideoWithControls: FlickVideoWithControls(
-                          controls: FlickPortraitControls(
-                            progressBarSettings: FlickProgressBarSettings(),
-                          ),
+                      flickVideoWithControls: FlickVideoWithControls(
+                        controls: FlickPortraitControls(
+                          progressBarSettings: FlickProgressBarSettings(),
                         ),
-                        preferredDeviceOrientation: const [
-                          DeviceOrientation.portraitDown,
-                          DeviceOrientation.portraitUp,
-                        ],
-                        preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
-                        flickManager: flickManager),
+                      ),
+                      preferredDeviceOrientation: const [
+                        DeviceOrientation.portraitDown,
+                        DeviceOrientation.portraitUp,
+                      ],
+                      preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
+                      flickManager: flickManager,
+                    ),
                   ),
                 );
               } else {

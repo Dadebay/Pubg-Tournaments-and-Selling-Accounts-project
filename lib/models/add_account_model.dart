@@ -7,6 +7,21 @@ import 'package:game_app/constants/index.dart';
 import 'package:http/http.dart' as http;
 
 class AddAccountModel extends GetxController {
+  final int? id;
+  final String? nickname;
+  final int? pubgType;
+  final int? location;
+  final bool? forSale;
+  final bool? vip;
+  final String? phone;
+  final String? bio;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
+  final String? image;
+  final String? price;
+  final String? pubgId;
+
   AddAccountModel({
     this.id,
     this.pubgType,
@@ -26,64 +41,33 @@ class AddAccountModel extends GetxController {
 
   factory AddAccountModel.fromJson(Map<dynamic, dynamic> json) {
     return AddAccountModel(
-      id: json["id"],
-      pubgType: json["pubg_type"],
-      lastName: json["last_name"],
-      forSale: json["for_sale"],
-      bio: json["bio"],
-      email: json["email"],
-      vip: json["vip"],
-      location: json["location"],
-      firstName: json["first_name"],
-      image: json["image"],
-      nickname: json["pubg_username"],
-      phone: json["phone"],
-      price: json["price"],
-      pubgId: json["pubg_id"],
+      id: json['id'],
+      pubgType: json['pubg_type'],
+      lastName: json['last_name'],
+      forSale: json['for_sale'],
+      bio: json['bio'],
+      email: json['email'],
+      vip: json['vip'],
+      location: json['location'],
+      firstName: json['first_name'],
+      image: json['image'],
+      nickname: json['pubg_username'],
+      phone: json['phone'],
+      price: json['price'],
+      pubgId: json['pubg_id'],
     );
   }
 
-  final int? id;
-  final String? nickname;
-  final int? pubgType;
-  final int? location;
-  final bool? forSale;
-  final bool? vip;
-  final String? phone;
-  final String? bio;
-  final String? email;
-  final String? firstName;
-  final String? lastName;
-  final String? image;
-  final String? price;
-  final String? pubgId;
-
-  // Future sendData(Map<String, dynamic> body) async {
-  //   final token = await Auth().getToken();
-  //   final response = await http.post(Uri.parse("$serverURL/api/accounts/update-account/"),
-  //       headers: <String, String>{
-  //         HttpHeaders.contentTypeHeader: 'multipart/form-data',
-  //         HttpHeaders.authorizationHeader: 'Bearer $token',
-  //       },
-  //       body: jsonEncode(body));
-  //   if (response.statusCode == 200) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   Future getConsts() async {
     final response = await http.get(
-      Uri.parse("$serverURL/api/about/consts/"),
+      Uri.parse('$serverURL/api/about/consts/'),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
     if (response.statusCode == 200) {
-      var decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
-      return responseJson;
+      final decoded = utf8.decode(response.bodyBytes);
+      return json.decode(decoded);
     } else {
       return false;
     }

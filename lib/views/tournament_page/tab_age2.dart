@@ -7,12 +7,15 @@ class TabPage2 extends StatelessWidget {
   final TournamentModel model;
 
   List icons = [
-    "assets/icons/tier/1.png",
-    "assets/icons/tier/2.png",
-    "assets/icons/tier/3.png",
+    'assets/icons/tier/1.png',
+    'assets/icons/tier/2.png',
+    'assets/icons/tier/3.png',
   ];
 
-  TabPage2({Key? key, required this.model}) : super(key: key);
+  TabPage2({
+    required this.model,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +23,27 @@ class TabPage2 extends StatelessWidget {
       itemCount: model.awards!.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
-            tileColor: index % 2 == 0 ? kPrimaryColorBlack : kPrimaryColorBlack1,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    " ${index + 1} )",
-                    style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
-                  ),
+          tileColor: index % 2 == 0 ? kPrimaryColorBlack : kPrimaryColorBlack1,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Text(
+                  ' ${index + 1} )',
+                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    model.awards![index].award.toString().substring(0, model.awards![index].award!.length - 3) + " TMT",
-                    style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: josefinSansRegular),
-                  ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Text(
+                  model.awards![index].award.toString().substring(0, model.awards![index].award!.length - 3) + ' TMT',
+                  style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: josefinSansRegular),
                 ),
-              ],
-            ));
+              ),
+            ],
+          ),
+        );
       },
     );
   }

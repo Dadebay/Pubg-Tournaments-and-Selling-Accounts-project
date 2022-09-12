@@ -9,17 +9,18 @@ import 'package:game_app/views/tournament_page/tab_age3.dart';
 import 'package:game_app/views/tournament_page/tab_page1.dart';
 
 class TournamentProfilPage extends StatefulWidget {
-  const TournamentProfilPage({
-    Key? key,
-    required this.tag,
-    required this.image,
-    required this.tournamentId,
-    required this.finised,
-  }) : super(key: key);
   final String tag;
   final String image;
   final int tournamentId;
   final bool finised;
+  const TournamentProfilPage({
+    required this.tag,
+    required this.image,
+    required this.tournamentId,
+    required this.finised,
+    Key? key,
+  }) : super(key: key);
+
   @override
   State<TournamentProfilPage> createState() => _TournamentProfilPageState();
 }
@@ -27,7 +28,7 @@ class TournamentProfilPage extends StatefulWidget {
 class _TournamentProfilPageState extends State<TournamentProfilPage> {
   final ScrollController _sliverScrollController = ScrollController();
   final TournamentController controller = Get.put(TournamentController());
-  String buttonName = "tournamentInfo11".tr;
+  String buttonName = 'tournamentInfo11'.tr;
   @override
   void initState() {
     super.initState();
@@ -41,16 +42,17 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
     checkStatus();
   }
 
-  checkStatus() async {
+  dynamic checkStatus() async {
     await TournamentModel().checkStatus(tournamentID: widget.tournamentId, value: false).then((value) {
       if (value == 200) {
-        buttonName = "tournamentInfo12".tr;
+        buttonName = 'tournamentInfo12'.tr;
       } else if (value == 204) {
-        buttonName = "tournamentInfo12".tr;
+        buttonName = 'tournamentInfo12'.tr;
       } else {
-        buttonName = "tournamentInfo11".tr;
+        buttonName = 'tournamentInfo11'.tr;
       }
     });
+    return 'tournamentInfo11'.tr;
   }
 
   @override
@@ -58,43 +60,47 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-          backgroundColor: kPrimaryColorBlack,
-          body: NestedScrollView(
-            controller: _sliverScrollController,
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return [appBar()];
+        backgroundColor: kPrimaryColorBlack,
+        body: NestedScrollView(
+          controller: _sliverScrollController,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [appBar()];
+          },
+          body: FutureBuilder<TournamentModel>(
+            future: TournamentModel().getTournamentID(widget.tournamentId),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: spinKit());
+              } else if (snapshot.hasError) {
+                return noData('tournamentInfo14');
+              } else if (snapshot.data == null) {
+                return noData('tournamentInfo14');
+              }
+              return TabBarView(
+                children: <Widget>[
+                  TabPage1(
+                    finised: widget.finised,
+                    model: snapshot.data!,
+                    buttonName: buttonName,
+                  ),
+                  TabPage2(
+                    model: snapshot.data!,
+                  ),
+                  snapshot.data!.participated_users!.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: noData('tournamentInfo13'),
+                        )
+                      : TabPage3(
+                          finised: widget.finised,
+                          model: snapshot.data!,
+                        ),
+                ],
+              );
             },
-            body: FutureBuilder<TournamentModel>(
-                future: TournamentModel().getTournamentID(widget.tournamentId),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: spinKit());
-                  } else if (snapshot.hasError) {
-                    return noData("tournamentInfo14");
-                  } else if (snapshot.data == null) {
-                    return noData("tournamentInfo14");
-                  }
-                  return TabBarView(children: <Widget>[
-                    TabPage1(
-                      finised: widget.finised,
-                      model: snapshot.data!,
-                      buttonName: buttonName,
-                    ),
-                    TabPage2(
-                      model: snapshot.data!,
-                    ),
-                    snapshot.data!.participated_users!.isEmpty
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: noData("tournamentInfo13"),
-                          )
-                        : TabPage3(
-                            finised: widget.finised,
-                            model: snapshot.data!,
-                          ),
-                  ]);
-                }),
-          )),
+          ),
+        ),
+      ),
     );
   }
 
@@ -131,13 +137,13 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
         unselectedLabelColor: Colors.grey,
         tabs: [
           Tab(
-            text: "tournamentInfo1".tr,
+            text: 'tournamentInfo1'.tr,
           ),
           Tab(
-            text: "tournamentInfo2".tr,
+            text: 'tournamentInfo2'.tr,
           ),
           Tab(
-            text: widget.finised ? "tournamentInfo3".tr : "tournamentInfo4".tr,
+            text: widget.finised ? 'tournamentInfo3'.tr : 'tournamentInfo4'.tr,
           )
         ],
       ),
@@ -150,19 +156,20 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
             child: Hero(
               tag: widget.tag,
               child: CachedNetworkImage(
-                  fadeInCurve: Curves.ease,
-                  imageUrl: widget.image,
-                  imageBuilder: (context, imageProvider) => Container(
-                        width: Get.size.width,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                  placeholder: (context, url) => Center(child: spinKit()),
-                  errorWidget: (context, url, error) => const Text("No Image")),
+                fadeInCurve: Curves.ease,
+                imageUrl: widget.image,
+                imageBuilder: (context, imageProvider) => Container(
+                  width: Get.size.width,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) => Center(child: spinKit()),
+                errorWidget: (context, url, error) => const Text('No Image'),
+              ),
             ),
           ),
           crossFadeState: controller.sliverBool.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,

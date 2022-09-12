@@ -13,7 +13,6 @@ class UserSignInModel {
   final String? name;
   final int? ownerId;
   final String? phoneNumber;
-
   UserSignInModel({this.name, this.phoneNumber, this.ownerId});
 
   factory UserSignInModel.fromJson(Map<String, dynamic> json) {
@@ -36,12 +35,9 @@ class UserSignInModel {
         'pubg_id': pubgID,
       }),
     );
-    showSnackBar('Sms Kod', response.body, kPrimaryColor);
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return response.statusCode;
-    }
+    debugPrint(response.body);
+
+    return response.statusCode;
   }
 
   Future otpCheck({
@@ -92,31 +88,51 @@ class UserSignInModel {
   }
 }
 
-class GetMeModel extends GetxController {
-  final int? id;
-  final String? nickname;
-
-  final int? pubgType;
-  final int? location;
-  final int? user;
-  final bool? verified;
-  final bool? forSale;
-  final bool? vip;
-  final String? phone;
+class GetMeModel {
+  final String? bgImage;
   final String? bio;
-  final String? points;
-
   final String? createdDate;
   final String? email;
   final String? firstName;
-  final String? lastName;
-
+  final bool? forSale;
+  final int? id;
   final String? image;
+  final String? lastName;
+  final int? location;
+  final String? nickname;
+  final String? phone;
+  final String? points;
   final String? pointsFromTurnir;
   final String? price;
   final String? pubgId;
+  final int? pubgType;
   final String? updatedDate;
-  GetMeModel({this.id, this.pubgType, this.vip, this.location, this.user, this.verified, this.forSale, this.bio, this.createdDate, this.email, this.firstName, this.image, this.lastName, this.nickname, this.phone, this.points, this.pointsFromTurnir, this.price, this.pubgId, this.updatedDate});
+  final int? user;
+  final bool? verified;
+  final bool? vip;
+  GetMeModel({
+    this.id,
+    this.pubgType,
+    this.vip,
+    this.bgImage,
+    this.location,
+    this.user,
+    this.verified,
+    this.forSale,
+    this.bio,
+    this.createdDate,
+    this.email,
+    this.firstName,
+    this.image,
+    this.lastName,
+    this.nickname,
+    this.phone,
+    this.points,
+    this.pointsFromTurnir,
+    this.price,
+    this.pubgId,
+    this.updatedDate,
+  });
 
   factory GetMeModel.fromJson(Map<dynamic, dynamic> json) {
     return GetMeModel(
@@ -125,6 +141,7 @@ class GetMeModel extends GetxController {
       lastName: json['last_name'],
       verified: json['verified'],
       forSale: json['for_sale'],
+      bgImage: json['bg_image'],
       bio: json['bio'],
       createdDate: json['created_date'],
       email: json['email'],

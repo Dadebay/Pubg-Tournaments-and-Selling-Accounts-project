@@ -22,7 +22,7 @@ class _SettingsState extends State<Settings> {
         backArrow: true,
         iconRemove: true,
         fontSize: 0.0,
-        name: "settings",
+        name: 'settings',
         elevationWhite: true,
       ),
       body: Column(
@@ -33,85 +33,63 @@ class _SettingsState extends State<Settings> {
             height: 1,
           ),
           SettingButton(
-              name: Get.locale!.toLanguageTag() == "tr" ? "Türkmen dili" : "Rus dili",
-              onTap: () {
-                changeLanguage();
-              },
-              icon: Container(
-                  width: 35,
-                  height: 35,
-                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-                  child: ClipRRect(
-                    borderRadius: borderRadius30,
-                    child: Image.asset(
-                      Get.locale!.toLanguageTag() == "tr" ? tmIcon : ruIcon,
-                      fit: BoxFit.cover,
-                    ),
-                  ))),
-          // SettingButton(
-          //     name: "termsAndCondition",
-          //     onTap: () {
-          //       termsAndConditionWidget();
-          //     },
-          //     icon: IconButton(
-          //         onPressed: () {},
-          //         icon: const Icon(
-          //           IconlyLight.arrowRightCircle,
-          //           color: Colors.white,
-          //         ))),
-          // SettingButton(
-          //     name: "login".tr,
-          //     onTap: () {
-          //       Get.to(() => const ForgotPassword());
-          //     },
-          //     icon: IconButton(
-          //         onPressed: () {},
-          //         icon: const Icon(
-          //           IconlyLight.arrowRightCircle,
-          //           color: Colors.white,
-          //         ))),
-          // const Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          //   child: Divider(
-          //     color: Colors.grey,
-          //     thickness: 2,
-          //   ),
-          // ),
+            name: Get.locale!.toLanguageTag() == 'tr' ? 'Türkmen dili' : 'Rus dili',
+            onTap: () {
+              changeLanguage();
+            },
+            icon: Container(
+              width: 35,
+              height: 35,
+              decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+              child: ClipRRect(
+                borderRadius: borderRadius30,
+                child: Image.asset(
+                  Get.locale!.toLanguageTag() == 'tr' ? tmIcon : ruIcon,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
           SettingButton(
-              name: "versia",
-              onTap: () {},
-              icon: const Text(
-                "1.0.0",
-                style: TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium),
-              )),
+            name: 'versia',
+            onTap: () {},
+            icon: const Text(
+              '1.0.0',
+              style: TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium),
+            ),
+          ),
           SettingButton(
-              name: "share",
-              onTap: () {
-                Share.share('https://play.google.com/store/apps/details?id=com.bilermennesil.gamysh', subject: 'Pubg House');
-              },
-              icon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    IconlyLight.arrowRightCircle,
-                    color: Colors.white,
-                  ))),
+            name: 'share',
+            onTap: () {
+              Share.share(appShareLink, subject: appName);
+            },
+            icon: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                IconlyLight.arrowRightCircle,
+                color: Colors.white,
+              ),
+            ),
+          ),
           SettingButton(
-              name: "giveLike",
-              onTap: () {
-                _launchURL('https://play.google.com/store/apps/details?id=com.bilermennesil.gamysh');
-              },
-              icon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    IconlyLight.arrowRightCircle,
-                    color: Colors.white,
-                  ))),
+            name: 'giveLike',
+            onTap: () {
+              launchURL(appShareLink);
+            },
+            icon: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                IconlyLight.arrowRightCircle,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  _launchURL(String url) async {
+  dynamic launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {

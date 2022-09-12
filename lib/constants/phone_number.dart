@@ -6,12 +6,13 @@ import 'package:game_app/constants/constants.dart';
 import 'package:get/get.dart';
 
 class PhoneNumber extends StatelessWidget {
-  const PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, this.disabled});
   final TextEditingController controller;
   final FocusNode mineFocus;
   final FocusNode requestFocus;
   final bool style;
   final bool? disabled;
+  const PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, this.disabled});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,9 +27,9 @@ class PhoneNumber extends StatelessWidget {
         controller: controller,
         validator: (value) {
           if (value!.isEmpty) {
-            return "errorEmpty".tr;
+            return 'errorEmpty'.tr;
           } else if (value.length != 8) {
-            return "errorPhoneCount".tr;
+            return 'errorPhoneCount'.tr;
           }
           return null;
         },

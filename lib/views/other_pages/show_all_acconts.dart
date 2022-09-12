@@ -9,14 +9,13 @@ import 'package:game_app/models/home_page_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ShowAllAccounts extends StatefulWidget {
-  const ShowAllAccounts({
-    Key? key,
-    required this.name,
-    required this.pubgID,
-  }) : super(key: key);
-
   final String name;
   final int pubgID;
+  const ShowAllAccounts({
+    required this.name,
+    required this.pubgID,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ShowAllAccounts> createState() => _ShowAllAccountsState();
@@ -24,7 +23,7 @@ class ShowAllAccounts extends StatefulWidget {
 
 class _ShowAllAccountsState extends State<ShowAllAccounts> {
   ShowAllAccountsController controller = Get.put(ShowAllAccountsController());
-  String name = "selectCitySubtitle";
+  String name = 'selectCitySubtitle';
   int value = 0;
 
   final TextEditingController _controller = TextEditingController();
@@ -36,7 +35,7 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
     super.initState();
     controller.clearData();
     value = 0;
-    AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {"page": "${controller.pageNumber}", "size": "10"});
+    AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {'page': '${controller.pageNumber}', 'size': '10'});
   }
 
   Row leftSideAppBar() {
@@ -44,57 +43,61 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
-            onPressed: () {
-              defaultBottomSheet(
-                name: "sort".tr,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: sortData.length,
-                  itemBuilder: (context, index) {
-                    return RadioListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                      value: index,
-                      tileColor: kPrimaryColorBlack,
-                      selectedTileColor: kPrimaryColorBlack,
-                      activeColor: kPrimaryColor,
-                      groupValue: value,
-                      onChanged: (ind) {
-                        int a = int.parse(ind.toString());
-                        value = a;
-                        controller.list.clear();
-                        controller.pageNumber.value = 1;
-                        controller.sortName.value = sortData[index]["sort_column"];
-                        controller.sortType.value = sortData[index]["sort_direction"];
-                        AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {
-                          "page": "${controller.pageNumber}",
-                          "size": "10",
+          onPressed: () {
+            defaultBottomSheet(
+              name: 'sort'.tr,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: sortData.length,
+                itemBuilder: (context, index) {
+                  return RadioListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                    value: index,
+                    tileColor: kPrimaryColorBlack,
+                    selectedTileColor: kPrimaryColorBlack,
+                    activeColor: kPrimaryColor,
+                    groupValue: value,
+                    onChanged: (ind) {
+                      final int a = int.parse(ind.toString());
+                      value = a;
+                      controller.list.clear();
+                      controller.pageNumber.value = 1;
+                      controller.sortName.value = sortData[index]['sort_column'];
+                      controller.sortType.value = sortData[index]['sort_direction'];
+                      AccountsForSaleModel().getTypeAccounts(
+                        type: widget.pubgID,
+                        parametrs: {
+                          'page': '${controller.pageNumber}',
+                          'size': '10',
                           controller.sortName.value: controller.sortType.value,
                           controller.sortCityName.value: controller.sortCityType.value,
                           controller.sortNamePrice.value: controller.sortTypePrice.value,
                           controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
-                        });
-                        Get.back();
-                      },
-                      title: Text(
-                        "${sortData[index]["name"]}".tr,
-                        style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-            icon: const Icon(
-              IconlyLight.filter,
-              color: Colors.white,
-            )),
+                        },
+                      );
+                      Get.back();
+                    },
+                    title: Text(
+                      "${sortData[index]["name"]}".tr,
+                      style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+          icon: const Icon(
+            IconlyLight.filter,
+            color: Colors.white,
+          ),
+        ),
         const SizedBox(
           width: 8,
         ),
         GestureDetector(
           onTap: () {
             defaultBottomSheet(
-              name: "Filter".tr,
+              name: 'Filter'.tr,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Wrap(
@@ -104,25 +107,30 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
                     twoTextEditingField(controller1: _controller, controller2: _controller1),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
-                      child: AgreeButton(onTap: () {
-                        controller.list.clear();
-                        controller.pageNumber.value = 1;
-                        controller.sortNamePrice.value = "min";
-                        controller.sortTypePrice.value = _controller.text;
-                        controller.sortNamePriceMax.value = "max";
-                        controller.sortTypePriceMax.value = _controller1.text;
-                        AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {
-                          "page": "${controller.pageNumber}",
-                          "size": "10",
-                          controller.sortName.value: controller.sortType.value,
-                          controller.sortCityName.value: controller.sortCityType.value,
-                          controller.sortNamePrice.value: controller.sortTypePrice.value,
-                          controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
-                        });
-                        // setState(() {});
+                      child: AgreeButton(
+                        onTap: () {
+                          controller.list.clear();
+                          controller.pageNumber.value = 1;
+                          controller.sortNamePrice.value = 'min';
+                          controller.sortTypePrice.value = _controller.text;
+                          controller.sortNamePriceMax.value = 'max';
+                          controller.sortTypePriceMax.value = _controller1.text;
+                          AccountsForSaleModel().getTypeAccounts(
+                            type: widget.pubgID,
+                            parametrs: {
+                              'page': '${controller.pageNumber}',
+                              'size': '10',
+                              controller.sortName.value: controller.sortType.value,
+                              controller.sortCityName.value: controller.sortCityType.value,
+                              controller.sortNamePrice.value: controller.sortTypePrice.value,
+                              controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
+                            },
+                          );
+                          // setState(() {});
 
-                        Get.back();
-                      }),
+                          Get.back();
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -147,7 +155,7 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 25, bottom: 20),
-            child: Text("priceRange".tr, style: const TextStyle(fontFamily: josefinSansSemiBold, fontSize: 19, color: Colors.white)),
+            child: Text('priceRange'.tr, style: const TextStyle(fontFamily: josefinSansSemiBold, fontSize: 19, color: Colors.white)),
           ),
           Row(
             children: [
@@ -165,11 +173,11 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
                   decoration: InputDecoration(
                     suffixIcon: const Padding(
                       padding: EdgeInsets.only(right: 8),
-                      child: Text("TMT", textAlign: TextAlign.center, style: TextStyle(fontFamily: josefinSansSemiBold, fontSize: 14, color: Colors.grey)),
+                      child: Text('TMT', textAlign: TextAlign.center, style: TextStyle(fontFamily: josefinSansSemiBold, fontSize: 14, color: Colors.grey)),
                     ),
                     suffixIconConstraints: const BoxConstraints(minHeight: 15),
                     isDense: true,
-                    hintText: "minPrice".tr,
+                    hintText: 'minPrice'.tr,
                     hintStyle: const TextStyle(fontFamily: josefinSansMedium, fontSize: 16, color: Colors.white),
                     focusedBorder: const OutlineInputBorder(
                       borderRadius: borderRadius15,
@@ -200,10 +208,10 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
                     // LengthLimitingTextInputFormatter(9),
                   ],
                   decoration: InputDecoration(
-                    suffixIcon: const Padding(padding: EdgeInsets.only(right: 8), child: Text("TMT", textAlign: TextAlign.center, style: TextStyle(fontFamily: josefinSansSemiBold, fontSize: 14, color: Colors.grey))),
+                    suffixIcon: const Padding(padding: EdgeInsets.only(right: 8), child: Text('TMT', textAlign: TextAlign.center, style: TextStyle(fontFamily: josefinSansSemiBold, fontSize: 14, color: Colors.grey))),
                     suffixIconConstraints: const BoxConstraints(minHeight: 15),
                     isDense: true,
-                    hintText: "maxPrice".tr,
+                    hintText: 'maxPrice'.tr,
                     hintStyle: const TextStyle(fontFamily: josefinSansMedium, fontSize: 16, color: Colors.white),
                     focusedBorder: const OutlineInputBorder(
                       borderRadius: borderRadius15,
@@ -242,62 +250,68 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
         trailing: const Icon(IconlyLight.arrowRightCircle),
         onTap: () {
           Get.defaultDialog(
-              title: "selectCityTitle".tr,
-              titleStyle: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
-              radius: 5,
-              backgroundColor: kPrimaryColorBlack,
-              titlePadding: const EdgeInsets.symmetric(vertical: 20),
-              contentPadding: const EdgeInsets.only(),
-              content: FutureBuilder<List<Cities>>(
-                  future: Cities().getCities(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: spinKit());
-                    } else if (snapshot.hasError) {
-                      return const Center(
-                        child: Text("Error"),
-                      );
-                    } else if (snapshot.data == null) {
-                      return const Center(
-                        child: Text("Null"),
-                      );
-                    }
-                    return Column(
-                      children: List.generate(
-                          snapshot.data!.length,
-                          (index) => Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                alignment: WrapAlignment.center,
-                                children: [
-                                  customDivider(),
-                                  TextButton(
-                                    onPressed: () {
-                                      controller.list.clear();
-                                      controller.pageNumber.value = 1;
-                                      controller.sortCityName.value = "city";
-                                      controller.sortCityType.value = snapshot.data![index].id.toString();
-                                      name = (Get.locale?.languageCode == "tr" ? snapshot.data![index].name_tm : snapshot.data![index].name_ru)!;
-                                      AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {
-                                        "page": "${controller.pageNumber}",
-                                        "size": "10",
-                                        controller.sortName.value: controller.sortType.value,
-                                        controller.sortCityName.value: controller.sortCityType.value,
-                                        controller.sortNamePrice.value: controller.sortTypePrice.value,
-                                        controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
-                                      });
-                                      Get.back();
-                                      Get.back();
-                                    },
-                                    child: Text(
-                                      Get.locale?.languageCode == "tr" ? snapshot.data![index].name_tm.toString() : snapshot.data![index].name_ru.toString(),
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 16),
-                                    ),
-                                  ),
-                                ],
-                              )),
-                    );
-                  }));
+            title: 'selectCityTitle'.tr,
+            titleStyle: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
+            radius: 5,
+            backgroundColor: kPrimaryColorBlack,
+            titlePadding: const EdgeInsets.symmetric(vertical: 20),
+            contentPadding: const EdgeInsets.only(),
+            content: FutureBuilder<List<Cities>>(
+              future: Cities().getCities(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: spinKit());
+                } else if (snapshot.hasError) {
+                  return const Center(
+                    child: Text('Error'),
+                  );
+                } else if (snapshot.data == null) {
+                  return const Center(
+                    child: Text('Null'),
+                  );
+                }
+                return Column(
+                  children: List.generate(
+                    snapshot.data!.length,
+                    (index) => Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        customDivider(),
+                        TextButton(
+                          onPressed: () {
+                            controller.list.clear();
+                            controller.pageNumber.value = 1;
+                            controller.sortCityName.value = 'city';
+                            controller.sortCityType.value = snapshot.data![index].id.toString();
+                            name = (Get.locale?.languageCode == 'tr' ? snapshot.data![index].name_tm : snapshot.data![index].name_ru)!;
+                            AccountsForSaleModel().getTypeAccounts(
+                              type: widget.pubgID,
+                              parametrs: {
+                                'page': '${controller.pageNumber}',
+                                'size': '10',
+                                controller.sortName.value: controller.sortType.value,
+                                controller.sortCityName.value: controller.sortCityType.value,
+                                controller.sortNamePrice.value: controller.sortTypePrice.value,
+                                controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
+                              },
+                            );
+                            Get.back();
+                            Get.back();
+                          },
+                          child: Text(
+                            Get.locale?.languageCode == 'tr' ? snapshot.data![index].name_tm.toString() : snapshot.data![index].name_ru.toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
         },
       ),
     );
@@ -309,7 +323,7 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
     controller.pageNumber.value = 1;
     controller.clearData();
     value = 0;
-    AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {"page": "${controller.pageNumber}", "size": "10"});
+    await AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {'page': '${controller.pageNumber}', 'size': '10'});
     _refreshController.refreshCompleted();
   }
 
@@ -317,14 +331,17 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
     await Future.delayed(const Duration(milliseconds: 1000));
     if (mounted) {
       controller.pageNumber.value += 1;
-      AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {
-        "page": "${controller.pageNumber}",
-        "size": "10",
-        controller.sortName.value: controller.sortType.value,
-        controller.sortCityName.value: controller.sortCityType.value,
-        controller.sortNamePrice.value: controller.sortTypePrice.value,
-        controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
-      });
+      await AccountsForSaleModel().getTypeAccounts(
+        type: widget.pubgID,
+        parametrs: {
+          'page': '${controller.pageNumber}',
+          'size': '10',
+          controller.sortName.value: controller.sortType.value,
+          controller.sortCityName.value: controller.sortCityType.value,
+          controller.sortNamePrice.value: controller.sortTypePrice.value,
+          controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
+        },
+      );
     }
     _refreshController.loadComplete();
   }
@@ -352,23 +369,24 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
                 child: spinKit(),
               );
             } else if (controller.loading.value == 2 && controller.list.isEmpty) {
-              return noData("tournamentInfo14");
+              return noData('tournamentInfo14');
             } else if (controller.list.isEmpty && controller.loading.value == 1) {
-              return noData("notSaleAccount");
+              return noData('notSaleAccount');
             }
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.list.length,
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 15, childAspectRatio: 2 / 3, crossAxisSpacing: 15),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ShowAllProductsCard(
-                      fav: false,
-                      model: controller.list[index],
-                    );
-                  }),
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.list.length,
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 15, childAspectRatio: 2 / 3, crossAxisSpacing: 15),
+                itemBuilder: (BuildContext context, int index) {
+                  return ShowAllProductsCard(
+                    fav: false,
+                    model: controller.list[index],
+                  );
+                },
+              ),
             );
           }),
         ),

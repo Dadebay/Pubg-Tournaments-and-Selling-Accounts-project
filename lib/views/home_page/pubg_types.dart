@@ -6,9 +6,12 @@ import 'package:game_app/models/home_page_model.dart';
 import 'package:game_app/views/other_pages/show_all_acconts.dart';
 
 class PubgTypes extends StatelessWidget {
-  const PubgTypes({Key? key, required this.future}) : super(key: key);
-
   final Future<List<PubgTypesModel>> future;
+
+  const PubgTypes({
+    required this.future,
+    Key? key,
+  }) : super(key: key);
 
   Column cannotLoadData() {
     return Column(
@@ -18,21 +21,22 @@ class PubgTypes extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            "errorPubgTypes".tr,
+            'errorPubgTypes'.tr,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
           ),
         ),
         ElevatedButton(
-            onPressed: () {
-              PubgTypesModel().getTypes();
-            },
-            style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-            child: Text(
-              "noConnection3".tr,
-              style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
-            ))
+          onPressed: () {
+            PubgTypesModel().getTypes();
+          },
+          style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
+          child: Text(
+            'noConnection3'.tr,
+            style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
+          ),
+        )
       ],
     );
   }
@@ -53,20 +57,21 @@ class PubgTypes extends StatelessWidget {
               decoration: const BoxDecoration(color: backgroundColor, shape: BoxShape.circle),
               child: ClipOval(
                 child: CachedNetworkImage(
-                    fadeInCurve: Curves.ease,
-                    imageUrl: "$serverURL${type.image}",
-                    imageBuilder: (context, imageProvider) => Container(
-                          width: Get.size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: borderRadius20,
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                    placeholder: (context, url) => Center(child: spinKit()),
-                    errorWidget: (context, url, error) => noImagePubgCircle()),
+                  fadeInCurve: Curves.ease,
+                  imageUrl: '$serverURL${type.image}',
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: Get.size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: borderRadius20,
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) => Center(child: spinKit()),
+                  errorWidget: (context, url, error) => noImagePubgCircle(),
+                ),
               ),
             ),
             Text(type.title!, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, height: 1.3, fontSize: 16, fontFamily: josefinSansRegular)),
@@ -89,37 +94,39 @@ class PubgTypes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 200,
-        margin: const EdgeInsets.only(
-          top: 25,
-        ),
-        color: kPrimaryColorBlack,
-        alignment: Alignment.center,
-        child: FutureBuilder<List<PubgTypesModel>>(
-            future: future,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return noImagePubgCircle();
-                  },
-                );
-              } else if (snapshot.hasError) {
-                return cannotLoadData();
-              } else if (snapshot.data == null) {
-                return cannotLoadData();
-              }
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: snapshot.data!.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return circleCard(snapshot.data![index]);
-                },
-              );
-            }));
+      height: 200,
+      margin: const EdgeInsets.only(
+        top: 25,
+      ),
+      color: kPrimaryColorBlack,
+      alignment: Alignment.center,
+      child: FutureBuilder<List<PubgTypesModel>>(
+        future: future,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                return noImagePubgCircle();
+              },
+            );
+          } else if (snapshot.hasError) {
+            return cannotLoadData();
+          } else if (snapshot.data == null) {
+            return cannotLoadData();
+          }
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: snapshot.data!.length,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return circleCard(snapshot.data![index]);
+            },
+          );
+        },
+      ),
+    );
   }
 }

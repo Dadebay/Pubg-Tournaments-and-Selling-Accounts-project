@@ -14,54 +14,58 @@ class _AboutUsState extends State<AboutUs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: kPrimaryColorBlack,
-        appBar: const MyAppBar(
-          backArrow: true,
-          iconRemove: true,
-          elevationWhite: true,
-          name: "aboutUs",
-          fontSize: 0.0,
+      backgroundColor: kPrimaryColorBlack,
+      appBar: const MyAppBar(
+        backArrow: true,
+        iconRemove: true,
+        elevationWhite: true,
+        name: 'aboutUs',
+        fontSize: 0.0,
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(14.0),
+        child: FutureBuilder<AboutUsModel>(
+          future: AboutUsModel().getAboutUs(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: spinKit());
+            } else if (snapshot.hasError) {
+              return cannotLoadData(
+                withButton: true,
+                onTap: () {
+                  AboutUsModel().getAboutUs();
+                },
+                text: 'tournamentInfo14'.tr,
+              );
+            } else if (snapshot.data == null) {
+              return cannotLoadData(
+                withButton: true,
+                onTap: () {
+                  AboutUsModel().getAboutUs();
+                },
+                text: 'tournamentInfo14'.tr,
+              );
+            }
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 8),
+                  child: Text(
+                    'contactInformation'.tr,
+                    style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
+                  ),
+                ),
+                simpleWidget(icon: IconlyBold.call, name: snapshot.data!.phone!),
+                simpleWidget(icon: IconlyBold.message, name: snapshot.data!.email!),
+                simpleWidget(icon: IconlyBold.location, name: Get.locale?.languageCode == 'tr' ? snapshot.data!.address_tm! : snapshot.data!.address_ru!),
+              ],
+            );
+          },
         ),
-        body: Container(
-          padding: const EdgeInsets.all(14.0),
-          child: FutureBuilder<AboutUsModel>(
-              future: AboutUsModel().getAboutUs(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: spinKit());
-                } else if (snapshot.hasError) {
-                  return cannotLoadData(
-                      withButton: true,
-                      onTap: () {
-                        AboutUsModel().getAboutUs();
-                      },
-                      text: "tournamentInfo14".tr);
-                } else if (snapshot.data == null) {
-                  return cannotLoadData(
-                      withButton: true,
-                      onTap: () {
-                        AboutUsModel().getAboutUs();
-                      },
-                      text: "tournamentInfo14".tr);
-                }
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15, bottom: 8),
-                      child: Text(
-                        "contactInformation".tr,
-                        style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
-                      ),
-                    ),
-                    simpleWidget(icon: IconlyBold.call, name: snapshot.data!.phone!),
-                    simpleWidget(icon: IconlyBold.message, name: snapshot.data!.email!),
-                    simpleWidget(icon: IconlyBold.location, name: Get.locale?.languageCode == "tr" ? snapshot.data!.address_tm! : snapshot.data!.address_ru!),
-                  ],
-                );
-              }),
-        ));
+      ),
+    );
   }
 
   ListTile simpleWidget({required IconData icon, required String name}) {

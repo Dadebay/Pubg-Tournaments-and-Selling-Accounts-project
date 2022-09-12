@@ -6,6 +6,11 @@ import 'package:game_app/constants/index.dart';
 import 'package:http/http.dart' as http;
 
 class AboutUsModel {
+  final String? phone;
+  final int? id;
+  final String? email;
+  final String? address_tm;
+  final String? address_ru;
   AboutUsModel({
     this.phone,
     this.email,
@@ -15,24 +20,20 @@ class AboutUsModel {
   });
 
   factory AboutUsModel.fromJson(Map<String, dynamic> json) {
-    return AboutUsModel(phone: json["phone"] as String, email: json["email"] as String, address_tm: json["address_tm"] as String, address_ru: json["address_ru"] as String, id: json['id'] as int);
+    return AboutUsModel(phone: json['phone'] as String, email: json['email'] as String, address_tm: json['address_tm'] as String, address_ru: json['address_ru'] as String, id: json['id'] as int);
   }
 
-  final String? phone;
-  final int? id;
-  final String? email;
-  final String? address_tm;
-  final String? address_ru;
   Future<AboutUsModel> getAboutUs() async {
     final response = await http.get(
-        Uri.parse(
-          "$serverURL/api/about/",
-        ),
-        headers: <String, String>{
-          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-        });
+      Uri.parse(
+        '$serverURL/api/about/',
+      ),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      },
+    );
     if (response.statusCode == 200) {
-      var decoded = utf8.decode(response.bodyBytes);
+      final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
 
       return AboutUsModel.fromJson(responseJson);
@@ -43,6 +44,11 @@ class AboutUsModel {
 }
 
 class FAQModel {
+  final int? id;
+  final String? title_tm;
+  final String? title_ru;
+  final String? content_tm;
+  final String? content_ru;
   FAQModel({
     this.id,
     this.title_tm,
@@ -52,26 +58,22 @@ class FAQModel {
   });
 
   factory FAQModel.fromJson(Map<dynamic, dynamic> json) {
-    return FAQModel(title_tm: json["title_tm"] as String, title_ru: json["title_ru"] as String, content_tm: json["content_tm"] as String, content_ru: json["content_ru"] as String, id: json['id'] as int);
+    return FAQModel(title_tm: json['title_tm'] as String, title_ru: json['title_ru'] as String, content_tm: json['content_tm'] as String, content_ru: json['content_ru'] as String, id: json['id'] as int);
   }
 
-  final int? id;
-  final String? title_tm;
-  final String? title_ru;
-  final String? content_tm;
-  final String? content_ru;
   Future<List<FAQModel>> getFAQ() async {
     final List<FAQModel> list = [];
 
     final response = await http.get(
-        Uri.parse(
-          "$serverURL/api/about/questions/",
-        ),
-        headers: <String, String>{
-          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-        });
+      Uri.parse(
+        '$serverURL/api/about/questions/',
+      ),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      },
+    );
     if (response.statusCode == 200) {
-      var decoded = utf8.decode(response.bodyBytes);
+      final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
       for (final Map product in responseJson) {
         list.add(FAQModel.fromJson(product));

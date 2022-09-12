@@ -12,8 +12,8 @@ class SettingsController extends GetxController {
   RxBool agreeButton = false.obs;
   RxBool loginUser = false.obs;
   RxInt bannerSelectedIndex = 0.obs;
-  RxString pubgType = "".obs;
-  RxString locationName = "".obs;
+  RxString pubgType = ''.obs;
+  RxString locationName = ''.obs;
   late Future<List<UcModel>> getData;
   @override
   void onInit() {
@@ -22,13 +22,14 @@ class SettingsController extends GetxController {
     changeUserUI();
   }
 
-  changeUserUI() async {
+  Future<bool> changeUserUI() async {
     final token = await Auth().getToken();
     if (token != null) {
       loginUser.value = true;
     } else {
       loginUser.value = false;
     }
+    return false;
   }
 
   var tm = const Locale(
@@ -41,11 +42,11 @@ class SettingsController extends GetxController {
     'en',
   );
 
-  switchLang(String value) {
-    if (value == "en") {
+  dynamic switchLang(String value) {
+    if (value == 'en') {
       Get.updateLocale(en);
       storage.write('langCode', 'en');
-    } else if (value == "ru") {
+    } else if (value == 'ru') {
       Get.updateLocale(ru);
       storage.write('langCode', 'ru');
     } else {

@@ -134,6 +134,7 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
     );
   }
 
+  // ignore: member-ordering-extended
   @override
   Widget build(BuildContext context) {
     return Scaffold(

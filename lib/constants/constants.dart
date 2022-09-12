@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-const int userID = 2;
-
 const String serverURL = 'http://95.85.125.234:8800';
-// const String serverURL = "http://192.168.31.68:8800";
+// const String serverURL = 'http://192.168.31.68:8800';
 // const String serverImage = "https://elyeter.market";
 // const String authServerUrl = "https://elyeter.market";
 
@@ -44,6 +42,12 @@ const String tmIcon = 'assets/lang/tm.png';
 const String ruIcon = 'assets/lang/ru.png';
 const String accountBackImage = 'assets/image/3.png';
 const String logo = 'assets/image/logo.png';
+const String epinImage = 'assets/image/epinNew.png';
+const String idImage = 'assets/image/idNew.png';
+const String appName = 'UC Daýy';
+const String appShareLink = 'https://play.google.com/store/apps/developer?id=Bilermen+Nesil';
+/////////////////////////////////////////////////
+
 const String loremImpsum =
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
 

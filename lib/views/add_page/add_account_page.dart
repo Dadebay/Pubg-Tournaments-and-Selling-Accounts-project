@@ -15,16 +15,15 @@ import 'package:http_parser/http_parser.dart';
 import 'package:async/async.dart';
 
 class AddPage extends StatefulWidget {
+  final int locationID;
+  final int pubgType;
+  final int vipOrNot;
   const AddPage({
     required this.locationID,
     required this.pubgType,
     required this.vipOrNot,
     Key? key,
   }) : super(key: key);
-
-  final int locationID;
-  final int pubgType;
-  final int vipOrNot;
 
   @override
   State<AddPage> createState() => _AddPageState();
@@ -198,15 +197,66 @@ class _AddPageState extends State<AddPage> {
     );
   }
 
+  dynamic onTapp() async {
+    if (_addAccount.currentState!.validate()) {
+      Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+      final token = await Auth().getToken();
+      final headers = {'Authorization': 'Bearer $token'};
+      final request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/update-account/'));
+      request.fields.addAll({
+        'pubg_username': userNameController.text,
+        'pubg_id': pubgIDController.text,
+        'first_name': fisrtNameController.text,
+        'last_name': lastNameController.text,
+        'email': '',
+        'bio': bioController.text,
+        'location': '${widget.locationID}',
+        'pubg_type': '${widget.pubgType}',
+        'for_sale': '1',
+        'vip': '${widget.vipOrNot}',
+        'price': priceController.text
+      });
+      request.headers.addAll(headers);
+
+      final String fileName = selectedImage!.path.split('/').last;
+      final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
+      final length = await selectedImage!.length();
+      final mimeTypeData = lookupMimeType(selectedImage!.path, headerBytes: [0xFF, 0xD8])!.split('/');
+      final multipartFileSign = http.MultipartFile('image', stream, length, filename: fileName, contentType: MediaType(mimeTypeData.first, mimeTypeData[1]));
+      request.files.add(multipartFileSign);
+
+      final String fileName1 = selectedImage1!.path.split('/').last;
+      final stream1 = http.ByteStream(DelegatingStream.typed(selectedImage1!.openRead()));
+      final length1 = await selectedImage1!.length();
+      final mimeTypeData1 = lookupMimeType(selectedImage1!.path, headerBytes: [0xFF, 0xD8])!.split('/');
+      final multipartFileSign1 = http.MultipartFile('bg_image', stream1, length1, filename: fileName1, contentType: MediaType(mimeTypeData1.first, mimeTypeData1[1]));
+      request.files.add(multipartFileSign1);
+
+      final http.StreamedResponse response = await request.send();
+      debugPrint(response.statusCode.toString());
+      debugPrint(response.reasonPhrase);
+      if (response.statusCode == 200) {
+        await Get.to(() => const VideoUploadPage());
+        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+      } else {
+        showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+      }
+    } else {
+      showSnackBar('tournamentInfo14', 'errorEmpty', Colors.red);
+      Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
       appBar: const MyAppBar(fontSize: 20, backArrow: true, iconRemove: false, name: 'add_page', elevationWhite: true),
-      body: Form(
-        key: _addAccount,
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Form(
+          key: _addAccount,
           child: ListView(
             children: [
               Padding(
@@ -242,11 +292,6 @@ class _AddPageState extends State<AddPage> {
               ),
               selectImageDesign(),
               selectBackImage(),
-              AgreeButton(
-                onTap: () {
-                  Get.to(() => const VideoUploadPage());
-                },
-              ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: AgreeButton(
@@ -258,51 +303,5 @@ class _AddPageState extends State<AddPage> {
         ),
       ),
     );
-  }
-
-  dynamic onTapp() async {
-    Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-    final token = await Auth().getToken();
-    final headers = {'Authorization': 'Bearer $token'};
-    final request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/update-account/'));
-    request.fields.addAll({
-      'pubg_username': userNameController.text,
-      'pubg_id': pubgIDController.text,
-      'first_name': fisrtNameController.text,
-      'last_name': lastNameController.text,
-      'email': '',
-      'bio': bioController.text,
-      'location': '${widget.locationID}',
-      'pubg_type': '${widget.pubgType}',
-      'for_sale': '1',
-      'vip': '${widget.vipOrNot}',
-      'price': priceController.text
-    });
-    request.headers.addAll(headers);
-
-    final String fileName = selectedImage!.path.split('/').last;
-    final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
-    final length = await selectedImage!.length();
-    final mimeTypeData = lookupMimeType(selectedImage!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-    final multipartFileSign = http.MultipartFile('image', stream, length, filename: fileName, contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
-    request.files.add(multipartFileSign);
-
-    final String fileName1 = selectedImage1!.path.split('/').last;
-    final stream1 = http.ByteStream(DelegatingStream.typed(selectedImage1!.openRead()));
-    final length1 = await selectedImage1!.length();
-    final mimeTypeData1 = lookupMimeType(selectedImage1!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-    final multipartFileSign1 = http.MultipartFile('bg_image', stream1, length1, filename: fileName1, contentType: MediaType(mimeTypeData1[0], mimeTypeData1[1]));
-    request.files.add(multipartFileSign1);
-
-    final http.StreamedResponse response = await request.send();
-    print(response.statusCode);
-    print(response.reasonPhrase);
-    print(response.isRedirect);
-    if (response.statusCode == 200) {
-      await Get.to(() => const VideoUploadPage());
-      Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-    } else {
-      showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
-    }
   }
 }

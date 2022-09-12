@@ -9,18 +9,25 @@ class TournamentCard extends StatelessWidget {
   final int index;
   final bool finised;
   final TournamentModel tournamentModel;
-  const TournamentCard({Key? key, required this.index, required this.tournamentModel, required this.finised}) : super(key: key);
+  const TournamentCard({
+    required this.index,
+    required this.tournamentModel,
+    required this.finised,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => TournamentProfilPage(
-              tag: "$serverURL${tournamentModel.image}",
-              finised: finised,
-              image: "$serverURL${tournamentModel.image}",
-              tournamentId: tournamentModel.id!,
-            ));
+        Get.to(
+          () => TournamentProfilPage(
+            tag: '$serverURL${tournamentModel.image}',
+            finised: finised,
+            image: '$serverURL${tournamentModel.image}',
+            tournamentId: tournamentModel.id!,
+          ),
+        );
       },
       child: Container(
         width: Get.size.width,
@@ -32,22 +39,23 @@ class TournamentCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: borderRadius30,
                 child: Hero(
-                  tag: "$serverURL${tournamentModel.image}",
+                  tag: '$serverURL${tournamentModel.image}',
                   child: CachedNetworkImage(
-                      fadeInCurve: Curves.ease,
-                      imageUrl: "$serverURL${tournamentModel.image}",
-                      imageBuilder: (context, imageProvider) => Container(
-                            width: Get.size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: borderRadius20,
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                      placeholder: (context, url) => Center(child: spinKit()),
-                      errorWidget: (context, url, error) => const Text("No Image")),
+                    fadeInCurve: Curves.ease,
+                    imageUrl: '$serverURL${tournamentModel.image}',
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: Get.size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: borderRadius20,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) => Center(child: spinKit()),
+                    errorWidget: (context, url, error) => const Text('No Image'),
+                  ),
                 ),
               ),
             ),
@@ -56,22 +64,23 @@ class TournamentCard extends StatelessWidget {
               child: Container(decoration: BoxDecoration(borderRadius: borderRadius30, color: kPrimaryColorBlack.withOpacity(0.4))),
             ),
             Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: finised ? EdgeInsets.zero : const EdgeInsets.only(left: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(finised ? "endTournament".tr : tournamentModel.title!, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontFamily: josefinSansBold, fontSize: 28)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Text(tournamentModel.start_date!.substring(0, 10), textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontFamily: josefinSansRegular, fontSize: 18)),
-                      ),
-                      Text(tournamentModel.start_date!.substring(11, 16), textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontFamily: josefinSansRegular, fontSize: 18)),
-                    ],
-                  ),
-                )),
+              alignment: Alignment.center,
+              child: Padding(
+                padding: finised ? EdgeInsets.zero : const EdgeInsets.only(left: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(finised ? 'endTournament'.tr : tournamentModel.title!, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontFamily: josefinSansBold, fontSize: 28)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 6),
+                      child: Text(tournamentModel.start_date!.substring(0, 10), textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontFamily: josefinSansRegular, fontSize: 18)),
+                    ),
+                    Text(tournamentModel.start_date!.substring(11, 16), textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontFamily: josefinSansRegular, fontSize: 18)),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

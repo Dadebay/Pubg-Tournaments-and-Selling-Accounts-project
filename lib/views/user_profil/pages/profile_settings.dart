@@ -29,75 +29,78 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
-      appBar: const MyAppBar(backArrow: true, fontSize: 0.0, iconRemove: true, elevationWhite: true, name: "profil"),
+      appBar: const MyAppBar(backArrow: true, fontSize: 0.0, iconRemove: true, elevationWhite: true, name: 'profil'),
       body: FutureBuilder<GetMeModel>(
-          future: GetMeModel().getMe(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: spinKit());
-            } else if (snapshot.hasError) {
-              return const Center(child: Text("Error"));
-            } else if (snapshot.data == null) {
-              return const Center(child: Text("Empty"));
-            }
-            changeData(snapshot.data!.nickname!, snapshot.data!.phone!, snapshot.data!.pubgId!);
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    textpart("signIn1"),
-                    CustomTextField(
-                      labelName: "",
-                      controller: pubgNameController,
-                      borderRadius: true,
-                      focusNode: pubgNameFocusNode,
-                      requestfocusNode: phoneFocusNode,
-                      isNumber: false,
-                      disabled: true,
-                    ),
-                    textpart("signIn2"),
-                    CustomTextField(
-                      labelName: "",
-                      controller: pubgIDController,
-                      borderRadius: true,
-                      focusNode: pubgIDFocusNode,
-                      requestfocusNode: pubgNameFocusNode,
-                      isNumber: false,
-                      disabled: true,
-                    ),
-                    textpart("userPhoneNumber"),
-                    PhoneNumber(
-                      mineFocus: phoneFocusNode,
-                      controller: phoneController,
-                      requestFocus: pubgIDFocusNode,
-                      style: false,
-                      disabled: false,
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    AgreeButton(onTap: () {
+        future: GetMeModel().getMe(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: spinKit());
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Error'));
+          } else if (snapshot.data == null) {
+            return const Center(child: Text('Empty'));
+          }
+          changeData(snapshot.data!.nickname!, snapshot.data!.phone!, snapshot.data!.pubgId!);
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  textpart('signIn1'),
+                  CustomTextField(
+                    labelName: '',
+                    controller: pubgNameController,
+                    borderRadius: true,
+                    focusNode: pubgNameFocusNode,
+                    requestfocusNode: phoneFocusNode,
+                    isNumber: false,
+                    disabled: true,
+                  ),
+                  textpart('signIn2'),
+                  CustomTextField(
+                    labelName: '',
+                    controller: pubgIDController,
+                    borderRadius: true,
+                    focusNode: pubgIDFocusNode,
+                    requestfocusNode: pubgNameFocusNode,
+                    isNumber: false,
+                    disabled: true,
+                  ),
+                  textpart('userPhoneNumber'),
+                  PhoneNumber(
+                    mineFocus: phoneFocusNode,
+                    controller: phoneController,
+                    requestFocus: pubgIDFocusNode,
+                    style: false,
+                    disabled: false,
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  AgreeButton(
+                    onTap: () {
                       Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
                       GetMeModel().shortUpdate(pubgUserId: pubgIDController.text, pubgUserName: pubgNameController.text).then((value) {
                         if (value == 200) {
                           Get.back();
-                          showSnackBar("copySucces", "changedData", Colors.green);
+                          showSnackBar('copySucces', 'changedData', Colors.green);
                           pubgNameController.clear();
                           pubgIDController.clear();
                         } else {
-                          showSnackBar("noConnection3", "tournamentInfo14", Colors.red);
+                          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
                         }
                         Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
                       });
-                    })
-                  ],
-                ),
+                    },
+                  )
+                ],
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 

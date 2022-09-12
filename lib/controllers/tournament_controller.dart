@@ -9,37 +9,37 @@ class TournamentController extends GetxController {
   RxInt tournamentLoading = 0.obs;
   RxBool sliverBool = false.obs;
 
-  addToList({required List<TournamentModel> list}) {
+  dynamic addToList({required List<TournamentModel> list}) {
     tournamentList.clear();
     tournamentFinisedList.clear();
 
     for (var element in list) {
-      DateTime a = DateTime.parse(element.finish_date!);
-      if (a.isBefore(DateTime.now()) == false) {
+      final DateTime a = DateTime.parse(element.finish_date!);
+      if (!a.isBefore(DateTime.now())) {
         tournamentList.add({
-          "id": element.id,
-          "map": element.map,
-          "mode": element.mode,
-          "image": element.image,
-          "title": element.title,
-          "price": element.price,
-          "description_tm": element.description_tm,
-          "description_ru": element.description_ru,
-          "start_date": element.start_date,
-          "finish_date": element.finish_date,
+          'id': element.id,
+          'map': element.map,
+          'mode': element.mode,
+          'image': element.image,
+          'title': element.title,
+          'price': element.price,
+          'description_tm': element.description_tm,
+          'description_ru': element.description_ru,
+          'start_date': element.start_date,
+          'finish_date': element.finish_date,
         });
       } else {
         tournamentFinisedList.add({
-          "id": element.id,
-          "map": element.map,
-          "mode": element.mode,
-          "image": element.image,
-          "title": element.title,
-          "price": element.price,
-          "description_tm": element.description_tm,
-          "description_ru": element.description_ru,
-          "start_date": element.start_date,
-          "finish_date": element.finish_date,
+          'id': element.id,
+          'map': element.map,
+          'mode': element.mode,
+          'image': element.image,
+          'title': element.title,
+          'price': element.price,
+          'description_tm': element.description_tm,
+          'description_ru': element.description_ru,
+          'start_date': element.start_date,
+          'finish_date': element.finish_date,
         });
       }
     }
