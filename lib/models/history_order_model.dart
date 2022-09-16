@@ -14,10 +14,11 @@ class HistoryOrderModel {
   final String? created_date;
   final String? price;
   final String? note;
-  HistoryOrderModel({this.id, this.status, this.created_date, this.note, this.price});
+  final bool? ask;
+  HistoryOrderModel({this.id, this.ask, this.status, this.created_date, this.note, this.price});
 
   factory HistoryOrderModel.fromJson(Map<dynamic, dynamic> json) {
-    return HistoryOrderModel(id: json['id'], status: json['status'] ?? 'pending', price: json['price'].toString(), note: json['note'] ?? '', created_date: json['created_date']);
+    return HistoryOrderModel(id: json['id'], status: json['status'] ?? 'pending', ask: json['ask'] ?? false, price: json['price'].toString(), note: json['note'] ?? '', created_date: json['created_date']);
   }
 
   Future<List<HistoryOrderModel>> getOrders() async {
@@ -38,7 +39,6 @@ class HistoryOrderModel {
       for (final Map product in responseJson) {
         tournamentList.add(HistoryOrderModel.fromJson(product));
       }
-
       return tournamentList;
     } else {
       return [];
@@ -47,18 +47,19 @@ class HistoryOrderModel {
 }
 
 class HistoryIDModel {
-
   final int? id;
   final String? price;
   final String? status;
   final String? note;
+  final String? pubgID;
   final String? created_date;
   final List<CartItems>? cartItems;
-    HistoryIDModel({this.id, this.status, this.created_date, this.note, this.price, this.cartItems});
+  HistoryIDModel({this.id, this.pubgID, this.status, this.created_date, this.note, this.price, this.cartItems});
 
   factory HistoryIDModel.fromJson(Map<dynamic, dynamic> json) {
     return HistoryIDModel(
       id: json['id'],
+      pubgID: json['pubg_id'],
       status: json['status'] ?? 'pending',
       price: json['price'].toString(),
       note: json['note'],
@@ -91,8 +92,6 @@ class HistoryIDModel {
 }
 
 class CartItems {
-  
-
   final int? id;
   final int? count;
   final List<Codes>? code;
@@ -106,7 +105,6 @@ class CartItems {
 }
 
 class Codes {
-  
   final int? id;
   final String? code;
   Codes({
@@ -120,11 +118,9 @@ class Codes {
       code: json['code'],
     );
   }
-
 }
 
 class TransactionHistoryModel {
-
   final int? id;
   final String? count;
   final bool? fromTurnir;

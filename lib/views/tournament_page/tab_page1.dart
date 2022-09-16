@@ -2,6 +2,7 @@
 
 import 'package:flutter_html/flutter_html.dart';
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
@@ -88,6 +89,8 @@ class TabPage1 extends StatelessWidget {
   void showCode() async {
     final token = await Auth().getToken();
     print(token);
+    Get.find<SettingsController>().agreeButton.value = false;
+
     if (buttonName == 'Kody görkez') {
       await TournamentModel().checkStatus(tournamentID: model.id!, value: true);
     } else {

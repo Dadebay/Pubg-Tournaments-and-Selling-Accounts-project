@@ -7,6 +7,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/home_page_model.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
+import 'package:game_app/views/add_page/video_upload_page.dart';
 import 'package:game_app/views/user_profil/pages/edit_work_videos.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:game_app/controllers/settings_controller.dart';
@@ -547,6 +548,17 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
                 },
                 child: Text(
                   'editVideo'.tr,
+                  style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Get.to(
+                    () => const VideoUploadPage(),
+                  );
+                },
+                child: Text(
+                  'videoUpload'.tr,
                   style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium),
                 ),
               ),

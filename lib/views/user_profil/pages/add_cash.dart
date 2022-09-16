@@ -99,6 +99,14 @@ class _AddCashState extends State<AddCash> {
             },
             text: 'tournamentInfo14'.tr,
           );
+        } else if (snapshot.data.toString() == '[]') {
+          return cannotLoadData(
+            withButton: true,
+            onTap: () {
+              TransactionHistoryModel().getTransactions();
+            },
+            text: 'tournamentInfo14'.tr,
+          );
         }
         return ListView.builder(
           itemCount: snapshot.data!.length,
@@ -212,6 +220,7 @@ class _AskMoneyPageState extends State<AskMoneyPage> {
               focusNode: messageFocusNode,
               requestfocusNode: nameFocusNode,
               isNumber: false,
+              isLabel: true,
             ),
             const SizedBox(
               height: 20,

@@ -1,17 +1,18 @@
+import 'package:game_app/cards/walletPageCard.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 
-import 'order_page.dart';
-import 'wallet_page.dart';
+import 'orderPage/buy_with_epin_cards.dart';
+import 'orderPage/buy_with_id.dart';
 
-class WalletTwoPage extends StatefulWidget {
-  const WalletTwoPage({Key? key}) : super(key: key);
+class WalletPage extends StatefulWidget {
+  const WalletPage({Key? key}) : super(key: key);
 
   @override
-  State<WalletTwoPage> createState() => _WalletTwoPageState();
+  State<WalletPage> createState() => _WalletPageState();
 }
 
-class _WalletTwoPageState extends State<WalletTwoPage> {
+class _WalletPageState extends State<WalletPage> {
   @override
   void initState() {
     super.initState();
@@ -22,70 +23,29 @@ class _WalletTwoPageState extends State<WalletTwoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
-      appBar: const MyAppBar(backArrow: false, fontSize: 0.0, iconRemove: true, elevationWhite: true, name: 'Pubg UC'),
+      appBar: MyAppBar(backArrow: false, fontSize: 0.0, iconRemove: false, icon: balIcon(), elevationWhite: true, name: 'Pubg UC'),
       body: Column(
         children: [
-          card(
-            MediaQuery.of(context).size,
-            () {
+          WalletPageCard(
+            image: epinImage,
+            text: 'buyEpin',
+            size: MediaQuery.of(context).size,
+            ontapp: () {
               Get.find<WalletController>().finalPRice.value = 0.0;
-              Get.to(() => const WalletPage());
+              Get.to(() => const BuyWithEpinCards());
             },
-            epinImage,
-            'buyEpin'.tr,
           ),
-          card(
-            MediaQuery.of(context).size,
-            () {
+          WalletPageCard(
+            image: idImage,
+            text: 'buyID',
+            size: MediaQuery.of(context).size,
+            ontapp: () {
               Get.find<WalletController>().finalPRice.value = 0.0;
               Get.find<WalletController>().cartList.clear();
               Get.to(
-                () => const OrderPage(
-                  orderType: true,
-                ),
+                () => const BuyWithID(),
               );
             },
-            idImage,
-            'buyID'.tr,
-          ),
-        ],
-      ),
-    );
-  }
-
-  GestureDetector card(Size size, Function() ontapp, String image, String text) {
-    return GestureDetector(
-      onTap: ontapp,
-      child: Stack(
-        children: [
-          Container(
-            height: size.height / 4,
-            width: double.infinity,
-            margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
-            decoration: BoxDecoration(color: kPrimaryColorBlack, borderRadius: borderRadius25, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.15), blurRadius: 10, spreadRadius: 3)]),
-            child: ClipRRect(
-              borderRadius: borderRadius25,
-              child: Image.asset(
-                image,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height / 4,
-            width: double.infinity,
-            margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
-            decoration: BoxDecoration(
-              borderRadius: borderRadius25,
-              color: Colors.black12.withOpacity(0.6),
-            ),
-            child: Center(
-              child: Text(
-                text,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 35),
-              ),
-            ),
           )
         ],
       ),

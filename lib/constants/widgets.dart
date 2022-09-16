@@ -249,12 +249,12 @@ Future<Object?> showDeleteDialog(BuildContext context, String text, String text2
                       () {
                         Get.back();
                       },
-                      false,
+                      true,
                     ),
                     const SizedBox(
                       width: 10,
                     ),
-                    dialogButton('yes', onTap, true),
+                    dialogButton('yes', onTap, false),
                   ],
                 )
               ],
@@ -287,7 +287,7 @@ Widget dialogButton(String name, Function() onTap, bool color) {
       ),
       child: Text(
         name.tr,
-        style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
+        style: TextStyle(color: color ? kPrimaryColorBlack1 : kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
       ),
     ),
   );

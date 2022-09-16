@@ -80,11 +80,8 @@ class UserSignInModel {
       }),
     );
     debugPrint(response.body);
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return response.statusCode;
-    }
+    debugPrint(response.statusCode.toString());
+    return response.statusCode;
   }
 }
 

@@ -2,7 +2,6 @@
 
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:video_player/video_player.dart';
 
@@ -61,11 +60,6 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
                           progressBarSettings: FlickProgressBarSettings(),
                         ),
                       ),
-                      preferredDeviceOrientation: const [
-                        DeviceOrientation.portraitDown,
-                        DeviceOrientation.portraitUp,
-                      ],
-                      preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
                       flickManager: flickManager,
                     ),
                   ),

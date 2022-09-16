@@ -57,9 +57,14 @@ class _AboutUsState extends State<AboutUs> {
                     style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
                   ),
                 ),
-                simpleWidget(icon: IconlyBold.call, name: snapshot.data!.phone!),
-                simpleWidget(icon: IconlyBold.message, name: snapshot.data!.email!),
-                simpleWidget(icon: IconlyBold.location, name: Get.locale?.languageCode == 'tr' ? snapshot.data!.address_tm! : snapshot.data!.address_ru!),
+                simpleWidget(
+                  icon: IconlyBold.message,
+                  name: snapshot.data!.email!,
+                ),
+                simpleWidget(
+                  icon: IconlyBold.location,
+                  name: Get.locale?.languageCode == 'tr' ? snapshot.data!.address_tm! : snapshot.data!.address_ru!,
+                ),
               ],
             );
           },
@@ -68,10 +73,13 @@ class _AboutUsState extends State<AboutUs> {
     );
   }
 
-  ListTile simpleWidget({required IconData icon, required String name}) {
+  ListTile simpleWidget({
+    required IconData icon,
+    required String name,
+  }) {
     return ListTile(
       dense: true,
-      onTap: () {},
+      onTap: () async {},
       minLeadingWidth: 10,
       contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 14),
       shape: const RoundedRectangleBorder(borderRadius: borderRadius5),

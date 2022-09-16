@@ -93,6 +93,8 @@ class AccountsForSaleModel extends GetxController {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
+      print(parametrs);
+      print(responseJson);
       for (final Map product in responseJson['results']) {
         accountList.add(AccountsForSaleModel.fromJson(product));
         Get.find<HomePageController>().list.add(AccountsForSaleModel.fromJson(product));
@@ -248,6 +250,7 @@ class AccountByIdModel extends GetxController {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
+      print(responseJson);
       return AccountByIdModel.fromJson(responseJson);
     } else {
       return AccountByIdModel();

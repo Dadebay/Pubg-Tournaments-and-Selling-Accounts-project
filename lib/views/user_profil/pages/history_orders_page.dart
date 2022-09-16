@@ -42,7 +42,6 @@ class HistoryOrdersPage extends StatelessWidget {
             itemCount: snapshot.data!.length,
             scrollDirection: Axis.vertical,
             physics: const BouncingScrollPhysics(),
-            reverse: true,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
@@ -50,7 +49,8 @@ class HistoryOrdersPage extends StatelessWidget {
                   Get.to(
                     () => OrderByID(
                       orderID: snapshot.data![index].id!,
-                      pageName: 'orderPage'.tr + ' ${index + 1}',
+                      pageName: 'orderPage'.tr + ' ${snapshot.data!.length - index}',
+                      ask: snapshot.data![index].ask!,
                     ),
                   );
                 },
@@ -60,22 +60,39 @@ class HistoryOrdersPage extends StatelessWidget {
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 8, bottom: 4),
+                            padding: const EdgeInsets.only(right: 6, bottom: 4),
                             child: Icon(
                               snapshot.data![index].status == 'pending' ? IconlyLight.timeCircle : Icons.done_all,
                               color: snapshot.data![index].status == 'pending' ? kPrimaryColor : Colors.green,
+                              size: 24,
                             ),
                           ),
                           Text(
-                            'orderPage'.tr + ' ${index + 1}',
+                            // 'orderPage'.tr + ' ${snapshot.data![index].id}',
+                            'orderPage'.tr + ' ${snapshot.data!.length - index}',
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                               color: Colors.white,
                               fontFamily: josefinSansMedium,
-                              fontSize: 18,
+                              fontSize: 17,
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          snapshot.data![index].created_date.toString().substring(0, 10),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontFamily: josefinSansRegular,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
@@ -85,16 +102,18 @@ class HistoryOrdersPage extends StatelessWidget {
                         style: const TextStyle(
                           color: Colors.white,
                           fontFamily: josefinSansMedium,
-                          fontSize: 18,
+                          fontSize: 16,
                         ),
                       ),
                     ),
                   ],
                 ),
                 iconColor: Colors.white,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 6),
                 trailing: const Icon(
                   IconlyLight.arrowRightCircle,
                   color: Colors.white,
+                  size: 20,
                 ),
               );
             },
@@ -108,9 +127,11 @@ class HistoryOrdersPage extends StatelessWidget {
 class OrderByID extends StatelessWidget {
   final int orderID;
   final String pageName;
+  final bool ask;
   const OrderByID({
     required this.orderID,
     required this.pageName,
+    required this.ask,
     Key? key,
   }) : super(key: key);
 
@@ -193,54 +214,69 @@ class OrderByID extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: Row(
-                                children: [
-                                  Expanded(flex: 1, child: Text('tournamentInfo15'.tr + ' :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
-                                  Expanded(
-                                    flex: 3,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data!.cartItems![index].code!.length,
-                                      itemBuilder: (BuildContext context, int indexx) {
-                                        return Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(child: Text(snapshot.data!.cartItems![index].code![indexx].code.toString(), textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
-                                            ElevatedButton.icon(
-                                              onPressed: () {
-                                                Clipboard.setData(ClipboardData(text: snapshot.data!.cartItems![index].code![indexx].code.toString())).then((value) {
-                                                  showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
-                                                });
-                                              },
-                                              style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColorBlack, elevation: 0.0, side: const BorderSide(color: kPrimaryColor)),
-                                              icon: const Icon(
-                                                Icons.copy_all,
-                                                color: Colors.white,
-                                              ),
-                                              label: Text(
-                                                'copy'.tr,
-                                                style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      },
+                            ask
+                                ? const SizedBox.shrink()
+                                : Padding(
+                                    padding: const EdgeInsets.only(bottom: 15),
+                                    child: Row(
+                                      children: [
+                                        Expanded(flex: 1, child: Text('tournamentInfo15'.tr + ' :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                        Expanded(
+                                          flex: 3,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: snapshot.data!.cartItems![index].code!.length,
+                                            itemBuilder: (BuildContext context, int indexx) {
+                                              return Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Expanded(child: Text(snapshot.data!.cartItems![index].code![indexx].code.toString(), textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
+                                                  ElevatedButton.icon(
+                                                    onPressed: () {
+                                                      Clipboard.setData(ClipboardData(text: snapshot.data!.cartItems![index].code![indexx].code.toString())).then((value) {
+                                                        showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
+                                                      });
+                                                    },
+                                                    style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColorBlack, elevation: 0.0, side: const BorderSide(color: kPrimaryColor)),
+                                                    icon: const Icon(
+                                                      Icons.copy_all,
+                                                      color: Colors.white,
+                                                    ),
+                                                    label: Text(
+                                                      'copy'.tr,
+                                                      style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: Row(
-                                children: [
-                                  Expanded(flex: 1, child: Text('note'.tr + ' :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
-                                  Expanded(flex: 3, child: Text(snapshot.data!.note ?? 'tournamentInfo10'.tr, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
-                                ],
-                              ),
-                            ),
+                            ask
+                                ? Padding(
+                                    padding: const EdgeInsets.only(bottom: 15),
+                                    child: Row(
+                                      children: [
+                                        Expanded(flex: 1, child: Text('signIn2'.tr + ' :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                        Expanded(flex: 3, child: Text(snapshot.data!.pubgID ?? 'tournamentInfo10'.tr, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
+                                      ],
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
+                            snapshot.data!.note != null
+                                ? Padding(
+                                    padding: const EdgeInsets.only(bottom: 15),
+                                    child: Row(
+                                      children: [
+                                        Expanded(flex: 1, child: Text('note'.tr + ' :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                        Expanded(flex: 3, child: Text(snapshot.data!.note ?? 'tournamentInfo10'.tr, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
+                                      ],
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
                           ],
                         )
                       ],

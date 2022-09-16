@@ -150,7 +150,8 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
       flexibleSpace: Obx(() {
         return AnimatedCrossFade(
           firstChild: const SizedBox.shrink(),
-          secondChild: SizedBox(
+          secondChild: Container(
+            color: Colors.green,
             height: Get.size.height,
             width: Get.size.width,
             child: Hero(
@@ -161,6 +162,7 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
                 imageBuilder: (context, imageProvider) => Container(
                   width: Get.size.width,
                   decoration: BoxDecoration(
+                    color: Colors.red,
                     image: DecorationImage(
                       image: imageProvider,
                       fit: BoxFit.cover,

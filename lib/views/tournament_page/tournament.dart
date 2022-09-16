@@ -48,7 +48,7 @@ class _TournamentPageState extends State<TournamentPage> {
 
   Widget page2(int length) {
     return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       shrinkWrap: true,
       itemExtent: 220,
       itemCount: length,
@@ -61,30 +61,13 @@ class _TournamentPageState extends State<TournamentPage> {
 
   Widget page1(int length) {
     return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
+      physics: const AlwaysScrollableScrollPhysics(),
       itemExtent: 220,
       itemCount: length,
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
         return TournamentCard(index: index, finised: false, tournamentModel: TournamentModel.fromJson(controller.tournamentList[index]));
       },
-    );
-  }
-
-  dynamic getData() {
-    if (controller.tournamentLoading.value == 0) {
-      return Center(
-        child: spinKit(),
-      );
-    } else if (controller.tournamentLoading.value == 1) {
-      return noData('cannot_find_data_tournament');
-    }
-    return TabBarView(
-      children: [
-        controller.tournamentList.isEmpty ? noData('cannot_find_data_tournament') : page1(controller.tournamentList.length),
-        controller.tournamentFinisedList.isEmpty ? noData('cannot_find_data_tournament') : page2(controller.tournamentFinisedList.length),
-      ],
     );
   }
 
@@ -123,16 +106,28 @@ class _TournamentPageState extends State<TournamentPage> {
             header: const MaterialClassicHeader(
               color: kPrimaryColor,
             ),
-            child: Column(
-              children: [
-                tabbar(),
-                Expanded(
-                  child: Obx(() {
-                    return getData();
-                  }),
-                ),
-              ],
-            ),
+            child: Obx(() {
+              if (controller.tournamentLoading.value == 0) {
+                return Center(
+                  child: spinKit(),
+                );
+              } else if (controller.tournamentLoading.value == 1) {
+                return noData('cannot_find_data_tournament');
+              }
+              return Column(
+                children: [
+                  tabbar(),
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        controller.tournamentList.isEmpty ? noData('cannot_find_data_tournament') : page1(controller.tournamentList.length),
+                        controller.tournamentFinisedList.isEmpty ? noData('cannot_find_data_tournament') : page2(controller.tournamentFinisedList.length),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }),
           ),
         ),
       ),

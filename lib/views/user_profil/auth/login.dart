@@ -61,18 +61,20 @@ class Login extends StatelessWidget {
     if (login.currentState!.validate()) {
       Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
       UserSignInModel().login(phone: phoneNumberController.text).then((value) {
-        if (value == true) {
+        if (value == 200) {
           Get.to(
             () => OtpCheck(
               phoneNumber: phoneNumberController.text,
             ),
           );
+        } else if (value == 404) {
+          showSnackBar('Ulanyjy yok', 'Hasaba alyn bolumden ulgama gir', Colors.red);
         } else {
           showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
         }
       });
     } else {
-      showSnackBar('tournamentInfo14', 'errorEmpty', Colors.red);
+      showSnackBar('tournamentInfo14', 'errorE  mpty', Colors.red);
     }
     Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
   }

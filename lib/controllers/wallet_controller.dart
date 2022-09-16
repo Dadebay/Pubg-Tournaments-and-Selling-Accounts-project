@@ -29,7 +29,7 @@ class WalletController extends GetxController {
           element['count']++;
         }
       }
-      if (value) {
+      if (!value) {
         cartList.add({
           'id': ucModel.id,
           'count': 1,
@@ -47,11 +47,6 @@ class WalletController extends GetxController {
     storage.write('cart', cartList);
   }
 
-  // dynamic returnCartList() async {
-  //   final List list = await storage.read('cart');
-  //   print(list);
-  // }
-
   dynamic getUserMoney() async {
     final token = await Auth().getToken();
     if (token != null) {
@@ -61,6 +56,5 @@ class WalletController extends GetxController {
     } else {
       userMoney.value = '0.0';
     }
-    return userMoney.value = '0.0';
   }
 }

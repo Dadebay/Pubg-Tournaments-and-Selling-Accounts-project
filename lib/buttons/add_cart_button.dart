@@ -39,19 +39,23 @@ class _AddCartButtonState extends State<AddCartButton> {
     }
   }
 
-  Widget textPart() {
-    return Text(
-      'addCart'.tr,
-      style: TextStyle(color: Colors.white, fontSize: widget.productProfil ? 22 : 16, fontFamily: josefinSansSemiBold),
-    );
-  }
-
   Widget numPart() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-          onTap: onTapp,
+          onTap: () {
+            if (number - 1 == 0) {
+              value = false;
+              number = 1;
+              walletController.removeCart(widget.ucModel.id!);
+            } else {
+              number--;
+            }
+            debugPrint(walletController.cartList.toString());
+
+            setState(() {});
+          },
           child: const Icon(
             CupertinoIcons.minus_circle,
             color: Colors.white,
@@ -66,6 +70,7 @@ class _AddCartButtonState extends State<AddCartButton> {
           onTap: () {
             number++;
             walletController.addCart(ucModel: widget.ucModel);
+            debugPrint(walletController.cartList.toString());
             setState(() {});
           },
           child: const Icon(
@@ -78,25 +83,15 @@ class _AddCartButtonState extends State<AddCartButton> {
     );
   }
 
-  void onTapp() {
-    if (number - 1 == 0) {
-      value = false;
-      number = 1;
-      walletController.removeCart(widget.ucModel.id!);
-    } else {
-      number--;
-    }
-    setState(() {});
-  }
-
   int a = 0;
-  checkStatus() {
+  dynamic checkStatus() {
     a = 0;
     for (var element in walletController.cartList) {
       if (element['id'] == widget.ucModel.id) {
         a = 1;
       }
     }
+    if (a == 0) value = false;
   }
 
   @override
@@ -109,18 +104,20 @@ class _AddCartButtonState extends State<AddCartButton> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColorBlack, padding: EdgeInsets.symmetric(vertical: widget.productProfil ? 14 : 0, horizontal: value ? 15 : 0), elevation: 0, shape: RoundedRectangleBorder(borderRadius: widget.productProfil ? borderRadius20 : borderRadius15)),
           onPressed: () {
-            setState(() {
-              if (!value) {
-                walletController.addCart(ucModel: widget.ucModel);
-                value = !value;
-              }
-            });
+            debugPrint(value.toString());
+            if (value == false) {
+              walletController.addCart(ucModel: widget.ucModel);
+              value = !value;
+            }
+            setState(() {});
+            debugPrint(walletController.cartList.toString());
           },
           child: value
-              ? a == 0
-                  ? textPart()
-                  : numPart()
-              : textPart(),
+              ? numPart()
+              : Text(
+                  'addCart'.tr,
+                  style: TextStyle(color: Colors.white, fontSize: widget.productProfil ? 22 : 16, fontFamily: josefinSansSemiBold),
+                ),
         ),
       );
     });

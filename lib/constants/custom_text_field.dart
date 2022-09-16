@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final bool isNumber;
   final bool? borderRadius;
   final bool? disabled;
+  final bool? isLabel;
 
   const CustomTextField({
     required this.labelName,
@@ -18,6 +19,7 @@ class CustomTextField extends StatelessWidget {
     required this.focusNode,
     required this.requestfocusNode,
     required this.isNumber,
+    this.isLabel = false,
     this.maxline,
     this.borderRadius,
     this.disabled,
@@ -47,17 +49,19 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           errorMaxLines: 2,
           errorStyle: const TextStyle(fontFamily: josefinSansMedium),
-          // labelText: labelName.tr,
           hintMaxLines: 5,
           helperMaxLines: 5,
-          label: Text(
-            labelName.tr,
-            maxLines: 5,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.grey.shade500, fontFamily: josefinSansMedium),
-          ),
+          hintText: isLabel! ? labelName.tr : '',
+          hintStyle: TextStyle(color: Colors.grey.shade500, fontFamily: josefinSansMedium),
+          label: isLabel!
+              ? null
+              : Text(
+                  labelName.tr,
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.grey.shade500, fontFamily: josefinSansMedium),
+                ),
           contentPadding: const EdgeInsets.only(left: 25, top: 20, bottom: 20, right: 10),
-          // labelStyle: TextStyle(color: Colors.grey.shade500, fontFamily: josefinSansMedium),
           border: OutlineInputBorder(
             borderRadius: borderRadius == null
                 ? borderRadius5

@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:game_app/constants/index.dart';
 import 'package:http/http.dart' as http;
 
+import 'user_models/auth_model.dart';
+
 class AddAccountModel extends GetxController {
   final int? id;
   final String? nickname;
@@ -71,5 +73,21 @@ class AddAccountModel extends GetxController {
     } else {
       return false;
     }
+  }
+
+  Future deleteVideo({
+    required int id,
+  }) async {
+    final token = await Auth().getToken();
+    final response = await http.post(
+      Uri.parse('$serverURL/api/accounts/delete-video/$id'),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+    );
+    debugPrint(response.body);
+    debugPrint(response.statusCode.toString());
+    return response.statusCode;
   }
 }

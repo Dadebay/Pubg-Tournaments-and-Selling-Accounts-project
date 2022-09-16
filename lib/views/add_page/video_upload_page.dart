@@ -29,12 +29,12 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
   VideoPlayerController? _controller;
   Future<void>? _initializeVideoPlayerFuture;
   File? selectedVideo;
-  late FlickManager flickManager;
 
   Future pickVideo() async {
     try {
       if (a >= myNumber) {
         XFile? video = await ImagePicker().pickVideo(source: ImageSource.gallery, maxDuration: const Duration(seconds: 30));
+        Get.find<SettingsController>().agreeButton.value = false;
         if (video == null) {
           return;
         }
@@ -56,6 +56,9 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
               _controller = VideoPlayerController.file(selectedVideo!);
               _controller!.pause();
               _initializeVideoPlayerFuture = _controller!.initialize();
+              flickManager = FlickManager(
+                videoPlayerController: VideoPlayerController.file(selectedVideo!),
+              );
             });
           } else {
             showSnackBar('noConnection3', 'video_size_error', Colors.amber);
@@ -71,24 +74,23 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
   @override
   void dispose() {
     super.dispose();
-    flickManager.dispose();
-    Get.find<SettingsController>().agreeButton.value = false;
-
     _controller!.dispose();
   }
 
   int a = 0;
   dynamic changeLimit() {
-    debugPrint('geldiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
     AddAccountModel().getConsts().then((value) {
       a = value['video_limit'];
       setState(() {});
     });
   }
 
+  FlickManager? flickManager;
   @override
   void initState() {
     super.initState();
+    Get.find<SettingsController>().agreeButton.value = false;
+
     changeLimit();
   }
 
@@ -109,10 +111,22 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 15),
-                child: Text(
-                  'video_upload_title'.tr,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
+                child: Column(
+                  children: [
+                    Text(
+                      'video_upload_title'.tr,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'cannot_upload_video'.tr,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.grey, fontFamily: josefinSansRegular, fontSize: 16),
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -127,20 +141,23 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
               const SizedBox(
                 height: 20,
               ),
-              AgreeButton(
-                onTap: onTapp,
+              Center(
+                child: AgreeButton(
+                  onTap: onTapp,
+                ),
               ),
               SizedBox(
                 width: Get.size.width,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await Navigator.of(context).pushReplacement(
+                    await Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return const ConnectionCheck();
-                        },
+                        builder: (context) => const ConnectionCheck(),
                       ),
+                      (Route<dynamic> route) => false,
                     );
+                    await _controller!.pause();
+                    flickManager!.dispose();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kPrimaryColorBlack,
@@ -192,9 +209,7 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
                           DeviceOrientation.portraitUp,
                         ],
                         preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
-                        flickManager: FlickManager(
-                          videoPlayerController: VideoPlayerController.file(selectedVideo!),
-                        ),
+                        flickManager: flickManager!,
                       ),
                     ),
                   ),
@@ -249,7 +264,7 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
     debugPrint(a.toString());
     debugPrint(myNumber.toString());
     if (a >= myNumber) {
-      if (!Get.find<SettingsController>().agreeButton.value) {
+      if (Get.find<SettingsController>().agreeButton.value == false) {
         Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
 
         final token = await Auth().getToken();
@@ -284,6 +299,7 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
           myNumber++;
           selectedVideo = null;
           await _controller!.pause();
+          flickManager!.dispose();
           showSnackBar('done', 'done1', Colors.green);
           setState(() {});
         } else {
@@ -291,7 +307,7 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
         }
         Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
       } else {
-        showSnackBar('videoUploading', 'videoUploading1', kPrimaryColor);
+        showSnackBar('videoUploading', 'videoUploading1', Colors.red);
       }
     } else {
       await Navigator.of(context).pushReplacement(

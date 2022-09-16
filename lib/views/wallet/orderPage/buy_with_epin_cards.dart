@@ -3,17 +3,18 @@ import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/uc_models.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
-import 'package:game_app/views/wallet/order_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class WalletPage extends StatefulWidget {
-  const WalletPage({Key? key}) : super(key: key);
+import 'buy_with_epin_order.dart';
+
+class BuyWithEpinCards extends StatefulWidget {
+  const BuyWithEpinCards({Key? key}) : super(key: key);
 
   @override
-  State<WalletPage> createState() => _WalletPageState();
+  State<BuyWithEpinCards> createState() => _BuyWithEpinCardsState();
 }
 
-class _WalletPageState extends State<WalletPage> {
+class _BuyWithEpinCardsState extends State<BuyWithEpinCards> {
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   final WalletController walletController = Get.put(WalletController());
@@ -29,9 +30,7 @@ class _WalletPageState extends State<WalletPage> {
           }
           walletController.finalPRice.value = value;
           await Get.to(
-            () => const OrderPage(
-              orderType: false,
-            ),
+            () => const BuyWithEpin(),
           );
         } else {
           showSnackBar('noConnection3', 'order_error_subtitle', Colors.red);
@@ -64,12 +63,14 @@ class _WalletPageState extends State<WalletPage> {
     _refreshController.refreshCompleted();
   }
 
+  // ignore: member-ordering-extended
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kPrimaryColorBlack,
         appBar: MyAppBar(backArrow: true, fontSize: 18.0, iconRemove: false, icon: balIcon(), elevationWhite: true, name: 'Pubg UC'),
+        // ignore: prefer-extracting-callbacks
         floatingActionButton: Obx(() {
           return AnimatedCrossFade(
             firstChild: const SizedBox.shrink(),

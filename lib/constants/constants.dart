@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-const String serverURL = 'http://95.85.125.234:8800';
-// const String serverURL = 'http://192.168.31.68:8800';
-// const String serverImage = "https://elyeter.market";
-// const String authServerUrl = "https://elyeter.market";
+const String serverURL = 'https://ucdayy.online';
 
 const Color backgroundColor = Color(0xfff2f2f2);
 const Color kPrimaryColor = Color(0xFFFF9800);
@@ -83,3 +80,18 @@ const List sortData = [
     'sort_direction': 'old',
   },
 ];
+//Zalim Kader62283946
+
+//Mishka 64276585
+
+//G 64597859
+
+//Yomutka 64793616
+
+//Jemal 63407070
+
+//Rus 64055480
+
+// ???? 65496447
+
+// gul 64484697

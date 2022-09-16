@@ -27,7 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const HomePage(),
     const TournamentPage(),
     Container(),
-    const WalletTwoPage(),
+    const WalletPage(),
     const UserProfil(),
   ];
 
@@ -341,7 +341,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                           Get.to(() => AddPage(
                                 pubgType: pubgTypeID,
                                 locationID: locationID,
-                                vipOrNot: 0,
+                                vipOrNot: 1,
                               ));
                         } else if (b >= a) {
                           showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
@@ -373,7 +373,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                           Get.to(() => AddPage(
                                 pubgType: pubgTypeID,
                                 locationID: locationID,
-                                vipOrNot: 1,
+                                vipOrNot: 0,
                               ));
                         } else if (b >= a) {
                           showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
