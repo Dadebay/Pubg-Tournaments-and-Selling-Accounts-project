@@ -2,7 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:game_app/constants/price.dart';
+import 'package:game_app/constants/uc_price.dart';
 import 'package:game_app/constants/constants.dart';
 import 'package:game_app/constants/widgets.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';

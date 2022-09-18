@@ -47,22 +47,19 @@ Widget dividerr() {
   );
 }
 
-Center noData(String text) {
-  return Center(
-    child: Text(
-      text.tr,
-      maxLines: 2,
-      textAlign: TextAlign.center,
-      style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
-    ),
+Divider customDivider() {
+  return const Divider(
+    thickness: 1,
+    color: backgroundColor,
+    height: 1,
   );
 }
 
 Widget spinKit() {
-  return Lottie.asset('assets/lottie/pubg.json', animate: true, width: 300, height: 300);
+  return Lottie.asset(loader, animate: true, width: 300, height: 300);
 }
 
-Widget balIcon() {
+Widget userAppBarMoney() {
   return Padding(
     padding: const EdgeInsets.only(top: 5),
     child: Row(
@@ -80,31 +77,6 @@ Widget balIcon() {
           child: Text('TMT'),
         ),
       ],
-    ),
-  );
-}
-
-Divider customDivider() {
-  return const Divider(
-    thickness: 1,
-    color: backgroundColor,
-    height: 1,
-  );
-}
-
-//------------------ HOME PAGE --------------------//
-
-Container noBannerImage() {
-  return Container(
-    margin: const EdgeInsets.all(15),
-    width: Get.size.width,
-    height: 220,
-    decoration: const BoxDecoration(borderRadius: borderRadius15, color: kPrimaryColorBlack1),
-    child: Center(
-      child: Text(
-        'noImageBanner'.tr,
-        style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
-      ),
     ),
   );
 }
@@ -162,133 +134,5 @@ CustomFooter footer() {
         child: Center(child: body),
       );
     },
-  );
-}
-
-ListView waitingData() {
-  return ListView.builder(
-    scrollDirection: Axis.vertical,
-    itemCount: 10,
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemBuilder: (BuildContext context, int index) {
-      return Container(
-        margin: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
-        height: 170,
-        decoration: BoxDecoration(borderRadius: borderRadius15, color: kPrimaryColorBlack1.withOpacity(0.4)),
-        child: Center(
-          child: spinKit(),
-        ),
-      );
-    },
-  );
-}
-
-Center cannotLoadData({required bool withButton, required Function() onTap, required String text}) {
-  return Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: Text(
-            text, // withButton ? "errorPubgAccounts".tr : "Hic Hilis satlyk akkaunt yok",
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: josefinSansMedium),
-          ),
-        ),
-        withButton
-            ? ElevatedButton(
-                onPressed: onTap,
-                style: ElevatedButton.styleFrom(primary: kPrimaryColor),
-                child: Text(
-                  'noConnection3'.tr,
-                  style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansMedium),
-                ),
-              )
-            : const SizedBox.shrink()
-      ],
-    ),
-  );
-}
-
-//------------------ HOME PAGE --------------------//
-
-Future<Object?> showDeleteDialog(BuildContext context, String text, String text2, Function() onTap) {
-  return showGeneralDialog(
-    transitionBuilder: (context, a1, a2, widget) {
-      final curvedValue = Curves.decelerate.transform(a1.value) - 1.0;
-      return Transform(
-        transform: Matrix4.translationValues(0.0, curvedValue * 400, 0.0),
-        child: Opacity(
-          opacity: a1.value,
-          child: AlertDialog(
-            backgroundColor: kPrimaryColorBlack,
-            shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
-            title: Text(
-              text.tr,
-              style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansSemiBold),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20, left: 6, right: 6),
-                  child: Text(
-                    text2.tr,
-                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansMedium),
-                  ),
-                ),
-                Row(
-                  children: [
-                    dialogButton(
-                      'no',
-                      () {
-                        Get.back();
-                      },
-                      true,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    dialogButton('yes', onTap, false),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      );
-    },
-    transitionDuration: const Duration(milliseconds: 500),
-    barrierDismissible: true,
-    barrierLabel: '',
-    context: context,
-    pageBuilder: (context, animation1, animation2) {
-      return const SizedBox.shrink();
-    },
-  );
-}
-
-//
-Widget dialogButton(String name, Function() onTap, bool color) {
-  return Expanded(
-    child: ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        shape: const RoundedRectangleBorder(
-          borderRadius: borderRadius20,
-        ),
-        primary: color ? kPrimaryColor : kPrimaryColorBlack1,
-        padding: const EdgeInsets.symmetric(vertical: 14),
-      ),
-      child: Text(
-        name.tr,
-        style: TextStyle(color: color ? kPrimaryColorBlack1 : kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
-      ),
-    ),
   );
 }

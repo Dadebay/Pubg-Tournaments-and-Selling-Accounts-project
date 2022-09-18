@@ -1,5 +1,3 @@
-// ignore_for_file: file_names, avoid_print
-
 import 'package:flutter_html/flutter_html.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
@@ -88,7 +86,6 @@ class TabPage1 extends StatelessWidget {
 
   void showCode() async {
     final token = await Auth().getToken();
-    print(token);
     Get.find<SettingsController>().agreeButton.value = false;
 
     if (buttonName == 'Kody görkez') {

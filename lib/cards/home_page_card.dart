@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/constants/price.dart';
+import 'package:game_app/constants/uc_price.dart';
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';
 import 'package:game_app/views/other_pages/account_profil_page/account_profil_page.dart';
@@ -70,26 +70,6 @@ class HomePageCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Positioned(  VIP BADGE BOLMALY
-                    //   top: 8,
-                    //   left: -35,
-                    //   child: vip
-                    //       ? Transform.rotate(
-                    //           angle: pi / -4.5,
-                    //           child: Container(
-                    //             color: Colors.black,
-                    //             width: 120,
-                    //             padding: const EdgeInsets.symmetric(vertical: 4),
-                    //             child: const Center(
-                    //               child: Text(
-                    //                 "VIP",
-                    //                 style: TextStyle(color: kPrimaryColor, fontSize: 18, fontFamily: josefinSansSemiBold),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         )
-                    //       : const SizedBox.shrink(),
-                    // )
                   ],
                 ),
               ),

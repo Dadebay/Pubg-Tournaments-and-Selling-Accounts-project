@@ -64,6 +64,7 @@ class TournamentModel {
       for (final Map product in responseJson['results']) {
         abc.add(TournamentModel.fromJson(product));
       }
+
       controller.addToList(list: abc);
       return abc;
     } else {

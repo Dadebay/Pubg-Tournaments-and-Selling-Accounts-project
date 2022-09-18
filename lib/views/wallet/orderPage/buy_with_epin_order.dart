@@ -59,11 +59,9 @@ class _BuyWithEpinState extends State<BuyWithEpin> {
           Center(
             child: AgreeButton(
               onTap: () async {
-                debugPrint('asdasda');
                 final token = await Auth().getToken();
                 if (token != null) {
                   Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                  print(walletController.cartList);
                   final List list = [];
                   for (var element in walletController.cartList) {
                     list.add({
@@ -72,11 +70,12 @@ class _BuyWithEpinState extends State<BuyWithEpin> {
                     });
                   }
                   await UcModel().addCart(list, false, '').then((value) {
-                    if (value == 200) {
+                    if (value == 200 || value == 500) {
                       walletController.cartList.clear();
                       walletController.cartList.refresh();
                       Get.back();
                       Get.back();
+                      Get.find<WalletController>().getUserMoney();
                       showSnackBar('copySucces', 'orderSubtitle', Colors.green);
                     } else if (value == 404) {
                       showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);

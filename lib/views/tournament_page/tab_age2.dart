@@ -6,13 +6,7 @@ import 'package:game_app/models/tournament_model.dart';
 class TabPage2 extends StatelessWidget {
   final TournamentModel model;
 
-  List icons = [
-    'assets/icons/tier/1.png',
-    'assets/icons/tier/2.png',
-    'assets/icons/tier/3.png',
-  ];
-
-  TabPage2({
+  const TabPage2({
     required this.model,
     Key? key,
   }) : super(key: key);

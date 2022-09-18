@@ -230,7 +230,7 @@ class OrderByID extends StatelessWidget {
                                               return Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Expanded(child: Text(snapshot.data!.cartItems![index].code![indexx].code.toString(), textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
+                                                  Expanded(child: Text(snapshot.data!.cartItems![index].code![indexx].code ?? 'tournamentInfo10'.tr, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
                                                   ElevatedButton.icon(
                                                     onPressed: () {
                                                       Clipboard.setData(ClipboardData(text: snapshot.data!.cartItems![index].code![indexx].code.toString())).then((value) {
@@ -276,7 +276,17 @@ class OrderByID extends StatelessWidget {
                                       ],
                                     ),
                                   )
-                                : const SizedBox.shrink(),
+                                : ask
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(bottom: 15),
+                                        child: Row(
+                                          children: [
+                                            Expanded(flex: 1, child: Text('note'.tr + ' :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                            Expanded(flex: 3, child: Text(snapshot.data!.note ?? 'tournamentInfo10'.tr, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
+                                          ],
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
                           ],
                         )
                       ],

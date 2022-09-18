@@ -121,9 +121,7 @@ class _MyAppRunState extends State<MyAppRun> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getToken().then((value) {
-      // print(value);
-    });
+    FirebaseMessaging.instance.getToken().then((value) {});
     firebaseMessagingPart();
   }
 

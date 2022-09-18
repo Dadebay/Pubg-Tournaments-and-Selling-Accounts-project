@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:game_app/constants/index.dart';
 
 class UcModel {
-  
   final int? id;
   final String? price;
   final String? title;
@@ -39,10 +38,8 @@ class UcModel {
     );
   }
 
-
   Future addCart(List list, bool ask, String pubgID) async {
     final String? token = await Auth().getToken();
-    debugPrint(pubgID);
     final response = await http.post(
       Uri.parse('$serverURL/api/carts/add-cart/'),
       headers: <String, String>{
@@ -51,8 +48,6 @@ class UcModel {
       },
       body: jsonEncode(<String, dynamic>{'list': list, 'ask': ask, 'pubg_id': pubgID == '' ? null : pubgID}),
     );
-    debugPrint(response.body);
-    debugPrint(response.statusCode.toString());
     return response.statusCode;
   }
 

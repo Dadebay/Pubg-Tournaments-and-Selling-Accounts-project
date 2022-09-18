@@ -261,8 +261,6 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
   }
 
   onTapp() async {
-    debugPrint(a.toString());
-    debugPrint(myNumber.toString());
     if (a >= myNumber) {
       if (Get.find<SettingsController>().agreeButton.value == false) {
         Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
@@ -294,7 +292,6 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
         request.files.add(multipartFileSign1);
 
         final http.StreamedResponse response = await request.send();
-        debugPrint(response.statusCode.toString());
         if (response.statusCode == 200) {
           myNumber++;
           selectedVideo = null;

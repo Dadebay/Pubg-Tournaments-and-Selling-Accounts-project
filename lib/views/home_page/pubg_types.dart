@@ -54,7 +54,7 @@ class PubgTypes extends StatelessWidget {
               width: 100,
               height: 100,
               margin: const EdgeInsets.only(bottom: 15),
-              decoration: const BoxDecoration(color: backgroundColor, shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: kPrimaryColorBlack1, shape: BoxShape.circle),
               child: ClipOval(
                 child: CachedNetworkImage(
                   fadeInCurve: Curves.ease,
@@ -70,7 +70,7 @@ class PubgTypes extends StatelessWidget {
                     ),
                   ),
                   placeholder: (context, url) => Center(child: spinKit()),
-                  errorWidget: (context, url, error) => noImagePubgCircle(),
+                  errorWidget: (context, url, error) => Center(child: spinKit()),
                 ),
               ),
             ),
@@ -78,16 +78,6 @@ class PubgTypes extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Container noImagePubgCircle() {
-    return Container(
-      width: 100,
-      height: 100,
-      margin: const EdgeInsets.only(bottom: 15, left: 15),
-      decoration: const BoxDecoration(color: kPrimaryColorBlack1, shape: BoxShape.circle),
-      child: Center(child: spinKit()),
     );
   }
 
@@ -109,7 +99,7 @@ class PubgTypes extends StatelessWidget {
               itemCount: 5,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return noImagePubgCircle();
+                return Center(child: spinKit());
               },
             );
           } else if (snapshot.hasError) {

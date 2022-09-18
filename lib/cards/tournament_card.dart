@@ -32,7 +32,7 @@ class TournamentCard extends StatelessWidget {
       child: Container(
         width: Get.size.width,
         margin: EdgeInsets.only(top: index == 0 ? 15 : 0, bottom: 18, right: 12, left: 12),
-        decoration: const BoxDecoration(color: kPrimaryColorBlack, borderRadius: borderRadius30),
+        decoration: BoxDecoration(color: kPrimaryColorBlack, borderRadius: borderRadius30, border: Border.all(color: kPrimaryColorBlack1)),
         child: Stack(
           children: [
             Positioned.fill(
@@ -54,7 +54,7 @@ class TournamentCard extends StatelessWidget {
                       ),
                     ),
                     placeholder: (context, url) => Center(child: spinKit()),
-                    errorWidget: (context, url, error) => const Text('No Image'),
+                    errorWidget: (context, url, error) => const SizedBox.shrink(),
                   ),
                 ),
               ),

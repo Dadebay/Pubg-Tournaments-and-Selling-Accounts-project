@@ -236,7 +236,7 @@ class _BuyWithIDState extends State<BuyWithID> {
                     });
                   }
                   await UcModel().addCart(list, true, pubgUserIDController.text).then((value) {
-                    if (value == 200) {
+                    if (value == 200 || value == 500) {
                       walletController.cartList.clear();
                       walletController.cartList.refresh();
                       Get.back();

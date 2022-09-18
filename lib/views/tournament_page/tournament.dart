@@ -91,7 +91,7 @@ class _TournamentPageState extends State<TournamentPage> {
             fontSize: 22.0,
             backArrow: false,
             iconRemove: false,
-            icon: balIcon(),
+            icon: userAppBarMoney(),
             name: 'tournament',
             elevationWhite: true,
           ),

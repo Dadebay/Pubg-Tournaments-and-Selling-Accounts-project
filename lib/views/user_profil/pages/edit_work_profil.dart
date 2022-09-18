@@ -65,6 +65,7 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
       for (var element in value) {
         if (widget.model.location == element.id) {
           locationName = Get.locale?.languageCode == 'tr' ? element.name_tm.toString() : element.name_ru.toString();
+          setState(() {});
         }
       }
     });
@@ -72,10 +73,11 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
       for (var element in value) {
         if (widget.model.pubgType == element.id) {
           pubgName = element.title.toString();
+          pubgID = element.id!;
+          setState(() {});
         }
       }
     });
-    setState(() {});
   }
 
   Future pickImage() async {
@@ -446,20 +448,21 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
     final token = await Auth().getToken();
     final headers = {'Authorization': 'Bearer $token'};
     final request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/update-account/'));
-
     request.fields.addAll({
-      'pubg_username': userNameController.text,
-      'pubg_id': pubgIDController.text,
-      'first_name': fisrtNameController.text,
-      'last_name': lastNameController.text,
+      'pubg_username': userNameController.text.toString(),
+      'pubg_id': pubgIDController.text.toString(),
+      'first_name': fisrtNameController.text.toString(),
+      'last_name': lastNameController.text.toString(),
       'email': '',
-      'bio': bioController.text,
+      'bio': bioController.text.toString(),
       'location': '${locationID == -1 ? widget.model.location : locationID}',
       'pubg_type': '${pubgID == -1 ? int.parse(widget.model.pubgId!) : pubgID}',
-      'for_sale': '0',
-      'vip': '${widget.model.vip}',
+      'for_sale': '1',
+      'vip': '${widget.model.vip == true ? 1 : 0}',
+      'edit': '1',
       'price': priceController.text
     });
+
     request.headers.addAll(headers);
     if (selectedImage != null) {
       final String fileName = selectedImage!.path.split('/').last;

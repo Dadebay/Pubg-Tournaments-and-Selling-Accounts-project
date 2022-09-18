@@ -69,7 +69,7 @@ class _BuyWithEpinCardsState extends State<BuyWithEpinCards> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kPrimaryColorBlack,
-        appBar: MyAppBar(backArrow: true, fontSize: 18.0, iconRemove: false, icon: balIcon(), elevationWhite: true, name: 'Pubg UC'),
+        appBar: MyAppBar(backArrow: true, fontSize: 18.0, iconRemove: false, icon: userAppBarMoney(), elevationWhite: true, name: 'Pubg UC'),
         // ignore: prefer-extracting-callbacks
         floatingActionButton: Obx(() {
           return AnimatedCrossFade(

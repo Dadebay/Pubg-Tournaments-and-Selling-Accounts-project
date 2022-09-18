@@ -137,6 +137,12 @@ class _AddPageState extends State<AddPage> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    Get.find<SettingsController>().agreeButton.value = false;
+  }
+
   dynamic selectBackImage() {
     return Column(
       children: [
@@ -214,6 +220,7 @@ class _AddPageState extends State<AddPage> {
           'location': '${widget.locationID}',
           'pubg_type': '${widget.pubgType}',
           'for_sale': '1',
+          'edit': '0',
           'vip': '${widget.vipOrNot}',
           'price': priceController.text
         });
@@ -234,8 +241,6 @@ class _AddPageState extends State<AddPage> {
         request.files.add(multipartFileSign1);
 
         final http.StreamedResponse response = await request.send();
-        debugPrint(response.statusCode.toString());
-        debugPrint(response.reasonPhrase);
         Get.find<SettingsController>().agreeButton.value = false;
 
         if (response.statusCode == 200) {

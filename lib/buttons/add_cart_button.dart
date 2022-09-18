@@ -52,8 +52,6 @@ class _AddCartButtonState extends State<AddCartButton> {
             } else {
               number--;
             }
-            debugPrint(walletController.cartList.toString());
-
             setState(() {});
           },
           child: const Icon(
@@ -70,7 +68,6 @@ class _AddCartButtonState extends State<AddCartButton> {
           onTap: () {
             number++;
             walletController.addCart(ucModel: widget.ucModel);
-            debugPrint(walletController.cartList.toString());
             setState(() {});
           },
           child: const Icon(
@@ -104,13 +101,11 @@ class _AddCartButtonState extends State<AddCartButton> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColorBlack, padding: EdgeInsets.symmetric(vertical: widget.productProfil ? 14 : 0, horizontal: value ? 15 : 0), elevation: 0, shape: RoundedRectangleBorder(borderRadius: widget.productProfil ? borderRadius20 : borderRadius15)),
           onPressed: () {
-            debugPrint(value.toString());
             if (value == false) {
               walletController.addCart(ucModel: widget.ucModel);
               value = !value;
             }
             setState(() {});
-            debugPrint(walletController.cartList.toString());
           },
           child: value
               ? numPart()

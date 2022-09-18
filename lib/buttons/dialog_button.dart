@@ -1,0 +1,37 @@
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+
+import '../constants/index.dart';
+
+class DialogButton extends StatelessWidget {
+  final String name;
+  final Function() onTapp;
+  final bool color;
+  const DialogButton({
+    required this.name,
+    required this.onTapp,
+    required this.color,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ElevatedButton(
+        onPressed: onTapp,
+        style: ElevatedButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+            borderRadius: borderRadius20,
+          ),
+          backgroundColor: color ? kPrimaryColor : kPrimaryColorBlack1,
+          padding: const EdgeInsets.symmetric(vertical: 14),
+        ),
+        child: Text(
+          name.tr,
+          style: TextStyle(color: color ? kPrimaryColorBlack1 : kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
+        ),
+      ),
+    );
+  }
+}

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 const String serverURL = 'https://ucdayy.online';
-
 const Color backgroundColor = Color(0xfff2f2f2);
 const Color kPrimaryColor = Color(0xFFFF9800);
 const Color kPrimaryColorBlack = Color(0xff161621);
 const Color kPrimaryColorBlack1 = Color.fromARGB(255, 37, 42, 51);
+const MaterialColor colorCustom = MaterialColor(0xff55b539, color);
 
 const Map<int, Color> color = {
   50: Color.fromRGBO(255, 92, 87, .1),
@@ -19,8 +19,6 @@ const Map<int, Color> color = {
   800: Color.fromRGBO(255, 92, 87, .9),
   900: Color.fromRGBO(255, 92, 87, 1),
 };
-
-const MaterialColor colorCustom = MaterialColor(0xff55b539, color);
 
 ///BorderRadius
 const BorderRadius borderRadius5 = BorderRadius.all(Radius.circular(5));
@@ -39,14 +37,12 @@ const String tmIcon = 'assets/lang/tm.png';
 const String ruIcon = 'assets/lang/ru.png';
 const String accountBackImage = 'assets/image/3.png';
 const String logo = 'assets/image/logo.png';
+const String loader = 'assets/lottie/pubg.json';
 const String epinImage = 'assets/image/epinNew.png';
 const String idImage = 'assets/image/idNew.png';
 const String appName = 'UC Daýy';
 const String appShareLink = 'https://play.google.com/store/apps/developer?id=Bilermen+Nesil';
 /////////////////////////////////////////////////
-
-const String loremImpsum =
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
 
 const List sortData = [
   {
@@ -80,18 +76,3 @@ const List sortData = [
     'sort_direction': 'old',
   },
 ];
-//Zalim Kader62283946
-
-//Mishka 64276585
-
-//G 64597859
-
-//Yomutka 64793616
-
-//Jemal 63407070
-
-//Rus 64055480
-
-// ???? 65496447
-
-// gul 64484697

@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use, file_names, avoid_types_as_parameter_names, non_constant_identifier_names, must_be_immutable, avoid_dynamic_calls, unnecessary_null_checks, use_key_in_widget_constructors, avoid_print
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:game_app/cards/banner_card.dart';
 import 'package:game_app/constants/index.dart';

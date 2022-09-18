@@ -86,8 +86,6 @@ class AddAccountModel extends GetxController {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    debugPrint(response.body);
-    debugPrint(response.statusCode.toString());
     return response.statusCode;
   }
 }
