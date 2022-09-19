@@ -66,6 +66,8 @@ class _BuyWithEpinCardsState extends State<BuyWithEpinCards> {
   // ignore: member-ordering-extended
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: kPrimaryColorBlack,
@@ -108,7 +110,7 @@ class _BuyWithEpinCardsState extends State<BuyWithEpinCards> {
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2 / 3),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: size.width >= 800 ? 3 : 2, childAspectRatio: 2 / 3),
                     itemBuilder: (context, index) {
                       return UCCard(
                         model: snapshot.data![index],

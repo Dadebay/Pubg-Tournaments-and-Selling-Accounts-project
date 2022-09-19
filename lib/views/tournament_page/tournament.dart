@@ -80,7 +80,6 @@ class _TournamentPageState extends State<TournamentPage> {
     _refreshController.refreshCompleted();
   }
 
-  // ignore: member-ordering-extended
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -102,7 +101,7 @@ class _TournamentPageState extends State<TournamentPage> {
             onRefresh: _onRefresh,
             enablePullDown: true,
             enablePullUp: false,
-            physics: const BouncingScrollPhysics(),
+            // physics: const BouncingScrollPhysics(),
             header: const MaterialClassicHeader(
               color: kPrimaryColor,
             ),

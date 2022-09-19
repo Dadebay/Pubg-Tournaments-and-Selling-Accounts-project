@@ -39,7 +39,7 @@ class ShowAllProductsCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              flex: 5,
+              flex: 4,
               child: SizedBox(
                 width: Get.size.width,
                 child: Stack(
@@ -81,7 +81,7 @@ class ShowAllProductsCard extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Container(
-                padding: const EdgeInsets.only(left: 6, top: 6),
+                padding: const EdgeInsets.only(left: 6, top: 4),
                 width: Get.size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +101,7 @@ class ShowAllProductsCard extends StatelessWidget {
                       model.createdDate.toString().substring(0, 10),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(color: Colors.grey, fontFamily: josefinSansRegular, fontSize: 16),
+                      style: const TextStyle(color: Colors.white70, fontFamily: josefinSansRegular, fontSize: 16),
                     ),
                     Price(showDiscountedPrice: false, price: model.price.toString().substring(0, model.price!.length - 3)),
                   ],

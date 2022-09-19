@@ -208,7 +208,7 @@ Future<Object?> showDeleteDialog(BuildContext context, String text, String text2
             shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
             title: Text(
               text.tr,
-              style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansSemiBold),
+              style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansBold),
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -217,7 +217,7 @@ Future<Object?> showDeleteDialog(BuildContext context, String text, String text2
                   padding: const EdgeInsets.only(bottom: 20, left: 6, right: 6),
                   child: Text(
                     text2.tr,
-                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansMedium),
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
                   ),
                 ),
                 Row(
@@ -227,15 +227,15 @@ Future<Object?> showDeleteDialog(BuildContext context, String text, String text2
                       onTapp: () {
                         Get.back();
                       },
-                      color: true,
+                      color: text2 == 'welcome' ? false : true,
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     DialogButton(
-                      name: 'yes',
+                      name: text2 == 'welcome' ? 'signUp' : 'yes',
                       onTapp: onTap,
-                      color: false,
+                      color: text2 == 'welcome' ? true : false,
                     ),
                   ],
                 )

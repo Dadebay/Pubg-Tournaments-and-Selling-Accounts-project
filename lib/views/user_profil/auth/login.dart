@@ -72,10 +72,10 @@ class Login extends StatelessWidget {
         } else {
           showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
         }
+        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
       });
     } else {
-      showSnackBar('tournamentInfo14', 'errorE  mpty', Colors.red);
+      showSnackBar('tournamentInfo14', 'errorEmpty', Colors.red);
     }
-    Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
   }
 }

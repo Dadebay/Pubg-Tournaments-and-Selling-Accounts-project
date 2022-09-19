@@ -13,6 +13,8 @@ class Banners extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    print(size.width);
     return FutureBuilder<List<BannerModel>>(
       future: future,
       builder: (context, snapshot) {
@@ -33,10 +35,10 @@ class Banners extends StatelessWidget {
                 );
               },
               options: CarouselOptions(
-                onPageChanged: (index, CarouselPageChangedReason) {
+                onPageChanged: (index, CarouselPageChangedReason a) {
                   Get.find<SettingsController>().bannerSelectedIndex.value = index;
                 },
-                height: 220,
+                height: size.width >= 800 ? 320 : 220,
                 viewportFraction: 1.0,
                 autoPlay: true,
                 scrollPhysics: const BouncingScrollPhysics(),
@@ -44,16 +46,16 @@ class Banners extends StatelessWidget {
                 autoPlayAnimationDuration: const Duration(milliseconds: 2000),
               ),
             ),
-            dots(snapshot)
+            dots(snapshot, size)
           ],
         );
       },
     );
   }
 
-  SizedBox dots(AsyncSnapshot<List<BannerModel>> snapshot) {
+  SizedBox dots(AsyncSnapshot<List<BannerModel>> snapshot, Size size) {
     return SizedBox(
-      height: 20,
+      height: size.width >= 800 ? 40 : 20,
       width: Get.size.width,
       child: Center(
         child: ListView.builder(
@@ -61,14 +63,25 @@ class Banners extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: snapshot.data!.length,
           itemBuilder: (BuildContext context, int index) {
-            // ignore: prefer-extracting-callbacks
             return Obx(() {
               return AnimatedContainer(
-                margin: const EdgeInsets.symmetric(horizontal: 4),
+                margin: EdgeInsets.symmetric(horizontal: size.width >= 800 ? 8 : 4),
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.decelerate,
-                height: Get.find<SettingsController>().bannerSelectedIndex.value == index ? 16 : 10,
-                width: Get.find<SettingsController>().bannerSelectedIndex.value == index ? 15 : 10,
+                height: Get.find<SettingsController>().bannerSelectedIndex.value == index
+                    ? size.width >= 800
+                        ? 22
+                        : 16
+                    : size.width >= 800
+                        ? 16
+                        : 10,
+                width: Get.find<SettingsController>().bannerSelectedIndex.value == index
+                    ? size.width >= 800
+                        ? 21
+                        : 15
+                    : size.width >= 800
+                        ? 16
+                        : 10,
                 decoration: BoxDecoration(
                   color: Get.find<SettingsController>().bannerSelectedIndex.value == index ? Colors.transparent : Colors.grey,
                   shape: BoxShape.circle,

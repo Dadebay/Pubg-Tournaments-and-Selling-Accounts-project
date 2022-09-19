@@ -23,13 +23,17 @@ class _BuyWithEpinState extends State<BuyWithEpin> {
   Widget bottomPart() {
     return Container(
       color: kPrimaryColorBlack,
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 15),
+      padding: const EdgeInsets.only(
+        left: 15,
+        right: 15,
+        top: 8,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 10),
+            padding: const EdgeInsets.only(bottom: 10),
             child: Text(
               'info'.tr,
               style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 22),
@@ -127,7 +131,7 @@ class _BuyWithEpinState extends State<BuyWithEpin> {
                   ? noData('Sargyt zat yok')
                   : ListView.builder(
                       itemCount: walletController.cartList.length,
-                      itemExtent: 120,
+                      itemExtent: 130,
                       scrollDirection: Axis.vertical,
                       itemBuilder: (BuildContext context, int index) {
                         return OrderCard(

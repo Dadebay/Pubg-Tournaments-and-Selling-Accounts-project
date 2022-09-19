@@ -15,6 +15,8 @@ class Price extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: showDiscountedPrice ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -23,7 +25,7 @@ class Price extends StatelessWidget {
           price,
           style: TextStyle(
             color: showDiscountedPrice ? Colors.white : kPrimaryColor,
-            fontSize: 23,
+            fontSize: size.width >= 800 ? 27 : 23,
             fontFamily: josefinSansSemiBold,
           ),
         ),
@@ -31,7 +33,7 @@ class Price extends StatelessWidget {
           ' TMT',
           style: TextStyle(
             color: showDiscountedPrice ? Colors.white : kPrimaryColor,
-            fontSize: 14,
+            fontSize: size.width >= 800 ? 20 : 14,
             fontFamily: josefinSansSemiBold,
           ),
         ),

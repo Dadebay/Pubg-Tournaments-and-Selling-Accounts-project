@@ -23,12 +23,12 @@ class OrderCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
       padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), borderRadius: borderRadius15),
+      decoration: BoxDecoration(color: Colors.white.withOpacity(0.3), borderRadius: borderRadius20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: ClipRRect(
               borderRadius: borderRadius15,
               child: CachedNetworkImage(
@@ -50,9 +50,9 @@ class OrderCard extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 5,
             child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 8),
+              padding: const EdgeInsets.only(left: 15, top: 6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -97,15 +97,19 @@ class OrderCard extends StatelessWidget {
                     ),
                   ),
                   Row(
-                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
                         'count'.tr,
                         style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 16),
                       ),
-                      Text(
-                        count.toString(),
-                        style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 18),
+                      Expanded(
+                        child: Text(
+                          count.toString(),
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 18),
+                        ),
                       ),
                     ],
                   ),

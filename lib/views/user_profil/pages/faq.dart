@@ -10,7 +10,7 @@ class FAQs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
-      appBar: const MyAppBar(backArrow: true, fontSize: 0.0, elevationWhite: true, iconRemove: true, name: 'questions'),
+      appBar: const MyAppBar(backArrow: true, fontSize: 18.0, elevationWhite: true, iconRemove: true, name: 'questions'),
       body: FutureBuilder<List<FAQModel>>(
         future: FAQModel().getFAQ(),
         builder: (context, snapshot) {

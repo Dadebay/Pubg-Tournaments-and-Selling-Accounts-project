@@ -34,7 +34,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   ];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Get.find<WalletController>().getUserMoney();
   }

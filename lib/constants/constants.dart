@@ -41,7 +41,7 @@ const String loader = 'assets/lottie/pubg.json';
 const String epinImage = 'assets/image/epinNew.png';
 const String idImage = 'assets/image/idNew.png';
 const String appName = 'UC Daýy';
-const String appShareLink = 'https://play.google.com/store/apps/developer?id=Bilermen+Nesil';
+const String appShareLink = 'https://ucdayy.online/';
 /////////////////////////////////////////////////
 
 const List sortData = [

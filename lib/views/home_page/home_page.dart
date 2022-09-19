@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     _onRefresh();
   }
 
-  dynamic getData() {
+  dynamic getData(Size size) {
     if (homePageController.list.isEmpty && homePageController.loading.value == 0) {
       return waitingData();
     } else if (homePageController.loading.value == 2) {
@@ -59,15 +59,26 @@ class _HomePageState extends State<HomePage> {
         text: 'errorPubgAccounts'.tr,
       );
     }
-    return ListView.builder(
-      itemCount: homePageController.list.length,
-      physics: const NeverScrollableScrollPhysics(),
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
-        return HomePageCard(vip: homePageController.list[index].vip ?? false, model: homePageController.list[index]);
-      },
-    );
+    return size.width >= 800
+        ? GridView.builder(
+            itemCount: homePageController.list.length,
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 3 / 4),
+            itemBuilder: (BuildContext context, int index) {
+              return HomePageCard(vip: homePageController.list[index].vip ?? false, model: homePageController.list[index]);
+            },
+          )
+        : ListView.builder(
+            itemCount: homePageController.list.length,
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return HomePageCard(vip: homePageController.list[index].vip ?? false, model: homePageController.list[index]);
+            },
+          );
   }
 
   void _onRefresh() async {
@@ -101,9 +112,10 @@ class _HomePageState extends State<HomePage> {
     _refreshController.loadComplete();
   }
 
-  // ignore: member-ordering-extended
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: kPrimaryColorBlack,
@@ -122,11 +134,11 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             children: [
               Banners(future: homePageController.futureBanner),
-              listViewName('pubgTypes'.tr, false),
+              listViewName('pubgTypes'.tr, false, size),
               PubgTypes(future: homePageController.futurePubgType),
-              listViewName('accountsForSale'.tr, true),
+              listViewName('accountsForSale'.tr, true, size),
               Obx(() {
-                return getData();
+                return getData(size);
               }),
             ],
           ),

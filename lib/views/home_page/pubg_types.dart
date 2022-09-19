@@ -41,7 +41,7 @@ class PubgTypes extends StatelessWidget {
     );
   }
 
-  GestureDetector circleCard(PubgTypesModel type) {
+  GestureDetector circleCard(PubgTypesModel type, Size size) {
     return GestureDetector(
       onTap: () {
         Get.to(() => ShowAllAccounts(name: type.title!, pubgID: type.id!));
@@ -51,8 +51,8 @@ class PubgTypes extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 100,
-              height: 100,
+              width: size.width >= 800 ? 150 : 100,
+              height: size.width >= 800 ? 150 : 100,
               margin: const EdgeInsets.only(bottom: 15),
               decoration: const BoxDecoration(color: kPrimaryColorBlack1, shape: BoxShape.circle),
               child: ClipOval(
@@ -74,7 +74,7 @@ class PubgTypes extends StatelessWidget {
                 ),
               ),
             ),
-            Text(type.title!, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, height: 1.3, fontSize: 16, fontFamily: josefinSansRegular)),
+            Text(type.title!, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center, style: TextStyle(color: Colors.white, height: 1.3, fontSize: size.width >= 800 ? 25 : 16, fontFamily: josefinSansRegular)),
           ],
         ),
       ),
@@ -83,8 +83,10 @@ class PubgTypes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Container(
-      height: 200,
+      height: size.width >= 800 ? 300 : 200,
       margin: const EdgeInsets.only(
         top: 25,
       ),
@@ -112,7 +114,7 @@ class PubgTypes extends StatelessWidget {
             itemCount: snapshot.data!.length,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return circleCard(snapshot.data![index]);
+              return circleCard(snapshot.data![index], size);
             },
           );
         },

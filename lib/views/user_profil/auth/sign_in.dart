@@ -23,27 +23,35 @@ class SingIn extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Form(
         key: _signUp,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-              child: Text(
-                'signInDialog'.tr,
-                style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8, right: 8, bottom: 14, top: 12),
+                child: Text(
+                  'signInDialog'.tr,
+                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
+                ),
               ),
-            ),
-            CustomTextField(labelName: 'signIn1', controller: fullNameController, focusNode: fullNameFocusNode, requestfocusNode: idFocusNode, borderRadius: true, isNumber: false),
-            CustomTextField(labelName: 'signIn2', controller: idController, focusNode: idFocusNode, requestfocusNode: phoneNumberFocusNode, borderRadius: true, isNumber: false),
-            PhoneNumber(
-              mineFocus: phoneNumberFocusNode,
-              controller: phoneNumberController,
-              requestFocus: fullNameFocusNode,
-              style: false,
-            ),
-            AgreeButton(onTap: onTapp)
-          ],
+              CustomTextField(labelName: 'signIn1', controller: fullNameController, focusNode: fullNameFocusNode, requestfocusNode: idFocusNode, borderRadius: true, isNumber: false),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: CustomTextField(labelName: 'signIn2', controller: idController, focusNode: idFocusNode, requestfocusNode: phoneNumberFocusNode, borderRadius: true, isNumber: false),
+              ),
+              PhoneNumber(
+                mineFocus: phoneNumberFocusNode,
+                controller: phoneNumberController,
+                requestFocus: fullNameFocusNode,
+                style: false,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              AgreeButton(onTap: onTapp)
+            ],
+          ),
         ),
       ),
     );
@@ -64,10 +72,10 @@ class SingIn extends StatelessWidget {
         } else {
           showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
         }
+        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
       });
     } else {
       showSnackBar('tournamentInfo14', 'errorEmpty', Colors.red);
     }
-    Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
   }
 }

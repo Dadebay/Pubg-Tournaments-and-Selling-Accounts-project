@@ -18,25 +18,23 @@ class HistoryOrdersPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return Center(
-              child: cannotLoadData(
-                withButton: true,
-                onTap: () {
-                  HistoryOrderModel().getOrders();
-                },
-                text: 'tournamentInfo14'.tr,
-              ),
+            return cannotLoadData(
+              withButton: true,
+              onTap: () {
+                HistoryOrderModel().getOrders();
+              },
+              text: 'tournamentInfo14'.tr,
             );
           } else if (snapshot.data == null) {
-            return Center(
-              child: cannotLoadData(
-                withButton: true,
-                onTap: () {
-                  HistoryOrderModel().getOrders();
-                },
-                text: 'tournamentInfo14'.tr,
-              ),
+            return cannotLoadData(
+              withButton: true,
+              onTap: () {
+                HistoryOrderModel().getOrders();
+              },
+              text: 'tournamentInfo14'.tr,
             );
+          } else if (snapshot.data.toString() == '[]') {
+            return noData('noOrder');
           }
           return ListView.builder(
             itemCount: snapshot.data!.length,
@@ -146,9 +144,23 @@ class OrderByID extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return const Center(child: Text('Error'));
+            return cannotLoadData(
+              withButton: true,
+              onTap: () {
+                HistoryIDModel().getOrderByID(orderID);
+              },
+              text: 'tournamentInfo14'.tr,
+            );
           } else if (snapshot.data == null) {
-            return const Center(child: Text('Empty'));
+            return cannotLoadData(
+              withButton: true,
+              onTap: () {
+                HistoryIDModel().getOrderByID(orderID);
+              },
+              text: 'tournamentInfo14'.tr,
+            );
+          } else if (snapshot.data.toString() == '[]') {
+            return noData('noOrder');
           }
           return Column(
             children: [

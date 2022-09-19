@@ -52,6 +52,7 @@ class UserSignInModel {
         'phone': phoneNumber,
       }),
     );
+    debugPrint(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       await Auth().setToken(responseJson['access_token']);
@@ -75,6 +76,8 @@ class UserSignInModel {
         'phone': phone,
       }),
     );
+    debugPrint(response.body);
+
     return response.statusCode;
   }
 }

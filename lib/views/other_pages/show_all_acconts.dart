@@ -348,6 +348,8 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: kPrimaryColorBlack,
@@ -379,7 +381,7 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: controller.list.length,
                 shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 15, childAspectRatio: 2 / 3, crossAxisSpacing: 15),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: size.width >= 800 ? 3 : 2, mainAxisSpacing: 10, childAspectRatio: size.width >= 800 ? 3 / 4 : 2 / 3, crossAxisSpacing: 10),
                 itemBuilder: (BuildContext context, int index) {
                   return ShowAllProductsCard(
                     fav: false,

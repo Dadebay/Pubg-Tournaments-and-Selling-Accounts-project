@@ -10,7 +10,7 @@ class WalletController extends GetxController {
 
   RxDouble finalPRice = 0.0.obs;
   RxList cartList = [].obs;
-  RxString userMoney = ''.obs;
+  RxString userMoney = '0.0'.obs;
 
   dynamic addCart({required UcModel ucModel}) {
     if (cartList.isEmpty) {

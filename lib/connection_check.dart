@@ -3,8 +3,11 @@
 import 'dart:io';
 import 'package:game_app/bottom_nav_bar.dart';
 import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/user_profil/auth/tab_bar_view.dart';
 import 'package:lottie/lottie.dart';
 
+import 'constants/dialogs.dart';
+import 'controllers/settings_controller.dart';
 import 'controllers/wallet_controller.dart';
 
 class ConnectionCheck extends StatefulWidget {
@@ -29,7 +32,7 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result.first.rawAddress.isNotEmpty) {
-        Future.delayed(const Duration(seconds: 3), () {
+        await Future.delayed(const Duration(seconds: 3), () {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (BuildContext context) {
@@ -37,6 +40,14 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
               },
             ),
           );
+        }).then((value) async {
+          await Get.find<SettingsController>().changeUserUI();
+          debugPrint(Get.find<SettingsController>().loginUser.value.toString());
+          if (Get.find<SettingsController>().loginUser.value != true) {
+            await showDeleteDialog(context, 'loginError', 'welcome', () {
+              Get.to(() => const TabBarViewPage());
+            });
+          }
         });
       }
     } on SocketException catch (_) {
@@ -134,14 +145,13 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
     );
   }
 
-  // ignore: member-ordering-extended
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
       body: Stack(
         children: [
-          Positioned.fill(child: Center(child: Lottie.asset('assets/lottie/pubg.json', height: 400, width: 400, fit: BoxFit.cover))),
+          Positioned.fill(child: Center(child: Lottie.asset(loader, height: 400, width: 400, fit: BoxFit.cover))),
         ],
       ),
     );

@@ -3,8 +3,10 @@
 import 'package:game_app/constants/index.dart';
 import 'package:game_app/constants/uc_price.dart';
 import 'package:game_app/controllers/settings_controller.dart';
+import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/history_order_model.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddCash extends StatefulWidget {
   final String phoneNumber;
@@ -36,13 +38,20 @@ class _AddCashState extends State<AddCash> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: () {
-                        Get.to(
-                          () => AskMoneyPage(
-                            phoneNumber: widget.phoneNumber,
-                            text: 'message1',
-                          ),
-                        );
+                      onPressed: () async {
+                        await Get.find<WalletController>().getUserMoney();
+                        final double a = double.parse(Get.find<WalletController>().userMoney.toString());
+                        if (a >= 100.0) {
+                          await Get.to(
+                            () => AskMoneyPage(
+                              phoneNumber: widget.phoneNumber,
+                              text: 'message1',
+                              textSend: 'requestCash1'.tr,
+                            ),
+                          );
+                        } else {
+                          showSnackBar('money_error_title', 'request_money_error_subtitle', Colors.red);
+                        }
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, padding: const EdgeInsets.all(15), shape: const RoundedRectangleBorder(borderRadius: borderRadius20)),
                       child: Text(
@@ -59,6 +68,7 @@ class _AddCashState extends State<AddCash> {
                         () => AskMoneyPage(
                           phoneNumber: widget.phoneNumber,
                           text: 'message',
+                          textSend: 'requestCash'.tr,
                         ),
                       );
                     },
@@ -100,13 +110,7 @@ class _AddCashState extends State<AddCash> {
             text: 'tournamentInfo14'.tr,
           );
         } else if (snapshot.data.toString() == '[]') {
-          return cannotLoadData(
-            withButton: true,
-            onTap: () {
-              TransactionHistoryModel().getTransactions();
-            },
-            text: 'tournamentInfo14'.tr,
-          );
+          return noData('no_cash');
         }
         return ListView.builder(
           itemCount: snapshot.data!.length,
@@ -150,9 +154,11 @@ class _AddCashState extends State<AddCash> {
 class AskMoneyPage extends StatefulWidget {
   final String phoneNumber;
   final String text;
+  final String textSend;
   const AskMoneyPage({
     required this.text,
     required this.phoneNumber,
+    required this.textSend,
     Key? key,
   }) : super(key: key);
 
@@ -193,74 +199,98 @@ class _AskMoneyPageState extends State<AskMoneyPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
               child: Text(
-                'addCash'.tr,
-                style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18),
+                widget.text == 'message' ? widget.text.tr : 'addCash'.tr,
+                style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, height: 1.3, fontSize: 18),
               ),
             ),
-            CustomTextField(
-              labelName: 'fullName',
-              borderRadius: true,
-              controller: nameController,
-              focusNode: nameFocusNode,
-              requestfocusNode: phoneFocusNode,
-              isNumber: false,
-            ),
-            PhoneNumber(
-              mineFocus: phoneFocusNode,
-              controller: phoneController,
-              requestFocus: messageFocusNode,
-              style: false,
-              disabled: false,
-            ),
-            CustomTextField(
-              maxline: 4,
-              borderRadius: true,
-              labelName: widget.text,
-              controller: messageController,
-              focusNode: messageFocusNode,
-              requestfocusNode: nameFocusNode,
-              isNumber: false,
-              isLabel: true,
-            ),
+            widget.text != 'message'
+                ? CustomTextField(
+                    labelName: 'fullName',
+                    borderRadius: true,
+                    controller: nameController,
+                    focusNode: nameFocusNode,
+                    requestfocusNode: phoneFocusNode,
+                    isNumber: false,
+                  )
+                : const SizedBox.shrink(),
+            widget.text != 'message'
+                ? PhoneNumber(
+                    mineFocus: phoneFocusNode,
+                    controller: phoneController,
+                    requestFocus: messageFocusNode,
+                    style: false,
+                    disabled: false,
+                  )
+                : const SizedBox.shrink(),
+            widget.text != 'message'
+                ? CustomTextField(
+                    maxline: 5,
+                    borderRadius: true,
+                    labelName: widget.text,
+                    controller: messageController,
+                    focusNode: messageFocusNode,
+                    requestfocusNode: nameFocusNode,
+                    isNumber: false,
+                    isLabel: true,
+                  )
+                : const SizedBox.shrink(),
             const SizedBox(
               height: 20,
             ),
-            Center(
-              child: AgreeButton(
-                onTap: () async {
-                  final token = await Auth().getToken();
-                  if (_login.currentState!.validate()) {
-                    if (token != null) {
-                      Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+            widget.text != 'message'
+                ? Center(
+                    child: AgreeButton(
+                      onTap: () async {
+                        final token = await Auth().getToken();
+                        if (_login.currentState!.validate()) {
+                          if (token != null) {
+                            Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
 
-                      await TransactionHistoryModel()
-                          .requestCash(
-                        phone: phoneController.text,
-                        message: messageController.text,
-                        fullname: nameController.text,
-                      )
-                          .then((value) {
-                        if (value == 200) {
-                          Get.back();
+                            await TransactionHistoryModel()
+                                .requestCash(
+                              phone: phoneController.text,
+                              message: messageController.text + '  ' + widget.textSend,
+                              fullname: nameController.text,
+                            )
+                                .then((value) {
+                              if (value == 200) {
+                                Get.back();
 
-                          showSnackBar('copySucces', 'smsSuccesfullySent', Colors.green);
-                          phoneController.clear();
-                          messageController.clear();
-                          nameController.clear();
+                                showSnackBar('copySucces', 'smsSuccesfullySent', Colors.green);
+                                phoneController.clear();
+                                messageController.clear();
+                                nameController.clear();
+                              } else {
+                                showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+                              }
+                              Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+                            });
+                          } else {
+                            showSnackBar('loginError', 'loginError1', Colors.red);
+                          }
                         } else {
-                          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+                          showSnackBar('tournamentInfo14', 'errorEmpty', Colors.red);
                         }
-                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                      });
-                    } else {
-                      showSnackBar('loginError', 'loginError1', Colors.red);
-                    }
-                  } else {
-                    showSnackBar('tournamentInfo14', 'errorEmpty', Colors.red);
-                  }
-                },
-              ),
-            ),
+                      },
+                    ),
+                  )
+                : ElevatedButton(
+                    onPressed: () async {
+                      await launch('tel://+99362222307');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      shape: const RoundedRectangleBorder(borderRadius: borderRadius15),
+                    ),
+                    child: Text(
+                      'popUP1'.tr,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
+                    ),
+                  ),
           ],
         ),
       ),

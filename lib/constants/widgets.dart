@@ -19,7 +19,7 @@ SnackbarController showSnackBar(String title, String subtitle, Color color) {
           ),
     messageText: Text(
       subtitle.tr,
-      style: const TextStyle(fontFamily: josefinSansRegular, fontSize: 16, color: Colors.white),
+      style: const TextStyle(fontFamily: josefinSansSemiBold, fontSize: 16, color: Colors.white),
     ),
     snackPosition: SnackPosition.BOTTOM,
     backgroundColor: color,
@@ -73,15 +73,19 @@ Widget userAppBarMoney() {
           padding: EdgeInsets.only(
             left: 5,
             right: 5,
+            top: 5,
           ),
-          child: Text('TMT'),
+          child: Text(
+            'TMT',
+            style: TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 15),
+          ),
         ),
       ],
     ),
   );
 }
 
-Padding listViewName(String text, bool icon) {
+Padding listViewName(String text, bool icon, Size size) {
   return Padding(
     padding: EdgeInsets.only(bottom: icon ? 20 : 0, left: 15, right: 15, top: icon ? 0 : 20),
     child: Row(
@@ -89,7 +93,7 @@ Padding listViewName(String text, bool icon) {
       children: [
         Text(
           text,
-          style: const TextStyle(color: Colors.white, fontSize: 22, fontFamily: josefinSansSemiBold),
+          style: TextStyle(color: Colors.white, fontSize: size.width >= 800 ? 30 : 22, fontFamily: josefinSansSemiBold),
         ),
         icon
             ? IconButton(
@@ -101,9 +105,10 @@ Padding listViewName(String text, bool icon) {
                     ),
                   );
                 },
-                icon: const Icon(
+                icon: Icon(
                   IconlyLight.arrowRightCircle,
                   color: Colors.white,
+                  size: size.width >= 800 ? 35 : 25,
                 ),
               )
             : const SizedBox.shrink()

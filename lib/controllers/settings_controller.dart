@@ -19,7 +19,6 @@ class SettingsController extends GetxController {
   void onInit() {
     super.onInit();
     getData = UcModel().getUCS();
-    changeUserUI();
   }
 
   Future<bool> changeUserUI() async {

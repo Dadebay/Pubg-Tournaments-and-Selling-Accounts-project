@@ -17,7 +17,7 @@ class UCCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final double a = double.parse(model.price.toString());
     return Container(
-      margin: const EdgeInsets.only(left: 8, right: 8, top: 16),
+      margin: const EdgeInsets.only(left: 5, right: 5, top: 5),
       decoration: BoxDecoration(borderRadius: borderRadius20, color: Colors.white.withOpacity(0.9), boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.15), blurRadius: 10, spreadRadius: 3)]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +55,7 @@ class UCCard extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 8, right: 6),
+              padding: const EdgeInsets.only(left: 15, top: 5, right: 6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

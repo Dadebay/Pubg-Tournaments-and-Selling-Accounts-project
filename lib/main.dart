@@ -135,12 +135,10 @@ class _MyAppRunState extends State<MyAppRun> {
           : const Locale(
               'tr',
             ),
-
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
-
       theme: ThemeData(
         brightness: Brightness.dark,
         fontFamily: josefinSansRegular,
@@ -151,7 +149,6 @@ class _MyAppRunState extends State<MyAppRun> {
       translations: MyTranslations(),
       debugShowCheckedModeBanner: false,
       home: ConnectionCheck(),
-      // home: BottomNavBar(),
     );
   }
 }

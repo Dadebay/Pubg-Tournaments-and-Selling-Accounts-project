@@ -34,6 +34,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   video_compress: ^3.1.1
   flick_video_player: null
+  device_preview:
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -51,13 +52,13 @@ flutter:
   fonts:
     - family: JosefinSansBold
       fonts:
-        - asset: assets/fonts/JosefinSans-Bold.ttf
+        - asset: assets/fonts/NormsProBold.otf
     - family: JosefinSansSemiBold
       fonts:
-        - asset: assets/fonts/JosefinSans-SemiBold.ttf
+        - asset: assets/fonts/NormsProMedium.otf
     - family: JosefinSansMedium
       fonts:
-        - asset: assets/fonts/JosefinSans-Medium.ttf
+        - asset: assets/fonts/NormsProRegular.otf
     - family: JosefinSansRegular
       fonts:
-        - asset: assets/fonts/JosefinSans-Regular.ttf
+        - asset: assets/fonts/NormsProLight.otf

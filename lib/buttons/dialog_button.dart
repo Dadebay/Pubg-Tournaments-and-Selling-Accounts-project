@@ -1,7 +1,3 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 import '../constants/index.dart';
 
 class DialogButton extends StatelessWidget {
@@ -29,7 +25,7 @@ class DialogButton extends StatelessWidget {
         ),
         child: Text(
           name.tr,
-          style: TextStyle(color: color ? kPrimaryColorBlack1 : kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
+          style: TextStyle(color: color ? kPrimaryColorBlack1 : kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 20),
         ),
       ),
     );

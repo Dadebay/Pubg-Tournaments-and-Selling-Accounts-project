@@ -104,7 +104,41 @@ class TournamentModel {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      value ? showSnackBar('tournamentInfo15', "${responseJson["code"]}", kPrimaryColor) : null;
+      if (value == true) {
+        Get.snackbar(
+          'tournamentInfo15',
+          "${responseJson["code"]}",
+          snackStyle: SnackStyle.FLOATING,
+          titleText: title == ''
+              ? const SizedBox.shrink()
+              : Text(
+                  'tournamentInfo15'.tr,
+                  style: const TextStyle(fontFamily: josefinSansSemiBold, fontSize: 18, color: Colors.white),
+                ),
+          messageText: Text(
+            "${responseJson["code"]}".tr,
+            style: const TextStyle(fontFamily: josefinSansRegular, fontSize: 16, color: Colors.white),
+          ),
+          mainButton: TextButton(
+            onPressed: () {
+              Get.back();
+              Clipboard.setData(ClipboardData(text: responseJson['code'].toString())).then((value) {
+                showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
+              });
+            },
+            child: const Icon(
+              Icons.copy_all,
+              color: Colors.black,
+              size: 30,
+            ),
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: kPrimaryColor,
+          borderRadius: 20.0,
+          animationDuration: const Duration(milliseconds: 800),
+          margin: const EdgeInsets.all(8),
+        );
+      }
       return response.statusCode;
     } else {
       value ? showSnackBar('tournamentInfo15', 'tournamentInfo16', kPrimaryColor) : null;

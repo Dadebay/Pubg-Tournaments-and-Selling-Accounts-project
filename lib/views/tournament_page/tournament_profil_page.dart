@@ -5,8 +5,9 @@ import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/tournament_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
 import 'package:game_app/views/tournament_page/tab_age2.dart';
-import 'package:game_app/views/tournament_page/tab_age3.dart';
 import 'package:game_app/views/tournament_page/tab_page1.dart';
+
+import 'tab_age3.dart';
 
 class TournamentProfilPage extends StatefulWidget {
   final String tag;
@@ -26,33 +27,26 @@ class TournamentProfilPage extends StatefulWidget {
 }
 
 class _TournamentProfilPageState extends State<TournamentProfilPage> {
-  final ScrollController _sliverScrollController = ScrollController();
   final TournamentController controller = Get.put(TournamentController());
   String buttonName = 'tournamentInfo11'.tr;
   @override
   void initState() {
     super.initState();
-    _sliverScrollController.addListener(() {
-      if (!controller.sliverBool.value && _sliverScrollController.hasClients && _sliverScrollController.offset >= 250.0) {
-        controller.sliverBool.value = true;
-      } else if (controller.sliverBool.value && _sliverScrollController.hasClients && _sliverScrollController.offset <= 130.0) {
-        controller.sliverBool.value = false;
-      }
-    });
+
     checkStatus();
   }
 
   dynamic checkStatus() async {
     await TournamentModel().checkStatus(tournamentID: widget.tournamentId, value: false).then((value) {
       if (value == 200) {
-        buttonName = 'tournamentInfo12'.tr;
+        buttonName = 'tournamentInfo12';
       } else if (value == 204) {
-        buttonName = 'tournamentInfo12'.tr;
+        buttonName = 'tournamentInfo12';
       } else {
-        buttonName = 'tournamentInfo11'.tr;
+        buttonName = 'tournamentInfo11';
       }
     });
-    return 'tournamentInfo11'.tr;
+    return 'tournamentInfo11';
   }
 
   @override
@@ -62,7 +56,6 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
       child: Scaffold(
         backgroundColor: kPrimaryColorBlack,
         body: NestedScrollView(
-          controller: _sliverScrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [appBar()];
           },
@@ -77,7 +70,7 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
                 return noData('tournamentInfo14');
               }
               return TabBarView(
-                children: <Widget>[
+                children: [
                   TabPage1(
                     finised: widget.finised,
                     model: snapshot.data!,
@@ -147,40 +140,30 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
           )
         ],
       ),
-      flexibleSpace: Obx(() {
-        return AnimatedCrossFade(
-          firstChild: const SizedBox.shrink(),
-          secondChild: Container(
-            color: Colors.green,
-            height: Get.size.height,
-            width: Get.size.width,
-            child: Hero(
-              tag: widget.tag,
-              child: CachedNetworkImage(
-                fadeInCurve: Curves.ease,
-                imageUrl: widget.image,
-                imageBuilder: (context, imageProvider) => Container(
-                  width: Get.size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+      flexibleSpace: Container(
+        color: kPrimaryColorBlack1,
+        height: Get.size.height,
+        width: Get.size.width,
+        child: Hero(
+          tag: widget.tag,
+          child: CachedNetworkImage(
+            fadeInCurve: Curves.ease,
+            imageUrl: widget.image,
+            imageBuilder: (context, imageProvider) => Container(
+              width: Get.size.width,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
                 ),
-                placeholder: (context, url) => Center(child: spinKit()),
-                errorWidget: (context, url, error) => const Text('No Image'),
               ),
             ),
+            placeholder: (context, url) => Center(child: spinKit()),
+            errorWidget: (context, url, error) => const Text('No Image'),
           ),
-          crossFadeState: controller.sliverBool.value ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-          duration: const Duration(seconds: 1000),
-          sizeCurve: Curves.decelerate,
-          firstCurve: Curves.decelerate,
-          secondCurve: Curves.decelerate,
-        );
-      }),
+        ),
+      ),
     );
   }
 }

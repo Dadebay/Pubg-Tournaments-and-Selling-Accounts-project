@@ -118,7 +118,6 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
         shape: const RoundedRectangleBorder(borderRadius: borderRadius20, side: BorderSide(color: Colors.white, width: 2)),
         title: Text(locationName, style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18)),
         trailing: const Icon(IconlyLight.arrowRightCircle),
-        // ignore: prefer-extracting-callbacks
         onTap: () {
           Get.defaultDialog(
             title: 'selectCityTitle'.tr,
@@ -237,7 +236,6 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
     );
   }
 
-  // ignore: long-method
   dynamic selectImageDesign() {
     return Column(
       children: [
@@ -332,7 +330,6 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
     );
   }
 
-  // ignore: long-method
   dynamic selectBackImage() {
     return Column(
       children: [

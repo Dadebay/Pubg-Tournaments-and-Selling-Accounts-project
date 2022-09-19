@@ -11,17 +11,20 @@ class BannerCard extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.all(8),
-      width: Get.size.width,
-      decoration: const BoxDecoration(borderRadius: borderRadius15),
+      width: size.width,
+      decoration: const BoxDecoration(
+        borderRadius: borderRadius15,
+      ),
       child: ClipRRect(
         borderRadius: borderRadius15,
         child: CachedNetworkImage(
           fadeInCurve: Curves.ease,
           imageUrl: image,
           imageBuilder: (context, imageProvider) => Container(
-            width: Get.size.width,
+            width: size.width,
             decoration: BoxDecoration(
               borderRadius: borderRadius20,
               image: DecorationImage(

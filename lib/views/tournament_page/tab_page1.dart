@@ -53,7 +53,7 @@ class TabPage1 extends StatelessWidget {
                   },
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 70,
                 ),
               ],
             ),
@@ -87,8 +87,8 @@ class TabPage1 extends StatelessWidget {
   void showCode() async {
     final token = await Auth().getToken();
     Get.find<SettingsController>().agreeButton.value = false;
-
-    if (buttonName == 'Kody görkez') {
+    print(buttonName);
+    if (buttonName == 'tournamentInfo12') {
       await TournamentModel().checkStatus(tournamentID: model.id!, value: true);
     } else {
       if (token != null && token != '') {
@@ -179,7 +179,7 @@ class TabPage1 extends StatelessWidget {
         showSnackBar('tournamentInfo18', 'tournamentInfo17', kPrimaryColor);
       } else if (value == 400) {
         Get.back();
-        showSnackBar('noConnection3', 'tournamentInfo20', Colors.red);
+        showSnackBar('tournamentInfo19', 'tournamentInfo21', Colors.red);
       } else {
         Get.back();
         showSnackBar('noConnection3', 'tournamentInfo19', Colors.red);
