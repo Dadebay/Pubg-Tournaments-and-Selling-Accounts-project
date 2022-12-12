@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import 'package:game_app/constants/index.dart';
+import '../views/constants/index.dart';
 
 class BannerModel {
   final int? id;

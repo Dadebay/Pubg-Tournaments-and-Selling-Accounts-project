@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:game_app/constants/index.dart';
+
 import 'package:game_app/models/home_page_model.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 import 'package:game_app/views/add_page/video_upload_page.dart';
@@ -15,6 +15,7 @@ import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
+import '../../constants/index.dart';
 
 import 'package:async/async.dart';
 

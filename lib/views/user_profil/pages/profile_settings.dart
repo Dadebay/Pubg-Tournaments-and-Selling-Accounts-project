@@ -1,8 +1,8 @@
 // ignore_for_file: file_names, deprecated_member_use, prefer_typing_uninitialized_variables
 
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
+import '../../constants/index.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings({Key? key}) : super(key: key);

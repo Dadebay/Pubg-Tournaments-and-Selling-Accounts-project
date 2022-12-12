@@ -1,8 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:game_app/cards/banner_card.dart';
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/home_page_model.dart';
+import '../constants/index.dart';
+
+import 'dart:developer' as developer show log;
+
+import '../cards/banner_card.dart';
+
+extension Log on Object {
+  void log() => developer.log(toString());
+}
 
 class Banners extends StatelessWidget {
   final Future<List<BannerModel>> future;
@@ -14,7 +21,7 @@ class Banners extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    print(size.width);
+    size.width.log();
     return FutureBuilder<List<BannerModel>>(
       future: future,
       builder: (context, snapshot) {

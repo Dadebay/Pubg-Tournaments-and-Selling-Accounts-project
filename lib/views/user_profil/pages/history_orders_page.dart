@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/models/history_order_model.dart';
 
 class HistoryOrdersPage extends StatelessWidget {
@@ -47,7 +47,7 @@ class HistoryOrdersPage extends StatelessWidget {
                   Get.to(
                     () => OrderByID(
                       orderID: snapshot.data![index].id!,
-                      pageName: 'orderPage'.tr + ' ${snapshot.data!.length - index}',
+                      pageName: '${'orderPage'.tr} ${snapshot.data!.length - index}',
                       ask: snapshot.data![index].ask!,
                     ),
                   );
@@ -67,7 +67,7 @@ class HistoryOrdersPage extends StatelessWidget {
                           ),
                           Text(
                             // 'orderPage'.tr + ' ${snapshot.data![index].id}',
-                            'orderPage'.tr + ' ${snapshot.data!.length - index}',
+                            '${'orderPage'.tr} ${snapshot.data!.length - index}',
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                               color: Colors.white,
@@ -95,7 +95,7 @@ class HistoryOrdersPage extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        snapshot.data![index].price.toString() + ' TMT',
+                        '${snapshot.data![index].price} TMT',
                         textAlign: TextAlign.end,
                         style: const TextStyle(
                           color: Colors.white,
@@ -221,7 +221,7 @@ class OrderByID extends StatelessWidget {
                               padding: const EdgeInsets.only(bottom: 15),
                               child: Row(
                                 children: [
-                                  Expanded(flex: 1, child: Text('tournamentInfo7'.tr + ' ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                  Expanded(flex: 1, child: Text('${'tournamentInfo7'.tr} ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
                                   Expanded(flex: 3, child: Text(snapshot.data!.created_date!.substring(0, 10), textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
                                 ],
                               ),
@@ -232,7 +232,7 @@ class OrderByID extends StatelessWidget {
                                     padding: const EdgeInsets.only(bottom: 15),
                                     child: Row(
                                       children: [
-                                        Expanded(flex: 1, child: Text('tournamentInfo15'.tr + ' :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                        Expanded(flex: 1, child: Text('${'tournamentInfo15'.tr} :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
                                         Expanded(
                                           flex: 3,
                                           child: ListView.builder(
@@ -272,7 +272,7 @@ class OrderByID extends StatelessWidget {
                                     padding: const EdgeInsets.only(bottom: 15),
                                     child: Row(
                                       children: [
-                                        Expanded(flex: 1, child: Text('signIn2'.tr + ' :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                        Expanded(flex: 1, child: Text('${'signIn2'.tr} :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
                                         Expanded(flex: 3, child: Text(snapshot.data!.pubgID ?? 'tournamentInfo10'.tr, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
                                       ],
                                     ),
@@ -283,7 +283,7 @@ class OrderByID extends StatelessWidget {
                                     padding: const EdgeInsets.only(bottom: 15),
                                     child: Row(
                                       children: [
-                                        Expanded(flex: 1, child: Text('note'.tr + ' :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                        Expanded(flex: 1, child: Text('${'note'.tr} :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
                                         Expanded(flex: 3, child: Text(snapshot.data!.note ?? 'tournamentInfo10'.tr, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
                                       ],
                                     ),
@@ -293,7 +293,7 @@ class OrderByID extends StatelessWidget {
                                         padding: const EdgeInsets.only(bottom: 15),
                                         child: Row(
                                           children: [
-                                            Expanded(flex: 1, child: Text('note'.tr + ' :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                            Expanded(flex: 1, child: Text('${'note'.tr} :  ', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
                                             Expanded(flex: 3, child: Text(snapshot.data!.note ?? 'tournamentInfo10'.tr, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
                                           ],
                                         ),

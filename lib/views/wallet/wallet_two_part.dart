@@ -1,8 +1,8 @@
-import 'package:game_app/cards/walletPageCard.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 
+import '../cards/walletPageCard.dart';
 import 'orderPage/buy_with_epin_cards.dart';
 import 'orderPage/buy_with_id.dart';
 
@@ -22,7 +22,6 @@ class WalletPage extends StatelessWidget {
             size: MediaQuery.of(context).size,
             ontapp: () {
               Get.find<SettingsController>().agreeButton.value = false;
-
               Get.find<WalletController>().finalPRice.value = 0.0;
               Get.to(() => const BuyWithEpinCards());
             },
@@ -33,7 +32,6 @@ class WalletPage extends StatelessWidget {
             size: MediaQuery.of(context).size,
             ontapp: () {
               Get.find<SettingsController>().agreeButton.value = false;
-
               Get.find<WalletController>().finalPRice.value = 0.0;
               Get.find<WalletController>().cartList.clear();
               Get.to(

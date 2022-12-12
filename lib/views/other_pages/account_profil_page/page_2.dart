@@ -1,6 +1,7 @@
-import 'package:game_app/cards/video_card.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';
+
+import '../../cards/video_card.dart';
 
 class TabbarPage2 extends StatelessWidget {
   final int userID;

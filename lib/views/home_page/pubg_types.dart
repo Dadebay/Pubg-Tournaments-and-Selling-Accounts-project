@@ -1,9 +1,10 @@
 // ignore_for_file: file_names, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/home_page_model.dart';
 import 'package:game_app/views/other_pages/show_all_acconts.dart';
+
+import '../constants/index.dart';
 
 class PubgTypes extends StatelessWidget {
   final Future<List<PubgTypesModel>> future;

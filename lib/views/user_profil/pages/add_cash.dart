@@ -1,12 +1,13 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/constants/index.dart';
-import 'package:game_app/constants/uc_price.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/history_order_model.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../constants/index.dart';
+import '../../constants/uc_price.dart';
 
 class AddCash extends StatefulWidget {
   final String phoneNumber;
@@ -123,7 +124,7 @@ class _AddCashState extends State<AddCash> {
                 children: [
                   Expanded(
                     child: Text(
-                      'cash'.tr + ' ${snapshot.data!.length - index}',
+                      '${'cash'.tr} ${snapshot.data!.length - index}',
                       textAlign: TextAlign.start,
                       style: const TextStyle(
                         color: Colors.white,
@@ -249,7 +250,7 @@ class _AskMoneyPageState extends State<AskMoneyPage> {
                             await TransactionHistoryModel()
                                 .requestCash(
                               phone: phoneController.text,
-                              message: messageController.text + '  ' + widget.textSend,
+                              message: '${messageController.text}  ${widget.textSend}',
                               fullname: nameController.text,
                             )
                                 .then((value) {

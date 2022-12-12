@@ -1,12 +1,12 @@
 // ignore_for_file: missing_return, file_names, must_be_immutable, require_trailing_commas
 
-import 'package:game_app/buttons/bottom_nav_bar_button.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/buttons/bottom_nav_bar_button.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/add_account_model.dart';
 
-import 'constants/dialogs.dart';
+import 'views/constants/dialogs.dart';
 import 'models/index_model.dart';
 import 'models/user_models/auth_model.dart';
 import 'views/add_page/add_account_page.dart';

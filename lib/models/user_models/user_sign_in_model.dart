@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:http/http.dart' as http;
 
@@ -52,7 +52,6 @@ class UserSignInModel {
         'phone': phoneNumber,
       }),
     );
-    debugPrint(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       await Auth().setToken(responseJson['access_token']);
@@ -76,7 +75,6 @@ class UserSignInModel {
         'phone': phone,
       }),
     );
-    debugPrint(response.body);
 
     return response.statusCode;
   }

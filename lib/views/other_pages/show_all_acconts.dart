@@ -1,12 +1,13 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/cards/show_all_accounts_card.dart';
-import 'package:game_app/constants/dialogs.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/dialogs.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/show_all_account_controller.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';
 import 'package:game_app/models/home_page_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../cards/show_all_accounts_card.dart';
 
 class ShowAllAccounts extends StatefulWidget {
   final String name;

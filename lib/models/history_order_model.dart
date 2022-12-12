@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:game_app/constants/index.dart';
+import '../views/constants/constants.dart';
 
 class HistoryOrderModel {
   final int? id;

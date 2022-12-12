@@ -1,13 +1,11 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:game_app/constants/uc_price.dart';
-import 'package:game_app/constants/constants.dart';
-import 'package:game_app/constants/widgets.dart';
+
 import 'package:game_app/models/accouts_for_sale_model.dart';
 import 'package:game_app/views/other_pages/account_profil_page/account_profil_page.dart';
-import 'package:get/get.dart';
+import '../constants/index.dart';
+import '../constants/uc_price.dart';
 
 class ShowAllProductsCard extends StatelessWidget {
   final AccountsForSaleModel model;

@@ -1,8 +1,8 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/constants/profile_button.dart';
-import 'package:game_app/constants/dialogs.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/profile_button.dart';
+import 'package:game_app/views/constants/dialogs.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 import 'package:game_app/views/user_profil/Pages/history_orders_page.dart';
@@ -14,6 +14,7 @@ import 'package:game_app/views/user_profil/pages/edit_work_profil.dart';
 import 'Auth/tab_bar_view.dart';
 import 'Pages/about_us.dart';
 import 'Pages/faq.dart';
+import 'pages/notification.dart';
 
 class UserProfil extends StatefulWidget {
   const UserProfil({Key? key}) : super(key: key);
@@ -24,6 +25,11 @@ class UserProfil extends StatefulWidget {
 
 class _UserProfilState extends State<UserProfil> {
   final SettingsController settingsController = Get.put(SettingsController());
+  @override
+  void initState() {
+    super.initState();
+    Get.find<SettingsController>().returnNotifList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +70,13 @@ class _UserProfilState extends State<UserProfil> {
                     Get.to(() => const Settings());
                   },
                   icon: IconlyLight.setting,
+                ),
+                ProfilButton(
+                  name: 'notification',
+                  onTap: () {
+                    Get.to(() => NotificationPage());
+                  },
+                  icon: IconlyLight.notification,
                 ),
                 settingsController.loginUser.value ? whenUserLogin(snapshot.data!.phone.toString(), snapshot.data!.forSale!, snapshot.data!) : const SizedBox.shrink(),
                 ProfilButton(

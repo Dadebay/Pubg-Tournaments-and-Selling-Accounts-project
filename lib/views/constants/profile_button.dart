@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/constants/index.dart';
+import 'index.dart';
 
 class ProfilButton extends StatelessWidget {
   final String name;

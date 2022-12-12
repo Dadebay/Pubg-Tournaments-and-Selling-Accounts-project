@@ -1,4 +1,4 @@
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';
 

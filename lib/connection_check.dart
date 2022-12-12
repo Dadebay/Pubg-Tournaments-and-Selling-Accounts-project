@@ -1,12 +1,12 @@
 // ignore_for_file: file_names, avoid_positional_boolean_parameters, avoid_void_async, always_declare_return_types, always_use_package_imports
 
 import 'dart:io';
-import 'package:game_app/bottom_nav_bar.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/views/user_profil/auth/tab_bar_view.dart';
 import 'package:lottie/lottie.dart';
 
-import 'constants/dialogs.dart';
+import 'bottom_nav_bar.dart';
+import 'views/constants/dialogs.dart';
 import 'controllers/settings_controller.dart';
 import 'controllers/wallet_controller.dart';
 
@@ -42,7 +42,6 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
           );
         }).then((value) async {
           await Get.find<SettingsController>().changeUserUI();
-          debugPrint(Get.find<SettingsController>().loginUser.value.toString());
           if (Get.find<SettingsController>().loginUser.value != true) {
             await showDeleteDialog(context, 'loginError', 'welcome', () {
               Get.to(() => const TabBarViewPage());
@@ -149,11 +148,7 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
-      body: Stack(
-        children: [
-          Positioned.fill(child: Center(child: Lottie.asset(loader, height: 400, width: 400, fit: BoxFit.cover))),
-        ],
-      ),
+      body: Center(child: Lottie.asset(loader, fit: BoxFit.cover)),
     );
   }
 }

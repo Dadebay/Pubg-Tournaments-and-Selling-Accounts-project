@@ -6,7 +6,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:game_app/connection_check.dart';
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/add_account_model.dart';
 
@@ -17,6 +16,8 @@ import 'package:async/async.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
+
+import '../constants/index.dart';
 
 class VideoUploadPage extends StatefulWidget {
   const VideoUploadPage({Key? key}) : super(key: key);

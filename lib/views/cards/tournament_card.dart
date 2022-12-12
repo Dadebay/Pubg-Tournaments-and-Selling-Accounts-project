@@ -1,9 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/tournament_model.dart';
 import 'package:game_app/views/tournament_page/tournament_profil_page.dart';
+
+import '../constants/index.dart';
 
 class TournamentCard extends StatelessWidget {
   final int index;
@@ -74,9 +75,9 @@ class TournamentCard extends StatelessWidget {
                     Text(finised ? 'endTournament'.tr : tournamentModel.title!, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontFamily: josefinSansBold, fontSize: 28)),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: Text(tournamentModel.start_date!.substring(0, 10), textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontFamily: josefinSansRegular, fontSize: 18)),
+                      child: Text(tournamentModel.start_date!.substring(0, 10), textAlign: TextAlign.center, style: TextStyle(color: Colors.white.withOpacity(0.8), fontFamily: josefinSansSemiBold, fontSize: 18)),
                     ),
-                    Text(tournamentModel.start_date!.substring(11, 16), textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70, fontFamily: josefinSansRegular, fontSize: 18)),
+                    Text(tournamentModel.start_date!.substring(11, 16), textAlign: TextAlign.center, style: TextStyle(color: Colors.white.withOpacity(0.8), fontFamily: josefinSansSemiBold, fontSize: 18)),
                   ],
                 ),
               ),

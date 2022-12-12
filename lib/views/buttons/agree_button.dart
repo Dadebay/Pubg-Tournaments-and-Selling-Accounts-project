@@ -1,7 +1,8 @@
 // ignore_for_file: file_names, must_be_immutable
 
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
+
+import '../constants/index.dart';
 
 class AgreeButton extends StatelessWidget {
   final Function() onTap;

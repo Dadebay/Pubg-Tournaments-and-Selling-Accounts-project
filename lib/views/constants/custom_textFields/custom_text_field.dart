@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/index.dart';
 
 class CustomTextField extends StatelessWidget {
   final String labelName;

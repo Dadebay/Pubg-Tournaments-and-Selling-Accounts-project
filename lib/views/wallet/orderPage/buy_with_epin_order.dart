@@ -1,11 +1,12 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/cards/order_card.dart';
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/uc_models.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
+
+import '../../cards/order_card.dart';
+import '../../constants/index.dart';
 
 class BuyWithEpin extends StatefulWidget {
   const BuyWithEpin({

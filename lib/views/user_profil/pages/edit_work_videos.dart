@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:game_app/cards/video_card.dart';
-import 'package:game_app/constants/app_bar.dart';
-import 'package:game_app/constants/constants.dart';
-import 'package:game_app/constants/dialogs.dart';
-import 'package:game_app/constants/widgets.dart';
+import 'package:game_app/views/constants/app_bar.dart';
+import 'package:game_app/views/constants/constants.dart';
+import 'package:game_app/views/constants/dialogs.dart';
+import 'package:game_app/views/constants/widgets.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';
 import 'package:game_app/models/add_account_model.dart';
 import 'package:game_app/views/add_page/video_upload_page.dart';
 import 'package:get/get.dart';
+
+import '../../cards/video_card.dart';
 
 class EditWorkVideos extends StatefulWidget {
   final int userId;

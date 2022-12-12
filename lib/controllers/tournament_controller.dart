@@ -12,7 +12,6 @@ class TournamentController extends GetxController {
   dynamic addToList({required List<TournamentModel> list}) {
     tournamentList.clear();
     tournamentFinisedList.clear();
-
     for (var element in list) {
       final DateTime a = DateTime.parse(element.finish_date!);
       if (!a.isBefore(DateTime.now())) {

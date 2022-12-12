@@ -1,7 +1,8 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/user_models/abous_us_model.dart';
+
+import '../../constants/index.dart';
 
 class FAQs extends StatelessWidget {
   const FAQs({Key? key}) : super(key: key);

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:game_app/constants/constants.dart';
+import 'package:game_app/views/constants/constants.dart';
 import 'package:get/get.dart';
 
 class PhoneNumber extends StatelessWidget {

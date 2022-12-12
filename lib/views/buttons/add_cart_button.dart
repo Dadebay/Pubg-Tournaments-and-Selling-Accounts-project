@@ -1,9 +1,11 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/cupertino.dart';
-import 'package:game_app/constants/index.dart';
+
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/uc_models.dart';
+
+import '../constants/index.dart';
 
 class AddCartButton extends StatefulWidget {
   final bool productProfil;

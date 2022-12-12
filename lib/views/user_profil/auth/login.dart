@@ -1,9 +1,9 @@
 // ignore_for_file: file_names, must_be_immutable
 
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 
+import '../../constants/index.dart';
 import 'otp_check.dart';
 
 class Login extends StatelessWidget {

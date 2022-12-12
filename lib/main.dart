@@ -3,11 +3,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:game_app/constants/index.dart';
 import 'dart:io';
 import 'connection_check.dart';
 import 'controllers/all_controller_bindings.dart';
+import 'controllers/settings_controller.dart';
 import 'utils/translations.dart';
+import 'views/constants/index.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -26,6 +27,8 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+  Get.find<SettingsController>().addNotification(title: message.notification!.title!, body: message.notification!.body!);
+
   await flutterLocalNotificationsPlugin.show(
     message.data.hashCode,
     message.notification!.title,
@@ -92,10 +95,12 @@ class MyAppRun extends StatefulWidget {
 
 class _MyAppRunState extends State<MyAppRun> {
   final storage = GetStorage();
+  final SettingsController settingsController = Get.put(SettingsController());
 
   dynamic firebaseMessagingPart() {
     FirebaseMessaging.instance.subscribeToTopic('EVENT');
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      settingsController.addNotification(title: message.notification!.title!, body: message.notification!.body!);
       flutterLocalNotificationsPlugin.show(
         message.data.hashCode,
         message.notification!.title,

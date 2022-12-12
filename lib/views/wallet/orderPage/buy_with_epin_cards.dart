@@ -1,10 +1,10 @@
-import 'package:game_app/cards/uc_card.dart';
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/uc_models.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../cards/uc_card.dart';
+import '../../constants/index.dart';
 import 'buy_with_epin_order.dart';
 
 class BuyWithEpinCards extends StatefulWidget {

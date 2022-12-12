@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/constants/constants.dart';
+import 'package:game_app/views/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class Price extends StatelessWidget {

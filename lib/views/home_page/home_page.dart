@@ -1,5 +1,5 @@
-import 'package:game_app/cards/home_page_card.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/cards/home_page_card.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/home_page_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 

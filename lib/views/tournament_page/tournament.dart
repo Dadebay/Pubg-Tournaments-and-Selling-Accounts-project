@@ -1,10 +1,11 @@
 // ignore_for_file: file_names
-import 'package:game_app/cards/tournament_card.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/tournament_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../cards/tournament_card.dart';
 
 class TournamentPage extends StatefulWidget {
   const TournamentPage({Key? key}) : super(key: key);

@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:game_app/constants/index.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:dotted_border/dotted_border.dart';
@@ -10,6 +9,8 @@ import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:vibration/vibration.dart';
+import '../constants/index.dart';
 import 'video_upload_page.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:async/async.dart';
@@ -49,7 +50,7 @@ class _AddPageState extends State<AddPage> {
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
       if (image == null) {
         return;
       }
@@ -64,7 +65,7 @@ class _AddPageState extends State<AddPage> {
 
   Future pickImage1() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
       if (image == null) {
         return;
       }
@@ -206,48 +207,51 @@ class _AddPageState extends State<AddPage> {
   dynamic onTapp() async {
     if (_addAccount.currentState!.validate()) {
       if (Get.find<SettingsController>().agreeButton.value == false) {
-        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-        final token = await Auth().getToken();
-        final headers = {'Authorization': 'Bearer $token'};
-        final request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/update-account/'));
-        request.fields.addAll({
-          'pubg_username': userNameController.text,
-          'pubg_id': pubgIDController.text,
-          'first_name': fisrtNameController.text,
-          'last_name': lastNameController.text,
-          'email': '',
-          'bio': bioController.text,
-          'location': '${widget.locationID}',
-          'pubg_type': '${widget.pubgType}',
-          'for_sale': '1',
-          'edit': '0',
-          'vip': '${widget.vipOrNot}',
-          'price': priceController.text
-        });
-        request.headers.addAll(headers);
-
-        final String fileName = selectedImage!.path.split('/').last;
-        final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
-        final length = await selectedImage!.length();
-        final mimeTypeData = lookupMimeType(selectedImage!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-        final multipartFileSign = http.MultipartFile('image', stream, length, filename: fileName, contentType: MediaType(mimeTypeData.first, mimeTypeData[1]));
-        request.files.add(multipartFileSign);
-
-        final String fileName1 = selectedImage1!.path.split('/').last;
-        final stream1 = http.ByteStream(DelegatingStream.typed(selectedImage1!.openRead()));
-        final length1 = await selectedImage1!.length();
-        final mimeTypeData1 = lookupMimeType(selectedImage1!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-        final multipartFileSign1 = http.MultipartFile('bg_image', stream1, length1, filename: fileName1, contentType: MediaType(mimeTypeData1.first, mimeTypeData1[1]));
-        request.files.add(multipartFileSign1);
-
-        final http.StreamedResponse response = await request.send();
-        Get.find<SettingsController>().agreeButton.value = false;
-
-        if (response.statusCode == 200) {
-          await Get.to(() => const VideoUploadPage());
-          Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+        if (selectedImage == null) {
+          showSnackBar('noImage', 'noImageBanner', Colors.red);
+          await Vibration.vibrate();
         } else {
-          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+          Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+          final token = await Auth().getToken();
+          final headers = {'Authorization': 'Bearer $token'};
+          final request = http.MultipartRequest('POST', Uri.parse('$serverURL/api/accounts/update-account/'));
+          request.fields.addAll({
+            'pubg_username': userNameController.text,
+            'pubg_id': pubgIDController.text,
+            'first_name': fisrtNameController.text,
+            'last_name': lastNameController.text,
+            'email': '',
+            'bio': bioController.text,
+            'location': '${widget.locationID}',
+            'pubg_type': '${widget.pubgType}',
+            'for_sale': '1',
+            'edit': '0',
+            'vip': '${widget.vipOrNot}',
+            'price': priceController.text
+          });
+          request.headers.addAll(headers);
+
+          final String fileName = selectedImage!.path.split('/').last;
+          final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
+          final length = await selectedImage!.length();
+          final mimeTypeData = lookupMimeType(selectedImage!.path, headerBytes: [0xFF, 0xD8])!.split('/');
+          final multipartFileSign = http.MultipartFile('image', stream, length, filename: fileName, contentType: MediaType(mimeTypeData.first, mimeTypeData[1]));
+          request.files.add(multipartFileSign);
+
+          final String fileName1 = selectedImage1!.path.split('/').last;
+          final stream1 = http.ByteStream(DelegatingStream.typed(selectedImage1!.openRead()));
+          final length1 = await selectedImage1!.length();
+          final mimeTypeData1 = lookupMimeType(selectedImage1!.path, headerBytes: [0xFF, 0xD8])!.split('/');
+          final multipartFileSign1 = http.MultipartFile('bg_image', stream1, length1, filename: fileName1, contentType: MediaType(mimeTypeData1.first, mimeTypeData1[1]));
+          request.files.add(multipartFileSign1);
+
+          final http.StreamedResponse response = await request.send();
+          Get.find<SettingsController>().agreeButton.value = false;
+          if (response.statusCode == 200) {
+            await Get.to(() => const VideoUploadPage());
+          } else {
+            showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+          }
           Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
         }
       } else {

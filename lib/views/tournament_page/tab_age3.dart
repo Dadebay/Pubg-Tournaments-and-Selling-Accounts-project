@@ -1,8 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/constants/index.dart';
+
 import 'package:game_app/models/tournament_model.dart';
+import '../constants/index.dart';
 
 class TabPage3 extends StatelessWidget {
   final TournamentModel model;

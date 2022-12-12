@@ -1,10 +1,10 @@
 // ignore_for_file: deprecated_member_use, duplicate_ignore, implementation_imports, avoid_positional_boolean_parameters, unnecessary_null_comparison, always_use_package_imports
 
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/views/other_pages/show_all_acconts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import '../constants/index.dart';
 
 SnackbarController showSnackBar(String title, String subtitle, Color color) {
   return Get.snackbar(

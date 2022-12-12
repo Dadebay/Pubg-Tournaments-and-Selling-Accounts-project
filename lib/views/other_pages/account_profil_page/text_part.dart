@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';
+
+import '../../constants/index.dart';
 
 class CustomFlexibleSpace extends StatelessWidget {
   final AccountByIdModel model;

@@ -1,9 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/views/other_pages/video_player_profile.dart';
 import 'package:lottie/lottie.dart';
+
+import '../constants/index.dart';
 
 class VideoCard extends StatelessWidget {
   final String videoPath;

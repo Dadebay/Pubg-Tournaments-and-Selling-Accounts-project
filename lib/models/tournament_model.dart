@@ -1,12 +1,12 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:game_app/controllers/tournament_controller.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:game_app/constants/index.dart';
+import '../views/constants/index.dart';
 
 import 'user_models/auth_model.dart';
 
@@ -52,11 +52,17 @@ class TournamentModel {
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/turnirs/',
+      ).replace(
+        queryParameters: {
+          'page': '1',
+          'size': '20',
+        },
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
+    log(response.body.length.toString());
     if (response.statusCode == 200) {
       controller.tournamentLoading.value = 2;
       final decoded = utf8.decode(response.bodyBytes);
@@ -64,7 +70,6 @@ class TournamentModel {
       for (final Map product in responseJson['results']) {
         abc.add(TournamentModel.fromJson(product));
       }
-
       controller.addToList(list: abc);
       return abc;
     } else {

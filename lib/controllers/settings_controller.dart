@@ -1,7 +1,8 @@
 // ignore_for_file: file_names
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:game_app/models/uc_models.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
@@ -14,11 +15,23 @@ class SettingsController extends GetxController {
   RxInt bannerSelectedIndex = 0.obs;
   RxString pubgType = ''.obs;
   RxString locationName = ''.obs;
-  late Future<List<UcModel>> getData;
-  @override
-  void onInit() {
-    super.onInit();
-    getData = UcModel().getUCS();
+  List<Map<String, dynamic>> notificationsList = [];
+
+  dynamic addNotification({required String title, required String body}) async {
+    notificationsList.add({'title': title, 'body': body});
+    final String jsonString = jsonEncode(notificationsList);
+    await storage.write('notificationList', jsonString);
+  }
+
+  dynamic returnNotifList() async {
+    final result = await storage.read('notificationList') ?? '[]';
+    final List jsonData = json.decode(result);
+    notificationsList.clear();
+    if (jsonData.isNotEmpty) {
+      for (final element in jsonData) {
+        addNotification(body: element['body'], title: element['title']);
+      }
+    }
   }
 
   Future<bool> changeUserUI() async {

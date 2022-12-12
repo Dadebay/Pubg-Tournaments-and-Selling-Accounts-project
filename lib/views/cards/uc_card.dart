@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/buttons/add_cart_button.dart';
-import 'package:game_app/constants/index.dart';
-import 'package:game_app/constants/uc_price.dart';
+import 'package:game_app/views/buttons/add_cart_button.dart';
+import 'package:game_app/views/constants/index.dart';
+import 'package:game_app/views/constants/uc_price.dart';
 import 'package:game_app/models/uc_models.dart';
 
 class UCCard extends StatelessWidget {

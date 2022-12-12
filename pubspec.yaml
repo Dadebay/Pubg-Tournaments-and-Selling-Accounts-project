@@ -3,7 +3,7 @@ description: A new Flutter project.
 publish_to: 'none' 
 version: 1.0.0+1
 environment:
-  sdk: '>=2.16.2 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
   cached_network_image: null
@@ -14,7 +14,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_iconly: ^1.0.2
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.0
   firebase_messaging: ^11.2.6
   firebase_core: null
   flutter_local_notifications: null

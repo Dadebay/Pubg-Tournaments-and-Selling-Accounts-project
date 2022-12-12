@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, must_be_immutable
 
-import 'package:game_app/constants/index.dart';
+import '../../constants/index.dart';
+
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 import 'package:game_app/views/user_profil/auth/otp_check.dart';

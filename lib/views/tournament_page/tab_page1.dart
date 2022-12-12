@@ -1,9 +1,10 @@
 import 'package:flutter_html/flutter_html.dart';
-import 'package:game_app/constants/index.dart';
+
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
+import '../constants/index.dart';
 
 import '../../models/user_models/auth_model.dart';
 
@@ -41,7 +42,7 @@ class TabPage1 extends StatelessWidget {
                 ),
                 twoText(name1: 'tournamentInfo5'.tr, name2: model.mode ?? ''),
                 twoText(name1: 'tournamentInfo6'.tr, name2: model.map ?? ''),
-                twoText(name1: 'tournamentInfo7'.tr, name2: model.start_date!.substring(0, 9)),
+                twoText(name1: 'tournamentInfo7'.tr, name2: model.start_date!.substring(0, 10)),
                 twoText(name1: 'tournamentInfo8'.tr, name2: finised ? 'tournamentInfo9'.tr : 'tournamentInfo10'.tr),
                 const SizedBox(
                   height: 25,
@@ -87,7 +88,6 @@ class TabPage1 extends StatelessWidget {
   void showCode() async {
     final token = await Auth().getToken();
     Get.find<SettingsController>().agreeButton.value = false;
-    print(buttonName);
     if (buttonName == 'tournamentInfo12') {
       await TournamentModel().checkStatus(tournamentID: model.id!, value: true);
     } else {
@@ -134,7 +134,7 @@ class TabPage1 extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 20, left: 8, right: 8, bottom: 8),
                 child: Text(
-                  'accountDetaile1'.tr + ' ${snapshot.data!.nickname}',
+                  '${'accountDetaile1'.tr} ${snapshot.data!.nickname}',
                   textAlign: TextAlign.start,
                   style: const TextStyle(color: Colors.white, fontFamily: josefinSansRegular, fontSize: 20),
                 ),
@@ -142,7 +142,7 @@ class TabPage1 extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'accountDetaile2'.tr + ' ${snapshot.data!.pubgId}',
+                  '${'accountDetaile2'.tr} ${snapshot.data!.pubgId}',
                   textAlign: TextAlign.start,
                   style: const TextStyle(color: Colors.white, fontFamily: josefinSansRegular, fontSize: 20),
                 ),
@@ -151,7 +151,7 @@ class TabPage1 extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 20),
                   child: Text(
-                    'accountDetaile5'.tr + ' ${model.price} TMT',
+                    '${'accountDetaile5'.tr} ${model.price} TMT',
                     textAlign: TextAlign.start,
                     style: const TextStyle(color: Colors.white, fontFamily: josefinSansRegular, fontSize: 20),
                   ),
@@ -177,6 +177,9 @@ class TabPage1 extends StatelessWidget {
         Get.find<WalletController>().getUserMoney();
 
         showSnackBar('tournamentInfo18', 'tournamentInfo17', kPrimaryColor);
+      } else if (value == 404) {
+        Get.back();
+        showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
       } else if (value == 400) {
         Get.back();
         showSnackBar('tournamentInfo19', 'tournamentInfo21', Colors.red);
@@ -208,7 +211,7 @@ class TabPage1 extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Text(
               name1.tr,
               textAlign: TextAlign.left,
@@ -220,7 +223,7 @@ class TabPage1 extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 3,
             child: Text(
               name2.tr,
               maxLines: 2,

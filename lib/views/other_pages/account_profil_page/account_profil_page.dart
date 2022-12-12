@@ -1,11 +1,11 @@
 // ignore_for_file: file_names, deprecated_member_use
 
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';
 import 'package:game_app/models/home_page_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../constants/index.dart';
 import 'page_1.dart';
 import 'page_2.dart';
 import 'text_part.dart';

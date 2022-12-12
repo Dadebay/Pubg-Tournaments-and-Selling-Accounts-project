@@ -1,4 +1,4 @@
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/models/index_model.dart';
 
 class HomePageController extends GetxController {

@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, file_names, use_key_in_widget_constructors, avoid_implementing_value_types
 
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/index.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSize {
   final bool backArrow;

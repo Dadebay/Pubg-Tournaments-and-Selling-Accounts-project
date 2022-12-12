@@ -3,7 +3,7 @@ import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/uc_models.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 
-import '../../../constants/index.dart';
+import '../../constants/index.dart';
 
 class BuyWithID extends StatefulWidget {
   const BuyWithID({Key? key}) : super(key: key);
@@ -176,7 +176,7 @@ class _BuyWithIDState extends State<BuyWithID> {
             Expanded(
               flex: 2,
               child: Text(
-                snapshot.data![index].price!.substring(0, snapshot.data![index].price!.length - 1) + ' TMT',
+                '${snapshot.data![index].price!.substring(0, snapshot.data![index].price!.length - 1)} TMT',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 textAlign: TextAlign.end,

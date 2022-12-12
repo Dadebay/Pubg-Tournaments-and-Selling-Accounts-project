@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:game_app/buttons/dialog_button.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/buttons/dialog_button.dart';
+import 'package:game_app/views/constants/index.dart';
 
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
@@ -85,7 +85,7 @@ void logOut() {
 }
 
 void changeLanguage() {
-  final SettingsController _settingsController = Get.put(SettingsController());
+  final SettingsController settingsController = Get.put(SettingsController());
 
   Get.bottomSheet(
     Container(
@@ -117,7 +117,7 @@ void changeLanguage() {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: ListTile(
               onTap: () {
-                _settingsController.switchLang('tr');
+                settingsController.switchLang('tr');
                 Get.back();
               },
               leading: const CircleAvatar(
@@ -138,7 +138,7 @@ void changeLanguage() {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: ListTile(
               onTap: () {
-                _settingsController.switchLang('ru');
+                settingsController.switchLang('ru');
                 Get.back();
               },
               leading: const CircleAvatar(

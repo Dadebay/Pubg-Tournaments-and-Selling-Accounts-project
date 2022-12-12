@@ -1,7 +1,8 @@
 // ignore_for_file: file_names, must_be_immutable
 
-import 'package:game_app/constants/index.dart';
 import 'package:game_app/models/tournament_model.dart';
+
+import '../constants/index.dart';
 
 class TabPage2 extends StatelessWidget {
   final TournamentModel model;

@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/constants/index.dart';
+import '../../constants/index.dart';
 
 import 'login.dart';
 import 'sign_in.dart';

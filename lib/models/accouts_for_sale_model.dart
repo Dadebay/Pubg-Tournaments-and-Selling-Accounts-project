@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:game_app/controllers/home_page_controller.dart';
 import 'package:game_app/controllers/show_all_account_controller.dart';
 import 'package:http/http.dart' as http;
-import 'package:game_app/constants/index.dart';
 
+import '../views/constants/index.dart';
 import 'user_models/auth_model.dart';
 
 class AccountsForSaleModel extends GetxController {

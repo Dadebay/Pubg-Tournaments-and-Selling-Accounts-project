@@ -1,10 +1,11 @@
 // ignore_for_file: file_names, deprecated_member_use
 
-import 'package:game_app/constants/settings_button.dart';
-import 'package:game_app/constants/dialogs.dart';
-import 'package:game_app/constants/index.dart';
+import 'package:game_app/views/constants/dialogs.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../constants/settings_button.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
