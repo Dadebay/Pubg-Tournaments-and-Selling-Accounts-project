@@ -82,6 +82,7 @@ class HomePageCard extends StatelessWidget {
             Price(
               price: model.price!.substring(0, model.price!.length - 3),
               showDiscountedPrice: false,
+              selectedIndex: 1,
             ),
             size.width >= 800
                 ? const SizedBox.shrink()

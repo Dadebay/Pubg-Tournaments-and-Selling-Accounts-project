@@ -11,14 +11,18 @@ class BannerModel {
   final int? id;
   final String? image;
   final String? url;
+  final String? content;
+  final String? title;
   BannerModel({
     this.id,
     this.image,
     this.url,
+    this.content,
+    this.title,
   });
 
   factory BannerModel.fromJson(Map<dynamic, dynamic> json) {
-    return BannerModel(id: json['id'], image: json['image'], url: json['url']);
+    return BannerModel(id: json['id'], image: json['image'], title: json['title'], content: json['content'], url: json['url']);
   }
 
   Future<List<BannerModel>> getBanners() async {
@@ -28,56 +32,19 @@ class BannerModel {
         '$serverURL/api/banners/',
       ),
       headers: <String, String>{
-        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Charset': 'utf-8',
       },
     );
     debugPrint(response.body);
     if (response.statusCode == 200) {
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
+      // final decoded = utf8.decode(response.bodyBytes);
+      final responseJson = json.decode(utf8.decode(response.bodyBytes));
       for (final Map product in responseJson) {
         bannerList.add(BannerModel.fromJson(product));
       }
 
       return bannerList;
-    } else {
-      return [];
-    }
-  }
-}
-
-class PubgTypesModel extends GetxController {
-  final int? id;
-  final String? image;
-  final String? title;
-  PubgTypesModel({
-    this.id,
-    this.image,
-    this.title,
-  });
-
-  factory PubgTypesModel.fromJson(Map<dynamic, dynamic> json) {
-    return PubgTypesModel(id: json['id'], image: json['image'], title: json['title']);
-  }
-
-  Future<List<PubgTypesModel>> getTypes() async {
-    final List<PubgTypesModel> typeList = [];
-    final response = await http.get(
-      Uri.parse(
-        '$serverURL/api/accounts/types/',
-      ),
-      headers: <String, String>{
-        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-      },
-    );
-    if (response.statusCode == 200) {
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
-      for (final Map product in responseJson) {
-        typeList.add(PubgTypesModel.fromJson(product));
-      }
-
-      return typeList;
     } else {
       return [];
     }

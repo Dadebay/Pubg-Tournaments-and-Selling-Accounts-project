@@ -84,7 +84,7 @@ class BottomNavbarButton extends StatelessWidget {
                               )
                         : icon
                             ? Image.asset(
-                                'assets/icons/iconBold.png',
+                                'assets/icons/iconLight.png',
                                 color: Colors.white,
                                 width: 22,
                               )

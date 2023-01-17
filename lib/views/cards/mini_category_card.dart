@@ -30,7 +30,7 @@ class MiniCategoryCard extends StatelessWidget {
         } else if (index == 1) {
           final token = await Auth().getToken();
           if (token != null) {
-            defaultBottomSheet(name: 'pubgTypes', child: getTypess());
+            defaultBottomSheet(name: 'selectCityTitle', child: getCitiess());
           } else {
             showSnackBar('loginError', 'add_account_login_error', Colors.red);
           }

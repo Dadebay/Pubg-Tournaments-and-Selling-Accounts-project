@@ -9,9 +9,13 @@ import '../constants/widgets.dart';
 
 class BannerCard extends StatelessWidget {
   final String image;
+  final String content;
+  final String title;
 
   const BannerCard({
     required this.image,
+    required this.title,
+    required this.content,
     Key? key,
   }) : super(key: key);
   @override
@@ -19,7 +23,7 @@ class BannerCard extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        Get.to(() => BannerProfileView('Example', image, loremImpsum));
+        Get.to(() => BannerProfileView(title, image, content));
       },
       child: Container(
         margin: const EdgeInsets.all(8),

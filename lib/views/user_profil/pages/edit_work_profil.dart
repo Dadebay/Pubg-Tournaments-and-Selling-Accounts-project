@@ -70,15 +70,15 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
         }
       }
     });
-    await PubgTypesModel().getTypes().then((value) {
-      for (var element in value) {
-        if (widget.model.pubgType == element.id) {
-          pubgName = element.title.toString();
-          pubgID = element.id!;
-          setState(() {});
-        }
-      }
-    });
+    // await PubgTypesModel().getTypes().then((value) {
+    //   for (var element in value) {
+    //     if (widget.model.pubgType == element.id) {
+    //       pubgName = element.title.toString();
+    //       pubgID = element.id!;
+    //       setState(() {});
+    //     }
+    //   }
+    // });
   }
 
   Future pickImage() async {
@@ -174,68 +174,67 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
     );
   }
 
-  Padding selectPubgType() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 14),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-        shape: const RoundedRectangleBorder(borderRadius: borderRadius20, side: BorderSide(color: Colors.white, width: 2)),
-        title: Text(pubgName, style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18)),
-        trailing: const Icon(IconlyLight.arrowRightCircle),
-        // ignore: prefer-extracting-callbacks
-        onTap: () {
-          Get.defaultDialog(
-            title: 'pubgTypes'.tr,
-            titleStyle: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
-            radius: 5,
-            backgroundColor: kPrimaryColorBlack,
-            titlePadding: const EdgeInsets.symmetric(vertical: 20),
-            content: FutureBuilder<List<PubgTypesModel>>(
-              future: PubgTypesModel().getTypes(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: spinKit());
-                } else if (snapshot.hasError) {
-                  return const Center(
-                    child: Text('Error'),
-                  );
-                } else if (snapshot.data == null) {
-                  return const Center(
-                    child: Text('Null'),
-                  );
-                }
-                return Column(
-                  children: List.generate(
-                    snapshot.data!.length,
-                    (index) => Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      alignment: WrapAlignment.center,
-                      children: [
-                        customDivider(),
-                        TextButton(
-                          onPressed: () {
-                            pubgName = snapshot.data![index].title.toString();
-                            pubgID = snapshot.data![index].id!;
-                            Get.back();
-                            setState(() {});
-                          },
-                          child: Text(
-                            snapshot.data![index].title.toString(),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 16),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          );
-        },
-      ),
-    );
-  }
+  // Padding selectPubgType() {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(vertical: 14),
+  //     child: ListTile(
+  //       contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+  //       shape: const RoundedRectangleBorder(borderRadius: borderRadius20, side: BorderSide(color: Colors.white, width: 2)),
+  //       title: Text(pubgName, style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18)),
+  //       trailing: const Icon(IconlyLight.arrowRightCircle),
+  //       onTap: () {
+  //         Get.defaultDialog(
+  //           title: 'pubgTypes'.tr,
+  //           titleStyle: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
+  //           radius: 5,
+  //           backgroundColor: kPrimaryColorBlack,
+  //           titlePadding: const EdgeInsets.symmetric(vertical: 20),
+  //           content: FutureBuilder<List<PubgTypesModel>>(
+  //             future: PubgTypesModel().getTypes(),
+  //             builder: (context, snapshot) {
+  //               if (snapshot.connectionState == ConnectionState.waiting) {
+  //                 return Center(child: spinKit());
+  //               } else if (snapshot.hasError) {
+  //                 return const Center(
+  //                   child: Text('Error'),
+  //                 );
+  //               } else if (snapshot.data == null) {
+  //                 return const Center(
+  //                   child: Text('Null'),
+  //                 );
+  //               }
+  //               return Column(
+  //                 children: List.generate(
+  //                   snapshot.data!.length,
+  //                   (index) => Wrap(
+  //                     crossAxisAlignment: WrapCrossAlignment.center,
+  //                     alignment: WrapAlignment.center,
+  //                     children: [
+  //                       customDivider(),
+  //                       TextButton(
+  //                         onPressed: () {
+  //                           pubgName = snapshot.data![index].title.toString();
+  //                           pubgID = snapshot.data![index].id!;
+  //                           Get.back();
+  //                           setState(() {});
+  //                         },
+  //                         child: Text(
+  //                           snapshot.data![index].title.toString(),
+  //                           textAlign: TextAlign.center,
+  //                           style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 16),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   dynamic selectImageDesign() {
     return Column(
@@ -532,7 +531,7 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
                 height: 10,
               ),
               selectCity(),
-              selectPubgType(),
+              // selectPubgType(),
               selectImageDesign(),
               selectBackImage(),
               Padding(

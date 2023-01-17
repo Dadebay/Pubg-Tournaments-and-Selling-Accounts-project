@@ -11,6 +11,8 @@ import '../views/constants/index.dart';
 class UcModel {
   final int? id;
   final String? price;
+  final String? liraPrice;
+  final String? rublePrice;
   final String? title;
   final String? description_tm;
   final String? description_ru;
@@ -19,6 +21,8 @@ class UcModel {
   UcModel({
     this.id,
     this.title,
+    this.liraPrice,
+    this.rublePrice,
     this.description_tm,
     this.description_ru,
     this.image,
@@ -30,6 +34,8 @@ class UcModel {
     return UcModel(
       id: json['id'],
       price: json['price'],
+      rublePrice: json['ruble_price'],
+      liraPrice: json['lira_price'],
       title: json['title'],
       image: json['image'],
       description_tm: json['description_tm'],
@@ -61,6 +67,7 @@ class UcModel {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);

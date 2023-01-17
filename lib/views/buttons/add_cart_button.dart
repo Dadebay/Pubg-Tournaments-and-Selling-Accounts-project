@@ -3,16 +3,22 @@
 import 'package:flutter/cupertino.dart';
 
 import 'package:game_app/controllers/wallet_controller.dart';
-import 'package:game_app/models/uc_models.dart';
 
 import '../constants/index.dart';
 
 class AddCartButton extends StatefulWidget {
   final bool productProfil;
-  final UcModel ucModel;
+  final int id;
+  final String price;
+  final String title;
+  final String image;
+
   const AddCartButton({
     required this.productProfil,
-    required this.ucModel,
+    required this.id,
+    required this.price,
+    required this.title,
+    required this.image,
     Key? key,
   }) : super(key: key);
 
@@ -33,7 +39,7 @@ class _AddCartButtonState extends State<AddCartButton> {
 
   dynamic checkInCart() {
     for (var element in walletController.cartList) {
-      if (element['id'] == widget.ucModel.id) {
+      if (element['id'] == widget.id) {
         number = element['count'];
         value = true;
         setState(() {});
@@ -43,16 +49,17 @@ class _AddCartButtonState extends State<AddCartButton> {
 
   Widget numPart() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: widget.productProfil ? MainAxisAlignment.start : MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           onTap: () {
             if (number - 1 == 0) {
               value = false;
               number = 1;
-              walletController.removeCart(widget.ucModel.id!);
+              walletController.removeCart(widget.id);
             } else {
               number--;
+              walletController.minusCart(widget.id);
             }
             setState(() {});
           },
@@ -62,14 +69,17 @@ class _AddCartButtonState extends State<AddCartButton> {
             size: 24,
           ),
         ),
-        Text(
-          number.toString(),
-          style: TextStyle(color: kPrimaryColor, fontSize: widget.productProfil ? 22 : 20, fontFamily: josefinSansBold),
+        Padding(
+          padding: widget.productProfil ? const EdgeInsets.symmetric(horizontal: 15) : EdgeInsets.zero,
+          child: Text(
+            number.toString(),
+            style: TextStyle(color: kPrimaryColor, fontSize: widget.productProfil ? 22 : 20, fontFamily: josefinSansBold),
+          ),
         ),
         GestureDetector(
           onTap: () {
             number++;
-            walletController.addCart(ucModel: widget.ucModel);
+            walletController.addCart(id: widget.id, image: widget.image, price: widget.price, title: widget.title);
             setState(() {});
           },
           child: const Icon(
@@ -86,7 +96,7 @@ class _AddCartButtonState extends State<AddCartButton> {
   dynamic checkStatus() {
     a = 0;
     for (var element in walletController.cartList) {
-      if (element['id'] == widget.ucModel.id) {
+      if (element['id'] == widget.id) {
         a = 1;
       }
     }
@@ -100,22 +110,30 @@ class _AddCartButtonState extends State<AddCartButton> {
       return Container(
         width: Get.size.width,
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColorBlack, padding: EdgeInsets.symmetric(vertical: widget.productProfil ? 14 : 0, horizontal: value ? 15 : 0), elevation: 0, shape: RoundedRectangleBorder(borderRadius: widget.productProfil ? borderRadius20 : borderRadius15)),
-          onPressed: () {
-            if (value == false) {
-              walletController.addCart(ucModel: widget.ucModel);
-              value = !value;
-            }
-            setState(() {});
-          },
-          child: value
-              ? numPart()
-              : Text(
-                  'addCart'.tr,
-                  style: TextStyle(color: Colors.white, fontSize: widget.productProfil ? 22 : 16, fontFamily: josefinSansSemiBold),
-                ),
-        ),
+        child: widget.productProfil
+            ? value
+                ? numPart()
+                : Text(
+                    'addCart'.tr,
+                    style: TextStyle(color: Colors.white, fontSize: widget.productProfil ? 22 : 16, fontFamily: josefinSansSemiBold),
+                  )
+            : ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColorBlack, padding: EdgeInsets.symmetric(vertical: widget.productProfil ? 14 : 0, horizontal: value ? 15 : 0), elevation: 0, shape: RoundedRectangleBorder(borderRadius: widget.productProfil ? borderRadius20 : borderRadius15)),
+                onPressed: () {
+                  if (value == false) {
+                    walletController.addCart(id: widget.id, image: widget.image, price: widget.price, title: widget.title);
+
+                    value = !value;
+                  }
+                  setState(() {});
+                },
+                child: value
+                    ? numPart()
+                    : Text(
+                        'addCart'.tr,
+                        style: TextStyle(color: Colors.white, fontSize: widget.productProfil ? 22 : 16, fontFamily: josefinSansSemiBold),
+                      ),
+              ),
       );
     });
   }

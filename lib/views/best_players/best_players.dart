@@ -1,29 +1,60 @@
+import 'package:flutter_html/flutter_html.dart';
 import 'package:game_app/views/constants/index.dart';
 
+import '../../models/add_account_model.dart';
+import '../../models/best_players_model.dart';
 import '../cards/best_players_card.dart';
 
 class BestPlayers extends StatelessWidget {
-  List userNames = ['XQF Paraboy', 'TGLTN', 'PIO', 'TAIKONN', 'GODV', 'INONIX', 'ScoutOP', 'Jonathan', 'Coffin', 'TQ Marco'];
-  List userPoints = [1270, 1154, 1124, 1025, 1012, 950, 930, 756, 654, 521];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
-      appBar: const MyAppBar(fontSize: 0, backArrow: false, iconRemove: true, name: 'bestPlayers2', elevationWhite: true),
+      appBar: MyAppBar(
+        fontSize: 0,
+        backArrow: false,
+        iconRemove: false,
+        icon: IconButton(
+          onPressed: () {
+            AddAccountModel().getConsts().then((value) {
+              showBestPlayerPrice(
+                context,
+                'Turnirda Yer alan ulanyjylara Sowgatlar',
+                value['best_players_text'],
+              );
+            });
+          },
+          icon: const Icon(Icons.cabin),
+        ),
+        name: 'bestPlayers2',
+        elevationWhite: true,
+      ),
       body: Column(
         children: [
           topPart(),
           Expanded(
-            child: ListView.builder(
-              itemCount: userNames.length,
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return BestPlayersCard(
-                  index: index,
-                  name: userNames[index],
-                  points: userPoints[index].toString(),
-                  referalPage: false,
+            child: FutureBuilder<List<BestPlayersModel>>(
+              future: BestPlayersModel().getBestPlayers(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));
+                } else if (snapshot.hasError) {
+                  return noBannerImage();
+                } else if (snapshot.data.toString() == '[]') {
+                  return noBannerImage();
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return BestPlayersCard(
+                      index: index,
+                      image: '$serverURL${snapshot.data![index].image}',
+                      name: snapshot.data![index].pubgUsername!,
+                      points: snapshot.data![index].points!,
+                      referalPage: false,
+                    );
+                  },
                 );
               },
             ),
@@ -75,6 +106,50 @@ class BestPlayers extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Future<Object?> showBestPlayerPrice(
+    BuildContext context,
+    String text,
+    String text2,
+  ) {
+    return showGeneralDialog(
+      transitionBuilder: (context, a1, a2, widget) {
+        final curvedValue = Curves.decelerate.transform(a1.value) - 1.0;
+        return Transform(
+          transform: Matrix4.translationValues(0.0, curvedValue * 400, 0.0),
+          child: Opacity(
+            opacity: a1.value,
+            child: AlertDialog(
+              backgroundColor: kPrimaryColorBlack,
+              shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
+              title: Text(
+                text.tr,
+                style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansBold),
+              ),
+              content: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20, left: 6, right: 6),
+                  child: Html(
+                    data: text2.tr,
+                    style: {
+                      'body': Style(fontFamily: josefinSansMedium, fontSize: const FontSize(20.0), textAlign: TextAlign.left),
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
+      barrierDismissible: true,
+      barrierLabel: '',
+      context: context,
+      pageBuilder: (context, animation1, animation2) {
+        return const SizedBox.shrink();
+      },
     );
   }
 }

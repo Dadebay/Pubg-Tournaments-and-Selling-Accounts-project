@@ -17,11 +17,9 @@ import 'package:async/async.dart';
 
 class AddPage extends StatefulWidget {
   final int locationID;
-  final int pubgType;
   final int vipOrNot;
   const AddPage({
     required this.locationID,
-    required this.pubgType,
     required this.vipOrNot,
     Key? key,
   }) : super(key: key);
@@ -223,7 +221,6 @@ class _AddPageState extends State<AddPage> {
             'email': '',
             'bio': bioController.text,
             'location': '${widget.locationID}',
-            'pubg_type': '${widget.pubgType}',
             'for_sale': '1',
             'edit': '0',
             'vip': '${widget.vipOrNot}',

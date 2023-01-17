@@ -29,7 +29,6 @@ class _UserProfilState extends State<UserProfil> {
   final SettingsController settingsController = Get.put(SettingsController());
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Get.find<WalletController>().getUserMoney();
   }
@@ -67,13 +66,15 @@ class _UserProfilState extends State<UserProfil> {
           return Obx(() {
             return ListView(
               children: [
-                settingsController.loginUser.value ? ProfilButton(
-      name: 'profil',
-      onTap: () {
-        Get.to(() => const ProfileSettings());
-      },
-      icon: IconlyLight.profile,
-    ) : const SizedBox.shrink(),
+                settingsController.loginUser.value
+                    ? ProfilButton(
+                        name: 'profil',
+                        onTap: () {
+                          Get.to(() => const ProfileSettings());
+                        },
+                        icon: IconlyLight.profile,
+                      )
+                    : const SizedBox.shrink(),
                 ProfilButton(
                   name: 'settings',
                   onTap: () {
@@ -154,8 +155,6 @@ class _UserProfilState extends State<UserProfil> {
       ),
     );
   }
-
- 
 
   Column whenUserLogin(bool forSale, GetMeModel model) {
     return Column(

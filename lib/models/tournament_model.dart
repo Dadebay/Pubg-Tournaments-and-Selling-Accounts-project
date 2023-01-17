@@ -109,7 +109,7 @@ class TournamentModel {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      if (value == true) {
+      if (value) {
         Get.snackbar(
           'tournamentInfo15',
           "${responseJson["code"]}",

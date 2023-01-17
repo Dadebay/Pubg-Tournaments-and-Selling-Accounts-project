@@ -23,6 +23,7 @@ class UserSignInModel {
     String? username,
     String? pubgID,
     String? phoneNumber,
+    String? referalCode,
   }) async {
     final response = await http.post(
       Uri.parse('$serverURL/api/accounts/signup/'),
@@ -33,8 +34,11 @@ class UserSignInModel {
         'phone': phoneNumber,
         'pubg_username': username,
         'pubg_id': pubgID,
+        'used_ref_code': referalCode,
       }),
     );
+    print(response.statusCode);
+    print(response.body);
     return response.statusCode;
   }
 

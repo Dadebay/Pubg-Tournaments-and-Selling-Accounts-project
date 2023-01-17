@@ -101,7 +101,7 @@ class ShowAllProductsCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: Colors.white70, fontFamily: josefinSansRegular, fontSize: 16),
                     ),
-                    Price(showDiscountedPrice: false, price: model.price.toString().substring(0, model.price!.length - 3)),
+                    Price(showDiscountedPrice: false, selectedIndex: 1, price: model.price.toString().substring(0, model.price!.length - 3)),
                   ],
                 ),
               ),

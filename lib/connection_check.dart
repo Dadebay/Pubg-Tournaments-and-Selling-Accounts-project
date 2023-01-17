@@ -44,9 +44,11 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
           await Get.find<SettingsController>().changeUserUI();
           if (Get.find<SettingsController>().loginUser.value != true) {
             await showDeleteDialog(context, 'loginError', 'welcome', () {
-              Get.to(() => const TabBarViewPage(
-                    loginType: false,
-                  ));
+              Get.to(
+                () => const TabBarViewPage(
+                  loginType: false,
+                ),
+              );
             });
           }
         });

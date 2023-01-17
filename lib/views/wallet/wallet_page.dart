@@ -22,6 +22,12 @@ class _WalletPageState extends State<WalletPage> {
   final validator = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    Get.find<WalletController>().getUserMoney();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
@@ -35,32 +41,100 @@ class _WalletPageState extends State<WalletPage> {
           sizeCurve: Curves.easeInOut,
         );
       }),
-      appBar: MyAppBar(fontSize: 0.0, backArrow: false, iconRemove: true, name: 'Pubg UC'.tr, elevationWhite: true),
-      body: FutureBuilder<List<UcModel>>(
-        future: UcModel().getUCS(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: spinKit());
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Error'));
-          } else if (snapshot.data == []) {
-            return const Center(child: Text('Empty'));
-          } else if (snapshot.hasData) {
-            return GridView.builder(
-              itemCount: snapshot.data!.length,
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 4),
-              itemBuilder: (context, index) {
-                return UCCard(
-                  model: snapshot.data![index],
-                );
+      appBar: appBAr(),
+      body: Column(
+        children: [
+          customDivider(),
+          Expanded(
+            child: FutureBuilder<List<UcModel>>(
+              future: UcModel().getUCS(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: spinKit());
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Error'));
+                } else if (snapshot.data == []) {
+                  return const Center(child: Text('Empty'));
+                } else if (snapshot.hasData) {
+                  return GridView.builder(
+                    itemCount: snapshot.data!.length,
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 4),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          print(Get.find<WalletController>().userMoney);
+                        },
+                        child: UCCard(
+                          model: snapshot.data![index],
+                          selectedIndex: selectedIndex,
+                        ),
+                      );
+                    },
+                  );
+                }
+                return const Text('last ');
               },
-            );
-          }
-          return const Text('last ');
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  AppBar appBAr() {
+    return AppBar(
+      elevation: 1,
+      centerTitle: true,
+      leadingWidth: 80,
+      leading: GestureDetector(
+        onTap: () {
+          selectCurrency();
         },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipOval(
+              child: Image.asset(
+                selectedIndex == 1
+                    ? ruIcon
+                    : selectedIndex == 2
+                        ? tmIcon
+                        : trIcon,
+                width: 30,
+                height: 30,
+              ),
+            ),
+            Text(
+              selectedIndex == 1
+                  ? 'Rub'
+                  : selectedIndex == 2
+                      ? 'TMT'
+                      : 'TL',
+            )
+          ],
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 5),
+          child: userAppBarMoney(),
+        )
+      ],
+      automaticallyImplyLeading: false,
+      backgroundColor: kPrimaryColorBlack,
+      title: Text(
+        'Pubg UC'.tr,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          color: Colors.white,
+          fontFamily: josefinSansSemiBold,
+          fontSize: 25,
+        ),
       ),
     );
   }
@@ -70,7 +144,7 @@ class _WalletPageState extends State<WalletPage> {
       onPressed: () async {
         final token = await Auth().getToken();
         if (token == null || token == '') {
-          showSnackBar('loginError', 'loginErrorTurnir', Colors.red);
+          showSnackBar('loginError', 'loginError1', Colors.red);
         } else {
           await onTapFunction();
         }
@@ -127,7 +201,9 @@ class _WalletPageState extends State<WalletPage> {
                       walletController.finalPRice.value = value;
                       Get.back();
                       await Get.to(
-                        () => OrderPage(),
+                        () => OrderPage(
+                          pubgID: pubgUserIDController.text,
+                        ),
                       );
                     } else {
                       showSnackBar('tournamentInfo14', 'errorEmpty', Colors.red);
@@ -141,6 +217,77 @@ class _WalletPageState extends State<WalletPage> {
           ),
         );
       },
+    );
+  }
+
+  int selectedIndex = 2;
+  Future<Object?> selectCurrency() {
+    return showGeneralDialog(
+      transitionBuilder: (context, a1, a2, widget) {
+        final curvedValue = Curves.decelerate.transform(a1.value) - 1.0;
+        return Transform(
+          transform: Matrix4.translationValues(0.0, curvedValue * 400, 0.0),
+          child: Opacity(
+            opacity: a1.value,
+            child: AlertDialog(
+              backgroundColor: kPrimaryColorBlack,
+              shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
+              title: const Text(
+                'toleg',
+                style: TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansBold),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 20, left: 6, right: 6),
+                    child: Text(
+                      'UC haysy gornusde satyn almak isleseniz saylan',
+                      style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                    ),
+                  ),
+                  flagButton(ruIcon, 'RUB', 1),
+                  flagButton(tmIcon, 'TMT', 2),
+                  flagButton(trIcon, 'TL', 3),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
+      barrierDismissible: true,
+      barrierLabel: '',
+      context: context,
+      pageBuilder: (context, animation1, animation2) {
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  GestureDetector flagButton(String image, String name, int index) {
+    return GestureDetector(
+      onTap: () {
+        selectedIndex = index;
+        setState(() {});
+        Get.back();
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipOval(
+              child: Image.asset(
+                image,
+                width: 30,
+                height: 30,
+              ),
+            ),
+            Text(name)
+          ],
+        ),
+      ),
     );
   }
 }

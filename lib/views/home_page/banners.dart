@@ -35,6 +35,8 @@ class Banners extends StatelessWidget {
               itemBuilder: (context, index, count) {
                 return BannerCard(
                   image: '$serverURL${snapshot.data![index].image}',
+                  content: snapshot.data![index].content!,
+                  title: snapshot.data![index].title!,
                 );
               },
               options: CarouselOptions(

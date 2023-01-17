@@ -9,12 +9,20 @@ import '../cards/order_card.dart';
 import '../constants/index.dart';
 
 class OrderPage extends StatefulWidget {
+  final String pubgID;
+  const OrderPage({super.key, required this.pubgID});
+
   @override
   State<OrderPage> createState() => _OrderPageState();
 }
 
 class _OrderPageState extends State<OrderPage> {
   final WalletController walletController = Get.put(WalletController());
+  @override
+  void initState() {
+    super.initState();
+    walletController.getUserMoney();
+  }
 
   // ignore: long-method
   Widget bottomPart() {
@@ -30,7 +38,7 @@ class _OrderPageState extends State<OrderPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10, bottom: 8),
             child: Text(
               'info'.tr,
               style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
@@ -39,6 +47,10 @@ class _OrderPageState extends State<OrderPage> {
           Obx(() {
             return text('orderPage1', walletController.cartList.length.toString());
           }),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: text('accountDetaile2', widget.pubgID),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -112,27 +124,35 @@ class _OrderPageState extends State<OrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
-      appBar: MyAppBar(fontSize: 0.0, backArrow: true, iconRemove: true, name: 'orderPage'.tr, elevationWhite: true),
+      appBar: MyAppBar(
+        fontSize: 0.0,
+        backArrow: true,
+        icon: userAppBarMoney(),
+        iconRemove: false,
+        name: 'orderPage'.tr,
+        elevationWhite: true,
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            flex: 5,
+            flex: 6,
             child: Obx(() {
               return walletController.cartList.isEmpty
                   ? noData('Sargyt zat yok')
                   : ListView.builder(
                       itemCount: walletController.cartList.length,
-                      itemExtent: 130,
+                      itemExtent: size.width >= 800 ? 190 : 140,
                       scrollDirection: Axis.vertical,
                       itemBuilder: (BuildContext context, int index) {
                         return OrderCard(
                           id: walletController.cartList[index]['id'],
                           image: "$serverURL${walletController.cartList[index]["image"]}",
-                          name: walletController.cartList[index]['name'] ?? 'Pubg UC',
+                          title: walletController.cartList[index]['name'] ?? 'Pubg UC',
                           price: walletController.cartList[index]['price'].toString(),
                           count: walletController.cartList[index]['count'],
                         );
@@ -141,7 +161,7 @@ class _OrderPageState extends State<OrderPage> {
             }),
           ),
           customDivider(),
-          Expanded(flex: 2, child: bottomPart()),
+          Expanded(flex: 3, child: bottomPart()),
         ],
       ),
     );

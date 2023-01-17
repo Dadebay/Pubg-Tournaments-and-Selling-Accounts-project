@@ -132,7 +132,7 @@ class _AddCashState extends State<AddCash> {
                       style: const TextStyle(color: Colors.grey, fontFamily: josefinSansRegular),
                     ),
                   ),
-                  Expanded(child: Price(showDiscountedPrice: true, price: a.toStringAsFixed(0))),
+                  Expanded(child: Price(showDiscountedPrice: true, selectedIndex: 1, price: a.toStringAsFixed(0))),
                 ],
               ),
               iconColor: Colors.white,

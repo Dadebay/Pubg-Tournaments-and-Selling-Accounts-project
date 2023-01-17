@@ -7,9 +7,11 @@ class Price extends StatelessWidget {
   final bool showDiscountedPrice;
   final String price;
   final String? discountedPrice;
+  final int selectedIndex;
   const Price({
     required this.showDiscountedPrice,
     required this.price,
+    required this.selectedIndex,
     Key? key,
     this.discountedPrice,
   }) : super(key: key);
@@ -32,7 +34,11 @@ class Price extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Text(
-            ' TMT',
+            selectedIndex == 1
+                ? ' RUB'
+                : selectedIndex == 2
+                    ? ' TMT'
+                    : ' TL',
             style: TextStyle(
               color: showDiscountedPrice ? Colors.white : Colors.black,
               fontSize: size.width >= 800 ? 20 : 14,

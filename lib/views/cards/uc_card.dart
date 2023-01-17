@@ -8,14 +8,23 @@ import 'package:game_app/models/uc_models.dart';
 
 class UCCard extends StatelessWidget {
   final UcModel model;
-
+  final int selectedIndex;
   const UCCard({
     required this.model,
+    required this.selectedIndex,
     Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final double a = double.parse(model.price.toString());
+    double a = 0.0;
+
+    if (selectedIndex == 1) {
+      a = double.parse(model.rublePrice.toString());
+    } else if (selectedIndex == 2) {
+      a = double.parse(model.price.toString());
+    } else if (selectedIndex == 3) {
+      a = double.parse(model.liraPrice.toString());
+    }
     return Container(
       margin: const EdgeInsets.only(left: 5, right: 5, top: 15),
       decoration: BoxDecoration(
@@ -56,12 +65,15 @@ class UCCard extends StatelessWidget {
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.only(left: 15, top: 5, right: 6),
-              child: Price(showDiscountedPrice: false, price: a.toStringAsFixed(1)),
+              child: Price(showDiscountedPrice: false, selectedIndex: selectedIndex, price: a.toStringAsFixed(1)),
             ),
           ),
           AddCartButton(
             productProfil: false,
-            ucModel: model,
+            id: model.id!,
+            price: model.price!,
+            image: model.image!,
+            title: model.title!,
           ),
         ],
       ),

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "453316790969",
+    "project_id": "pubg-721a9",
+    "storage_bucket": "pubg-721a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:453316790969:android:e76dc44541c2193798e968",
+        "android_client_info": {
+          "package_name": "com.bilermennesil.gameApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "453316790969-4q2d9p5esp8dbb7gb99m278gi0bmfojq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bilermennesil.gameApp",
+            "certificate_hash": "bdc54734cb2d09e3faf4c8a7cf4ff56deefcb3ab"
+          }
+        },
+        {
+          "client_id": "453316790969-p6sjage4dt4aar321fk7n57r1s0p90ta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB55N23IrNqSRQdtEt7JptuoQI1k0bNNpc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "453316790969-p6sjage4dt4aar321fk7n57r1s0p90ta.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,47 +5,7 @@ import '../add_page/add_account_page.dart';
 import '../constants/dialogs.dart';
 import '../constants/index.dart';
 
-FutureBuilder<List<PubgTypesModel>> getTypess() {
-  return FutureBuilder<List<PubgTypesModel>>(
-    future: PubgTypesModel().getTypes(),
-    builder: (BuildContext context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return Center(child: spinKit());
-      } else if (snapshot.hasError) {
-        return noData('tournamentInfo14');
-      } else if (snapshot.data == null) {
-        return noData('tournamentInfo14');
-      }
-      return ListView.builder(
-        itemCount: snapshot.data!.length,
-        shrinkWrap: true,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            onTap: () {
-              Get.back();
-              defaultBottomSheet(name: 'selectCityTitle', child: getCitiess(snapshot.data![index].id!));
-            },
-            trailing: const Icon(
-              IconlyLight.arrowRightCircle,
-              color: Colors.white,
-            ),
-            title: Text(
-              snapshot.data![index].title.toString(),
-              maxLines: 2,
-              style: const TextStyle(
-                color: Colors.white,
-                fontFamily: josefinSansMedium,
-                fontSize: 18,
-              ),
-            ),
-          );
-        },
-      );
-    },
-  );
-}
-
-FutureBuilder<List<Cities>> getCitiess(int pubgTypeID) {
+FutureBuilder<List<Cities>> getCitiess() {
   return FutureBuilder<List<Cities>>(
     future: Cities().getCities(),
     builder: (BuildContext context, snapshot) {
@@ -63,7 +23,7 @@ FutureBuilder<List<Cities>> getCitiess(int pubgTypeID) {
           return ListTile(
             onTap: () {
               Get.back();
-              defaultBottomSheet(name: 'account_type_Vip_or_not', child: getConstss(pubgTypeID, snapshot.data![index].id!));
+              defaultBottomSheet(name: 'account_type_Vip_or_not', child: getConstss(snapshot.data![index].id!));
             },
             trailing: const Icon(
               IconlyLight.arrowRightCircle,
@@ -85,7 +45,7 @@ FutureBuilder<List<Cities>> getCitiess(int pubgTypeID) {
   );
 }
 
-FutureBuilder<dynamic> getConstss(int pubgTypeID, int locationID) {
+FutureBuilder<dynamic> getConstss(int locationID) {
   return FutureBuilder<dynamic>(
     future: AddAccountModel().getConsts(),
     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -113,7 +73,6 @@ FutureBuilder<dynamic> getConstss(int pubgTypeID, int locationID) {
                 Get.back();
                 Get.to(
                   () => AddPage(
-                    pubgType: pubgTypeID,
                     locationID: locationID,
                     vipOrNot: 1,
                   ),
@@ -147,7 +106,6 @@ FutureBuilder<dynamic> getConstss(int pubgTypeID, int locationID) {
               if (a >= b) {
                 Get.to(
                   () => AddPage(
-                    pubgType: pubgTypeID,
                     locationID: locationID,
                     vipOrNot: 0,
                   ),

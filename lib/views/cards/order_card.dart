@@ -2,18 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:game_app/controllers/wallet_controller.dart';
+import 'package:game_app/views/buttons/add_cart_button.dart';
 import '../constants/index.dart';
 
 class OrderCard extends StatelessWidget {
   final int id;
   final int count;
-  final String name;
+  final String title;
   final String image;
   final String price;
   const OrderCard({
     required this.id,
     required this.count,
-    required this.name,
+    required this.title,
     required this.image,
     required this.price,
     Key? key,
@@ -63,7 +64,7 @@ class OrderCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          name,
+                          title,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 17),
@@ -94,22 +95,10 @@ class OrderCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 6),
                     child: Text(
                       '$price TMT',
-                      style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 18),
+                      style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansBold, fontSize: 18),
                     ),
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'count'.tr,
-                        style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 16),
-                      ),
-                      Text(
-                        count.toString(),
-                        style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 18),
-                      ),
-                    ],
-                  ),
+                  AddCartButton(productProfil: true, id: id, price: price, title: title, image: image)
                 ],
               ),
             ),

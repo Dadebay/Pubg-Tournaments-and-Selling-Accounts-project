@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:game_app/views/other_users/other_user_product_profil.dart';
+import 'package:get/get.dart';
 
 import '../constants/constants.dart';
 import '../constants/widgets.dart';
@@ -6,15 +9,19 @@ import '../constants/widgets.dart';
 class BestPlayersCard extends StatelessWidget {
   final String points;
   final String name;
+  final String image;
   final int index;
   final bool referalPage;
-  const BestPlayersCard({super.key, required this.name, required this.index, required this.points, required this.referalPage});
+  const BestPlayersCard({super.key, required this.name, required this.image, required this.index, required this.points, required this.referalPage});
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return ListTile(
       onTap: () {
-        showSnackBar('Icine girmek', 'Akkaunt Satlyga cykaran ulanyjylara girip bolyar galanyna Ustune bassan girip bolmayar etmeli', Colors.green);
+        Get.to(() => const OtherUserProductProfil());
+        // showSnackBar('Icine girmek', 'Akkaunt Satlyga cykaran ulanyjylara girip bolyar galanyna Ustune bassan girip bolmayar etmeli', Colors.green);
       },
       dense: true,
       tileColor: index % 2 == 0 ? kPrimaryColorBlack1 : kPrimaryColorBlack,
@@ -39,9 +46,21 @@ class BestPlayersCard extends StatelessWidget {
                     child: SizedBox(
                       width: 60,
                       height: 70,
-                      child: Image.asset(
-                        'assets/bestPlayersProfil/${index + 1}.png',
-                        fit: BoxFit.cover,
+                      child: CachedNetworkImage(
+                        fadeInCurve: Curves.ease,
+                        imageUrl: image,
+                        imageBuilder: (context, imageProvider) => Container(
+                          width: size.width,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        placeholder: (context, url) => Center(child: spinKit()),
+                        errorWidget: (context, url, error) => const Center(child: Text('No banner image')),
                       ),
                     ),
                   ),

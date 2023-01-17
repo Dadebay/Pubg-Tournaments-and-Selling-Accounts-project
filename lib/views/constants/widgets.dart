@@ -66,8 +66,12 @@ Widget userAppBarMoney() {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Obx(() {
-          final double a = double.parse(Get.find<WalletController>().userMoney.toString());
-          return Text(a.toStringAsFixed(0), style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 23));
+          double a = 0.0;
+          print(Get.find<WalletController>().userMoney);
+          if (Get.find<WalletController>().userMoney != null) {
+            a = double.parse(Get.find<WalletController>().userMoney.toString());
+          }
+          return Text(a.toStringAsFixed(1), style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 23));
         }),
         const Padding(
           padding: EdgeInsets.only(

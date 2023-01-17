@@ -23,13 +23,13 @@ class AccountProfilPage extends StatefulWidget {
 
 class _AccountProfilPageState extends State<AccountProfilPage> {
   dynamic getData(String pubgType, String locationID) {
-    PubgTypesModel().getTypes().then((value) {
-      for (var element in value) {
-        if (element.id.toString() == pubgType) {
-          Get.find<SettingsController>().pubgType.value = element.title.toString();
-        }
-      }
-    });
+    // PubgTypesModel().getTypes().then((value) {
+    //   for (var element in value) {
+    //     if (element.id.toString() == pubgType) {
+    //       Get.find<SettingsController>().pubgType.value = element.title.toString();
+    //     }
+    //   }
+    // });
     Cities().getCities().then((value) {
       for (var element in value) {
         if (element.id.toString() == locationID) {

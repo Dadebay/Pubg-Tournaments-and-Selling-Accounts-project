@@ -229,23 +229,17 @@ class MyTranslations extends Translations {
           'blokedTitle': 'Заблокировано',
           'blokedSubtitle': 'Вы были заблокированы администратором за нарушение правил программы.\nПожалуйста, свяжитесь с администратором, чтобы разблокировать',
           'userProfilImage': 'Изображение профиля',
-
           'loginWithGmail1': 'Введите SMS-код, полученный на вашу электронную почту',
-
           'loginWithPhone': 'Войти с номером телефона',
           'loginWithGmail': 'Войти через Gmail',
           'referalKodEarnedMoney': 'Общий доход :',
-
           'referalKodUsedUser': 'Пользователи, использующие код',
-
           'referalKod1': 'Ваш реферальный код',
           'referalKod': 'Промо-код',
-
           'userNamePlayers': 'Имя Pubg',
           'userNamePlayers2': 'Турнирный счет',
           'types2': 'Продажа аккаунта',
           'participateError': 'Вы можете принять участие, нажав кнопку «Присоединиться» на информационной странице.',
-
           'aboutUs': 'О нас',
           'account_profil_not_found': 'Данные пользователя не найдены Пожалуйста, попробуйте еще раз',
           'account_profil_not_video': 'У пользователя в настоящее время нет видео!',

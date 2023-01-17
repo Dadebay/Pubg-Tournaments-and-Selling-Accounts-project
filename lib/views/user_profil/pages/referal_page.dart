@@ -81,6 +81,7 @@ class ReferalPage extends StatelessWidget {
                   name: 'Pubg ady',
                   points: '0.2',
                   referalPage: true,
+                  image: '',
                 );
               },
             ),

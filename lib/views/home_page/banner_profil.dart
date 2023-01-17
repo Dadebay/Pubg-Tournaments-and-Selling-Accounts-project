@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import '../constants/index.dart';
 
@@ -53,9 +54,11 @@ class BannerProfileView extends GetView {
           ),
           Padding(
             padding: const EdgeInsets.all(15),
-            child: Text(
-              description,
-              style: const TextStyle(fontSize: 20, fontFamily: josefinSansRegular),
+            child: Html(
+              data: description,
+              style: {
+                'body': Style(fontFamily: josefinSansMedium, fontSize: const FontSize(20.0), textAlign: TextAlign.left),
+              },
             ),
           )
         ],

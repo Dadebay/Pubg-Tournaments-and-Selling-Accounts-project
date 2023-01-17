@@ -17,6 +17,8 @@ class SingIn extends StatelessWidget {
   FocusNode phoneNumberFocusNode = FocusNode();
   TextEditingController referalKodController = TextEditingController();
   FocusNode referalKodFocusNode = FocusNode();
+  TextEditingController gmailController = TextEditingController();
+  FocusNode gmailFocusNode = FocusNode();
   final _signUp = GlobalKey<FormState>();
   final bool loginType;
 
@@ -42,14 +44,14 @@ class SingIn extends StatelessWidget {
               CustomTextField(labelName: 'signIn1', controller: fullNameController, focusNode: fullNameFocusNode, requestfocusNode: idFocusNode, borderRadius: true, isNumber: false),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: CustomTextField(labelName: 'signIn2', controller: idController, focusNode: idFocusNode, requestfocusNode: referalKodFocusNode, borderRadius: true, isNumber: false),
+                child: CustomTextField(labelName: 'signIn2', controller: idController, focusNode: idFocusNode, requestfocusNode: loginType ? gmailFocusNode : phoneNumberFocusNode, borderRadius: true, isNumber: false),
               ),
               loginType
-                  ? CustomTextField(labelName: 'Gmail', controller: idController, focusNode: idFocusNode, requestfocusNode: referalKodFocusNode, borderRadius: true, isNumber: false)
+                  ? CustomTextField(labelName: 'Gmail', controller: gmailController, focusNode: gmailFocusNode, requestfocusNode: referalKodFocusNode, borderRadius: true, isNumber: false)
                   : PhoneNumber(
                       mineFocus: phoneNumberFocusNode,
                       controller: phoneNumberController,
-                      requestFocus: fullNameFocusNode,
+                      requestFocus: referalKodFocusNode,
                       style: false,
                     ),
               Padding(
@@ -81,7 +83,7 @@ class SingIn extends StatelessWidget {
       if (loginType == true) {
         showSnackBar('indi', 'etmeli', Colors.red);
       } else {
-        UserSignInModel().signUp(username: fullNameController.text, pubgID: idController.text, phoneNumber: phoneNumberController.text).then((value) {
+        UserSignInModel().signUp(username: fullNameController.text, pubgID: idController.text, phoneNumber: phoneNumberController.text, referalCode: referalKodController.text).then((value) {
           if (value == 200) {
             Get.to(
               () => OtpCheck(
@@ -91,6 +93,8 @@ class SingIn extends StatelessWidget {
             );
           } else if (value == 409) {
             showSnackBar('noConnection3', 'alreadyExist', Colors.red);
+          } else if (value == 400) {
+            showSnackBar('referal yalnys', 'Refereal kod yalys', Colors.red);
           } else {
             showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
           }
