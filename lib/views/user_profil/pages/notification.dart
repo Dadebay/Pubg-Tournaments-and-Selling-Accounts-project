@@ -14,9 +14,9 @@ class NotificationPage extends StatelessWidget {
         future: NotifcationModel().getNotifcations(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));
+            return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return noBannerImage();
+            return errorData(onTap: () {});
           } else if (snapshot.data.toString() == '[]') {
             return noBannerImage();
           }

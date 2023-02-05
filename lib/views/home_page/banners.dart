@@ -4,7 +4,6 @@ import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/home_page_model.dart';
 import 'package:game_app/views/cards/banner_card.dart';
 import 'package:get/get.dart';
-import '../constants/connection._widgets.dart';
 import '../constants/constants.dart';
 import '../constants/widgets.dart';
 

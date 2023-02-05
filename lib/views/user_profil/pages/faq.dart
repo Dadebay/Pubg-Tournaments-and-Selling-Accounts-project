@@ -18,21 +18,13 @@ class FAQs extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return cannotLoadData(
-              withButton: true,
+            return errorData(
               onTap: () {
                 FAQModel().getFAQ();
               },
-              text: 'tournamentInfo14'.tr,
             );
           } else if (snapshot.data == null) {
-            return cannotLoadData(
-              withButton: true,
-              onTap: () {
-                FAQModel().getFAQ();
-              },
-              text: 'tournamentInfo14'.tr,
-            );
+            return emptyData();
           }
           return ListView.builder(
             itemCount: snapshot.data!.length,

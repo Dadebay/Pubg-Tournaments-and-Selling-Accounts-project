@@ -1,8 +1,8 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/models/index_model.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 
+import '../models/accouts_for_sale_model.dart';
 import '../views/constants/index.dart';
 
 class WalletController extends GetxController {
@@ -44,13 +44,10 @@ class WalletController extends GetxController {
         });
       }
     }
-    print(cartList);
     storage.write('cart', cartList);
   }
 
   dynamic removeCart(int id) {
-    print(cartList);
-
     cartList.removeWhere((element) => element['id'] == id);
     storage.write('cart', cartList);
   }
@@ -61,19 +58,17 @@ class WalletController extends GetxController {
         element['count']--;
       }
     }
-    print(cartList);
-
     storage.write('cart', cartList);
   }
 
   dynamic getUserMoney() async {
     final token = await Auth().getToken();
-    if (token != null) {
-      await AccountByIdModel().getMe().then((value) {
+    if (token == null) {
+      userMoney.value = '0';
+    } else {
+      await PostByIdModel().getMe().then((value) {
         userMoney.value = value.points.toString();
       });
-    } else {
-      userMoney.value = '0';
     }
   }
 }

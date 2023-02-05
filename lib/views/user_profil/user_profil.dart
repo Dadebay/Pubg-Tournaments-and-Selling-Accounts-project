@@ -51,17 +51,9 @@ class _UserProfilState extends State<UserProfil> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return cannotLoadData(
-              withButton: true,
-              onTap: () {},
-              text: 'tournamentInfo14'.tr,
-            );
+            return errorData(onTap: () {});
           } else if (snapshot.data == null) {
-            return cannotLoadData(
-              withButton: true,
-              onTap: () {},
-              text: 'tournamentInfo14'.tr,
-            );
+            return emptyData();
           }
           return Obx(() {
             return ListView(
@@ -107,52 +99,56 @@ class _UserProfilState extends State<UserProfil> {
                 ProfilButton(
                   name: 'referalKod',
                   onTap: () {
-                    Get.to(() => const ReferalPage());
+                    settingsController.loginUser.value ? Get.to(() => const ReferalPage()) : showSnackBar('loginError', 'loginError1', Colors.red);
                   },
                   icon: IconlyLight.ticketStar,
                 ),
-                ProfilButton(
-                  name: settingsController.loginUser.value ? 'log_out' : 'signUp',
-                  onTap: () {
-                    settingsController.loginUser.value
-                        ? logOut()
-                        : defaultBottomSheet(
-                            child: Column(
-                              children: [
-                                ProfilButton(
-                                  name: 'loginWithPhone',
-                                  onTap: () {
-                                    Get.to(
-                                      () => const TabBarViewPage(
-                                        loginType: false,
-                                      ),
-                                    );
-                                  },
-                                  icon: IconlyLight.profile,
-                                ),
-                                ProfilButton(
-                                  name: 'loginWithGmail',
-                                  onTap: () {
-                                    Get.to(
-                                      () => const TabBarViewPage(
-                                        loginType: true,
-                                      ),
-                                    );
-                                  },
-                                  icon: Icons.mail_outline,
-                                ),
-                              ],
-                            ),
-                            name: 'signUp',
-                          );
-                  },
-                  icon: IconlyLight.login,
-                ),
+                loginLogout(),
               ],
             );
           });
         },
       ),
+    );
+  }
+
+  ProfilButton loginLogout() {
+    return ProfilButton(
+      name: settingsController.loginUser.value ? 'log_out' : 'signUp',
+      onTap: () {
+        settingsController.loginUser.value
+            ? logOut()
+            : defaultBottomSheet(
+                child: Column(
+                  children: [
+                    ProfilButton(
+                      name: 'loginWithPhone',
+                      onTap: () {
+                        Get.to(
+                          () => const TabBarViewPage(
+                            loginType: false,
+                          ),
+                        );
+                      },
+                      icon: IconlyLight.profile,
+                    ),
+                    ProfilButton(
+                      name: 'loginWithGmail',
+                      onTap: () {
+                        Get.to(
+                          () => const TabBarViewPage(
+                            loginType: true,
+                          ),
+                        );
+                      },
+                      icon: Icons.mail_outline,
+                    ),
+                  ],
+                ),
+                name: 'signUp',
+              );
+      },
+      icon: IconlyLight.login,
     );
   }
 

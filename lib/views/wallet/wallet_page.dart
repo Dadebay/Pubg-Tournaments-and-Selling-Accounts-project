@@ -55,27 +55,23 @@ class _WalletPageState extends State<WalletPage> {
                   return const Center(child: Text('Error'));
                 } else if (snapshot.data == []) {
                   return const Center(child: Text('Empty'));
-                } else if (snapshot.hasData) {
-                  return GridView.builder(
-                    itemCount: snapshot.data!.length,
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 4),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          print(Get.find<WalletController>().userMoney);
-                        },
-                        child: UCCard(
-                          model: snapshot.data![index],
-                          selectedIndex: selectedIndex,
-                        ),
-                      );
-                    },
-                  );
                 }
-                return const Text('last ');
+                return GridView.builder(
+                  itemCount: snapshot.data!.length,
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 4),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {},
+                      child: UCCard(
+                        model: snapshot.data![index],
+                        selectedIndex: selectedIndex,
+                      ),
+                    );
+                  },
+                );
               },
             ),
           ),
@@ -96,15 +92,19 @@ class _WalletPageState extends State<WalletPage> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ClipOval(
-              child: Image.asset(
-                selectedIndex == 1
-                    ? ruIcon
-                    : selectedIndex == 2
-                        ? tmIcon
-                        : trIcon,
-                width: 30,
-                height: 30,
+            Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              child: ClipOval(
+                child: Image.asset(
+                  selectedIndex == 1
+                      ? ruIcon
+                      : selectedIndex == 2
+                          ? tmIcon
+                          : trIcon,
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Text(
@@ -113,6 +113,7 @@ class _WalletPageState extends State<WalletPage> {
                   : selectedIndex == 2
                       ? 'TMT'
                       : 'TL',
+              style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
             )
           ],
         ),
@@ -232,23 +233,23 @@ class _WalletPageState extends State<WalletPage> {
             child: AlertDialog(
               backgroundColor: kPrimaryColorBlack,
               shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
-              title: const Text(
-                'toleg',
-                style: TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansBold),
+              title: Text(
+                'cash'.tr,
+                style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansBold),
               ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 20, left: 6, right: 6),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20, left: 6, right: 6),
                     child: Text(
-                      'UC haysy gornusde satyn almak isleseniz saylan',
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                      'selectCurrencyType'.tr,
+                      style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
                     ),
                   ),
                   flagButton(ruIcon, 'RUB', 1),
                   flagButton(tmIcon, 'TMT', 2),
-                  flagButton(trIcon, 'TL', 3),
+                  flagButton(trIcon, 'TL  ', 3),
                 ],
               ),
             ),
@@ -276,15 +277,27 @@ class _WalletPageState extends State<WalletPage> {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Expanded(child: SizedBox()),
             ClipOval(
               child: Image.asset(
                 image,
-                width: 30,
-                height: 30,
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
               ),
             ),
-            Text(name)
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                  name,
+                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+                ),
+              ),
+            )
           ],
         ),
       ),

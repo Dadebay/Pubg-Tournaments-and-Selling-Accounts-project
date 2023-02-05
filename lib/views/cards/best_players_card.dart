@@ -21,7 +21,6 @@ class BestPlayersCard extends StatelessWidget {
     return ListTile(
       onTap: () {
         Get.to(() => const OtherUserProductProfil());
-        // showSnackBar('Icine girmek', 'Akkaunt Satlyga cykaran ulanyjylara girip bolyar galanyna Ustune bassan girip bolmayar etmeli', Colors.green);
       },
       dense: true,
       tileColor: index % 2 == 0 ? kPrimaryColorBlack1 : kPrimaryColorBlack,
@@ -60,7 +59,16 @@ class BestPlayersCard extends StatelessWidget {
                           ),
                         ),
                         placeholder: (context, url) => Center(child: spinKit()),
-                        errorWidget: (context, url, error) => const Center(child: Text('No banner image')),
+                        errorWidget: (context, url, error) => Container(
+                          color: kPrimaryColor.withOpacity(0.2),
+                          child: const Center(
+                            child: Text(
+                              'Surat ýok',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -83,7 +91,7 @@ class BestPlayersCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        points,
+                        points.substring(0, 4),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -101,7 +109,7 @@ class BestPlayersCard extends StatelessWidget {
                     ],
                   )
                 : Text(
-                    points,
+                    points.substring(0, 4),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     textAlign: TextAlign.end,

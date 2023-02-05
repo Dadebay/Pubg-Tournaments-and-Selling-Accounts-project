@@ -23,7 +23,7 @@ class _TournamentPageState extends State<TournamentPage> {
   @override
   void initState() {
     super.initState();
-    TournamentModel().getTournaments();
+    TournamentModel().getTournaments(type: widget.tournamentType);
     Get.find<WalletController>().getUserMoney();
   }
 
@@ -75,7 +75,7 @@ class _TournamentPageState extends State<TournamentPage> {
 
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    await TournamentModel().getTournaments();
+    await TournamentModel().getTournaments(type: widget.tournamentType);
     Get.find<WalletController>().getUserMoney();
     setState(() {});
     _refreshController.refreshCompleted();
@@ -102,7 +102,6 @@ class _TournamentPageState extends State<TournamentPage> {
             onRefresh: _onRefresh,
             enablePullDown: true,
             enablePullUp: false,
-            // physics: const BouncingScrollPhysics(),
             header: const MaterialClassicHeader(
               color: kPrimaryColor,
             ),
@@ -112,8 +111,11 @@ class _TournamentPageState extends State<TournamentPage> {
                   child: spinKit(),
                 );
               } else if (controller.tournamentLoading.value == 1) {
-                return noData('cannot_find_data_tournament');
+                return Center(
+                  child: Text('cannot_find_data_tournament'),
+                );
               }
+
               return Column(
                 children: [
                   tabbar(),

@@ -11,6 +11,9 @@ import '../user_profil/pages/add_cash.dart';
 import '../user_profil/pages/notification.dart';
 
 class MiniCategoryCard extends StatelessWidget {
+  final int index;
+  final String name;
+  final String image;
   const MiniCategoryCard({
     required this.index,
     required this.name,
@@ -18,15 +21,16 @@ class MiniCategoryCard extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final int index;
-  final String name;
-  final String image;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
         if (index == 0) {
-          await Get.to(() => ShowAllAccounts(name: name, pubgID: 2));
+          await Get.to(
+            () => ShowAllAccounts(
+              name: name,
+            ),
+          );
         } else if (index == 1) {
           final token = await Auth().getToken();
           if (token != null) {

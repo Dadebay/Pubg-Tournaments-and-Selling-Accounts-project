@@ -10,12 +10,12 @@ import '../views/constants/index.dart';
 import 'user_models/auth_model.dart';
 
 class AccountsForSaleModel extends GetxController {
+  final int? id;
   final String? bio;
   final String? createdDate;
   final String? email;
   final String? firstName;
   final bool? forSale;
-  final int? id;
   final String? image;
   final String? lastName;
   final int? location;
@@ -25,7 +25,6 @@ class AccountsForSaleModel extends GetxController {
   final String? pointsFromTurnir;
   final String? price;
   final String? pubgId;
-  final int? pubgType;
   final String? updatedDate;
   final int? user;
   final bool? verified;
@@ -33,7 +32,6 @@ class AccountsForSaleModel extends GetxController {
 
   AccountsForSaleModel({
     this.id,
-    this.pubgType,
     this.vip,
     this.location,
     this.user,
@@ -57,7 +55,6 @@ class AccountsForSaleModel extends GetxController {
   factory AccountsForSaleModel.fromJson(Map<dynamic, dynamic> json) {
     return AccountsForSaleModel(
       id: json['id'],
-      pubgType: json['pubg_type'],
       lastName: json['last_name'],
       verified: json['verified'],
       forSale: json['for_sale'],
@@ -143,35 +140,35 @@ class AccountsForSaleModel extends GetxController {
   }
 }
 
-class AccountByIdModel extends GetxController {
-  final String? bgImage;
-  final String? bio;
-  final String? createdDate;
-  final String? email;
-  final String? firsName;
-  final bool? forSale;
+class PostByIdModel extends GetxController {
   final int? id;
-  final String? image;
+  final String? pubgUsername;
+  final String? pubgId;
+  final String? firsName;
   final String? lastName;
-  final int? location;
+  final String? email;
   final String? phone;
+  final String? bio;
   final String? points;
   final String? pointsFromTurnir;
-  final String? price;
-  final String? pubgId;
-  final int? pubgType;
-  final String? pubgUsername;
-  final String? updatedDate;
-  final int? user;
+  final String? image;
+  final String? bgImage;
   final bool? verified;
   final bool? vip;
+  final bool? blocked;
+  final String? blockedReason;
+  final String? blockedDate;
+  final String? referalCode;
+  final String? usedReferalCode;
+  final String? createdDate;
+  final int? user;
+  final int? location;
 
-  AccountByIdModel({
+  PostByIdModel({
     this.id,
     this.pubgUsername,
     this.pubgId,
     this.firsName,
-    this.price,
     this.lastName,
     this.email,
     this.bgImage,
@@ -180,18 +177,20 @@ class AccountByIdModel extends GetxController {
     this.points,
     this.pointsFromTurnir,
     this.image,
-    this.forSale,
     this.verified,
     this.vip,
     this.createdDate,
-    this.updatedDate,
     this.user,
-    this.pubgType,
     this.location,
+    this.blocked,
+    this.blockedDate,
+    this.blockedReason,
+    this.referalCode,
+    this.usedReferalCode,
   });
 
-  factory AccountByIdModel.fromJson(Map<dynamic, dynamic> json) {
-    return AccountByIdModel(
+  factory PostByIdModel.fromJson(Map<dynamic, dynamic> json) {
+    return PostByIdModel(
       id: json['id'],
       pubgUsername: json['pubg_username'],
       pubgId: json['pubg_id'],
@@ -204,37 +203,20 @@ class AccountByIdModel extends GetxController {
       pointsFromTurnir: json['points_from_turnir'],
       image: json['image'],
       bgImage: json['bg_image'],
-      forSale: json['for_sale'],
-      price: json['price'],
       verified: json['verified'],
       vip: json['vip'],
       createdDate: json['created_date'],
-      updatedDate: json['updated_date'],
       user: json['user'],
-      pubgType: json['pubg_type'],
       location: json['location'],
+      blocked: json['blocked'],
+      blockedDate: json['blocked_date'],
+      blockedReason: json['blocked_reason'],
+      referalCode: json['ref_code'],
+      usedReferalCode: json['used_ref_code'],
     );
   }
 
-  Future<AccountByIdModel> getAccountById(int id) async {
-    final response = await http.get(
-      Uri.parse(
-        '$serverURL/api/accounts/get-account/$id/',
-      ),
-      headers: <String, String>{
-        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-      },
-    );
-    if (response.statusCode == 200) {
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
-      return AccountByIdModel.fromJson(responseJson);
-    } else {
-      return AccountByIdModel();
-    }
-  }
-
-  Future<AccountByIdModel> getMe() async {
+  Future<PostByIdModel> getMe() async {
     final token = await Auth().getToken();
 
     final response = await http.get(
@@ -246,12 +228,13 @@ class AccountByIdModel extends GetxController {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      return AccountByIdModel.fromJson(responseJson);
+      return PostByIdModel.fromJson(responseJson);
     } else {
-      return AccountByIdModel();
+      return PostByIdModel();
     }
   }
 }

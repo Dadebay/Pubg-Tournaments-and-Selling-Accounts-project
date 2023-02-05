@@ -24,7 +24,7 @@ dynamic tournamentCard(int index) {
     onTap: () {
       Get.to(
         () => TournamentPage(
-          tournamentType: index,
+          tournamentType: index + 1,
         ),
       );
     },
@@ -326,7 +326,7 @@ class SkewCut1 extends CustomClipper<Path> {
   bool shouldReclip(SkewCut1 oldClipper) => false;
 }
 
-dynamic subscribeTurnir({required String price, required int id}) {
+dynamic subscribeTurnir({required String price, required int id, required int tournamentType}) {
   Get.defaultDialog(
     title: 'correctData'.tr,
     backgroundColor: kPrimaryColorBlack,
@@ -356,8 +356,6 @@ dynamic subscribeTurnir({required String price, required int id}) {
                 style: const TextStyle(color: Colors.white, fontFamily: josefinSansRegular, fontSize: 20),
               ),
             ),
-
-            //Get my account etmeli
             Padding(
               padding: const EdgeInsets.only(top: 20, left: 8, right: 8, bottom: 8),
               child: Text(
@@ -387,7 +385,9 @@ dynamic subscribeTurnir({required String price, required int id}) {
               const SizedBox.shrink(),
             AgreeButton(
               name: 'agree',
-              onTap: participateTournament(id: id),
+              onTap: () {
+                participateTournament(id: id, tournamentType: tournamentType, price: price);
+              },
             ),
           ],
         );
@@ -396,24 +396,32 @@ dynamic subscribeTurnir({required String price, required int id}) {
   );
 }
 
-dynamic participateTournament({required int id}) {
-  TournamentModel().participateTournament(tournamentID: id).then((value) {
-    if (value == 200) {
-      Get.back();
-      Get.back();
-      TournamentModel().getTournaments();
-      Get.find<WalletController>().getUserMoney();
+participateTournament({
+  required int id,
+  required int tournamentType,
+  required String price,
+}) {
+  if (int.parse(price) > int.parse(Get.find<WalletController>().userMoney.value.toString())) {
+    showSnackBar('Pul yetenok', 'Gorenokmy sony mal', Colors.red);
+  } else {
+    TournamentModel().participateTournament(tournamentID: id).then((value) {
+      if (value == 200) {
+        Get.back();
+        Get.back();
+        TournamentModel().getTournaments(type: tournamentType);
+        Get.find<WalletController>().getUserMoney();
 
-      showSnackBar('tournamentInfo18', 'tournamentInfo17', kPrimaryColor);
-    } else if (value == 404) {
-      Get.back();
-      showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
-    } else if (value == 400) {
-      Get.back();
-      showSnackBar('tournamentInfo19', 'tournamentInfo21', Colors.red);
-    } else {
-      Get.back();
-      showSnackBar('noConnection3', 'tournamentInfo19', Colors.red);
-    }
-  });
+        showSnackBar('tournamentInfo18', 'tournamentInfo17', kPrimaryColor);
+      } else if (value == 404) {
+        Get.back();
+        showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+      } else if (value == 400) {
+        Get.back();
+        showSnackBar('tournamentInfo19', 'tournamentInfo21', Colors.red);
+      } else {
+        Get.back();
+        showSnackBar('noConnection3', 'tournamentInfo19', Colors.red);
+      }
+    });
+  }
 }

@@ -2,7 +2,7 @@
 
 import 'package:get/state_manager.dart';
 
-import '../models/index_model.dart';
+import '../models/accouts_for_sale_model.dart';
 
 class ShowAllAccountsController extends GetxController {
   RxString sortType = ''.obs;

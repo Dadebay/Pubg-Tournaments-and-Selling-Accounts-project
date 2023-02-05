@@ -30,21 +30,13 @@ class _AboutUsState extends State<AboutUs> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: spinKit());
             } else if (snapshot.hasError) {
-              return cannotLoadData(
-                withButton: true,
+              return errorData(
                 onTap: () {
                   AboutUsModel().getAboutUs();
                 },
-                text: 'tournamentInfo14'.tr,
               );
             } else if (snapshot.data == null) {
-              return cannotLoadData(
-                withButton: true,
-                onTap: () {
-                  AboutUsModel().getAboutUs();
-                },
-                text: 'tournamentInfo14'.tr,
-              );
+              return emptyData();
             }
             return Column(
               mainAxisSize: MainAxisSize.min,

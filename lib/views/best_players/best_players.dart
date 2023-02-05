@@ -17,6 +17,7 @@ class BestPlayers extends StatelessWidget {
         icon: IconButton(
           onPressed: () {
             AddAccountModel().getConsts().then((value) {
+              print(value);
               showBestPlayerPrice(
                 context,
                 'Turnirda Yer alan ulanyjylara Sowgatlar',
@@ -24,7 +25,10 @@ class BestPlayers extends StatelessWidget {
               );
             });
           },
-          icon: const Icon(Icons.cabin),
+          icon: const Icon(
+            Icons.info_outline,
+            color: kPrimaryColor,
+          ),
         ),
         name: 'bestPlayers2',
         elevationWhite: true,
@@ -37,11 +41,15 @@ class BestPlayers extends StatelessWidget {
               future: BestPlayersModel().getBestPlayers(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));
+                  return Center(child: spinKit());
                 } else if (snapshot.hasError) {
-                  return noBannerImage();
+                  return const Center(
+                    child: Text('Sahypada ýalňyşlyk ýüze çykdy'),
+                  );
                 } else if (snapshot.data.toString() == '[]') {
-                  return noBannerImage();
+                  return const Center(
+                    child: Text('Hiç hili maglumat ýok'),
+                  );
                 }
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
@@ -128,14 +136,17 @@ class BestPlayers extends StatelessWidget {
                 text.tr,
                 style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansBold),
               ),
-              content: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20, left: 6, right: 6),
-                  child: Html(
-                    data: text2.tr,
-                    style: {
-                      'body': Style(fontFamily: josefinSansMedium, fontSize: const FontSize(20.0), textAlign: TextAlign.left),
-                    },
+              content: SizedBox(
+                height: Get.size.height / 2,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20, left: 6, right: 6),
+                    child: Html(
+                      data: text2.tr,
+                      style: {
+                        'body': Style(fontFamily: josefinSansMedium, fontSize: const FontSize(20.0), textAlign: TextAlign.left),
+                      },
+                    ),
                   ),
                 ),
               ),

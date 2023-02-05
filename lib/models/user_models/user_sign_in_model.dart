@@ -37,8 +37,9 @@ class UserSignInModel {
         'used_ref_code': referalCode,
       }),
     );
-    print(response.statusCode);
+
     print(response.body);
+    print(response.statusCode);
     return response.statusCode;
   }
 
@@ -80,6 +81,7 @@ class UserSignInModel {
       }),
     );
     print(response.body);
+    print(response.statusCode);
     return response.statusCode;
   }
 }

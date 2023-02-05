@@ -12,11 +12,11 @@ class ReferalPage extends StatelessWidget {
       backgroundColor: kPrimaryColorBlack,
       appBar: MyAppBar(
         fontSize: 0,
-        backArrow: false,
+        backArrow: true,
         iconRemove: false,
         icon: IconButton(
           onPressed: () {
-            showSnackBar('Referal kod', 'Bu kod usti bilen ulanyjylary cagyryp bilersiniz ve Pul gazanyp bilersiniz', Colors.green);
+            showSnackBar('referalKod', 'referalSubtitle', Colors.green);
           },
           icon: const Icon(
             Icons.info_outline,
@@ -74,7 +74,7 @@ class ReferalPage extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: 20,
+              itemCount: 0,
               itemBuilder: (BuildContext context, int index) {
                 return BestPlayersCard(
                   index: index,
@@ -101,7 +101,7 @@ class ReferalPage extends StatelessWidget {
                 ),
                 const Expanded(
                   child: Text(
-                    '10 TMT',
+                    '0 TMT',
                     textAlign: TextAlign.end,
                     style: TextStyle(color: kPrimaryColor, fontFamily: josefinSansBold, fontSize: 24),
                   ),

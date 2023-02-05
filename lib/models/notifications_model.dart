@@ -33,7 +33,6 @@ class NotifcationModel {
         'Charset': 'utf-8',
       },
     );
-    debugPrint(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(utf8.decode(response.bodyBytes));
       for (final Map product in responseJson) {

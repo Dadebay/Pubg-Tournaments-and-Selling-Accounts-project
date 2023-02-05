@@ -2,13 +2,13 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'package:game_app/models/accouts_for_sale_model.dart';
+import 'package:game_app/models/get_posts_model.dart';
 import 'package:game_app/views/other_pages/account_profil_page/account_profil_page.dart';
 import '../constants/index.dart';
 import '../constants/uc_price.dart';
 
 class ShowAllProductsCard extends StatelessWidget {
-  final AccountsForSaleModel model;
+  final GetPostsAccountModel model;
   final bool fav;
   const ShowAllProductsCard({
     required this.fav,
@@ -22,7 +22,7 @@ class ShowAllProductsCard extends StatelessWidget {
       onTap: () {
         Get.to(
           () => AccountProfilPage(
-            userID: model.user!,
+            userID: model.id!,
           ),
         );
       },
@@ -86,7 +86,7 @@ class ShowAllProductsCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      model.nickname.toString(),
+                      model.title.toString(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -96,12 +96,12 @@ class ShowAllProductsCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      model.createdDate.toString().substring(0, 10),
+                      model.createdAt.toString().substring(0, 10),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(color: Colors.white70, fontFamily: josefinSansRegular, fontSize: 16),
+                      style: const TextStyle(color: Colors.white70, fontFamily: josefinSansMedium, fontSize: 16),
                     ),
-                    Price(showDiscountedPrice: false, selectedIndex: 1, price: model.price.toString().substring(0, model.price!.length - 3)),
+                    Price(showDiscountedPrice: false, selectedIndex: Get.locale!.languageCode.toString() == 'tr' ? 2 : 1, price: model.price.toString().substring(0, model.price!.length - 3)),
                   ],
                 ),
               ),

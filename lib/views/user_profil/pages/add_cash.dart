@@ -87,21 +87,9 @@ class _AddCashState extends State<AddCash> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: spinKit());
         } else if (snapshot.hasError) {
-          return cannotLoadData(
-            withButton: true,
-            onTap: () {
-              TransactionHistoryModel().getTransactions();
-            },
-            text: 'tournamentInfo14'.tr,
-          );
+          return errorData(onTap: (){});
         } else if (snapshot.data == null) {
-          return cannotLoadData(
-            withButton: true,
-            onTap: () {
-              TransactionHistoryModel().getTransactions();
-            },
-            text: 'tournamentInfo14'.tr,
-          );
+          return emptyData();
         } else if (snapshot.data.toString() == '[]') {
           return noData('no_cash');
         }

@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
 
+import 'package:game_app/models/get_posts_model.dart';
 import 'package:game_app/views/constants/dialogs.dart';
 import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/show_all_account_controller.dart';
-import 'package:game_app/models/accouts_for_sale_model.dart';
 import 'package:game_app/models/home_page_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -11,10 +11,8 @@ import '../cards/show_all_accounts_card.dart';
 
 class ShowAllAccounts extends StatefulWidget {
   final String name;
-  final int pubgID;
   const ShowAllAccounts({
     required this.name,
-    required this.pubgID,
     Key? key,
   }) : super(key: key);
 
@@ -36,7 +34,7 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
     super.initState();
     controller.clearData();
     value = 0;
-    AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {'page': '${controller.pageNumber}', 'size': '10'});
+    // GetPostsAccountModel().getPosts(parametrs: {'page': '${controller.pageNumber}', 'size': '10'});
   }
 
   Row leftSideAppBar() {
@@ -65,8 +63,7 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
                       controller.pageNumber.value = 1;
                       controller.sortName.value = sortData[index]['sort_column'];
                       controller.sortType.value = sortData[index]['sort_direction'];
-                      AccountsForSaleModel().getTypeAccounts(
-                        type: widget.pubgID,
+                      GetPostsAccountModel().getPosts(
                         parametrs: {
                           'page': '${controller.pageNumber}',
                           'size': '10',
@@ -117,8 +114,7 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
                           controller.sortTypePrice.value = _controller.text;
                           controller.sortNamePriceMax.value = 'max';
                           controller.sortTypePriceMax.value = _controller1.text;
-                          AccountsForSaleModel().getTypeAccounts(
-                            type: widget.pubgID,
+                          GetPostsAccountModel().getPosts(
                             parametrs: {
                               'page': '${controller.pageNumber}',
                               'size': '10',
@@ -287,8 +283,7 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
                             controller.sortCityName.value = 'city';
                             controller.sortCityType.value = snapshot.data![index].id.toString();
                             name = (Get.locale?.languageCode == 'tr' ? snapshot.data![index].name_tm : snapshot.data![index].name_ru)!;
-                            AccountsForSaleModel().getTypeAccounts(
-                              type: widget.pubgID,
+                            GetPostsAccountModel().getPosts(
                               parametrs: {
                                 'page': '${controller.pageNumber}',
                                 'size': '10',
@@ -321,37 +316,35 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
 
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    controller.list.clear();
-    controller.pageNumber.value = 1;
-    controller.clearData();
-    value = 0;
-    await AccountsForSaleModel().getTypeAccounts(type: widget.pubgID, parametrs: {'page': '${controller.pageNumber}', 'size': '10'});
+    // controller.list.clear();
+    // controller.pageNumber.value = 1;
+    // controller.clearData();
+    // value = 0;
+    // await GetPostsAccountModel().getPosts(parametrs: {'page': '${controller.pageNumber}', 'size': '10'});
     _refreshController.refreshCompleted();
   }
 
   void _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    if (mounted) {
-      controller.pageNumber.value += 1;
-      await AccountsForSaleModel().getTypeAccounts(
-        type: widget.pubgID,
-        parametrs: {
-          'page': '${controller.pageNumber}',
-          'size': '10',
-          controller.sortName.value: controller.sortType.value,
-          controller.sortCityName.value: controller.sortCityType.value,
-          controller.sortNamePrice.value: controller.sortTypePrice.value,
-          controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
-        },
-      );
-    }
+    // if (mounted) {
+    //   controller.pageNumber.value += 1;
+    //   await GetPostsAccountModel().getPosts(
+    //     parametrs: {
+    //       'page': '${controller.pageNumber}',
+    //       'size': '10',
+    //       controller.sortName.value: controller.sortType.value,
+    //       controller.sortCityName.value: controller.sortCityType.value,
+    //       controller.sortNamePrice.value: controller.sortTypePrice.value,
+    //       controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
+    //     },
+    //   );
+    // }
     _refreshController.loadComplete();
   }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: kPrimaryColorBlack,
@@ -367,32 +360,33 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
           header: const MaterialClassicHeader(
             color: kPrimaryColor,
           ),
-          child: Obx(() {
-            if (controller.loading.value == 0 && controller.list.isEmpty) {
-              return Center(
-                child: spinKit(),
+          child: FutureBuilder<List<GetPostsAccountModel>>(
+            future: GetPostsAccountModel().getVIPPosts(parametrs: {}),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));
+              } else if (snapshot.hasError) {
+                return const Text('error');
+              } else if (snapshot.data.toString() == '[]') {
+                return const Text('Empty');
+              }
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: snapshot.data!.length,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: size.width >= 800 ? 3 : 2, mainAxisSpacing: 10, childAspectRatio: size.width >= 800 ? 3 / 4 : 2 / 3, crossAxisSpacing: 10),
+                  itemBuilder: (BuildContext context, int index) {
+                    return ShowAllProductsCard(
+                      fav: false,
+                      model: snapshot.data![index],
+                    );
+                  },
+                ),
               );
-            } else if (controller.loading.value == 2 && controller.list.isEmpty) {
-              return noData('tournamentInfo14');
-            } else if (controller.list.isEmpty && controller.loading.value == 1) {
-              return noData('notSaleAccount');
-            }
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller.list.length,
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: size.width >= 800 ? 3 : 2, mainAxisSpacing: 10, childAspectRatio: size.width >= 800 ? 3 / 4 : 2 / 3, crossAxisSpacing: 10),
-                itemBuilder: (BuildContext context, int index) {
-                  return ShowAllProductsCard(
-                    fav: false,
-                    model: controller.list[index],
-                  );
-                },
-              ),
-            );
-          }),
+            },
+          ),
         ),
       ),
     );

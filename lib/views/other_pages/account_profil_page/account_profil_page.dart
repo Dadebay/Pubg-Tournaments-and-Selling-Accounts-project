@@ -1,13 +1,12 @@
 // ignore_for_file: file_names, deprecated_member_use
 
-import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';
-import 'package:game_app/models/home_page_model.dart';
+import 'package:game_app/models/get_posts_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../cards/video_card.dart';
 import '../../constants/index.dart';
 import 'page_1.dart';
-import 'page_2.dart';
 import 'text_part.dart';
 
 class AccountProfilPage extends StatefulWidget {
@@ -22,44 +21,22 @@ class AccountProfilPage extends StatefulWidget {
 }
 
 class _AccountProfilPageState extends State<AccountProfilPage> {
-  dynamic getData(String pubgType, String locationID) {
-    // PubgTypesModel().getTypes().then((value) {
-    //   for (var element in value) {
-    //     if (element.id.toString() == pubgType) {
-    //       Get.find<SettingsController>().pubgType.value = element.title.toString();
-    //     }
-    //   }
-    // });
-    Cities().getCities().then((value) {
-      for (var element in value) {
-        if (element.id.toString() == locationID) {
-          Get.find<SettingsController>().locationName.value = element.name_tm.toString();
-        }
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         backgroundColor: kPrimaryColorBlack,
-        body: FutureBuilder<AccountByIdModel>(
-          future: AccountByIdModel().getAccountById(widget.userID),
+        body: FutureBuilder<GetPostsAccountModel>(
+          future: GetPostsAccountModel().getPostById(widget.userID),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: spinKit());
             } else if (snapshot.hasError) {
-              return noData(
-                'account_profil_not_found'.tr,
-              );
+              return errorData(onTap: () {});
             } else if (snapshot.data == null) {
-              return noData(
-                'account_profil_not_found'.tr,
-              );
+              return emptyData();
             }
-            getData(snapshot.data!.pubgType.toString(), snapshot.data!.location.toString());
             return NestedScrollView(
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                 return [sliverAppBar(snapshot.data!)];
@@ -69,9 +46,26 @@ class _AccountProfilPageState extends State<AccountProfilPage> {
                   TabbarPage1(
                     model: snapshot.data!,
                   ),
-                  TabbarPage2(
-                    userID: widget.userID,
-                  ),
+                  snapshot.data!.videos.toString() == '[]'
+                      ? Center(
+                          child: Text(
+                            'account_profil_not_video'.tr,
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: snapshot.data!.videos!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return VideoCard(
+                              image: '$serverURL${snapshot.data!.videos![index].poster}',
+                              videoPath: '$serverURL${snapshot.data!.videos![index].video}',
+                            );
+                          },
+                        ),
                 ],
               ),
             );
@@ -81,7 +75,7 @@ class _AccountProfilPageState extends State<AccountProfilPage> {
     );
   }
 
-  SliverAppBar sliverAppBar(AccountByIdModel model) {
+  SliverAppBar sliverAppBar(GetPostsAccountModel model) {
     return SliverAppBar(
       expandedHeight: 500,
       backgroundColor: kPrimaryColorBlack,
@@ -100,7 +94,7 @@ class _AccountProfilPageState extends State<AccountProfilPage> {
         ),
       ),
       actions: [
-        moreInfoButton(model),
+        moreInfoButton(model.user!),
       ],
       pinned: true,
       floating: true,
@@ -110,7 +104,7 @@ class _AccountProfilPageState extends State<AccountProfilPage> {
     );
   }
 
-  Padding moreInfoButton(AccountByIdModel model) {
+  Padding moreInfoButton(PostByIdModel model) {
     return Padding(
       padding: const EdgeInsets.only(top: 10, right: 12),
       child: PopupMenuButton(

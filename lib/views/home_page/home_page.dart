@@ -1,9 +1,7 @@
-import 'package:game_app/views/cards/home_page_card.dart';
 import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/home_page_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../models/index_model.dart';
 import 'Banners.dart';
 import 'pubg_types.dart';
 
@@ -19,96 +17,14 @@ class _HomePageState extends State<HomePage> {
 
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
-  @override
-  void initState() {
-    super.initState();
-    _onRefresh();
-  }
-
-  dynamic getData(Size size) {
-    if (homePageController.list.isEmpty && homePageController.loading.value == 0) {
-      return waitingData();
-    } else if (homePageController.loading.value == 2) {
-      return cannotLoadData(
-        withButton: false,
-        onTap: () {
-          AccountsForSaleModel().getAccounts(
-            parametrs: {
-              'page': '${homePageController.pageNumber}',
-              'size': '10',
-              'vip': '1',
-              'for_sale': '1',
-            },
-          );
-        },
-        text: 'errorPubgAccounts'.tr,
-      );
-    } else if (homePageController.list.isEmpty && homePageController.loading.value != 1) {
-      return cannotLoadData(
-        withButton: true,
-        onTap: () {
-          AccountsForSaleModel().getAccounts(
-            parametrs: {
-              'page': '${homePageController.pageNumber}',
-              'size': '10',
-              'vip': '1',
-              'for_sale': '1',
-            },
-          );
-        },
-        text: 'errorPubgAccounts'.tr,
-      );
-    }
-    return size.width >= 800
-        ? GridView.builder(
-            itemCount: homePageController.list.length,
-            physics: const NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 3 / 4),
-            itemBuilder: (BuildContext context, int index) {
-              return HomePageCard(vip: homePageController.list[index].vip ?? false, model: homePageController.list[index]);
-            },
-          )
-        : ListView.builder(
-            itemCount: homePageController.list.length,
-            physics: const NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return HomePageCard(vip: homePageController.list[index].vip ?? false, model: homePageController.list[index]);
-            },
-          );
-  }
-
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    homePageController.list.clear();
-    homePageController.pageNumber.value = 1;
-    await AccountsForSaleModel().getAccounts(
-      parametrs: {
-        'page': '${homePageController.pageNumber}',
-        'size': '10',
-        'vip': '1',
-        'for_sale': '1',
-      },
-    );
     _refreshController.refreshCompleted();
   }
 
   void _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    if (mounted) {
-      homePageController.pageNumber.value += 1;
-      await AccountsForSaleModel().getAccounts(
-        parametrs: {
-          'page': '${homePageController.pageNumber}',
-          'size': '10',
-          'vip': '1',
-          'for_sale': '1',
-        },
-      );
-    }
+    if (mounted) {}
     _refreshController.loadComplete();
   }
 
@@ -135,10 +51,39 @@ class _HomePageState extends State<HomePage> {
               Banners(future: homePageController.futureBanner),
               listViewName('pubgTypes'.tr, false, size),
               PubgTypes(),
-              listViewName('accountsForSale'.tr, true, size),
-              Obx(() {
-                return getData(size);
-              }),
+              // listViewName('accountsForSale'.tr, true, size),
+              // FutureBuilder<List<GetPostsAccountModel>>(
+              //   future: GetPostsAccountModel().getVIPPosts(parametrs: {}),
+              //   builder: (context, snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));
+              //     } else if (snapshot.hasError) {
+              //       return const Text('error');
+              //     } else if (snapshot.data.toString() == '[]') {
+              //       return const Text('Empty');
+              //     }
+              //     return size.width >= 800
+              //         ? GridView.builder(
+              //             itemCount: snapshot.data!.length,
+              //             physics: const NeverScrollableScrollPhysics(),
+              //             scrollDirection: Axis.vertical,
+              //             shrinkWrap: true,
+              //             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 3 / 4),
+              //             itemBuilder: (BuildContext context, int index) {
+              //               return HomePageCard(vip: true, model: snapshot.data![index]);
+              //             },
+              //           )
+              //         : ListView.builder(
+              //             itemCount: snapshot.data!.length,
+              //             physics: const NeverScrollableScrollPhysics(),
+              //             scrollDirection: Axis.vertical,
+              //             shrinkWrap: true,
+              //             itemBuilder: (BuildContext context, int index) {
+              //               return HomePageCard(vip: true, model: snapshot.data![index]);
+              //             },
+              //           );
+              //   },
+              // ),
             ],
           ),
         ),

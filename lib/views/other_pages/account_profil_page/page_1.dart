@@ -1,9 +1,9 @@
 import 'package:game_app/views/constants/index.dart';
-import 'package:game_app/controllers/settings_controller.dart';
-import 'package:game_app/models/accouts_for_sale_model.dart';
+
+import '../../../models/get_posts_model.dart';
 
 class TabbarPage1 extends StatelessWidget {
-  final AccountByIdModel model;
+  final GetPostsAccountModel model;
 
   const TabbarPage1({
     required this.model,
@@ -14,13 +14,14 @@ class TabbarPage1 extends StatelessWidget {
     return ListView(
       shrinkWrap: true,
       children: [
-        infoPartText('accountDetaile1', model.pubgUsername ?? '', false),
-        infoPartText('accountDetaile2', model.pubgId ?? '', false),
-        Obx(() {
-          return infoPartText('accountDetaile3', Get.find<SettingsController>().pubgType.value.toString(), false);
-        }),
-        infoPartText('accountDetaile5', model.price!.substring(0, model.price!.length - 3), true),
-        infoPartText('accountDetaile6', model.createdDate!.substring(0, 10), false),
+        infoPartText('accountDetaile1', model.user!.pubgUsername ?? '', false),
+        infoPartText('accountDetaile2', model.user!.pubgId ?? '', false),
+        infoPartText('accountDetaile5', model.price!, true),
+        infoPartText('accountDetaile6', model.user!.createdDate!.substring(0, 10), false),
+        infoPartText('verifed', model.user!.verified == true ? 'yes' : 'no', false),
+        infoPartText('posints', model.user!.points.toString(), false),
+        infoPartText('points from turnir', model.user!.pointsFromTurnir!.toString(), false),
+        infoPartText('Refereal kody', model.user!.referalCode!, false),
         Padding(
           padding: const EdgeInsets.only(left: 20, bottom: 25, top: 15),
           child: Text(
@@ -31,11 +32,8 @@ class TabbarPage1 extends StatelessWidget {
             style: const TextStyle(color: Colors.white, fontFamily: josefinSansRegular, fontSize: 20),
           ),
         ),
-        infoPartText('accountDetaile7', "${model.firsName ?? ""} ${model.lastName ?? ""}", false),
-        infoPartText('accountDetaile9', model.phone ?? '', false),
-        Obx(() {
-          return infoPartText('accountDetaile10', Get.find<SettingsController>().locationName.value, false);
-        }),
+        infoPartText('accountDetaile7', "${model.user!.firsName ?? ""} ${model.user!.lastName ?? ""}", false),
+        infoPartText('accountDetaile9', model.user!.phone ?? '', false),
       ],
     );
   }

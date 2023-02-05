@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/controllers/settings_controller.dart';
-import 'package:game_app/models/accouts_for_sale_model.dart';
 
+import '../../../models/get_posts_model.dart';
 import '../../constants/index.dart';
 
 class CustomFlexibleSpace extends StatelessWidget {
-  final AccountByIdModel model;
+  final GetPostsAccountModel model;
 
   const CustomFlexibleSpace({
     required this.model,
@@ -22,7 +21,7 @@ class CustomFlexibleSpace extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
             child: Text(
-              model.bio ?? '',
+              model.user!.bio ?? '',
               maxLines: 5,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
@@ -37,19 +36,12 @@ class CustomFlexibleSpace extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                rowText(model.price!.substring(0, model.price!.length - 3), 'accountPrice'.tr, true),
+                rowText(model.price!, 'accountPrice'.tr, true),
                 VerticalDivider(
                   color: Colors.white.withOpacity(0.8),
                   thickness: 1,
                 ),
-                // rowText(model.pointsFromTurnir!.substring(0, model.pointsFromTurnir!.length - 3), "accountTurnirPoint".tr, false),
-                // VerticalDivider(
-                //   color: Colors.white.withOpacity(0.8),
-                //   thickness: 1,
-                // ),
-                Obx(() {
-                  return rowText(Get.find<SettingsController>().pubgType.value.toString(), 'accountPubgType'.tr, false);
-                }),
+                rowText('Global', 'accountPubgType'.tr, false),
               ],
             ),
           ),
@@ -61,7 +53,7 @@ class CustomFlexibleSpace extends StatelessWidget {
     );
   }
 
-  Expanded imagePart(AccountByIdModel model) {
+  Expanded imagePart(GetPostsAccountModel model) {
     return Expanded(
       flex: 4,
       child: Stack(
@@ -141,7 +133,7 @@ class CustomFlexibleSpace extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${model.firsName ?? ""} ${model.lastName ?? ""}",
+                            "${model.user!.firsName ?? ""} ${model.user!.lastName ?? ""}",
                             textAlign: TextAlign.start,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -151,7 +143,7 @@ class CustomFlexibleSpace extends StatelessWidget {
                             height: 4,
                           ),
                           Text(
-                            model.phone ?? '',
+                            model.user!.phone ?? '',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(color: Colors.grey, fontFamily: josefinSansRegular, fontSize: 16),
@@ -185,7 +177,7 @@ class CustomFlexibleSpace extends StatelessWidget {
                       text1,
                       style: const TextStyle(
                         color: kPrimaryColor,
-                        fontSize: 18,
+                        fontSize: 20,
                         fontFamily: josefinSansSemiBold,
                       ),
                     ),
@@ -194,6 +186,7 @@ class CustomFlexibleSpace extends StatelessWidget {
                       style: TextStyle(
                         color: kPrimaryColor,
                         fontSize: 13,
+                        height: 2,
                         fontFamily: josefinSansSemiBold,
                       ),
                     ),
@@ -204,7 +197,7 @@ class CustomFlexibleSpace extends StatelessWidget {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  style: const TextStyle(color: kPrimaryColor, fontSize: 18, fontFamily: josefinSansMedium),
+                  style: const TextStyle(color: kPrimaryColor, fontSize: 20, fontFamily: josefinSansSemiBold),
                 ),
           Padding(
             padding: const EdgeInsets.only(top: 12),
@@ -213,7 +206,7 @@ class CustomFlexibleSpace extends StatelessWidget {
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
-              style: const TextStyle(color: Colors.white, fontSize: 17, fontFamily: josefinSansRegular),
+              style: const TextStyle(color: Colors.white, fontSize: 19, fontFamily: josefinSansRegular),
             ),
           ),
         ],

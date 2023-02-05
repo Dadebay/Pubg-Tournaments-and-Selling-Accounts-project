@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
   final bool? borderRadius;
   final bool? disabled;
   final bool? isLabel;
+  final bool? isValidate;
 
   const CustomTextField({
     required this.labelName,
@@ -21,6 +22,7 @@ class CustomTextField extends StatelessWidget {
     required this.isNumber,
     this.isLabel = false,
     this.maxline,
+    this.isValidate = true,
     this.borderRadius,
     this.disabled,
     Key? key,
@@ -34,7 +36,7 @@ class CustomTextField extends StatelessWidget {
         cursorColor: Colors.white,
         controller: controller,
         validator: (value) {
-          if (value!.isEmpty) {
+          if (value!.isEmpty && isValidate == true) {
             return 'errorEmpty'.tr;
           }
           return null;

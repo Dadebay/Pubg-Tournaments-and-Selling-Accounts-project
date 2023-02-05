@@ -9,12 +9,10 @@ dependencies:
   cached_network_image: null
   carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
-  dart_code_metrics: ^4.17.1
   dotted_border: ^2.0.0+1
   flutter:
     sdk: flutter
   flutter_iconly: ^1.0.2
-  flutter_lints: ^2.0.0
   firebase_messaging: ^11.2.6
   firebase_core: null
   flutter_local_notifications: null
@@ -34,7 +32,10 @@ dependencies:
   pull_to_refresh: ^2.0.0
   video_compress: ^3.1.1
   flick_video_player: null
-  device_preview:
+  # flutter_lints: ^2.0.0
+  # device_preview:
+  # dart_code_metrics: ^4.17.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -48,7 +49,6 @@ flutter:
     - assets/lang/
     - assets/lottie/
     - assets/image/
-    - assets/bestPlayersProfil/
 
   fonts:
     - family: JosefinSansBold

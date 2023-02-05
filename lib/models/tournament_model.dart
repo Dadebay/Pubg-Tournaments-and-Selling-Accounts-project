@@ -1,14 +1,12 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:game_app/controllers/tournament_controller.dart';
+import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:http/http.dart' as http;
 import '../views/constants/index.dart';
-
-import 'user_models/auth_model.dart';
 
 class TournamentModel {
   final List<Awards>? awards;
@@ -24,8 +22,9 @@ class TournamentModel {
   final String? start_date;
   final String? title;
   final List<Winners>? winners;
+  final List<Teams>? teams;
 
-  TournamentModel({this.id, this.awards, this.description_ru, this.description_tm, this.finish_date, this.image, this.map, this.mode, this.participated_users, this.price, this.start_date, this.title, this.winners});
+  TournamentModel({this.id, this.awards, this.description_ru, this.teams, this.description_tm, this.finish_date, this.image, this.map, this.mode, this.participated_users, this.price, this.start_date, this.title, this.winners});
 
   factory TournamentModel.fromJson(Map<dynamic, dynamic> json) {
     return TournamentModel(
@@ -42,16 +41,21 @@ class TournamentModel {
       awards: ((json['awards'] ?? []) as List).map((json) => Awards.fromJson(json)).toList(),
       winners: ((json['winners'] ?? []) as List).map((json) => Winners.fromJson(json)).toList(),
       participated_users: ((json['participated_users'] ?? []) as List).map((json) => ParticipatedUsers.fromJson(json)).toList(),
+      teams: ((json['teams'] ?? []) as List).map((json) => Teams.fromJson(json)).toList(),
     );
   }
 
-  Future<List<TournamentModel>> getTournaments() async {
+  Future<List<TournamentModel>> getTournaments({required int type}) async {
     final TournamentController controller = Get.put(TournamentController());
     final List<TournamentModel> abc = [];
     controller.tournamentLoading.value = 0;
     final response = await http.get(
       Uri.parse(
-        '$serverURL/api/turnirs/',
+        type == 1
+            ? '$serverURL/api/turnirs/by-type/solo/'
+            : type == 2
+                ? '$serverURL/api/turnirs/by-type/duo/'
+                : '$serverURL/api/turnirs/by-type/squad/',
       ).replace(
         queryParameters: {
           'page': '1',
@@ -62,7 +66,6 @@ class TournamentModel {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    log(response.body.length.toString());
     if (response.statusCode == 200) {
       controller.tournamentLoading.value = 2;
       final decoded = utf8.decode(response.bodyBytes);
@@ -97,59 +100,59 @@ class TournamentModel {
     }
   }
 
-  Future checkStatus({required int tournamentID, required bool value}) async {
-    final token = await Auth().getToken();
-    final response = await http.get(
-      Uri.parse('$serverURL/api/turnirs/get-code/$tournamentID'),
-      headers: <String, String>{
-        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader: 'Bearer $token',
-      },
-    );
-    if (response.statusCode == 200) {
-      final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
-      if (value) {
-        Get.snackbar(
-          'tournamentInfo15',
-          "${responseJson["code"]}",
-          snackStyle: SnackStyle.FLOATING,
-          titleText: title == ''
-              ? const SizedBox.shrink()
-              : Text(
-                  'tournamentInfo15'.tr,
-                  style: const TextStyle(fontFamily: josefinSansSemiBold, fontSize: 18, color: Colors.white),
-                ),
-          messageText: Text(
-            "${responseJson["code"]}".tr,
-            style: const TextStyle(fontFamily: josefinSansRegular, fontSize: 16, color: Colors.white),
-          ),
-          mainButton: TextButton(
-            onPressed: () {
-              Get.back();
-              Clipboard.setData(ClipboardData(text: responseJson['code'].toString())).then((value) {
-                showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
-              });
-            },
-            child: const Icon(
-              Icons.copy_all,
-              color: Colors.black,
-              size: 30,
-            ),
-          ),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: kPrimaryColor,
-          borderRadius: 20.0,
-          animationDuration: const Duration(milliseconds: 800),
-          margin: const EdgeInsets.all(8),
-        );
-      }
-      return response.statusCode;
-    } else {
-      value ? showSnackBar('tournamentInfo15', 'tournamentInfo16', kPrimaryColor) : null;
-      return response.statusCode;
-    }
-  }
+  // Future checkStatus({required int tournamentID, required bool value}) async {
+  //   final token = await Auth().getToken();
+  //   final response = await http.get(
+  //     Uri.parse('$serverURL/api/turnirs/get-code/$tournamentID'),
+  //     headers: <String, String>{
+  //       HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+  //       HttpHeaders.authorizationHeader: 'Bearer $token',
+  //     },
+  //   );
+  //   if (response.statusCode == 200) {
+  //     final decoded = utf8.decode(response.bodyBytes);
+  //     final responseJson = json.decode(decoded);
+  //     if (value) {
+  //       Get.snackbar(
+  //         'tournamentInfo15',
+  //         "${responseJson["code"]}",
+  //         snackStyle: SnackStyle.FLOATING,
+  //         titleText: title == ''
+  //             ? const SizedBox.shrink()
+  //             : Text(
+  //                 'tournamentInfo15'.tr,
+  //                 style: const TextStyle(fontFamily: josefinSansSemiBold, fontSize: 18, color: Colors.white),
+  //               ),
+  //         messageText: Text(
+  //           "${responseJson["code"]}".tr,
+  //           style: const TextStyle(fontFamily: josefinSansRegular, fontSize: 16, color: Colors.white),
+  //         ),
+  //         mainButton: TextButton(
+  //           onPressed: () {
+  //             Get.back();
+  //             Clipboard.setData(ClipboardData(text: responseJson['code'].toString())).then((value) {
+  //               showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
+  //             });
+  //           },
+  //           child: const Icon(
+  //             Icons.copy_all,
+  //             color: Colors.black,
+  //             size: 30,
+  //           ),
+  //         ),
+  //         snackPosition: SnackPosition.BOTTOM,
+  //         backgroundColor: kPrimaryColor,
+  //         borderRadius: 20.0,
+  //         animationDuration: const Duration(milliseconds: 800),
+  //         margin: const EdgeInsets.all(8),
+  //       );
+  //     }
+  //     return response.statusCode;
+  //   } else {
+  //     value ? showSnackBar('tournamentInfo15', 'tournamentInfo16', kPrimaryColor) : null;
+  //     return response.statusCode;
+  //   }
+  // }
 
   Future participateTournament({required int tournamentID}) async {
     final token = await Auth().getToken();
@@ -179,6 +182,38 @@ class Awards {
       id: json['id'],
       award: json['award'],
       place: json['place'],
+      turnir: json['turnir'],
+    );
+  }
+}
+
+class Teams {
+  final int? id;
+  final int? number;
+  final int? turnir;
+  final List<TeamUsers>? teamUsers;
+  Teams({this.id, this.number, this.turnir, this.teamUsers});
+
+  factory Teams.fromJson(Map<String, dynamic> json) {
+    return Teams(
+      id: json['id'],
+      number: json['number'],
+      turnir: json['turnir'],
+      teamUsers: ((json['teamusers'] ?? []) as List).map((json) => TeamUsers.fromJson(json)).toList(),
+    );
+  }
+}
+
+class TeamUsers {
+  final int? id;
+  final int? number;
+  final int? turnir;
+  TeamUsers({this.id, this.number, this.turnir});
+
+  factory TeamUsers.fromJson(Map<String, dynamic> json) {
+    return TeamUsers(
+      id: json['id'],
+      number: json['number'],
       turnir: json['turnir'],
     );
   }

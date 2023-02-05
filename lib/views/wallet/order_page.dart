@@ -24,7 +24,6 @@ class _OrderPageState extends State<OrderPage> {
     walletController.getUserMoney();
   }
 
-  // ignore: long-method
   Widget bottomPart() {
     return Container(
       color: kPrimaryColorBlack,

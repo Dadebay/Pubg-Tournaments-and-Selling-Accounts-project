@@ -18,21 +18,13 @@ class HistoryOrdersPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return cannotLoadData(
-              withButton: true,
+            return errorData(
               onTap: () {
                 HistoryOrderModel().getOrders();
               },
-              text: 'tournamentInfo14'.tr,
             );
           } else if (snapshot.data == null) {
-            return cannotLoadData(
-              withButton: true,
-              onTap: () {
-                HistoryOrderModel().getOrders();
-              },
-              text: 'tournamentInfo14'.tr,
-            );
+            return emptyData();
           } else if (snapshot.data.toString() == '[]') {
             return noData('noOrder');
           }
@@ -144,21 +136,11 @@ class OrderByID extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return cannotLoadData(
-              withButton: true,
-              onTap: () {
-                HistoryIDModel().getOrderByID(orderID);
-              },
-              text: 'tournamentInfo14'.tr,
-            );
+            return errorData(onTap: () {
+              HistoryIDModel().getOrderByID(orderID);
+            });
           } else if (snapshot.data == null) {
-            return cannotLoadData(
-              withButton: true,
-              onTap: () {
-                HistoryIDModel().getOrderByID(orderID);
-              },
-              text: 'tournamentInfo14'.tr,
-            );
+            return emptyData();
           } else if (snapshot.data.toString() == '[]') {
             return noData('noOrder');
           }

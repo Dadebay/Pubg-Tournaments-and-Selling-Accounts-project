@@ -1,6 +1,5 @@
 // ignore_for_file: file_names
 
-
 import 'package:flutter/material.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -13,8 +12,6 @@ class SettingsController extends GetxController {
   RxBool loginUser = false.obs;
   RxInt bannerSelectedIndex = 0.obs;
   RxString pubgType = ''.obs;
-  RxString locationName = ''.obs;
-
 
   Future<bool> changeUserUI() async {
     final token = await Auth().getToken();

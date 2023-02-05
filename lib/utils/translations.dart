@@ -224,6 +224,11 @@ class MyTranslations extends Translations {
           'userProfilImage': 'Profil suraty',
           'blokedTitle': 'Bloklandyňyz',
           'blokedSubtitle': 'Siz Programma düzgünlerini bozanyňyz üçin Admin tarapyndan bloklandyňyz.\nAçmak üçin admin bilen habarlaşmagyňyzy Sizden haýyş edýäris',
+          //////
+          'errorLoadEmptyData': 'Waglaýynça maglumat ýok',
+          'errorLoadData': 'Maglumatlar ýüklenmedi täzeden synanşyň !',
+          'referalSubtitle': 'Bu kod üsti bilen ulanyjylary çagyryp bilersiňiz ve Pul gazanyp bilersiňiz',
+          'selectCurrencyType': 'Walýutany saýlaň'
         },
         'ru': {
           'blokedTitle': 'Заблокировано',
@@ -427,7 +432,6 @@ class MyTranslations extends Translations {
           'tournamentInfo2': 'Награды',
           'tournamentInfo20': 'Если вы приняли участие в турнире, подойдите к замку через 10 минут после начала турнира и получите код.',
           'tournamentInfo21': 'В турнире могут участвовать не более 100 человек. Участвуйте в других турнирах',
-
           'tournamentInfo3': 'Победители',
           'tournamentInfo4': 'Участники',
           'tournamentInfo5': 'Режим : ',

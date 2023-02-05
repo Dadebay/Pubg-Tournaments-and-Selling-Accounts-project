@@ -26,7 +26,7 @@ class Price extends StatelessWidget {
         Text(
           price,
           style: TextStyle(
-            color: showDiscountedPrice ? Colors.white : Colors.black,
+            color: Colors.white,
             fontSize: size.width >= 800 ? 27 : 25,
             fontFamily: josefinSansBold,
           ),
@@ -34,13 +34,9 @@ class Price extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 4),
           child: Text(
-            selectedIndex == 1
-                ? ' RUB'
-                : selectedIndex == 2
-                    ? ' TMT'
-                    : ' TL',
+            selectedIndex == 1 ? ' RUB' : ' TMT',
             style: TextStyle(
-              color: showDiscountedPrice ? Colors.white : Colors.black,
+              color: Colors.white,
               fontSize: size.width >= 800 ? 20 : 14,
               fontFamily: josefinSansBold,
             ),

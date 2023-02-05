@@ -37,21 +37,21 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
   void initState() {
     super.initState();
     Get.find<SettingsController>().agreeButton.value = false;
-    checkStatus();
+    // checkStatus();
   }
 
-  dynamic checkStatus() async {
-    await TournamentModel().checkStatus(tournamentID: widget.tournamentId, value: false).then((value) {
-      if (value == 200) {
-        buttonName = 'tournamentInfo12';
-      } else if (value == 204) {
-        buttonName = 'tournamentInfo12';
-      } else {
-        buttonName = 'tournamentInfo11';
-      }
-    });
-    return 'tournamentInfo11';
-  }
+  // dynamic checkStatus() async {
+  //   await TournamentModel().checkStatus(tournamentID: widget.tournamentId, value: false).then((value) {
+  //     if (value == 200) {
+  //       buttonName = 'tournamentInfo12';
+  //     } else if (value == 204) {
+  //       buttonName = 'tournamentInfo12';
+  //     } else {
+  //       buttonName = 'tournamentInfo11';
+  //     }
+  //   });
+  //   return 'tournamentInfo11';
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +69,9 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: spinKit());
               } else if (snapshot.hasError) {
-                return noData('tournamentInfo14');
+                return errorData(onTap: () {});
               } else if (snapshot.data == null) {
-                return noData('tournamentInfo14');
+                return emptyData();
               }
               return TabBarView(
                 children: [
@@ -79,6 +79,7 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
                     finised: widget.finised,
                     model: snapshot.data!,
                     buttonName: buttonName,
+                    tournamentType: widget.tournamentType,
                   ),
                   TabPage2(
                     model: snapshot.data!,
@@ -86,7 +87,9 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
                   snapshot.data!.participated_users!.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: noData('tournamentInfo13'),
+                          child: Center(
+                            child: Text('tournamentInfo13'),
+                          ),
                         )
                       : TabPage3(
                           tournamentType: widget.tournamentType,

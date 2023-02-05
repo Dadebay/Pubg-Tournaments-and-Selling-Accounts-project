@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:game_app/views/home_page/banner_profil.dart';
 import 'package:get/get.dart';
 
-import '../constants/connection._widgets.dart';
 import '../constants/constants.dart';
 import '../constants/widgets.dart';
 

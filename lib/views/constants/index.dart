@@ -10,4 +10,3 @@ export 'package:game_app/views/constants/custom_textFields/phone_number.dart';
 export 'package:game_app/views/buttons/agree_button.dart';
 export 'package:game_app/views/constants/widgets.dart';
 export 'package:image_picker/image_picker.dart';
-export 'package:game_app/views/constants/connection._widgets.dart';

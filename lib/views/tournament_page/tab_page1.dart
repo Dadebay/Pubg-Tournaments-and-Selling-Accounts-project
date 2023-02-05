@@ -9,10 +9,12 @@ import 'local_widgets.dart';
 class TabPage1 extends StatelessWidget {
   final bool finised;
   final String buttonName;
+  final int tournamentType;
   final TournamentModel model;
 
   const TabPage1({
     required this.finised,
+    required this.tournamentType,
     required this.buttonName,
     required this.model,
     Key? key,
@@ -71,14 +73,12 @@ class TabPage1 extends StatelessWidget {
                       onTap: () async {
                         Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
                         final token = await Auth().getToken();
-                        if (buttonName == 'tournamentInfo12') {
-                          await TournamentModel().checkStatus(tournamentID: model.id!, value: true);
+                        if (token == null || token == '') {
+                          showSnackBar('error', 'token', Colors.red);
+                        } else if (token != '') {
+                          subscribeTurnir(price: model.price!, id: model.id!, tournamentType: tournamentType);
                         } else {
-                          if (token != null && token != '') {
-                            subscribeTurnir(price: model.price!, id: model.id!);
-                          } else {
-                            showSnackBar('loginError', 'loginErrorTurnir', Colors.red);
-                          }
+                          showSnackBar('loginError', 'loginErrorTurnir', Colors.red);
                         }
                         Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
                       },

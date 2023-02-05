@@ -22,7 +22,7 @@ class BannerModel {
   });
 
   factory BannerModel.fromJson(Map<dynamic, dynamic> json) {
-    return BannerModel(id: json['id'], image: json['image'], title: json['title'], content: json['content'], url: json['url']);
+    return BannerModel(id: json['id'], image: json['image'] ?? '', title: json['title'] ?? '', content: json['content'] ?? '', url: json['url'] ?? '');
   }
 
   Future<List<BannerModel>> getBanners() async {
@@ -36,14 +36,12 @@ class BannerModel {
         'Charset': 'utf-8',
       },
     );
-    debugPrint(response.body);
+    print(response.body);
     if (response.statusCode == 200) {
-      // final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(utf8.decode(response.bodyBytes));
       for (final Map product in responseJson) {
         bannerList.add(BannerModel.fromJson(product));
       }
-
       return bannerList;
     } else {
       return [];

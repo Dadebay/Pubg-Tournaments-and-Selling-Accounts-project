@@ -56,7 +56,15 @@ class SingIn extends StatelessWidget {
                     ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: CustomTextField(labelName: 'referalKod', controller: referalKodController, focusNode: referalKodFocusNode, requestfocusNode: fullNameFocusNode, borderRadius: true, isNumber: false),
+                child: CustomTextField(
+                  labelName: 'referalKod',
+                  controller: referalKodController,
+                  focusNode: referalKodFocusNode,
+                  requestfocusNode: fullNameFocusNode,
+                  borderRadius: true,
+                  isNumber: false,
+                  isValidate: false,
+                ),
               ),
               const SizedBox(
                 height: 10,

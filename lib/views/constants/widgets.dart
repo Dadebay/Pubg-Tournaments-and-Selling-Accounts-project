@@ -67,7 +67,6 @@ Widget userAppBarMoney() {
       children: [
         Obx(() {
           double a = 0.0;
-          print(Get.find<WalletController>().userMoney);
           if (Get.find<WalletController>().userMoney != null) {
             a = double.parse(Get.find<WalletController>().userMoney.toString());
           }
@@ -89,6 +88,92 @@ Widget userAppBarMoney() {
   );
 }
 
+Column errorData({required Function() onTap}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Text(
+        'errorLoadData'.tr,
+        style: TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+      ),
+      SizedBox(
+        height: 15,
+      ),
+      ElevatedButton(
+        onPressed: onTap,
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: borderRadius5), elevation: 0),
+        child: Text(
+          'noConnection3'.tr,
+          style: TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 16),
+        ),
+      )
+    ],
+  );
+}
+
+Column emptyData() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Lottie.asset(noDataLottie, width: 350, height: 350),
+      SizedBox(
+        height: 15,
+      ),
+      Text(
+        'errorLoadEmptyData'.tr,
+        style: TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+      ),
+    ],
+  );
+}
+
+Center noData(String text) {
+  return Center(
+    child: Text(
+      text.tr,
+      style: TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+    ),
+  );
+}
+
+ListView waitingData() {
+  return ListView.builder(
+    scrollDirection: Axis.vertical,
+    itemCount: 10,
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        margin: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
+        height: 170,
+        decoration: BoxDecoration(borderRadius: borderRadius15, color: kPrimaryColorBlack1.withOpacity(0.4)),
+        child: Center(
+          child: spinKit(),
+        ),
+      );
+    },
+  );
+}
+
+Container noBannerImage() {
+  return Container(
+    margin: const EdgeInsets.all(15),
+    width: Get.size.width,
+    height: 220,
+    decoration: const BoxDecoration(borderRadius: borderRadius15, color: kPrimaryColorBlack1),
+    child: Center(
+      child: Text(
+        'noImageBanner'.tr,
+        style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
+      ),
+    ),
+  );
+}
+
 Padding listViewName(String text, bool icon, Size size) {
   return Padding(
     padding: EdgeInsets.only(bottom: icon ? 20 : 0, left: 15, right: 15, top: icon ? 0 : 20),
@@ -105,7 +190,6 @@ Padding listViewName(String text, bool icon, Size size) {
                   Get.to(
                     () => const ShowAllAccounts(
                       name: 'accountsForSale',
-                      pubgID: 0,
                     ),
                   );
                 },

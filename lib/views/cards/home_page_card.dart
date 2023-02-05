@@ -1,15 +1,15 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:game_app/models/accouts_for_sale_model.dart';
-import 'package:game_app/views/other_pages/account_profil_page/account_profil_page.dart';
+import 'package:game_app/models/get_posts_model.dart';
 
 import '../constants/index.dart';
 import '../constants/uc_price.dart';
+import '../other_pages/account_profil_page/account_profil_page.dart';
 
 class HomePageCard extends StatelessWidget {
   final bool vip;
-  final AccountsForSaleModel model;
+  final GetPostsAccountModel model;
   const HomePageCard({
     required this.vip,
     required this.model,
@@ -22,9 +22,10 @@ class HomePageCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        print(model.id!);
         Get.to(
           () => AccountProfilPage(
-            userID: model.user!,
+            userID: model.id!,
           ),
         );
       },
@@ -35,8 +36,7 @@ class HomePageCard extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: vip ? kPrimaryColorBlack1 : kPrimaryColorBlack1.withOpacity(0.1),
-          gradient: vip ? LinearGradient(colors: [kPrimaryColor, kPrimaryColor.withOpacity(0.1)], stops: const [0, 0.9], begin: Alignment.topLeft, end: Alignment.bottomRight) : null,
+          color: kPrimaryColor.withOpacity(0.8),
           border: Border.all(color: kPrimaryColor.withOpacity(0.6)),
           borderRadius: borderRadius15,
         ),
@@ -64,7 +64,7 @@ class HomePageCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              model.nickname!,
+              model.title!,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -74,7 +74,7 @@ class HomePageCard extends StatelessWidget {
               ),
             ),
             Text(
-              model.pubgId!,
+              model.pubgID!,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: vip ? Colors.black87 : Colors.white70, fontFamily: josefinSansRegular, fontSize: size.width >= 800 ? 22 : 17),
@@ -82,12 +82,12 @@ class HomePageCard extends StatelessWidget {
             Price(
               price: model.price!.substring(0, model.price!.length - 3),
               showDiscountedPrice: false,
-              selectedIndex: 1,
+              selectedIndex: 2,
             ),
             size.width >= 800
                 ? const SizedBox.shrink()
                 : Text(
-                    model.createdDate!.substring(0, 10),
+                    model.createdAt!.substring(0, 10),
                     style: TextStyle(
                       color: vip ? Colors.black87 : Colors.white70,
                       fontSize: size.width >= 800 ? 22 : 16,
