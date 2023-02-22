@@ -39,12 +39,7 @@ class _MyAppRunState extends State<MyAppRun> {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        fontFamily: josefinSansRegular,
-        useMaterial3: true,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: ThemeData(brightness: Brightness.dark, fontFamily: josefinSansRegular, useMaterial3: true, visualDensity: VisualDensity.adaptivePlatformDensity, appBarTheme: AppBarTheme(elevation: 0, backgroundColor: kPrimaryColorBlack)),
       fallbackLocale: const Locale('tr'),
       translations: MyTranslations(),
       debugShowCheckedModeBanner: false,

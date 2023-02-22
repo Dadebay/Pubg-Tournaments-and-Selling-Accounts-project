@@ -1,11 +1,11 @@
 // ignore_for_file: file_names, avoid_positional_boolean_parameters, avoid_void_async, always_declare_return_types, always_use_package_imports
 
+import 'package:game_app/app/modules/auth/controllers/auth_controller.dart';
 import 'package:game_app/app/modules/pubg_uc/controllers/pubg_uc_controller.dart';
 import 'package:get/get.dart';
 import 'package:game_app/app/constants/packages/index.dart';
 
 import '../../home/views/bottom_nav_bar.dart';
-
 
 class ConnectionCheck extends StatefulWidget {
   const ConnectionCheck({Key? key}) : super(key: key);
@@ -17,12 +17,14 @@ class ConnectionCheck extends StatefulWidget {
 class _ConnectionCheckState extends State<ConnectionCheck> {
   String firsttime = 'false';
   String token = 'false';
-
+  final PubgUcController pubgUcController = Get.put(PubgUcController());
+  final AuthController authController = Get.put(AuthController());
   @override
   void initState() {
     super.initState();
     checkConnection();
-    Get.find<PubgUcController>().getUserMoney();
+    pubgUcController.getUserMoney();
+    authController.findIfUserBlockedOrNot();
   }
 
   void checkConnection() async {
@@ -61,7 +63,7 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
       context: context,
       barrierDismissible: false,
       builder: (context) => Dialog(
-        shape:  RoundedRectangleBorder(borderRadius: borderRadius20),
+        shape: RoundedRectangleBorder(borderRadius: borderRadius20),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         child: Stack(

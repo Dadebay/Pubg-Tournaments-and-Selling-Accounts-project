@@ -228,7 +228,8 @@ class MyTranslations extends Translations {
           'errorLoadEmptyData': 'Waglaýynça maglumat ýok',
           'errorLoadData': 'Maglumatlar ýüklenmedi täzeden synanşyň !',
           'referalSubtitle': 'Bu kod üsti bilen ulanyjylary çagyryp bilersiňiz ve Pul gazanyp bilersiňiz',
-          'selectCurrencyType': 'Walýutany saýlaň'
+          'selectCurrencyType': 'Walýutany saýlaň',
+          'bestPlayers':'Baýraklar'
         },
         'ru': {
           'blokedTitle': 'Заблокировано',

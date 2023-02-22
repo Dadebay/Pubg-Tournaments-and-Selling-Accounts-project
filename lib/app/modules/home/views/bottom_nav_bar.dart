@@ -1,6 +1,7 @@
 // ignore_for_file: missing_return, file_names, must_be_immutable, require_trailing_commas
 
 import 'package:game_app/app/constants/packages/index.dart';
+import 'package:game_app/app/modules/auth/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -26,6 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: kPrimaryColor,
         bottomNavigationBar: Container(
           color: kPrimaryColorBlack,
           height: kBottomNavigationBarHeight,
@@ -74,7 +76,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             Center(
               child: page[selectedIndex],
             ),
-            blokedPage(),
+            Get.find<AuthController>().blockedUser.value ? blokedPage() : SizedBox.shrink(),
           ],
         ));
   }
