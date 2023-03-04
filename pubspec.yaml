@@ -14,11 +14,11 @@ dependencies:
   firebase_messaging: ^11.2.6
   firebase_core: any
   flutter_local_notifications: any
-  flutter_staggered_grid_view: ^0.4.0
+  # flutter_staggered_grid_view: ^0.4.0 
   get_storage: any
   http: any
   image_picker: ^0.8.4+4
-  lottie: ^1.2.1
+  lottie: ^1.2.1 
   permission_handler: ^8.3.0
   share: any
   url_launcher: ^6.1.5
@@ -30,6 +30,7 @@ dependencies:
   video_compress: ^3.1.1
   flick_video_player: any
   get: 4.6.5
+  file: ^6.1.4 
   flutter: 
     sdk: flutter
 
