@@ -91,7 +91,7 @@ class BestPlayersCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        points.substring(0, 4),
+                        points.substring(0, 5),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -109,7 +109,7 @@ class BestPlayersCard extends StatelessWidget {
                     ],
                   )
                 : Text(
-                    points.substring(0, 4),
+                    points.substring(0, 5),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     textAlign: TextAlign.end,

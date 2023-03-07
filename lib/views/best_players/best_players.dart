@@ -19,7 +19,7 @@ class BestPlayers extends StatelessWidget {
             AddAccountModel().getConsts().then((value) {
               showBestPlayerPrice(
                 context,
-                'Turnirda Yer alan ulanyjylara Sowgatlar',
+                "placeTurnirGet.tr",
                 value['best_players_text'],
               );
             });
@@ -42,12 +42,18 @@ class BestPlayers extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
                 } else if (snapshot.hasError) {
-                  return const Center(
-                    child: Text('Sahypada ýalňyşlyk ýüze çykdy'),
+                  return Center(
+                    child: Text(
+                      'errorLoadData'.tr,
+                      style: TextStyle(fontFamily: josefinSansMedium),
+                    ),
                   );
                 } else if (snapshot.data.toString() == '[]') {
-                  return const Center(
-                    child: Text('Hiç hili maglumat ýok'),
+                  return Center(
+                    child: Text(
+                      'errorLoadEmptyData'.tr,
+                      style: TextStyle(fontFamily: josefinSansMedium),
+                    ),
                   );
                 }
                 return ListView.builder(
@@ -133,6 +139,7 @@ class BestPlayers extends StatelessWidget {
               shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
               title: Text(
                 text.tr,
+                textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansBold),
               ),
               content: SizedBox(

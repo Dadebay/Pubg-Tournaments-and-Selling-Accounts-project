@@ -11,6 +11,5 @@ class HomePageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    futureBanner = BannerModel().getBanners();
   }
 }

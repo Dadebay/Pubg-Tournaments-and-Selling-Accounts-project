@@ -23,17 +23,12 @@ class BestPlayersModel {
   Future<List<BestPlayersModel>> getBestPlayers() async {
     final List<BestPlayersModel> bannerList = [];
     final response = await http.get(
-      Uri.parse(
-        '$serverURL/api/accounts/best-players/',
-      ),
-      headers: <String, String>{
-        'Content-Type': 'application/json;charset=UTF-8',
-        'Charset': 'utf-8',
-      },
+      Uri.parse('$serverURL/api/accounts/best-players/'),
+      headers: <String, String>{'Content-Type': 'application/json;charset=UTF-8', 'Charset': 'utf-8'},
     );
     if (response.statusCode == 200) {
       final responseJson = json.decode(utf8.decode(response.bodyBytes));
-      for (final Map product in responseJson) {
+      for (final Map product in responseJson['results']) {
         bannerList.add(BestPlayersModel.fromJson(product));
       }
 

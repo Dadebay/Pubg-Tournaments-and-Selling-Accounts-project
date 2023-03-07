@@ -71,7 +71,7 @@ class MiniCategoryCard extends StatelessWidget {
               alignment: Alignment.center,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(name.tr, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontFamily: josefinSansBold, fontWeight: FontWeight.bold, fontSize: 30)),
+                child: Text(name.tr, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontFamily: josefinSansBold, fontWeight: FontWeight.bold, fontSize: 33)),
               ),
             ),
           ],

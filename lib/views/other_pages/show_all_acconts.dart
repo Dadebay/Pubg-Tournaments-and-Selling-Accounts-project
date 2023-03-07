@@ -34,7 +34,6 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
     super.initState();
     controller.clearData();
     value = 0;
-    // GetPostsAccountModel().getPosts(parametrs: {'page': '${controller.pageNumber}', 'size': '10'});
   }
 
   Row leftSideAppBar() {
@@ -316,29 +315,29 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
 
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    // controller.list.clear();
-    // controller.pageNumber.value = 1;
-    // controller.clearData();
-    // value = 0;
-    // await GetPostsAccountModel().getPosts(parametrs: {'page': '${controller.pageNumber}', 'size': '10'});
+    controller.list.clear();
+    controller.pageNumber.value = 1;
+    controller.clearData();
+    value = 0;
+    await GetPostsAccountModel().getPosts(parametrs: {'page': '${controller.pageNumber}', 'size': '10'});
     _refreshController.refreshCompleted();
   }
 
   void _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    // if (mounted) {
-    //   controller.pageNumber.value += 1;
-    //   await GetPostsAccountModel().getPosts(
-    //     parametrs: {
-    //       'page': '${controller.pageNumber}',
-    //       'size': '10',
-    //       controller.sortName.value: controller.sortType.value,
-    //       controller.sortCityName.value: controller.sortCityType.value,
-    //       controller.sortNamePrice.value: controller.sortTypePrice.value,
-    //       controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
-    //     },
-    //   );
-    // }
+    if (mounted) {
+      controller.pageNumber.value += 1;
+      await GetPostsAccountModel().getPosts(
+        parametrs: {
+          'page': '${controller.pageNumber}',
+          'size': '10',
+          controller.sortName.value: controller.sortType.value,
+          controller.sortCityName.value: controller.sortCityType.value,
+          controller.sortNamePrice.value: controller.sortTypePrice.value,
+          controller.sortNamePriceMax.value: controller.sortTypePriceMax.value,
+        },
+      );
+    }
     _refreshController.loadComplete();
   }
 
@@ -364,11 +363,11 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
             future: GetPostsAccountModel().getVIPPosts(parametrs: {}),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));
+                return Center(child: spinKit());
               } else if (snapshot.hasError) {
-                return const Text('error');
+                return errorData(onTap: () {});
               } else if (snapshot.data.toString() == '[]') {
-                return const Text('Empty');
+                return emptyData();
               }
               return Padding(
                 padding: const EdgeInsets.all(8.0),

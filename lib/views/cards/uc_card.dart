@@ -66,7 +66,7 @@ class UCCard extends StatelessWidget {
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.only(left: 15, top: 5, right: 6),
-              child: Price(showDiscountedPrice: false, selectedIndex: selectedIndex, price: a.toStringAsFixed(1)),
+              child: Price(showDiscountedPrice: false, textColor: Colors.white, selectedIndex: selectedIndex, price: a.toStringAsFixed(1)),
             ),
           ),
           AddCartButton(

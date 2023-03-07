@@ -176,21 +176,19 @@ Container noBannerImage() {
 
 Padding listViewName(String text, bool icon, Size size) {
   return Padding(
-    padding: EdgeInsets.only(bottom: icon ? 20 : 0, left: 15, right: 15, top: icon ? 0 : 20),
+    padding: EdgeInsets.only(left: 15, right: 15, top: 20),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           text,
-          style: TextStyle(color: Colors.white, fontSize: size.width >= 800 ? 30 : 22, fontFamily: josefinSansBold),
+          style: TextStyle(color: Colors.white, fontSize: size.width >= 800 ? 30 : 24, fontFamily: josefinSansBold),
         ),
         icon
             ? IconButton(
                 onPressed: () {
                   Get.to(
-                    () => const ShowAllAccounts(
-                      name: 'accountsForSale',
-                    ),
+                    () => const ShowAllAccounts(name: 'accountsForSale'),
                   );
                 },
                 icon: Icon(

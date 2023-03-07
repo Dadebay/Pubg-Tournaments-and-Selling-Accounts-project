@@ -45,9 +45,6 @@ class UcModel {
   }
 
   Future addCart(List list, bool ask, String pubgID) async {
-    print(pubgID);
-    print(pubgID);
-    print(pubgID);
     final String? token = await Auth().getToken();
     final response = await http.post(
       Uri.parse('$serverURL/api/carts/add-cart/'),
@@ -57,9 +54,6 @@ class UcModel {
       },
       body: jsonEncode(<String, dynamic>{'list': list, 'ask': ask, 'pubg_id': pubgID == '' ? null : pubgID}),
     );
-    print(response.body);
-    print(response.body);
-    print(response.statusCode);
 
     return response.statusCode;
   }
@@ -74,7 +68,6 @@ class UcModel {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);

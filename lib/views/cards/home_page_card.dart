@@ -31,7 +31,7 @@ class HomePageCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(
           vertical: size.width >= 800 ? 0 : 10,
-          horizontal: size.width >= 800 ? 10 : 20,
+          horizontal: size.width >= 800 ? 10 : 10,
         ),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -82,6 +82,7 @@ class HomePageCard extends StatelessWidget {
               price: model.price!.substring(0, model.price!.length - 3),
               showDiscountedPrice: false,
               selectedIndex: 2,
+              textColor: Colors.black,
             ),
             size.width >= 800
                 ? const SizedBox.shrink()

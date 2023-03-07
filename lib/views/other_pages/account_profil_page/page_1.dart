@@ -19,9 +19,9 @@ class TabbarPage1 extends StatelessWidget {
         infoPartText('accountDetaile5', model.price!, true),
         infoPartText('accountDetaile6', model.user!.createdDate!.substring(0, 10), false),
         infoPartText('verifed', model.user!.verified == true ? 'yes' : 'no', false),
-        infoPartText('posints', model.user!.points.toString(), false),
-        infoPartText('points from turnir', model.user!.pointsFromTurnir!.toString(), false),
-        infoPartText('Refereal kody', model.user!.referalCode!, false),
+        infoPartText('points', model.user!.points.toString(), false),
+        infoPartText('pointsFromTurnir', model.user!.pointsFromTurnir!.toString(), false),
+        infoPartText('referalKod', model.user!.referalCode!, false),
         Padding(
           padding: const EdgeInsets.only(left: 20, bottom: 25, top: 15),
           child: Text(

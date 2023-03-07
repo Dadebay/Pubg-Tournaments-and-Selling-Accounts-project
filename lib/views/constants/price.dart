@@ -8,7 +8,9 @@ class Price extends StatelessWidget {
   final String price;
   final String? discountedPrice;
   final int selectedIndex;
+  final Color textColor;
   const Price({
+    required this.textColor,
     required this.showDiscountedPrice,
     required this.price,
     required this.selectedIndex,
@@ -26,7 +28,7 @@ class Price extends StatelessWidget {
         Text(
           price,
           style: TextStyle(
-            color: Colors.black,
+            color: textColor,
             fontSize: size.width >= 800 ? 27 : 25,
             fontFamily: josefinSansBold,
           ),
@@ -36,7 +38,7 @@ class Price extends StatelessWidget {
           child: Text(
             selectedIndex == 1 ? ' RUB' : ' TMT',
             style: TextStyle(
-              color: Colors.black,
+              color: textColor,
               fontSize: size.width >= 800 ? 20 : 14,
               fontFamily: josefinSansBold,
             ),
