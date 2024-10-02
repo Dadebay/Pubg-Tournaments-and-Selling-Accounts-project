@@ -30,7 +30,6 @@ class _AddCartButtonState extends State<AddCartButton> {
   int price = 0;
   bool value = false;
   final WalletController walletController = Get.put(WalletController());
-
   @override
   void initState() {
     super.initState();
@@ -63,10 +62,9 @@ class _AddCartButtonState extends State<AddCartButton> {
               walletController.minusCart(widget.id);
             }
             setState(() {
-              // Get.find<WalletController>().removeCart(widget.id);
               final double b = double.parse(widget.price);
-              Get.find<WalletController>().finalCount.value = number.toDouble();
-              Get.find<WalletController>().finalPRice.value -= b;
+              walletController.finalCount.value = number.toDouble();
+              walletController.finalPRice.value -= b;
               for (var element in walletController.cartList) {
                 if (element['id'] == widget.id) {
                   number = element['count'];
@@ -94,8 +92,8 @@ class _AddCartButtonState extends State<AddCartButton> {
             walletController.addCart(id: widget.id, image: widget.image, price: widget.price, title: widget.title);
             setState(() {
               final double b = double.parse(widget.price);
-              Get.find<WalletController>().finalCount.value = number.toDouble();
-              Get.find<WalletController>().finalPRice.value += b;
+              walletController.finalCount.value = number.toDouble();
+              walletController.finalPRice.value += b;
               print(number);
               for (var element in walletController.cartList) {
                 if (element['id'] == widget.id) {

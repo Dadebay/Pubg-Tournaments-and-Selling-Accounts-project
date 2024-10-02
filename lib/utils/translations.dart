@@ -242,8 +242,27 @@ class MyTranslations extends Translations {
           'pointsFromTurnir': 'Turnir bal :',
           'referalKod': 'Referal Kody : ',
           'work_time': 'Irden sagat 08:00 - 22:00 habarlaşyp bilersiňiz!',
+          'boughtGifts': 'Satyn alan Giftlerim',
+          'giftName': 'Sowgat ady',
+          'startDate': 'Başlan wagty : ',
+          'endDate': 'Gutarýan wagty : ',
+          'boughtKonkurs': 'Satyn alan Konkurslarym',
+          'konkursName': 'Konkurs ady',
+          'enterIDGift': 'Maglumatyňyzy giriziň',
         },
         'ru': {
+          'enterIDGift': 'Введите вашу информацию',
+
+          'konkursName': 'Название конкурса',
+
+          'boughtKonkurs': 'Приобретенные конкурсы',
+
+          'startDate': 'Время начала : ',
+          'endDate': 'Время окончания : ',
+          'giftName': 'Имя подарка',
+
+          'boughtGifts': 'Мои купленные подарки',
+
           'errorLoadEmptyData': 'Данные недоступны',
           'errorLoadData': 'Не удалось загрузить данные, попробуйте еще раз!',
           'referalSubtitle': 'С помощью этого кода вы можете привлекать пользователей и зарабатывать деньги',

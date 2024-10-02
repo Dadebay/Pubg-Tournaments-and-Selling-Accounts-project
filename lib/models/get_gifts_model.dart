@@ -1,34 +1,43 @@
 class GiftsMOdel {
   final int id;
+  final int count;
+  final int count_left;
+  final String descTM;
+  final String descRU;
+  final String createdDate;
   final String nameTm;
   final String nameRu;
-  final String image;
-  final String ownerNumber;
+  final Map<String, dynamic> image;
   final double price;
-  final bool satylanlygy;
-  final int cat;
+  final String cat;
 
   GiftsMOdel({
     required this.id,
+    required this.count,
+    required this.count_left,
+    required this.descTM,
+    required this.descRU,
+    required this.createdDate,
     required this.nameTm,
     required this.nameRu,
     required this.image,
-    required this.ownerNumber,
     required this.price,
-    required this.satylanlygy,
     required this.cat,
   });
 
   factory GiftsMOdel.fromJson(Map<String, dynamic> json) {
     return GiftsMOdel(
       id: json['id'] as int,
+      cat: json['cat'] as String,
       nameTm: json['name_tm'] as String,
       nameRu: json['name_ru'] as String,
-      image: json['image'] as String,
-      ownerNumber: json['owner_number'] as String,
+      image: json['image'],
       price: (json['price'] as num).toDouble(),
-      satylanlygy: json['satylanlygy'] as bool,
-      cat: json['cat'] as int,
+      count: json['count'] as int,
+      count_left: json['count_left'] as int,
+      descTM: json['description_tm'] as String,
+      descRU: json['description_ru'] as String,
+      createdDate: json['created_date'] as String,
     );
   }
 }

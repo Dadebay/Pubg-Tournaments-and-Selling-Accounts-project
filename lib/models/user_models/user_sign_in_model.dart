@@ -3,9 +3,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/referal_model.dart';
 import 'package:game_app/views/constants/index.dart';
-import 'package:game_app/controllers/settings_controller.dart';
 import 'package:http/http.dart' as http;
 
 import 'auth_model.dart';
@@ -117,6 +117,7 @@ class UserSignInModel {
         'phone': phone,
       }),
     );
+    print(response.body);
     return response.statusCode;
   }
 

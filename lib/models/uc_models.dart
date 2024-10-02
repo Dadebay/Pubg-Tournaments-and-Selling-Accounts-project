@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:game_app/models/user_models/auth_model.dart';
+import 'package:game_app/views/constants/index.dart';
+import 'package:game_app/views/wallet/open_online_payment_url.dart';
 import 'package:http/http.dart' as http;
-
-import '../views/constants/index.dart';
 
 class UcModel {
   final int? id;
@@ -44,18 +44,50 @@ class UcModel {
     );
   }
 
-  Future addCart(List list, bool ask, String pubgID) async {
+  Future addCart(List list) async {
+    print(list);
     final String? token = await Auth().getToken();
     final response = await http.post(
-      Uri.parse('$serverURL/api/carts/add-cart/'),
+      Uri.parse('$serverURL/api/category/paymentFromPoint/'),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
-      body: jsonEncode(<String, dynamic>{'list': list, 'ask': ask, 'pubg_id': pubgID == '' ? null : pubgID}),
+      body: jsonEncode(list),
     );
-
+    print(response.body);
+    print(response.statusCode);
     return response.statusCode;
+  }
+
+  Future addCartPlasticCARD(List list) async {
+    print(list);
+    final String? token = await Auth().getToken();
+    final response = await http.post(
+      Uri.parse('$serverURL/api/category/payment/'),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+      body: jsonEncode(list),
+    );
+    print(response.body);
+    print(response.statusCode);
+    print(jsonDecode(response.body)['formUrl']);
+    Get.to(() => OpenOnlinePaymentWebsite(url: jsonDecode(response.body)['formUrl']));
+    //      final List list = [];
+    //                   for (var element in walletController.cartList) {
+    //                     list.add({'status': element['name'], 'id': element['id'], 'count': element['count'], 'pubg_id': widget.pubgID});
+    //                   }
+    //   final response2 = await http.post(
+    //   Uri.parse('$serverURL/api/category/paymentStatus/'),
+    //   headers: <String, String>{
+    //     HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+    //     HttpHeaders.authorizationHeader: 'Bearer $token',
+    //   },
+    //   body: jsonEncode(list),
+    // );
+    // return response.statusCode;
   }
 
   Future<List<UcModel>> getUCS() async {

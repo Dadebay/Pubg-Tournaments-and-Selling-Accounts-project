@@ -41,4 +41,4 @@ class _GatnashyanlarCardState extends State<GatnashyanlarCard> {
       ),
     );
   }
-}
+} 

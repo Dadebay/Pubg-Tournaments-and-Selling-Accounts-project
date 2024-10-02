@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, must_be_immutable
 
+import 'package:flutter/cupertino.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 
 import '../constants/index.dart';
@@ -7,11 +8,13 @@ import '../constants/index.dart';
 class AgreeButton extends StatelessWidget {
   final Function() onTap;
   final String name;
+  final bool? showIcon;
 
   AgreeButton({
     required this.onTap,
     required this.name,
     Key? key,
+    this.showIcon,
   }) : super(key: key);
 
   SettingsController settingsController = Get.put(SettingsController());
@@ -45,13 +48,35 @@ class AgreeButton extends StatelessWidget {
                 ),
               ),
             )
-          : Text(
-              name.tr,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
-            ),
+          : showIcon == true
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8, top: 4),
+                      child: Icon(
+                        name == "Nagt" ? IconlyLight.wallet : CupertinoIcons.creditcard,
+                        color: kPrimaryColor,
+                      ),
+                    ),
+                    Text(
+                      name.tr,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
+                    ),
+                  ],
+                )
+              : Text(
+                  name.tr,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
+                ),
     );
   }
 }

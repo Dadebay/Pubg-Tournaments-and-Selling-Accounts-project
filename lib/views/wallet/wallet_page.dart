@@ -2,7 +2,7 @@ import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/uc_models.dart';
 
 import '../../../models/user_models/auth_model.dart';
-import '../cards/uc_card.dart';
+import '../cards/wallet_card.dart';
 import '../constants/index.dart';
 import 'order_page.dart';
 
@@ -63,7 +63,7 @@ class _WalletPageState extends State<WalletPage> {
                   shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 4),
                   itemBuilder: (context, index) {
-                    return UCCard(
+                    return WalletCard(
                       model: snapshot.data![index],
                       selectedIndex: selectedIndex,
                     );
@@ -82,39 +82,6 @@ class _WalletPageState extends State<WalletPage> {
       elevation: 1,
       centerTitle: true,
       leadingWidth: 80,
-      // leading: GestureDetector(
-      //   onTap: () {
-      //     selectCurrency();
-      //   },
-      //   child: Row(
-      //     mainAxisSize: MainAxisSize.min,
-      //     children: [
-      //       Padding(
-      //         padding: const EdgeInsets.only(left: 8, right: 8),
-      //         child: ClipOval(
-      //           child: Image.asset(
-      //             selectedIndex == 1
-      //                 ? ruIcon
-      //                 : selectedIndex == 2
-      //                     ? tmIcon
-      //                     : trIcon,
-      //             width: 30,
-      //             height: 30,
-      //             fit: BoxFit.cover,
-      //           ),
-      //         ),
-      //       ),
-      //       Text(
-      //         selectedIndex == 1
-      //             ? 'Rub'
-      //             : selectedIndex == 2
-      //                 ? 'TMT'
-      //                 : 'TL',
-      //         style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
-      //       )
-      //     ],
-      //   ),
-      // ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 5),

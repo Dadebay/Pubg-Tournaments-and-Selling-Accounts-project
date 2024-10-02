@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:game_app/controllers/home_page_controller.dart';
 import 'package:game_app/controllers/show_all_account_controller.dart';
 import 'package:http/http.dart' as http;
@@ -228,6 +229,7 @@ class PostByIdModel extends GetxController {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    print(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);

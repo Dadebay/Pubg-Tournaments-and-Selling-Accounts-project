@@ -64,7 +64,9 @@ class getGiftsProvider with ChangeNotifier {
       var response = await dio.get(
         "http://216.250.11.240/api/category/getGifts/",
       );
-
+      print(response.data);
+      print(response.data);
+      print(response.data);
       if (response.statusCode == 200) {
         if (response.data != null) {
           giftsCart = List<GiftsMOdel>.from(response.data.map((e) {
@@ -84,6 +86,32 @@ class getGiftsProvider with ChangeNotifier {
       notifyListeners();
     }
     return;
+  }
+
+  Future<String> getGiftData() async {
+    isLoading = true;
+
+    try {
+      var response = await dio.get(
+        "http://216.250.11.240/api/category/getText/7/",
+      );
+
+      if (response.statusCode == 200) {
+        if (response.data != null) {
+          isLoading = false;
+          notifyListeners();
+          return response.data[0]['toptext'];
+        }
+
+        return '';
+      }
+      // ignore: deprecated_member_use
+    } on DioError {
+      isLoading = false;
+
+      notifyListeners();
+    }
+    return '';
   }
 }
 

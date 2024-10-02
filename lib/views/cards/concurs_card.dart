@@ -17,20 +17,11 @@ class UCCard2 extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    double a = 0.0;
-
-    // if (selectedIndex == 1) {
-    //   a = double.parse(model.rublePrice.toString());
-    // } else if (selectedIndex == 2) {
-    //   a = double.parse(model.price.toString());
-    // } else if (selectedIndex == 3) {
-    //   a = double.parse(model.liraPrice.toString());
-    // }
     return Container(
-      margin: const EdgeInsets.only(left: 5, right: 5, top: 15),
+      margin: const EdgeInsets.only(left: 8, right: 8, top: 8),
       decoration: BoxDecoration(
         borderRadius: borderRadius20,
-        color: kPrimaryColor,
+        color: Colors.white60,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +32,7 @@ class UCCard2 extends StatelessWidget {
               borderRadius: borderRadius20,
               child: CachedNetworkImage(
                 fadeInCurve: Curves.ease,
-                imageUrl: '$serverURL${model.image}',
+                imageUrl: '$serverURL/media/${model.image['name']}',
                 imageBuilder: (context, imageProvider) => Container(
                   width: Get.size.width,
                   decoration: BoxDecoration(
@@ -62,19 +53,27 @@ class UCCard2 extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 5, right: 6),
-              child: Price(showDiscountedPrice: false, textColor: Colors.black, selectedIndex: selectedIndex, price: a.toStringAsFixed(1)),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 6),
+            child: Text(
+              model.nameTm,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: Get.size.width >= 800 ? 27 : 25,
+                fontFamily: josefinSansBold,
+              ),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 6),
+            child: Price(showDiscountedPrice: false, textColor: Colors.black, selectedIndex: selectedIndex, price: model.price.toStringAsFixed(1)),
           ),
           AddCartButton(
             productProfil: false,
             id: model.id,
             price: model.price.toString(),
-            image: model.image,
-            title: model.nameTm,
+            image: "/media/${model.image['name']}",
+            title: 'gift',
           ),
         ],
       ),

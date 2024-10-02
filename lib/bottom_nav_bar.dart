@@ -25,7 +25,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const HomePage(),
     const NewTournamentPage(),
     KonkursScreen(),
-    // BestPlayers(),
     const WalletPage(),
     const UserProfil(),
   ];

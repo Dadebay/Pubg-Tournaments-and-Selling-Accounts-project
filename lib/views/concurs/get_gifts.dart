@@ -15,12 +15,15 @@ class GetGiftsScreen extends StatefulWidget {
 }
 
 class _GetGiftsScreenState extends State<GetGiftsScreen> {
+  String dialogTitle = '';
   TextEditingController pubgUserIDController = TextEditingController();
-  final WalletController walletController = Get.put(WalletController());
+  TextEditingController pubgUserIDController2 = TextEditingController();
   FocusNode pubgUserIDFocusNode = FocusNode();
-
+  FocusNode pubgUserIDFocusNode2 = FocusNode();
+  int selectedIndex = 2;
   String title = 'selectUCType'.tr;
   final validator = GlobalKey<FormState>();
+  final WalletController walletController = Get.put(WalletController());
 
   @override
   void initState() {
@@ -31,49 +34,17 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
 
   fetchData() async {
     await Provider.of<getGiftsProvider>(context, listen: false).getGiftsCart(context);
+    await getGiftsProvider().getGiftData().then((value) async {
+      if (value == '') {
+        dialogTitle = 'enterID'.tr;
+      } else {
+        dialogTitle = value;
+      }
+    });
+    setState(() {});
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPrimaryColorBlack,
-      floatingActionButton: Obx(() {
-        return AnimatedCrossFade(
-          firstChild: const SizedBox.shrink(),
-          secondChild: orderButton(),
-          crossFadeState: walletController.cartList.isEmpty ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-          duration: const Duration(milliseconds: 500),
-          alignment: Alignment.center,
-          sizeCurve: Curves.easeInOut,
-        );
-      }),
-      appBar: appBAr(),
-      body: Column(
-        children: [
-          customDivider(),
-          Expanded(
-            child: Consumer<getGiftsProvider>(builder: (_, gifts, __) {
-              return GridView.builder(
-                itemCount: gifts.giftsCart.length,
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 4),
-                itemBuilder: (context, index) {
-                  return UCCard2(
-                    model: gifts.giftsCart[index],
-                    selectedIndex: selectedIndex,
-                  );
-                },
-              );
-            }),
-          ),
-        ],
-      ),
-    );
-  }
-
-  AppBar appBAr() {
+  AppBar appBar() {
     return AppBar(
       elevation: 1,
       centerTitle: true,
@@ -87,40 +58,6 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
           Navigator.pop(context);
         },
       ),
-
-      // leading: GestureDetector(
-      //   onTap: () {
-      //     selectCurrency();
-      //   },
-      //   child: Row(
-      //     mainAxisSize: MainAxisSize.min,
-      //     children: [
-      //       Padding(
-      //         padding: const EdgeInsets.only(left: 8, right: 8),
-      //         child: ClipOval(
-      //           child: Image.asset(
-      //             selectedIndex == 1
-      //                 ? ruIcon
-      //                 : selectedIndex == 2
-      //                     ? tmIcon
-      //                     : trIcon,
-      //             width: 30,
-      //             height: 30,
-      //             fit: BoxFit.cover,
-      //           ),
-      //         ),
-      //       ),
-      //       Text(
-      //         selectedIndex == 1
-      //             ? 'Rub'
-      //             : selectedIndex == 2
-      //                 ? 'TMT'
-      //                 : 'TL',
-      //         style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold),
-      //       )
-      //     ],
-      //   ),
-      // ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 5),
@@ -185,12 +122,19 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'enterID'.tr,
+                dialogTitle,
                 style: const TextStyle(color: Colors.white, fontFamily: josefinSansBold, fontSize: 22),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Form(key: validator, child: CustomTextField(labelName: 'Pubg id:', controller: pubgUserIDController, borderRadius: true, focusNode: pubgUserIDFocusNode, requestfocusNode: pubgUserIDFocusNode, isNumber: false)),
+                child: Form(
+                    key: validator,
+                    child: Column(
+                      children: [
+                        CustomTextField(labelName: 'enterIDGift'.tr, controller: pubgUserIDController, borderRadius: true, focusNode: pubgUserIDFocusNode, requestfocusNode: pubgUserIDFocusNode2, isNumber: false),
+                        CustomTextField(labelName: 'enterIDGift'.tr, controller: pubgUserIDController2, borderRadius: true, focusNode: pubgUserIDFocusNode2, requestfocusNode: pubgUserIDFocusNode, isNumber: false),
+                      ],
+                    )),
               ),
               AgreeButton(
                 name: 'agree',
@@ -226,7 +170,6 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
     );
   }
 
-  int selectedIndex = 2;
   Future<Object?> selectCurrency() {
     return showGeneralDialog(
       transitionBuilder: (context, a1, a2, widget) {
@@ -305,6 +248,49 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kPrimaryColorBlack,
+      floatingActionButton: Obx(() {
+        return AnimatedCrossFade(
+          firstChild: const SizedBox.shrink(),
+          secondChild: orderButton(),
+          crossFadeState: walletController.cartList.isEmpty ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          duration: const Duration(milliseconds: 500),
+          alignment: Alignment.center,
+          sizeCurve: Curves.easeInOut,
+        );
+      }),
+      appBar: appBar(),
+      body: Column(
+        children: [
+          customDivider(),
+          Expanded(
+            child: dialogTitle == ''
+                ? spinKit()
+                : Consumer<getGiftsProvider>(builder: (_, gifts, __) {
+                    return GridView.builder(
+                      itemCount: gifts.giftsCart.length,
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2.8 / 4),
+                      itemBuilder: (context, index) {
+                        print(gifts);
+                        return UCCard2(
+                          model: gifts.giftsCart[index],
+                          selectedIndex: selectedIndex,
+                        );
+                      },
+                    );
+                  }),
+          ),
+        ],
       ),
     );
   }

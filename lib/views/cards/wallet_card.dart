@@ -1,16 +1,16 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:game_app/models/uc_models.dart';
 import 'package:game_app/views/buttons/add_cart_button.dart';
 import 'package:game_app/views/constants/index.dart';
-import 'package:game_app/models/uc_models.dart';
 
 import '../constants/price.dart';
 
-class UCCard extends StatelessWidget {
+class WalletCard extends StatelessWidget {
   final UcModel model;
   final int selectedIndex;
-  const UCCard({
+  const WalletCard({
     required this.model,
     required this.selectedIndex,
     Key? key,
@@ -56,6 +56,7 @@ class UCCard extends StatelessWidget {
                 errorWidget: (context, url, error) => Center(
                   child: Text(
                     'noImage'.tr,
+                    textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.black, fontFamily: josefinSansSemiBold),
                   ),
                 ),
@@ -74,7 +75,7 @@ class UCCard extends StatelessWidget {
             id: model.id!,
             price: model.price!,
             image: model.image!,
-            title: model.title!,
+            title: 'uc',
           ),
         ],
       ),

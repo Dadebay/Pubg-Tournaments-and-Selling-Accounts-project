@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/views/buttons/add_cart_button.dart';
+
 import '../../connection_check.dart';
 import '../constants/index.dart';
 
@@ -63,7 +63,11 @@ class _OrderCardState extends State<OrderCard> {
                   ),
                 ),
                 placeholder: (context, url) => Center(child: spinKit()),
-                errorWidget: (context, url, error) => const Text('No Image'),
+                errorWidget: (context, url, error) => Center(
+                    child: const Text(
+                  'No Image',
+                  style: TextStyle(fontFamily: josefinSansSemiBold),
+                )),
               ),
             ),
           ),

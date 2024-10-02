@@ -43,7 +43,6 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
                   ),
                   onPressed: () {
                     Get.back();
-                    Navigator.pop(context);
                   },
                 )
               : SizedBox.shrink(),

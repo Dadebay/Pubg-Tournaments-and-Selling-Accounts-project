@@ -40,7 +40,7 @@ class _TabPage3State extends State<TabPage3> {
     for (var e in widget.model.teams!) {
       if (e.teamUsers!.length > 0) team_users.add(e);
     }
-    print(team_users);
+    print(team_users.length);
 
     var now = new DateTime.now();
     String? turnirF = widget.model.finish_date;
@@ -52,9 +52,6 @@ class _TabPage3State extends State<TabPage3> {
     dateTurnir = formatter.format(dateTime);
     dt1 = DateTime.parse(dateNow);
     dt2 = DateTime.parse(dateTurnir);
-    print(dt1.compareTo(dt2));
-
-    // print(formattedDate);
   }
 
   @override
@@ -62,7 +59,6 @@ class _TabPage3State extends State<TabPage3> {
     return ListView.builder(
       itemCount: widget.model.winners!.length == 0 ? team_users.length : widget.model.winners!.length,
       itemBuilder: (BuildContext context, int index) {
-        print(widget.model.winners!.length);
         if (widget.model.winners!.length == 0 && dt1.compareTo(dt2) < 0) {
           return Container(
             width: double.infinity,

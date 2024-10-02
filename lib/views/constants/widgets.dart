@@ -57,7 +57,7 @@ Divider customDivider() {
 }
 
 Widget spinKit() {
-  return Lottie.asset(loader, animate: true, width: 300, height: 300);
+  return Center(child: Lottie.asset(loader, animate: true, width: 300, height: 300));
 }
 
 Widget userAppBarMoney() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../constants/constants.dart';
 
 class WalletPageCard extends StatelessWidget {
@@ -17,6 +18,7 @@ class WalletPageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Asd");
     return GestureDetector(
       onTap: ontapp,
       child: Stack(

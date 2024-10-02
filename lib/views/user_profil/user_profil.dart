@@ -1,19 +1,20 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/views/constants/profile_button.dart';
-import 'package:game_app/views/constants/dialogs.dart';
-import 'package:game_app/views/constants/index.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
+import 'package:game_app/views/constants/dialogs.dart';
+import 'package:game_app/views/constants/index.dart';
+import 'package:game_app/views/constants/profile_button.dart';
 import 'package:game_app/views/user_profil/pages/add_cash.dart';
+import 'package:game_app/views/user_profil/pages/bought_gifts.dart';
+import 'package:game_app/views/user_profil/pages/bought_konkurs.dart';
 import 'package:game_app/views/user_profil/pages/edit_work_profil.dart';
 import 'package:game_app/views/user_profil/pages/history_orders_page.dart';
 import 'package:game_app/views/user_profil/pages/profile_settings.dart';
 import 'package:game_app/views/user_profil/pages/settings.dart';
 
 import '../../controllers/wallet_controller.dart';
-import 'Pages/about_us.dart';
-import 'Pages/faq.dart';
 import 'auth/tab_bar_view.dart';
 import 'pages/notification.dart';
 
@@ -83,27 +84,6 @@ class _UserProfilState extends State<UserProfil> {
                   icon: IconlyLight.notification,
                 ),
                 settingsController.loginUser.value ? whenUserLogin(snapshot.data!.forSale!, snapshot.data!) : const SizedBox.shrink(),
-                ProfilButton(
-                  name: 'questions',
-                  onTap: () {
-                    Get.to(() => const FAQs());
-                  },
-                  icon: IconlyLight.document,
-                ),
-                ProfilButton(
-                  name: 'aboutUs',
-                  onTap: () {
-                    Get.to(() => const AboutUs());
-                  },
-                  icon: IconlyLight.user3,
-                ),
-                // ProfilButton(
-                //   name: 'referalKod',
-                //   onTap: () {
-                //     settingsController.loginUser.value ? Get.to(() => ReferalPage(referalcode: snapshot.data!.ref_code, used_refcode: snapshot.data!.used_ref_code)) : showSnackBar('loginError', 'loginError1', Colors.red);
-                //   },
-                //   icon: IconlyLight.ticketStar,
-                // ),
                 loginLogout(),
               ],
             );
@@ -136,17 +116,6 @@ class _UserProfilState extends State<UserProfil> {
                     SizedBox(
                       height: 20,
                     )
-                    // ProfilButton(
-                    //   name: 'loginWithGmail',
-                    //   onTap: () {
-                    //     Get.to(
-                    //       () => const TabBarViewPage(
-                    //         loginType: true,
-                    //       ),
-                    //     );
-                    //   },
-                    //   icon: Icons.mail_outline,
-                    // ),
                   ],
                 ),
                 name: 'signUp',
@@ -159,6 +128,7 @@ class _UserProfilState extends State<UserProfil> {
   Column whenUserLogin(bool forSale, GetMeModel model) {
     return Column(
       children: [
+        divider(),
         ProfilButton(
           name: 'cashHistory',
           onTap: () {
@@ -184,6 +154,20 @@ class _UserProfilState extends State<UserProfil> {
                 icon: IconlyLight.category,
               )
             : const SizedBox.shrink(),
+        ProfilButton(
+          name: 'boughtGifts',
+          onTap: () {
+            Get.to(() => const BoughtGifts());
+          },
+          icon: CupertinoIcons.gift,
+        ),
+        ProfilButton(
+          name: 'boughtKonkurs',
+          onTap: () {
+            Get.to(() => const BoughtKonkurs());
+          },
+          icon: CupertinoIcons.gift,
+        ),
         ProfilButton(
           name: 'orders',
           onTap: () {

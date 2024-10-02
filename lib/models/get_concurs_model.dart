@@ -7,11 +7,13 @@ class GEtConcursModel {
   final DateTime createdDate;
   final DateTime finishedDate;
   final String finishedTime;
+  final String price;
   final int cat;
 
   GEtConcursModel({
     required this.id,
     required this.nameTm,
+    required this.price,
     required this.nameRu,
     required this.image,
     required this.places,
@@ -24,6 +26,7 @@ class GEtConcursModel {
   factory GEtConcursModel.fromJson(Map<String, dynamic> json) {
     return GEtConcursModel(
       id: json['id'] ?? 0,
+      price: json['price'].toString() ?? "",
       nameTm: json['name_tm'] ?? "",
       nameRu: json['name_ru'] ?? "",
       image: json['image'] ?? "",

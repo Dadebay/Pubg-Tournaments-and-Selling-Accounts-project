@@ -18,6 +18,7 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   final WalletController walletController = Get.put(WalletController());
+  final SettingsController settingsController = Get.put(SettingsController());
 
   @override
   void initState() {
@@ -44,9 +45,6 @@ class _OrderPageState extends State<OrderPage> {
               style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
             ),
           ),
-          // Obx(() {
-          //   return text('orderPage1', walletController.cartList.length.toString());
-          // }),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: text('accountDetaile2', widget.pubgID),
@@ -75,69 +73,71 @@ class _OrderPageState extends State<OrderPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: () {
-                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => CartPayment()));
-                },
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 2.2,
-                  child: Center(
-                      child: Container(
-                    width: MediaQuery.of(context).size.width / 2.2,
-                    decoration: BoxDecoration(
-                      borderRadius: borderRadius20,
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Kartdan",
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
-                      ),
-                    ),
-                  )),
+              Expanded(
+                child: AgreeButton(
+                  name: 'Kartdan',
+                  showIcon: true,
+                  onTap: () async {
+                    final token = await Auth().getToken();
+                    if (token != null) {
+                      settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                      final List list = [];
+                      for (var element in walletController.cartList) {
+                        list.add({'status': element['name'], 'id': element['id'], 'count': element['count'], 'pubg_id': widget.pubgID});
+                      }
+                      await UcModel().addCartPlasticCARD(list).then((value) {
+                        if (value == 200) {
+                          walletController.cartList.clear();
+                          walletController.cartList.refresh();
+                          Get.back();
+                          Get.back();
+                          walletController.getUserMoney();
+                          showSnackBar('copySucces', 'orderSubtitle', Colors.green);
+                        } else if (value == 404) {
+                          showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+                        }
+                      });
+                      settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                    } else {
+                      showSnackBar('loginError', 'loginError1', Colors.red);
+                    }
+                  },
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 2.2,
-                child: Center(
-                  child: AgreeButton(
-                    name: 'Nagt',
-                    onTap: () async {
-                      final token = await Auth().getToken();
-                      if (token != null && walletController.finalPRice > 0) {
-                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                        final List list = [];
-                        for (var element in walletController.cartList) {
-                          list.add({
-                            'uc': element['id'],
-                            'count': element['count'],
-                          });
-                          print(list);
-                        }
-                        await UcModel().addCart(list, false, widget.pubgID).then((value) {
-                          if (value == 200 || value == 500) {
-                            walletController.cartList.clear();
-                            walletController.cartList.refresh();
-                            Get.back();
-                            Get.back();
-                            Get.find<WalletController>().getUserMoney();
-                            showSnackBar('copySucces', 'orderSubtitle', Colors.green);
-                          } else if (value == 404) {
-                            showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
-                          } else {
-                            showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
-                          }
-                        });
-                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                      } else {
-                        showSnackBar('loginError', 'loginError1', Colors.red);
+                width: 15,
+              ),
+              Expanded(
+                child: AgreeButton(
+                  name: 'Nagt',
+                  showIcon: true,
+                  onTap: () async {
+                    final token = await Auth().getToken();
+                    if (token != null && walletController.finalPRice > 0) {
+                      settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                      final List list = [];
+                      for (var element in walletController.cartList) {
+                        list.add({'status': element['name'], 'id': element['id'], 'count': element['count'], 'pubg_id': widget.pubgID});
                       }
-                    },
-                  ),
+                      await UcModel().addCart(list).then((value) {
+                        if (value == 200 || value == 500) {
+                          walletController.cartList.clear();
+                          walletController.cartList.refresh();
+                          Get.back();
+                          Get.back();
+                          walletController.getUserMoney();
+                          showSnackBar('copySucces', 'orderSubtitle', Colors.green);
+                        } else if (value == 404) {
+                          showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+                        } else {
+                          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+                        }
+                      });
+                      settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                    } else {
+                      showSnackBar('loginError', 'loginError1', Colors.red);
+                    }
+                  },
                 ),
               ),
             ],
@@ -177,11 +177,10 @@ class _OrderPageState extends State<OrderPage> {
         elevationWhite: true,
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            flex: 6,
             child: Obx(() {
               return walletController.cartList.isEmpty
                   ? noData('Sargyt zat yok')
@@ -189,6 +188,7 @@ class _OrderPageState extends State<OrderPage> {
                       itemCount: walletController.cartList.length,
                       itemExtent: size.width >= 800 ? 190 : 140,
                       scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return OrderCard(
                           id: walletController.cartList[index]['id'],
@@ -202,7 +202,7 @@ class _OrderPageState extends State<OrderPage> {
             }),
           ),
           customDivider(),
-          Expanded(flex: 3, child: bottomPart()),
+          bottomPart(),
         ],
       ),
     );
