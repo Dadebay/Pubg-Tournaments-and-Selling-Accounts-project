@@ -60,7 +60,7 @@ class ReferalUserCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Expanded(
@@ -73,30 +73,31 @@ class ReferalUserCard extends StatelessWidget {
             ),
           ),
           Expanded(
-              flex: 3,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    getMeModel.points,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: josefinSansSemiBold,
-                    ),
+            flex: 3,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  getMeModel.points,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontFamily: josefinSansSemiBold,
                   ),
-                  const Text(
-                    ' TMT',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontFamily: josefinSansSemiBold,
-                    ),
+                ),
+                const Text(
+                  ' TMT',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontFamily: josefinSansSemiBold,
                   ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(
             width: 10,
           ),

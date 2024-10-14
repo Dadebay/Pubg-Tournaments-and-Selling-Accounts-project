@@ -5,7 +5,7 @@ import 'package:game_app/models/user_models/abous_us_model.dart';
 import '../../constants/index.dart';
 
 class FAQs extends StatelessWidget {
-  const FAQs({Key? key}) : super(key: key);
+  const FAQs({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class FAQs extends StatelessWidget {
                   Text(
                     Get.locale?.languageCode == 'tr' ? snapshot.data![index].content_tm! : snapshot.data![index].content_ru!,
                     style: const TextStyle(color: Colors.white70, fontSize: 16, height: 1.5, fontFamily: josefinSansRegular),
-                  )
+                  ),
                 ],
               );
             },

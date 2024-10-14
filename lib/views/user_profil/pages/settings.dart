@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../constants/settings_button.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+  const Settings({super.key});
 
   @override
   State<Settings> createState() => _SettingsState();

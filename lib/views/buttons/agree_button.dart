@@ -13,9 +13,9 @@ class AgreeButton extends StatelessWidget {
   AgreeButton({
     required this.onTap,
     required this.name,
-    Key? key,
+    super.key,
     this.showIcon,
-  }) : super(key: key);
+  });
 
   SettingsController settingsController = Get.put(SettingsController());
   @override
@@ -57,7 +57,7 @@ class AgreeButton extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 8, top: 4),
                       child: Icon(
-                        name == "Nagt" ? IconlyLight.wallet : CupertinoIcons.creditcard,
+                        name == 'Nagt' ? IconlyLight.wallet : CupertinoIcons.creditcard,
                         color: kPrimaryColor,
                       ),
                     ),

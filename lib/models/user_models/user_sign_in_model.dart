@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, always_use_package_imports, avoid_dynamic_calls
+// ignore_for_file: file_names, always_use_package_imports, avoid_dynamic_calls, non_constant_identifier_names
 
 import 'dart:convert';
 import 'dart:io';
@@ -47,6 +47,7 @@ class UserSignInModel {
               'used_ref_code': referalCode,
             }),
     );
+    showSnackBar('SMS kod', "SMS kod : ${json.decode(response.body)['otp']}", kPrimaryColor);
 
     return response.statusCode;
   }
@@ -80,8 +81,6 @@ class UserSignInModel {
     String? otp,
     String? email,
   }) async {
-    print("OOOOOOOOOOOOOOOOOOOOOOOOOO");
-    print(email);
     final response = await http.post(
       Uri.parse('$serverURL/api/accounts/gotp-check/'),
       headers: <String, String>{
@@ -92,8 +91,6 @@ class UserSignInModel {
         'otp': otp,
       }),
     );
-    print("WWWWWWWWWWWWWWWWWWWWWWWWWW");
-    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       await Auth().setToken(responseJson['access_token']);
@@ -117,7 +114,7 @@ class UserSignInModel {
         'phone': phone,
       }),
     );
-    print(response.body);
+    showSnackBar('SMS kod', "SMS kod : ${json.decode(response.body)['otp']}", kPrimaryColor);
     return response.statusCode;
   }
 
@@ -162,31 +159,32 @@ class GetMeModel {
   final bool? blocked;
   final String? ref_code;
   final String? used_ref_code;
-  GetMeModel(
-      {this.id,
-      this.pubgType,
-      this.vip,
-      this.blocked,
-      this.bgImage,
-      this.location,
-      this.user,
-      this.verified,
-      this.forSale,
-      this.bio,
-      this.createdDate,
-      this.email,
-      this.firstName,
-      this.image,
-      this.lastName,
-      this.nickname,
-      this.phone,
-      this.points,
-      this.pointsFromTurnir,
-      this.price,
-      this.pubgId,
-      this.updatedDate,
-      this.ref_code,
-      this.used_ref_code});
+  GetMeModel({
+    this.id,
+    this.pubgType,
+    this.vip,
+    this.blocked,
+    this.bgImage,
+    this.location,
+    this.user,
+    this.verified,
+    this.forSale,
+    this.bio,
+    this.createdDate,
+    this.email,
+    this.firstName,
+    this.image,
+    this.lastName,
+    this.nickname,
+    this.phone,
+    this.points,
+    this.pointsFromTurnir,
+    this.price,
+    this.pubgId,
+    this.updatedDate,
+    this.ref_code,
+    this.used_ref_code,
+  });
 
   factory GetMeModel.fromJson(Map<dynamic, dynamic> json) {
     return GetMeModel(
@@ -245,7 +243,6 @@ class GetMeModel {
 
   Future<GetMeModel> getMe() async {
     final token = await Auth().getToken();
-    print(token.toString());
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/accounts/get-my-account/',
@@ -276,14 +273,14 @@ class GetMeModel {
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },
       );
-      var dioResponse = json.decode(response.body);
+      final dioResponse = json.decode(response.body);
 
-      List<dynamic> decoded = dioResponse;
-      var clients = decoded.map<ReferalModel>((e) => ReferalModel.fromJson(e)).toList();
+      final List<dynamic> decoded = dioResponse;
+      final clients = decoded.map<ReferalModel>((e) => ReferalModel.fromJson(e)).toList();
 
       return clients;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -292,7 +289,6 @@ class GetMeModel {
     required String pubgUserId,
   }) async {
     final token = await Auth().getToken();
-    print(token.toString());
     final response = await http.post(
       Uri.parse('$serverURL/api/accounts/short-update/'),
       headers: <String, String>{
@@ -312,7 +308,6 @@ class GetMeModel {
     required String pubgUserId,
   }) async {
     final token = await Auth().getToken();
-    print(token.toString());
     final response = await http.post(
       Uri.parse('$serverURL/api/accounts/short-update/'),
       headers: <String, String>{

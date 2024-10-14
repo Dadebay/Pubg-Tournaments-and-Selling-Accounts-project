@@ -6,6 +6,8 @@ import '../../models/best_players_model.dart';
 import '../cards/best_players_card.dart';
 
 class BestPlayers extends StatelessWidget {
+  const BestPlayers({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +21,7 @@ class BestPlayers extends StatelessWidget {
             AddAccountModel().getConsts().then((value) {
               showBestPlayerPrice(
                 context,
-                "placeTurnirGet.tr",
+                'placeTurnirGet.tr',
                 value['best_players_text'],
               );
             });
@@ -45,14 +47,14 @@ class BestPlayers extends StatelessWidget {
                   return Center(
                     child: Text(
                       'errorLoadData'.tr,
-                      style: TextStyle(fontFamily: josefinSansMedium),
+                      style: const TextStyle(fontFamily: josefinSansMedium),
                     ),
                   );
                 } else if (snapshot.data.toString() == '[]') {
                   return Center(
                     child: Text(
                       'errorLoadEmptyData'.tr,
-                      style: TextStyle(fontFamily: josefinSansMedium),
+                      style: const TextStyle(fontFamily: josefinSansMedium),
                     ),
                   );
                 }
@@ -117,7 +119,7 @@ class BestPlayers extends StatelessWidget {
           ),
           const Divider(
             color: Colors.white,
-          )
+          ),
         ],
       ),
     );

@@ -9,8 +9,8 @@ class PayModel {
 
   factory PayModel.fromJson(Map<dynamic, dynamic> json) {
     return PayModel(
-      formUrl: json['formUrl'] ?? "",
-      orderId: json['orderId'] ?? "",
+      formUrl: json['formUrl'] ?? '',
+      orderId: json['orderId'] ?? '',
     );
   }
 }

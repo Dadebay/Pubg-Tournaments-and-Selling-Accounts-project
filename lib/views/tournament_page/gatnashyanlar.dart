@@ -14,6 +14,7 @@ class Gatnashyanlatr extends StatefulWidget {
   Gatnashyanlatr({
     required this.teams,
     required this.usersCount,
+    super.key,
   });
 
   @override
@@ -25,7 +26,7 @@ class _GatnashyanlatrState extends State<Gatnashyanlatr> {
   Widget build(BuildContext context) {
     return Card(
       color: kPrimaryColorBlack,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25)), side: BorderSide(width: 1, color: kPrimaryColor.withOpacity(0.4))),
+      shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(25)), side: BorderSide(width: 1, color: kPrimaryColor.withOpacity(0.4))),
       child: Column(
         children: [
           Padding(
@@ -33,25 +34,26 @@ class _GatnashyanlatrState extends State<Gatnashyanlatr> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Team: ',
                   style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: josefinSansBold),
                 ),
                 Text(
                   widget.teams.number.toString(),
-                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Container(
-                width: double.infinity,
-                child: Column(
-                  children: [for (var i = 0; i < widget.usersCount; i++) widget.teams.teamUsers!.length >= i + 1 ? GatnashyanlarCard(teamUsers: widget.teams.teamUsers![i]) : EmptyUsersCard()],
-                )),
-          )
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                children: [for (var i = 0; i < widget.usersCount; i++) widget.teams.teamUsers!.length >= i + 1 ? GatnashyanlarCard(teamUsers: widget.teams.teamUsers![i]) : const EmptyUsersCard()],
+              ),
+            ),
+          ),
         ],
       ),
     );

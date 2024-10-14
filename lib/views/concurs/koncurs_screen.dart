@@ -1,3 +1,5 @@
+// ignore_for_file: always_declare_return_types
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/views/concurs/get_concurs.dart';
 import 'package:game_app/views/concurs/get_gifts.dart';
@@ -28,18 +30,19 @@ class _KonkursScreenState extends State<KonkursScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
-      appBar: MyAppBarNew(
+      appBar: const MyAppBarNew(
         fontSize: 0,
         backArrow: false,
         iconRemove: false,
         name: 'Gifts & Konkurs',
         elevationWhite: true,
       ),
-      body: Consumer<ConCatigoryProvider>(builder: (_, concurs, __) {
-        if (concurs.isLoading == true) {
-          return Center(child: spinKit());
-        } else {
-          return ListView.builder(
+      body: Consumer<ConCatigoryProvider>(
+        builder: (_, concurs, __) {
+          if (concurs.isLoading == true) {
+            return Center(child: spinKit());
+          } else {
+            return ListView.builder(
               itemCount: concurs.conCatigory.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
@@ -47,9 +50,9 @@ class _KonkursScreenState extends State<KonkursScreen> {
                   child: InkWell(
                     onTap: () {
                       if (index == 0) {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GetConcursScreen()));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GetConcursScreen()));
                       } else if (index == 1) {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GetGiftsScreen()));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GetGiftsScreen()));
                       }
                     },
                     child: Container(
@@ -61,31 +64,35 @@ class _KonkursScreenState extends State<KonkursScreen> {
                       child: Row(
                         children: [
                           SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15)),
-                                  child: CachedNetworkImage(
-                                    imageUrl: "http://216.250.11.240" + concurs.conCatigory[index].image,
-                                    fit: BoxFit.cover,
-                                    progressIndicatorBuilder: (context, url, downloadProgress) => Center(child: CircularProgressIndicator()),
-                                    errorWidget: (context, url, error) => Icon(Icons.error),
-                                  ))),
+                            height: 100,
+                            width: 100,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15)),
+                              child: CachedNetworkImage(
+                                imageUrl: 'http://216.250.11.240${concurs.conCatigory[index].image}',
+                                fit: BoxFit.cover,
+                                progressIndicatorBuilder: (context, url, downloadProgress) => const Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                              ),
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Text(
                               concurs.conCatigory[index].nameTm,
-                              style: TextStyle(fontSize: 24, fontFamily: josefinSansBold, color: kPrimaryColor),
+                              style: const TextStyle(fontSize: 24, fontFamily: josefinSansBold, color: kPrimaryColor),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ),
                 );
-              });
-        }
-      }),
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }

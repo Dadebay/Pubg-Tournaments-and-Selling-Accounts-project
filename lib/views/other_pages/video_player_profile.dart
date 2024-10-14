@@ -1,14 +1,15 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, deprecated_member_use
 
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+// ignore: depend_on_referenced_packages
 import 'package:video_player/video_player.dart';
 
 class VideoPLayerMine extends StatefulWidget {
   final String? videoURL;
 
-  const VideoPLayerMine({Key? key, this.videoURL}) : super(key: key);
+  const VideoPLayerMine({super.key, this.videoURL});
 
   @override
   State<VideoPLayerMine> createState() => _VideoPLayerMineState();

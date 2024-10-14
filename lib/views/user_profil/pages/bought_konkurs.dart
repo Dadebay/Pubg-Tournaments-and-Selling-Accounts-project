@@ -24,31 +24,31 @@ class BoughtKonkurs extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Text(
-                    "konkursName".tr,
+                    'konkursName'.tr,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
                   ),
                 ),
                 Expanded(
                   flex: 2,
                   child: Text(
-                    "price".tr,
+                    'price'.tr,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
                   ),
                 ),
                 Expanded(
                   flex: 2,
                   child: Text(
-                    "code".tr,
+                    'code'.tr,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
                   ),
                 ),
               ],
@@ -85,8 +85,8 @@ class BoughtKonkurs extends StatelessWidget {
                             flex: 3,
                             child: Row(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 6, bottom: 4),
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 6, bottom: 4),
                                   child: Icon(
                                     CupertinoIcons.gift,
                                     color: Colors.green,
@@ -112,7 +112,7 @@ class BoughtKonkurs extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              snapshot.data![index].price.toString() + " TMT",
+                              '${snapshot.data![index].price} TMT',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,

@@ -19,6 +19,8 @@ class PubgTypes extends StatelessWidget {
     'assets/image/4.png',
   ];
 
+  PubgTypes({super.key});
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;

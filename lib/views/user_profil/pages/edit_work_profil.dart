@@ -1,28 +1,27 @@
-// ignore_for_file: file_names, prefer_typing_uninitialized_variables, deprecated_member_use
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, deprecated_member_use, depend_on_referenced_packages
 
 import 'dart:io';
 
+import 'package:async/async.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
-
+import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/home_page_model.dart';
+import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 import 'package:game_app/views/add_page/video_upload_page.dart';
 import 'package:game_app/views/user_profil/pages/edit_work_videos.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:game_app/controllers/settings_controller.dart';
-import 'package:game_app/models/user_models/auth_model.dart';
-import 'package:mime/mime.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
-import '../../constants/index.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-import 'package:async/async.dart';
+import '../../constants/index.dart';
 
 class EditWorkProfile extends StatefulWidget {
   final GetMeModel model;
 
-  const EditWorkProfile({required this.model, Key? key}) : super(key: key);
+  const EditWorkProfile({required this.model, super.key});
 
   @override
   State<EditWorkProfile> createState() => _EditWorkProfileState();
@@ -325,7 +324,7 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
                       ),
                     ),
                   ),
-                )
+                ),
       ],
     );
   }
@@ -457,7 +456,7 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
       'for_sale': '1',
       'vip': '${widget.model.vip == true ? 1 : 0}',
       'edit': '1',
-      'price': priceController.text
+      'price': priceController.text,
     });
 
     request.headers.addAll(headers);

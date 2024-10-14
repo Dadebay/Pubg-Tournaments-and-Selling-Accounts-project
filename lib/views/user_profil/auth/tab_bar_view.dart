@@ -1,13 +1,12 @@
 // ignore_for_file: file_names
 
 import '../../constants/index.dart';
-
 import 'login.dart';
 import 'sign_in.dart';
 
 class TabBarViewPage extends StatelessWidget {
   final bool loginType;
-  const TabBarViewPage({required this.loginType});
+  const TabBarViewPage({required this.loginType, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +62,7 @@ class TabBarViewPage extends StatelessWidget {
                             ),
                             Tab(
                               text: 'signIn'.tr,
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -80,7 +79,7 @@ class TabBarViewPage extends StatelessWidget {
                             ),
                             Login(
                               loginType: loginType,
-                            )
+                            ),
                           ],
                         ),
                       ),

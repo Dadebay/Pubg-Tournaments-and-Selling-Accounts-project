@@ -25,8 +25,8 @@ class CustomTextField extends StatelessWidget {
     this.isValidate = true,
     this.borderRadius,
     this.disabled,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(

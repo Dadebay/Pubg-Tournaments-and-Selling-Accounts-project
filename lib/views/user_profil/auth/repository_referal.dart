@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
+
 import '../../../models/user_models/auth_model.dart';
 import '../../../models/user_models/referal_model.dart';
 import '../../constants/constants.dart';
-import 'package:http/http.dart' as http;
 
 class ReferalRespositori {
   Future<List<ReferalModel>> getDryPortsModel() async {
@@ -31,7 +32,7 @@ class ReferalRespositori {
         return [];
       }
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

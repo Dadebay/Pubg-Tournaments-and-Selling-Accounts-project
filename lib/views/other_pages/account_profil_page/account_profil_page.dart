@@ -13,8 +13,8 @@ class AccountProfilPage extends StatefulWidget {
   final int userID;
   const AccountProfilPage({
     required this.userID,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AccountProfilPage> createState() => _AccountProfilPageState();

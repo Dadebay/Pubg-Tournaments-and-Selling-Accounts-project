@@ -4,6 +4,7 @@ import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/home_page_model.dart';
 import 'package:game_app/views/cards/banner_card.dart';
 import 'package:get/get.dart';
+
 import '../constants/constants.dart';
 import '../constants/widgets.dart';
 
@@ -12,8 +13,8 @@ class Banners extends StatelessWidget {
 
   const Banners({
     required this.future,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -50,7 +51,7 @@ class Banners extends StatelessWidget {
                 autoPlayAnimationDuration: const Duration(milliseconds: 2000),
               ),
             ),
-            dots(snapshot, size)
+            dots(snapshot, size),
           ],
         );
       },

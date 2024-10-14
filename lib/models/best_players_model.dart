@@ -38,3 +38,56 @@ class BestPlayersModel {
     }
   }
 }
+
+class GetKonkursUsers {
+  final String? phone;
+  final String? img;
+  final String? pubgUsername;
+  final String? pubgID;
+  GetKonkursUsers({
+    this.img,
+    this.phone,
+    this.pubgUsername,
+    this.pubgID,
+  });
+
+  factory GetKonkursUsers.fromJson(Map<dynamic, dynamic> json) {
+    return GetKonkursUsers(img: json['img'], pubgUsername: json['pubgUsername'], phone: json['phone'], pubgID: json['pubgID']);
+  }
+
+  Future<List<GetKonkursUsers>> getKonkustUsers({required int id}) async {
+    final List<GetKonkursUsers> bannerList = [];
+    final response = await http.get(
+      Uri.parse('$serverURL/api/category/konkursAttends/$id/'),
+      headers: <String, String>{'Content-Type': 'application/json;charset=UTF-8', 'Charset': 'utf-8'},
+    );
+    if (response.statusCode == 200) {
+      final responseJson = json.decode(utf8.decode(response.bodyBytes));
+      for (final Map product in responseJson) {
+        bannerList.add(GetKonkursUsers.fromJson(product));
+      }
+
+      return bannerList;
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<GetKonkursUsers>> getKonkursWINS({required int id}) async {
+    final List<GetKonkursUsers> bannerList = [];
+    final response = await http.get(
+      Uri.parse('$serverURL/api/category/konkursWins/$id/'),
+      headers: <String, String>{'Content-Type': 'application/json;charset=UTF-8', 'Charset': 'utf-8'},
+    );
+    if (response.statusCode == 200) {
+      final responseJson = json.decode(utf8.decode(response.bodyBytes));
+      for (final Map product in responseJson) {
+        bannerList.add(GetKonkursUsers.fromJson(product));
+      }
+
+      return bannerList;
+    } else {
+      return [];
+    }
+  }
+}

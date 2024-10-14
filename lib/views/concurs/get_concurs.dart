@@ -20,16 +20,16 @@ class _GetConcursScreenState extends State<GetConcursScreen> {
     fetchData();
   }
 
-  fetchData() async {
+  dynamic fetchData() async {
     await Provider.of<getConcursProvider>(context, listen: false).getConcursCart(context);
   }
 
   String getFormattedDate(String date) {
-    var localDate = DateTime.parse(date).toLocal();
-    var inputFormat = DateFormat('yyyy-MM-dd HH:mm');
-    var inputDate = inputFormat.parse(localDate.toString());
-    var outputFormat = DateFormat('dd/MM/yyyy HH:mm');
-    var outputDate = outputFormat.format(inputDate);
+    final localDate = DateTime.parse(date).toLocal();
+    final inputFormat = DateFormat('yyyy-MM-dd HH:mm');
+    final inputDate = inputFormat.parse(localDate.toString());
+    final outputFormat = DateFormat('dd/MM/yyyy HH:mm');
+    final outputDate = outputFormat.format(inputDate);
 
     return outputDate.toString();
   }
@@ -45,24 +45,27 @@ class _GetConcursScreenState extends State<GetConcursScreen> {
         name: 'Konkurs',
         fontSize: 0.0,
       ),
-      body: Consumer<getConcursProvider>(builder: (_, concurs, __) {
-        if (concurs.isLoading == true) {
-          return Center(child: spinKit());
-        } else {
-          return ListView.builder(
+      body: Consumer<getConcursProvider>(
+        builder: (_, concurs, __) {
+          if (concurs.isLoading == true) {
+            return Center(child: spinKit());
+          } else {
+            return ListView.builder(
               itemCount: concurs.concursCart.length,
               itemBuilder: (BuildContext context, int index) {
                 return ConcursCard(
                   title: concurs.concursCart[index].nameTm,
-                  startDate: "startDate".tr + getFormattedDate(concurs.concursCart[index].createdDate.toString()),
+                  startDate: 'startDate'.tr + getFormattedDate(concurs.concursCart[index].createdDate.toString()),
                   imageUrl: concurs.concursCart[index].image,
                   endDate: concurs.concursCart[index].finishedDate,
                   id: concurs.concursCart[index].id.toString(),
                   price: concurs.concursCart[index].price.toString(),
                 );
-              });
-        }
-      }),
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }
@@ -75,7 +78,7 @@ class ConcursCard extends StatefulWidget {
   final String price;
   final DateTime endDate;
 
-  const ConcursCard({super.key, required this.title, required this.startDate, required this.imageUrl, required this.endDate, required this.id, required this.price});
+  const ConcursCard({required this.title, required this.startDate, required this.imageUrl, required this.endDate, required this.id, required this.price, super.key});
   @override
   State<ConcursCard> createState() => _ConcursCardState();
 }
@@ -83,17 +86,20 @@ class ConcursCard extends StatefulWidget {
 class _ConcursCardState extends State<ConcursCard> {
   @override
   Widget build(BuildContext context) {
-    Duration duration = widget.endDate.difference(DateTime.now());
+    final Duration duration = widget.endDate.difference(DateTime.now());
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context).push(
+            MaterialPageRoute(
               builder: (context) => ConcursByID(
-                    id: widget.id,
-                    name: widget.title,
-                    price: widget.price,
-                  )));
+                id: widget.id,
+                name: widget.title,
+                price: widget.price,
+              ),
+            ),
+          );
         },
         child: Container(
           height: 120,
@@ -106,16 +112,18 @@ class _ConcursCardState extends State<ConcursCard> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Expanded(
-                  flex: 2,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15)),
-                      child: CachedNetworkImage(
-                        imageUrl: "http://216.250.11.240" + widget.imageUrl,
-                        fit: BoxFit.cover,
-                        height: Get.size.height,
-                        progressIndicatorBuilder: (context, url, downloadProgress) => Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ))),
+                flex: 2,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15)),
+                  child: CachedNetworkImage(
+                    imageUrl: 'http://216.250.11.240${widget.imageUrl}',
+                    fit: BoxFit.cover,
+                    height: Get.size.height,
+                    progressIndicatorBuilder: (context, url, downloadProgress) => const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ),
+                ),
+              ),
               Expanded(
                 flex: 4,
                 child: Column(
@@ -123,11 +131,11 @@ class _ConcursCardState extends State<ConcursCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: kPrimaryColorBlack, borderRadius: BorderRadius.only(bottomRight: Radius.circular(25))),
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(color: kPrimaryColorBlack, borderRadius: BorderRadius.only(bottomRight: Radius.circular(25))),
                       child: Text(
                         widget.startDate,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           fontFamily: josefinSansSemiBold,
                         ),
@@ -137,31 +145,31 @@ class _ConcursCardState extends State<ConcursCard> {
                       padding: const EdgeInsets.only(left: 8),
                       child: Text(
                         widget.title,
-                        style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: josefinSansBold),
+                        style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: josefinSansBold),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: kPrimaryColorBlack, borderRadius: BorderRadius.only(topRight: Radius.circular(25))),
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(color: kPrimaryColorBlack, borderRadius: BorderRadius.only(topRight: Radius.circular(25))),
                       child: Countdown(
                         seconds: duration.inSeconds,
                         build: (BuildContext ctx, double time) {
-                          int days = (time / (24 * 3600)).floor();
-                          int hours = ((time % (24 * 3600)) / 3600).floor();
-                          int minutes = ((time % 3600) / 60).floor();
-                          int seconds = (time % 60).floor();
-                          String textt = Get.locale!.languageCode == 'tr' ? '$days gün $hours sag $minutes min $seconds s' : '$days день $hours час $minutes мин $seconds s';
+                          final int days = (time / (24 * 3600)).floor();
+                          final int hours = ((time % (24 * 3600)) / 3600).floor();
+                          final int minutes = ((time % 3600) / 60).floor();
+                          final int seconds = (time % 60).floor();
+                          final String textt = Get.locale!.languageCode == 'tr' ? '$days gün $hours sag $minutes min $seconds s' : '$days день $hours час $minutes мин $seconds s';
                           return Text(
-                            "endDate".tr + textt,
+                            'endDate'.tr + textt,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 12, fontFamily: josefinSansSemiBold, color: Colors.white),
+                            style: const TextStyle(fontSize: 12, fontFamily: josefinSansSemiBold, color: Colors.white),
                           );
                         },
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

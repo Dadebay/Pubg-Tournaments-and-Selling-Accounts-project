@@ -9,7 +9,7 @@ import 'new_tournamet_page.dart';
 // ignore: must_be_immutable
 class SellctTeam extends StatefulWidget {
   TournamentModel turnir;
-  SellctTeam({super.key, required this.turnir});
+  SellctTeam({required this.turnir, super.key});
 
   @override
   State<SellctTeam> createState() => _SellctTeamState();
@@ -30,9 +30,9 @@ class _SellctTeamState extends State<SellctTeam> {
   void backTurnir() {
     setState(() {
       Timer(
-        Duration(seconds: 3),
+        const Duration(seconds: 3),
         () {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => NewTournamentPage()), (route) => false);
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const NewTournamentPage()), (route) => false);
 
           // Navigator.of(context).pop();
         },
@@ -42,10 +42,9 @@ class _SellctTeamState extends State<SellctTeam> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.turnir.teams!.length);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Teams'),
+        title: const Text('Teams'),
       ),
       body: Stack(
         children: [
@@ -56,24 +55,23 @@ class _SellctTeamState extends State<SellctTeam> {
               return Container(
                 width: double.infinity,
                 // height: 400,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: CardTeansAll(
-                    teams: widget.turnir.teams![index],
-                    selectedTeam: selectedTeam,
-                    selectTeam: (int id) {
-                      setState(() {
-                        selectedTeam = id;
-                      });
-                      print('fhfhfhfhhffhhhfhfhh');
-                      print(id);
-                    },
-                    usersCount: widget.turnir.type! == "solo"
-                        ? 1
-                        : widget.turnir.type! == "duo"
-                            ? 2
-                            : widget.turnir.type! == "squad"
-                                ? 4
-                                : 0),
+                  teams: widget.turnir.teams![index],
+                  selectedTeam: selectedTeam,
+                  selectTeam: (int id) {
+                    setState(() {
+                      selectedTeam = id;
+                    });
+                  },
+                  usersCount: widget.turnir.type! == 'solo'
+                      ? 1
+                      : widget.turnir.type! == 'duo'
+                          ? 2
+                          : widget.turnir.type! == 'squad'
+                              ? 4
+                              : 0,
+                ),
               );
             },
           ),
@@ -86,6 +84,7 @@ class _SellctTeamState extends State<SellctTeam> {
                 selectedTeam == 0
                     ? showSnackBar('Üns beriň!', 'Team Saýlaň!', Colors.red)
                     : TournamentModel().participateTournamentPost(teamId: selectedTeam).then((value) {
+                        // ignore: unnecessary_statements
                         value == 200 ? backTurnir() : null;
                         // subscribeTurnirPost(price: widget.turnir.price!, id: widget.turnir.id!, tournamentType: widget.turnir.type.toString()) : null;
                       });
@@ -94,12 +93,14 @@ class _SellctTeamState extends State<SellctTeam> {
                 width: double.infinity,
                 height: 60,
                 child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.white),
-                    child: Center(
-                        child: Text(
-                      "Tassykla",
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.white),
+                  child: Center(
+                    child: Text(
+                      'Tassykla',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.amber[800]),
-                    ))),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

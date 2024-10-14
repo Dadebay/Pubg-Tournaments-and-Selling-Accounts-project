@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_positional_boolean_parameters, avoid_void_async, always_declare_return_types, always_use_package_imports
+// ignore_for_file: file_names, avoid_positional_boolean_parameters, avoid_void_async, always_declare_return_types, always_use_package_imports, use_build_context_synchronously
 
 import 'dart:io';
 
@@ -12,9 +12,10 @@ import 'controllers/wallet_controller.dart';
 import 'views/constants/dialogs.dart';
 
 class ConnectionCheck extends StatefulWidget {
-  const ConnectionCheck({Key? key}) : super(key: key);
+  const ConnectionCheck({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ConnectionCheckState createState() => _ConnectionCheckState();
 }
 
@@ -119,7 +120,7 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
                     ),
                     const SizedBox(
                       height: 20,
-                    )
+                    ),
                   ],
                 ),
               ),

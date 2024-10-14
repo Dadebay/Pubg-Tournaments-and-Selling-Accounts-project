@@ -9,8 +9,8 @@ class TabPage2 extends StatelessWidget {
 
   const TabPage2({
     required this.model,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

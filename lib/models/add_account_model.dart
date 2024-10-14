@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 
 import 'dart:convert';
 import 'dart:io';
@@ -102,7 +102,6 @@ class AddAccountModel extends GetxController {
     );
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
-      print(decoded);
       return json.decode(decoded);
     } else {
       return false;

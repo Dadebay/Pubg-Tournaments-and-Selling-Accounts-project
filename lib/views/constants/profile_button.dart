@@ -10,8 +10,8 @@ class ProfilButton extends StatelessWidget {
     required this.name,
     required this.onTap,
     required this.icon,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

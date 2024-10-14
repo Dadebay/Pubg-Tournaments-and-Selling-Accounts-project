@@ -1,10 +1,10 @@
 // ignore_for_file: file_names
 
+import 'package:game_app/controllers/show_all_account_controller.dart';
 import 'package:game_app/models/get_posts_model.dart';
+import 'package:game_app/models/home_page_model.dart';
 import 'package:game_app/views/constants/dialogs.dart';
 import 'package:game_app/views/constants/index.dart';
-import 'package:game_app/controllers/show_all_account_controller.dart';
-import 'package:game_app/models/home_page_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../cards/show_all_accounts_card.dart';
@@ -13,8 +13,8 @@ class ShowAllAccounts extends StatefulWidget {
   final String name;
   const ShowAllAccounts({
     required this.name,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ShowAllAccounts> createState() => _ShowAllAccountsState();
@@ -252,7 +252,7 @@ class _ShowAllAccountsState extends State<ShowAllAccounts> {
             radius: 5,
             backgroundColor: kPrimaryColorBlack,
             titlePadding: const EdgeInsets.symmetric(vertical: 20),
-            contentPadding: const EdgeInsets.only(),
+            contentPadding: EdgeInsets.zero,
             content: FutureBuilder<List<Cities>>(
               future: Cities().getCities(),
               builder: (context, snapshot) {

@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:game_app/models/get_posts_model.dart';
 import 'package:game_app/views/other_pages/account_profil_page/account_profil_page.dart';
+
 import '../constants/index.dart';
 import '../constants/price.dart';
 
@@ -13,8 +13,8 @@ class ShowAllProductsCard extends StatelessWidget {
   const ShowAllProductsCard({
     required this.fav,
     required this.model,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class ShowAllProductsCard extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

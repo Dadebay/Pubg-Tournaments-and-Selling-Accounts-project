@@ -1,15 +1,15 @@
 // ignore_for_file: file_names
-import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/tournament_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../cards/tournament_card.dart';
 
 class TournamentPage extends StatefulWidget {
   final int tournamentType;
-  const TournamentPage({Key? key, required this.tournamentType}) : super(key: key);
+  const TournamentPage({required this.tournamentType, super.key});
 
   @override
   State<TournamentPage> createState() => _TournamentPageState();
@@ -111,7 +111,7 @@ class _TournamentPageState extends State<TournamentPage> {
                   child: spinKit(),
                 );
               } else if (controller.tournamentLoading.value == 1) {
-                return Center(
+                return const Center(
                   child: Text('cannot_find_data_tournament'),
                 );
               }

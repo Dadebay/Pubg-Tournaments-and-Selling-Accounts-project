@@ -1,10 +1,10 @@
 // ignore_for_file: file_names, must_be_immutable
 
 import 'package:game_app/bottom_nav_bar.dart';
-import '../../constants/index.dart';
-
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
+
+import '../../constants/index.dart';
 
 class OtpCheck extends StatelessWidget {
   final String phoneNumber;
@@ -12,6 +12,7 @@ class OtpCheck extends StatelessWidget {
   OtpCheck({
     required this.phoneNumber,
     required this.loginType,
+    super.key,
   });
   FocusNode otpFocusNode = FocusNode();
   final otpCheck = GlobalKey<FormState>();
@@ -43,13 +44,10 @@ class OtpCheck extends StatelessWidget {
             AgreeButton(
               name: 'agree',
               onTap: () {
-                print("WWWWWWWWWWQ");
-                print(phoneNumber);
                 if (otpCheck.currentState!.validate()) {
                   Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
                   if (loginType == true) {
                     UserSignInModel().gmailOtpCheck(otp: otpController.text, email: phoneNumber).then((value) {
-                      print("valu print vvvvvvvv" + value.toString());
                       if (value == true) {
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
@@ -63,7 +61,6 @@ class OtpCheck extends StatelessWidget {
                     });
                   } else {
                     UserSignInModel().otpCheck(otp: otpController.text, phoneNumber: phoneNumber).then((value) {
-                      print("valu print vvvvvvvv" + value.toString());
                       if (value == true) {
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
@@ -76,26 +73,12 @@ class OtpCheck extends StatelessWidget {
                       }
                     });
                   }
-
-                  // UserSignInModel().gmailOtpCheck(otp: otpController.text, email: phoneNumber).then((value) {
-                  //   print("valu print vvvvvvvv" + value.toString());
-                  //   if (value == true) {
-                  //     Navigator.of(context).pushAndRemoveUntil(
-                  //       MaterialPageRoute(
-                  //         builder: (context) => const BottomNavBar(),
-                  //       ),
-                  //       (Route<dynamic> route) => false,
-                  //     );
-                  //   } else {
-                  //     showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
-                  //   }
-                  // });
                 } else {
                   showSnackBar('tournamentInfo14', 'signInDialog', Colors.red);
                 }
                 Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
               },
-            )
+            ),
           ],
         ),
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter_html/flutter_html.dart';
 import 'package:game_app/controllers/settings_controller.dart';
-
 import 'package:game_app/models/tournament_model.dart';
+
 import '../../models/user_models/auth_model.dart';
 import '../constants/index.dart';
 import 'local_widgets.dart';
@@ -17,8 +17,8 @@ class TabPage1 extends StatelessWidget {
     required this.tournamentType,
     required this.buttonName,
     required this.model,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,72 +32,74 @@ class TabPage1 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                  ),
+                  padding: const EdgeInsets.only(top: 10),
                   child: Text(
                     model.title.toString(),
-                    style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 26),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: josefinSansSemiBold,
+                      fontSize: 26,
+                    ),
                   ),
                 ),
                 twoText(name1: 'tournamentInfo5'.tr, name2: model.mode ?? ''),
                 twoText(name1: 'tournamentInfo6'.tr, name2: model.map ?? ''),
                 twoText(name1: 'tournamentInfo7'.tr, name2: model.start_date.toString()),
                 twoText(name1: 'tournamentInfo8'.tr, name2: finised ? 'tournamentInfo9'.tr : 'tournamentInfo10'.tr),
-                const SizedBox(
-                  height: 25,
-                ),
+                const SizedBox(height: 25),
                 Html(
                   data: Get.locale?.languageCode == 'tr' ? model.description_tm ?? '' : model.description_ru ?? '',
                   style: {
-                    'body': Style(fontFamily: josefinSansRegular, fontSize: FontSize(18.0), color: Colors.white70, textAlign: TextAlign.left),
+                    'body': Style(
+                      fontFamily: josefinSansRegular,
+                      fontSize: FontSize(18.0),
+                      color: Colors.white70,
+                      textAlign: TextAlign.left,
+                    ),
                   },
                 ),
-                const SizedBox(
-                  height: 70,
-                ),
+                const SizedBox(height: 70),
               ],
             ),
           ),
         ),
-        finised
-            ? const SizedBox.shrink()
-            : Positioned(
-                bottom: 15,
-                left: 25,
-                right: 25,
-                child: SizedBox(
-                  width: Get.size.width,
-                  child: Center(
-                    child: AgreeButton(
-                      onTap: () async {
-                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                        final token = await Auth().getToken();
-                        if (token == null || token == '') {
-                          showSnackBar('Üns beriň!', 'Ulgama Giriň!', Colors.red);
-                        } else if (token != '') {
-                          // Navigator.of(context).push(MaterialPageRoute(builder: (context) => SellctTeam(turnir: model)));
-                          // SellctTeam(turnir: model);
-                          // print(model.teams!.length);
-                          if (buttonName != 'tournamentInfo12') {
-                            subscribeTurnir(price: model.price!, id: model.id!, tournamentType: tournamentType, turnir: model);
-                          } else {
-                            print('rgregegegregege');
-                            print(model.id.toString());
-                            TournamentModel().checkStatus(tournamentID: model.id!, value: true);
-
-                            //  participateTournament(id: model.id!, tournamentType: tournamentType, price: price);
-                          }
-                        } else {
-                          showSnackBar('loginError', 'loginErrorTurnir', Colors.red);
-                        }
-                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                      },
-                      name: buttonName,
-                    ),
-                  ),
+        if (!finised)
+          Positioned(
+            bottom: 15,
+            left: 25,
+            right: 25,
+            child: SizedBox(
+              width: Get.size.width,
+              child: Center(
+                child: AgreeButton(
+                  onTap: () async {
+                    final settingsController = Get.find<SettingsController>();
+                    settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                    final token = await Auth().getToken();
+                    if (token == null || token.isEmpty) {
+                      showSnackBar('Üns beriň!', 'Ulgama Giriň!', Colors.red);
+                    } else {
+                      if (buttonName != 'tournamentInfo12') {
+                        subscribeTurnir(
+                          price: model.price!,
+                          id: model.id!,
+                          tournamentType: tournamentType,
+                          turnir: model,
+                        );
+                      } else {
+                        await TournamentModel().checkStatus(
+                          tournamentID: model.id!,
+                          value: true,
+                        );
+                      }
+                    }
+                    settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                  },
+                  name: buttonName,
                 ),
-              )
+              ),
+            ),
+          ),
       ],
     );
   }

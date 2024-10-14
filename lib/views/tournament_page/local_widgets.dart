@@ -174,7 +174,7 @@ Container type3PageTypeDuo({required int index, required TournamentModel model, 
           child: Row(
             children: [withUser(), emptyUser(100)],
           ),
-        )
+        ),
       ],
     ),
   );
@@ -206,7 +206,7 @@ Container type3PageSquad({required int index, required TournamentModel model, re
           child: Row(
             children: [withUser(), emptyUser(80)],
           ),
-        )
+        ),
       ],
     ),
   );
@@ -275,7 +275,7 @@ Expanded withUser() {
                 style: TextStyle(color: kPrimaryColor, fontFamily: josefinSansBold, fontSize: 20),
               ),
             ),
-          )
+          ),
         ],
       ),
     ),
@@ -527,7 +527,7 @@ dynamic subscribeTurnirPost({required String price, required int id, required St
   );
 }
 
-participateTournament({
+dynamic participateTournament({
   required int id,
   required int tournamentType,
   required String price,

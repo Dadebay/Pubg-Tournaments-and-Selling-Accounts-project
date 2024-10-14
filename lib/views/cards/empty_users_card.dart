@@ -7,7 +7,7 @@ class EmptyUsersCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: kPrimaryColorBlack,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)), side: BorderSide(width: 1, color: Colors.black26)),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)), side: BorderSide(width: 1, color: Colors.black26)),
       child: Row(
         children: [
           Padding(
@@ -22,16 +22,16 @@ class EmptyUsersCard extends StatelessWidget {
               ),
             ),
           ),
-          Column(
+          const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Elýeterli!',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

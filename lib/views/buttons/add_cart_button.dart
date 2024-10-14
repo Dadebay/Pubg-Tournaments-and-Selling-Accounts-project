@@ -18,8 +18,8 @@ class AddCartButton extends StatefulWidget {
     required this.price,
     required this.title,
     required this.image,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AddCartButton> createState() => _AddCartButtonState();
@@ -94,7 +94,6 @@ class _AddCartButtonState extends State<AddCartButton> {
               final double b = double.parse(widget.price);
               walletController.finalCount.value = number.toDouble();
               walletController.finalPRice.value += b;
-              print(number);
               for (var element in walletController.cartList) {
                 if (element['id'] == widget.id) {
                   number = element['count'];
@@ -121,7 +120,9 @@ class _AddCartButtonState extends State<AddCartButton> {
         a = 1;
       }
     }
-    if (a == 0) value = false;
+    if (a == 0) {
+      value = false;
+    }
   }
 
   @override

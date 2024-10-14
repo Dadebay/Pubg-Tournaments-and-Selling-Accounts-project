@@ -1,5 +1,7 @@
-import 'package:game_app/views/constants/index.dart';
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:game_app/controllers/settings_controller.dart';
+import 'package:game_app/views/constants/index.dart';
 
 import '../../../models/notifications_model.dart';
 
@@ -38,7 +40,7 @@ class NotificationPage extends StatelessWidget {
                     Text(
                       snapshot.data![index].content!,
                       style: const TextStyle(fontFamily: josefinSansMedium, fontSize: 18),
-                    )
+                    ),
                   ],
                 ),
               );

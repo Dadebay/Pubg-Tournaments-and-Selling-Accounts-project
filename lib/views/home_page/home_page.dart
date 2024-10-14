@@ -1,22 +1,23 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/controllers/home_page_controller.dart';
+import 'package:game_app/models/home_page_model.dart';
+import 'package:game_app/views/constants/index.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../models/get_posts_model.dart';
-import '../../models/home_page_model.dart';
 import '../../models/user_models/auth_model.dart';
 import '../../models/user_models/user_sign_in_model.dart';
 import '../cards/home_page_card.dart';
 import 'Banners.dart';
 import 'pubg_types.dart';
-import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -49,7 +50,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<GetMeModel> getMe() async {
     final token = await Auth().getToken();
-    print(token.toString());
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/accounts/get-my-account/',
@@ -62,53 +62,57 @@ class _HomePageState extends State<HomePage> {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      print(responseJson);
-      var formatter = new DateFormat('yyyy-MM-dd');
-      var dateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss+zzz").parse(responseJson['blocked_date']);
+      final formatter = DateFormat('yyyy-MM-dd');
+      final dateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss+zzz").parse(responseJson['blocked_date']);
       dateTurnir = formatter.format(dateTime);
       dt2 = DateTime.parse(dateTurnir);
-      bool blocked = responseJson['blocked'];
-      blocked == true
-          ? showDialog(
-              context: context,
-              builder: (ctxt) => new AlertDialog(
-                    backgroundColor: kPrimaryColorBlack,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-                    title: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 20),
-                          child: Column(
-                            children: [
-                              Text('Ünus Beriň!'),
-                              // Container(
-                              //   color: Colors.white,
-                              //   height: 1,
-                              //   width: 115,
-                              // ),
-                              Text(
-                                'Siz Bloсklandyňyz!',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                responseJson['block_reason'],
-                                style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                dateTurnir.toString(),
-                                style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
-                              ),
-                            ],
+      final bool blocked = responseJson['blocked'];
+      unawaited(
+        blocked == true
+            ? showDialog(
+                // ignore: use_build_context_synchronously
+                context: context,
+                builder: (ctxt) => AlertDialog(
+                  backgroundColor: kPrimaryColorBlack,
+                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+                  title: Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 20),
+                      child: Column(
+                        children: [
+                          const Text('Ünus Beriň!'),
+                          // Container(
+                          //   color: Colors.white,
+                          //   height: 1,
+                          //   width: 115,
+                          // ),
+                          const Text(
+                            'Siz Bloсklandyňyz!',
+                            style: TextStyle(fontSize: 16),
                           ),
-                        )),
-                  ))
-          : null;
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            responseJson['block_reason'],
+                            style: const TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            dateTurnir.toString(),
+                            style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : null,
+      );
 
       return GetMeModel.fromJson(responseJson);
     } else {

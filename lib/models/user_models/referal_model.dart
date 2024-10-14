@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 class ReferalModel {
   final String bgImage;
   final String bio;
@@ -36,7 +38,7 @@ class ReferalModel {
       required this.bio,
       required this.createdDate,
       required this.email,
-      this.firstName,
+      // ignore: require_trailing_commas
       required this.image,
       required this.lastName,
       required this.nickname,
@@ -48,7 +50,8 @@ class ReferalModel {
       required this.updatedDate,
       required this.ref_code,
       required this.used_ref_code,
-      required this.pubg_username});
+      required this.pubg_username,
+      this.firstName});
 
   factory ReferalModel.fromJson(Map<dynamic, dynamic> json) {
     return ReferalModel(

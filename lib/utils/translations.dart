@@ -6,7 +6,8 @@ class MyTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'tr': {
-          'aboutUs': 'Biz Barada',
+          ''
+              'aboutUs': 'Biz Barada',
           'account_profil_not_found': 'Ulanyjy maglumatlary tapylmady täzeden synanşyň',
           'account_profil_not_video': 'Ulanyjyda şu wagt wideo ýok !',
           'account_type_Vip_or_not': 'Hyzmatyň görnüşi',

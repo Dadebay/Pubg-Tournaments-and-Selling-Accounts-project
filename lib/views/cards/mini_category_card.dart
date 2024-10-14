@@ -17,8 +17,8 @@ class MiniCategoryCard extends StatelessWidget {
     required this.index,
     required this.name,
     required this.image,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class MiniCategoryCard extends StatelessWidget {
           final token = await Auth().getToken();
           if (token != null) {
             // defaultBottomSheet(name: 'selectCityTitle', child: getCitiess());
-            await Get.to(() => HistoryOrdersPage());
+            await Get.to(() => const HistoryOrdersPage());
           } else {
             showSnackBar('loginError', 'add_account_login_error', Colors.red);
           }

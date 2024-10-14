@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:game_app/views/buttons/dialog_button.dart';
-import 'package:game_app/views/constants/index.dart';
-
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
+import 'package:game_app/views/buttons/dialog_button.dart';
+import 'package:game_app/views/constants/index.dart';
 import 'package:restart_app/restart_app.dart';
 
 void logOut() {
@@ -27,7 +26,7 @@ void logOut() {
                     Get.back();
                   },
                   child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.white),
-                )
+                ),
               ],
             ),
           ),
@@ -108,7 +107,7 @@ void changeLanguage() {
                     Get.back();
                   },
                   child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.white),
-                )
+                ),
               ],
             ),
           ),
@@ -181,14 +180,14 @@ void defaultBottomSheet({required String name, required Widget child}) {
                     Get.back();
                   },
                   child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.white),
-                )
+                ),
               ],
             ),
           ),
           customDivider(),
           Center(
             child: child,
-          )
+          ),
         ],
       ),
     ),
@@ -238,7 +237,7 @@ Future<Object?> showDeleteDialog(BuildContext context, String text, String text2
                       color: text2 == 'welcome' ? true : false,
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),

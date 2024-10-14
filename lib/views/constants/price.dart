@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
-import 'package:game_app/views/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:game_app/views/constants/constants.dart';
 
 class Price extends StatelessWidget {
   final bool showDiscountedPrice;
@@ -14,9 +14,9 @@ class Price extends StatelessWidget {
     required this.showDiscountedPrice,
     required this.price,
     required this.selectedIndex,
-    Key? key,
+    super.key,
     this.discountedPrice,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;

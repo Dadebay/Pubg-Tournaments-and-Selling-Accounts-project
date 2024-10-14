@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, avoid_print
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:game_app/models/get_concurs_model.dart';
 import 'package:game_app/models/get_gifts_model.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
+import 'package:game_app/views/constants/index.dart';
 
 import '../models/con_catigory.dart';
 import '../models/pay_model.dart';
@@ -22,15 +25,17 @@ class ConCatigoryProvider with ChangeNotifier {
     conCatigory = [];
 
     try {
-      var response = await dio.get(
-        "http://216.250.11.240/api/category/",
+      final response = await dio.get(
+        'http://216.250.11.240/api/category/',
       );
 
       if (response.statusCode == 200) {
         if (response.data != null) {
-          conCatigory = List<ConCatigory>.from(response.data.map((e) {
-            return ConCatigory.fromJson(e);
-          }));
+          conCatigory = List<ConCatigory>.from(
+            response.data.map((e) {
+              return ConCatigory.fromJson(e);
+            }),
+          );
           print(response.data);
           isLoading = false;
           notifyListeners();
@@ -61,18 +66,16 @@ class getGiftsProvider with ChangeNotifier {
     giftsCart = [];
 
     try {
-      var response = await dio.get(
-        "http://216.250.11.240/api/category/getGifts/",
+      final response = await dio.get(
+        'http://216.250.11.240/api/category/getGifts/',
       );
-      print(response.data);
-      print(response.data);
-      print(response.data);
       if (response.statusCode == 200) {
         if (response.data != null) {
-          giftsCart = List<GiftsMOdel>.from(response.data.map((e) {
-            return GiftsMOdel.fromJson(e);
-          }));
-          print(response.data);
+          giftsCart = List<GiftsMOdel>.from(
+            response.data.map((e) {
+              return GiftsMOdel.fromJson(e);
+            }),
+          );
           isLoading = false;
           notifyListeners();
         }
@@ -92,10 +95,11 @@ class getGiftsProvider with ChangeNotifier {
     isLoading = true;
 
     try {
-      var response = await dio.get(
-        "http://216.250.11.240/api/category/getText/7/",
+      final response = await dio.get(
+        'http://216.250.11.240/api/category/getText/7/',
       );
-
+      print(response.data);
+      print(response.statusCode);
       if (response.statusCode == 200) {
         if (response.data != null) {
           isLoading = false;
@@ -128,16 +132,17 @@ class getConcursProvider with ChangeNotifier {
     concursCart = [];
 
     try {
-      var response = await dio.get(
-        "http://216.250.11.240/api/category/getkonkurs/",
+      final response = await dio.get(
+        'http://216.250.11.240/api/category/getkonkurs/',
       );
 
       if (response.statusCode == 200) {
         if (response.data != null) {
-          concursCart = List<GEtConcursModel>.from(response.data.map((e) {
-            return GEtConcursModel.fromJson(e);
-          }));
-          print(response.data);
+          concursCart = List<GEtConcursModel>.from(
+            response.data.map((e) {
+              return GEtConcursModel.fromJson(e);
+            }),
+          );
           isLoading = false;
           notifyListeners();
         }
@@ -165,8 +170,8 @@ class getConcursByIDProvider with ChangeNotifier {
     isLoading = true;
 
     try {
-      var response = await dio.get(
-        "http://216.250.11.240/api/category/getkonkurs/$id/",
+      final response = await dio.get(
+        'http://216.250.11.240/api/category/getkonkurs/$id/',
       );
 
       if (response.statusCode == 200) {
@@ -208,10 +213,10 @@ class postPaymentProvider with ChangeNotifier {
     };
 
     try {
-      var response = await dio.post(
-        "http://216.250.11.240/api/carts/pay/",
+      final response = await dio.post(
+        'http://216.250.11.240/api/carts/pay/',
         data: jsonEncode({
-          "amount": amount,
+          'amount': amount,
         }),
         options: Options(headers: headers),
       );

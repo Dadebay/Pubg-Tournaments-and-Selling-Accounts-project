@@ -37,8 +37,8 @@ class BottomNavbarButton extends StatelessWidget {
     required this.selectedIndex,
     required this.index,
     required this.icon,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -71,22 +71,23 @@ class BottomNavbarButton extends StatelessWidget {
               child: Column(
                 children: [
                   Expanded(
-                      child: index != selectedIndex
-                          ? Icon(
-                              iconsLight[index],
-                              size: 24,
-                              color: Colors.white,
-                            )
-                          : Icon(
-                              iconsBold[index],
-                              size: 24,
-                              color: Colors.white,
-                            )),
+                    child: index != selectedIndex
+                        ? Icon(
+                            iconsLight[index],
+                            size: 24,
+                            color: Colors.white,
+                          )
+                        : Icon(
+                            iconsBold[index],
+                            size: 24,
+                            color: Colors.white,
+                          ),
+                  ),
                   Text(
                     '${names[index]}'.tr,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: Colors.white, fontFamily: index == selectedIndex ? josefinSansMedium : josefinSansRegular, fontSize: index == selectedIndex ? 13 : 12),
-                  )
+                  ),
                 ],
               ),
             ),

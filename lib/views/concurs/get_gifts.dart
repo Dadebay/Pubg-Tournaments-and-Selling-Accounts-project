@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../models/user_models/auth_model.dart';
 
 class GetGiftsScreen extends StatefulWidget {
-  const GetGiftsScreen({Key? key}) : super(key: key);
+  const GetGiftsScreen({super.key});
 
   @override
   State<GetGiftsScreen> createState() => _GetGiftsScreenState();
@@ -28,11 +28,12 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
   @override
   void initState() {
     super.initState();
+    print('_______________________________');
     fetchData();
-    Get.find<WalletController>().getUserMoney();
+    walletController.getUserMoney();
   }
 
-  fetchData() async {
+  dynamic fetchData() async {
     await Provider.of<getGiftsProvider>(context, listen: false).getGiftsCart(context);
     await getGiftsProvider().getGiftData().then((value) async {
       if (value == '') {
@@ -50,7 +51,7 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
       centerTitle: true,
       leadingWidth: 80,
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           IconlyLight.arrowLeftCircle,
           color: Colors.white,
         ),
@@ -58,20 +59,15 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
           Navigator.pop(context);
         },
       ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 5),
-          child: userAppBarMoney(),
-        )
-      ],
+      actions: [userAppBarMoney()],
       automaticallyImplyLeading: false,
       backgroundColor: kPrimaryColorBlack,
-      title: Text(
+      title: const Text(
         'Gifts',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.center,
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.white,
           fontFamily: josefinSansSemiBold,
           fontSize: 25,
@@ -83,20 +79,26 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
   ElevatedButton orderButton() {
     return ElevatedButton(
       onPressed: () async {
-        final token = await Auth().getToken();
-        if (token == null || token == '') {
-          showSnackBar('loginError', 'loginError1', Colors.red);
-        } else {
+        if (await _checkToken()) {
           await onTapFunction();
         }
       },
-      style: ElevatedButton.styleFrom(elevation: 1, backgroundColor: kPrimaryColor, shape: const RoundedRectangleBorder(borderRadius: borderRadius15), padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
+      style: ElevatedButton.styleFrom(
+        elevation: 1,
+        backgroundColor: kPrimaryColor,
+        shape: const RoundedRectangleBorder(borderRadius: borderRadius15),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             'order'.tr,
-            style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
+            style: const TextStyle(
+              color: Colors.white,
+              fontFamily: josefinSansSemiBold,
+              fontSize: 22,
+            ),
           ),
           const Padding(
             padding: EdgeInsets.only(top: 2, bottom: 2, left: 8),
@@ -105,42 +107,72 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
               color: Colors.white,
               size: 24,
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  onTapFunction() async {
+  Future<bool> _checkToken() async {
+    final token = await Auth().getToken();
+    if (token == null || token.isEmpty) {
+      showSnackBar('loginError', 'loginError1', Colors.red);
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> onTapFunction() async {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: kPrimaryColorBlack,
-          shape: const RoundedRectangleBorder(borderRadius: borderRadius20, side: BorderSide(color: Colors.white)),
+          shape: const RoundedRectangleBorder(
+            borderRadius: borderRadius20,
+            side: BorderSide(color: Colors.white),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 dialogTitle,
-                style: const TextStyle(color: Colors.white, fontFamily: josefinSansBold, fontSize: 22),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontFamily: josefinSansBold,
+                  fontSize: 22,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Form(
-                    key: validator,
-                    child: Column(
-                      children: [
-                        CustomTextField(labelName: 'enterIDGift'.tr, controller: pubgUserIDController, borderRadius: true, focusNode: pubgUserIDFocusNode, requestfocusNode: pubgUserIDFocusNode2, isNumber: false),
-                        CustomTextField(labelName: 'enterIDGift'.tr, controller: pubgUserIDController2, borderRadius: true, focusNode: pubgUserIDFocusNode2, requestfocusNode: pubgUserIDFocusNode, isNumber: false),
-                      ],
-                    )),
+                  key: validator,
+                  child: Column(
+                    children: [
+                      CustomTextField(
+                        labelName: 'enterIDGift'.tr,
+                        controller: pubgUserIDController,
+                        borderRadius: true,
+                        focusNode: pubgUserIDFocusNode,
+                        requestfocusNode: pubgUserIDFocusNode2,
+                        isNumber: false,
+                      ),
+                      CustomTextField(
+                        labelName: 'enterIDGift'.tr,
+                        controller: pubgUserIDController2,
+                        borderRadius: true,
+                        focusNode: pubgUserIDFocusNode2,
+                        requestfocusNode: pubgUserIDFocusNode,
+                        isNumber: false,
+                      ),
+                    ],
+                  ),
+                ),
               ),
               AgreeButton(
                 name: 'agree',
                 onTap: () async {
-                  final token = await Auth().getToken();
-                  if (token != null) {
+                  if (await _checkToken()) {
                     if (validator.currentState!.validate()) {
                       double value = 0.0;
                       double counts = 0.0;
@@ -152,7 +184,7 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
                       walletController.finalCount.value = counts;
                       await Get.to(
                         () => OrderPage(
-                          pubgID: pubgUserIDController.text,
+                          pubgID: '${pubgUserIDController.text} - ${pubgUserIDController2.text}',
                         ),
                       );
                     } else {
@@ -162,93 +194,11 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
                     showSnackBar('noConnection3', 'order_error_subtitle', Colors.red);
                   }
                 },
-              )
+              ),
             ],
           ),
         );
       },
-    );
-  }
-
-  Future<Object?> selectCurrency() {
-    return showGeneralDialog(
-      transitionBuilder: (context, a1, a2, widget) {
-        final curvedValue = Curves.decelerate.transform(a1.value) - 1.0;
-        return Transform(
-          transform: Matrix4.translationValues(0.0, curvedValue * 400, 0.0),
-          child: Opacity(
-            opacity: a1.value,
-            child: AlertDialog(
-              backgroundColor: kPrimaryColorBlack,
-              shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
-              title: Text(
-                'cash'.tr,
-                style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansBold),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20, left: 6, right: 6),
-                    child: Text(
-                      'selectCurrencyType'.tr,
-                      style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
-                    ),
-                  ),
-                  flagButton(ruIcon, 'RUB', 1),
-                  flagButton(tmIcon, 'TMT', 2),
-                  flagButton(trIcon, 'TL  ', 3),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 500),
-      barrierDismissible: true,
-      barrierLabel: '',
-      context: context,
-      pageBuilder: (context, animation1, animation2) {
-        return const SizedBox.shrink();
-      },
-    );
-  }
-
-  GestureDetector flagButton(String image, String name, int index) {
-    return GestureDetector(
-      onTap: () {
-        selectedIndex = index;
-        setState(() {});
-        Get.back();
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Expanded(child: SizedBox()),
-            ClipOval(
-              child: Image.asset(
-                image,
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  name,
-                  style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 
@@ -273,22 +223,23 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
           Expanded(
             child: dialogTitle == ''
                 ? spinKit()
-                : Consumer<getGiftsProvider>(builder: (_, gifts, __) {
-                    return GridView.builder(
-                      itemCount: gifts.giftsCart.length,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2.8 / 4),
-                      itemBuilder: (context, index) {
-                        print(gifts);
-                        return UCCard2(
-                          model: gifts.giftsCart[index],
-                          selectedIndex: selectedIndex,
-                        );
-                      },
-                    );
-                  }),
+                : Consumer<getGiftsProvider>(
+                    builder: (_, gifts, __) {
+                      return GridView.builder(
+                        itemCount: gifts.giftsCart.length,
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2.8 / 4),
+                        itemBuilder: (context, index) {
+                          return UCCard2(
+                            model: gifts.giftsCart[index],
+                            selectedIndex: selectedIndex,
+                          );
+                        },
+                      );
+                    },
+                  ),
           ),
         ],
       ),

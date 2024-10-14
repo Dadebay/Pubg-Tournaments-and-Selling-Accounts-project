@@ -8,8 +8,4 @@ class HomePageController extends GetxController {
   List<AccountsForSaleModel> list = [];
   RxInt pageNumber = 1.obs;
   RxInt loading = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
 }

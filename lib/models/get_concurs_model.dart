@@ -26,14 +26,14 @@ class GEtConcursModel {
   factory GEtConcursModel.fromJson(Map<String, dynamic> json) {
     return GEtConcursModel(
       id: json['id'] ?? 0,
-      price: json['price'].toString() ?? "",
-      nameTm: json['name_tm'] ?? "",
-      nameRu: json['name_ru'] ?? "",
-      image: json['image'] ?? "",
+      price: json['price'].toString(),
+      nameTm: json['name_tm'] ?? '',
+      nameRu: json['name_ru'] ?? '',
+      image: json['image'] ?? '',
       places: json['places'] ?? 0,
       createdDate: DateTime.parse(json['created_date'] ?? 0),
       finishedDate: DateTime.parse(json['finished_date'] ?? 0),
-      finishedTime: json['finished_time'] ?? "",
+      finishedTime: json['finished_time'] ?? '',
       cat: json['cat'] ?? 0,
     );
   }

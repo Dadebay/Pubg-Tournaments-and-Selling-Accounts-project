@@ -18,7 +18,7 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-AndroidNotificationChannel channel = AndroidNotificationChannel(
+AndroidNotificationChannel channel = const AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
   // 'This channel is used for important notifications.', // description
@@ -50,10 +50,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await Firebase.initializeApp();
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-  String? token = await firebaseMessaging.getToken();
 
-  print(token);
   HttpOverrides.global = MyHttpOverrides();
   await FirebaseMessaging.instance.requestPermission();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -66,7 +63,7 @@ Future<void> main() async {
 
   const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  final InitializationSettings initializationSettings = InitializationSettings(
+  const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
     iOS: null,
     macOS: null,
@@ -104,7 +101,7 @@ Future<void> main() async {
 }
 
 class MyAppRun extends StatefulWidget {
-  const MyAppRun({Key? key}) : super(key: key);
+  const MyAppRun({super.key});
 
   @override
   State<MyAppRun> createState() => _MyAppRunState();
@@ -125,7 +122,6 @@ class _MyAppRunState extends State<MyAppRun> {
           android: AndroidNotificationDetails(
             channel.id,
             channel.name,
-            // channel.description,
             styleInformation: const BigTextStyleInformation(''),
             color: Colors.white,
             icon: '@mipmap/ic_launcher',
@@ -135,7 +131,7 @@ class _MyAppRunState extends State<MyAppRun> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Get.to(() => ConnectionCheck());
+      Get.to(() => const ConnectionCheck());
     });
   }
 
@@ -153,7 +149,7 @@ class _MyAppRunState extends State<MyAppRun> {
       builder: (context, childd) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
-            textScaler: const TextScaler.linear(1.0),
+            textScaler: TextScaler.noScaling,
           ), //set desired text scale factor here
           child: childd!,
         );
@@ -176,7 +172,7 @@ class _MyAppRunState extends State<MyAppRun> {
       fallbackLocale: const Locale('tr'),
       translations: MyTranslations(),
       debugShowCheckedModeBanner: false,
-      home: ConnectionCheck(),
+      home: const ConnectionCheck(),
     );
   }
 }

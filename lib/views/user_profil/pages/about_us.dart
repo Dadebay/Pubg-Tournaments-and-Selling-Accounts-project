@@ -1,10 +1,11 @@
 // ignore_for_file: file_names
 
 import 'package:game_app/models/user_models/abous_us_model.dart';
+
 import '../../constants/index.dart';
 
 class AboutUs extends StatefulWidget {
-  const AboutUs({Key? key}) : super(key: key);
+  const AboutUs({super.key});
 
   @override
   State<AboutUs> createState() => _AboutUsState();

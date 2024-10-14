@@ -16,8 +16,8 @@ class TournamentCard extends StatelessWidget {
     required this.tournamentModel,
     required this.finised,
     required this.tournamentType,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

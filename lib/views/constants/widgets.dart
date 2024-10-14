@@ -97,19 +97,19 @@ Column errorData({required Function() onTap}) {
     children: [
       Text(
         'errorLoadData'.tr,
-        style: TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+        style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
       ),
-      SizedBox(
+      const SizedBox(
         height: 15,
       ),
       ElevatedButton(
         onPressed: onTap,
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: borderRadius5), elevation: 0),
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.white, shape: const RoundedRectangleBorder(borderRadius: borderRadius5), elevation: 0),
         child: Text(
           'noConnection3'.tr,
-          style: TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 16),
+          style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 16),
         ),
-      )
+      ),
     ],
   );
 }
@@ -121,12 +121,12 @@ Column emptyData() {
     mainAxisSize: MainAxisSize.min,
     children: [
       Lottie.asset(noDataLottie, width: 350, height: 350),
-      SizedBox(
+      const SizedBox(
         height: 15,
       ),
       Text(
         'errorLoadEmptyData'.tr,
-        style: TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+        style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
       ),
     ],
   );
@@ -136,7 +136,7 @@ Center noData(String text) {
   return Center(
     child: Text(
       text.tr,
-      style: TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+      style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
     ),
   );
 }
@@ -177,7 +177,7 @@ Container noBannerImage() {
 
 Padding listViewName(String text, bool icon, Size size) {
   return Padding(
-    padding: EdgeInsets.only(left: 15, right: 15, top: 20),
+    padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -198,7 +198,7 @@ Padding listViewName(String text, bool icon, Size size) {
                   size: size.width >= 800 ? 35 : 25,
                 ),
               )
-            : const SizedBox.shrink()
+            : const SizedBox.shrink(),
       ],
     ),
   );

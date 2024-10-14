@@ -5,7 +5,7 @@ import 'package:game_app/models/history_order_model.dart';
 import 'package:game_app/views/constants/index.dart';
 
 class HistoryOrdersPage extends StatelessWidget {
-  const HistoryOrdersPage({Key? key}) : super(key: key);
+  const HistoryOrdersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -122,8 +122,8 @@ class OrderByID extends StatelessWidget {
     required this.orderID,
     required this.pageName,
     required this.ask,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -136,9 +136,11 @@ class OrderByID extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: spinKit());
           } else if (snapshot.hasError) {
-            return errorData(onTap: () {
-              HistoryIDModel().getOrderByID(orderID);
-            });
+            return errorData(
+              onTap: () {
+                HistoryIDModel().getOrderByID(orderID);
+              },
+            );
           } else if (snapshot.data == null) {
             return emptyData();
           } else if (snapshot.data.toString() == '[]') {
@@ -282,12 +284,12 @@ class OrderByID extends StatelessWidget {
                                       )
                                     : const SizedBox.shrink(),
                           ],
-                        )
+                        ),
                       ],
                     );
                   },
                 ),
-              )
+              ),
             ],
           );
         },

@@ -19,7 +19,7 @@ import 'auth/tab_bar_view.dart';
 import 'pages/notification.dart';
 
 class UserProfil extends StatefulWidget {
-  const UserProfil({Key? key}) : super(key: key);
+  const UserProfil({super.key});
 
   @override
   State<UserProfil> createState() => _UserProfilState();
@@ -62,9 +62,11 @@ class _UserProfilState extends State<UserProfil> {
                     ? ProfilButton(
                         name: 'profil',
                         onTap: () {
-                          Get.to(() => ProfileSettings(
-                                image: snapshot.data!.image!,
-                              ));
+                          Get.to(
+                            () => ProfileSettings(
+                              image: snapshot.data!.image!,
+                            ),
+                          );
                         },
                         icon: IconlyLight.profile,
                       )
@@ -113,9 +115,9 @@ class _UserProfilState extends State<UserProfil> {
                       },
                       icon: IconlyLight.profile,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
-                    )
+                    ),
                   ],
                 ),
                 name: 'signUp',

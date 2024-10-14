@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unnecessary_statements
 
 import 'dart:convert';
 import 'dart:io';
@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:game_app/controllers/tournament_controller.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:http/http.dart' as http;
+
 import '../views/constants/index.dart';
 import 'accouts_for_sale_model.dart';
 
@@ -115,7 +116,6 @@ class TournamentModel {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      print(responseJson);
       if (value) {
         Get.snackbar(
           'tournamentInfo15',
@@ -239,19 +239,18 @@ class TournamentModel {
         'team_id': teamId,
       }),
     );
-    print("febfioebfefubebfeofbeof");
-    print(response.body);
     final bodys = jsonDecode(response.body);
-    response.statusCode == 200 ? showSnackBar("Üns beriň!", "Siz üstunlikli turnire goşulduňyz!", Colors.green) : null;
+    response.statusCode == 200 ? showSnackBar('Üns beriň!', 'Siz üstunlikli turnire goşulduňyz!', Colors.green) : null;
     response.statusCode != 200
         ? showSnackBar(
-            "Üns beriň!",
-            bodys['error'] == "User has not enough money to participate!"
-                ? "Ulanyjynyň gatnaşmak üçin ýeterlik puly ýok!"
-                : bodys['error'] == "User already participated!"
-                    ? "Ulanyjy eýýäm gatnaşdy!"
+            'Üns beriň!',
+            bodys['error'] == 'User has not enough money to participate!'
+                ? 'Ulanyjynyň gatnaşmak üçin ýeterlik puly ýok!'
+                : bodys['error'] == 'User already participated!'
+                    ? 'Ulanyjy eýýäm gatnaşdy!'
                     : bodys['error'],
-            Colors.red)
+            Colors.red,
+          )
         : null;
     return response.statusCode;
   }
@@ -303,7 +302,7 @@ class TeamUsers {
       id: json['id'],
       number: json['number'],
       turnir: json['turnir'],
-      user: AccountsForSaleModel.fromJson(json["user"]),
+      user: AccountsForSaleModel.fromJson(json['user']),
     );
   }
 }
@@ -353,6 +352,15 @@ class ParticipatedUsers {
 
   factory ParticipatedUsers.fromJson(Map<String, dynamic> json) {
     return ParticipatedUsers(
-        team: json['team'], id: json['id'], created_date: json['created_date'], user: json['user'], turnir: json['turnir'], userImage: json['account_image'], userName: json['account_nickname'], account_location_tm: json['account_location_tm'], account_location_ru: json['account_location_ru']);
+      team: json['team'],
+      id: json['id'],
+      created_date: json['created_date'],
+      user: json['user'],
+      turnir: json['turnir'],
+      userImage: json['account_image'],
+      userName: json['account_nickname'],
+      account_location_tm: json['account_location_tm'],
+      account_location_ru: json['account_location_ru'],
+    );
   }
 }

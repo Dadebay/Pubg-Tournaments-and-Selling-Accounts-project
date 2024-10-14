@@ -1,5 +1,6 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -14,8 +15,8 @@ class TabbarPage1 extends StatefulWidget {
 
   const TabbarPage1({
     required this.model,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<TabbarPage1> createState() => _TabbarPage1State();
@@ -35,37 +36,40 @@ class _TabbarPage1State extends State<TabbarPage1> {
       final decoded = utf8.decode(response.bodyBytes);
       final data = json.decode(response.body);
 
-      String phone = data['text_three'];
-      phone != ''
+      final String phone = data['text_three'];
+      unawaited(phone != ''
           ? showDialog(
               context: context,
-              builder: (ctxt) => new AlertDialog(
-                    backgroundColor: kPrimaryColorBlack,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-                    title: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 20),
-                          child: Column(
-                            children: [
-                              Text('Ünus Beriň!'),
-                              Container(
-                                color: Colors.white,
-                                height: 1,
-                                width: 115,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                data['text_three'],
-                                style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ))
-          : null;
+              builder: (ctxt) => AlertDialog(
+                backgroundColor: kPrimaryColorBlack,
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+                title: Container(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 20),
+                    child: Column(
+                      children: [
+                        const Text('Ünus Beriň!'),
+                        Container(
+                          color: Colors.white,
+                          height: 1,
+                          width: 115,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          data['text_three'],
+                          style: const TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          // ignore: require_trailing_commas
+          : null);
 
       return json.decode(decoded);
     } else {
@@ -75,7 +79,6 @@ class _TabbarPage1State extends State<TabbarPage1> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getConstsPhone();
   }

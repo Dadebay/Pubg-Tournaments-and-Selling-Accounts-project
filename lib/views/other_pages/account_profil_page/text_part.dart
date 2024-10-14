@@ -8,8 +8,8 @@ class CustomFlexibleSpace extends StatelessWidget {
 
   const CustomFlexibleSpace({
     required this.model,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return FlexibleSpaceBar(
@@ -47,7 +47,7 @@ class CustomFlexibleSpace extends StatelessWidget {
           ),
           const SizedBox(
             height: kToolbarHeight,
-          )
+          ),
         ],
       ),
     );
@@ -155,7 +155,7 @@ class CustomFlexibleSpace extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

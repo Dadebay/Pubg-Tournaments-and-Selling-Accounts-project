@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class ConcursModel {
   final int id;
   final String nameTm;
@@ -24,13 +26,13 @@ class ConcursModel {
   factory ConcursModel.fromJson(Map<dynamic, dynamic> json) {
     return ConcursModel(
       id: json['id'] ?? 0,
-      nameTm: json['name_tm'] ?? "",
-      nameRu: json['name_ru'] ?? "",
-      image: json['image'] ?? "",
+      nameTm: json['name_tm'] ?? '',
+      nameRu: json['name_ru'] ?? '',
+      image: json['image'] ?? '',
       places: json['places'] ?? 0,
-      createdDate: DateTime.parse(json['created_date'] ?? ""),
-      finishedDate: DateTime.parse(json['finished_date'] ?? ""),
-      finishedTime: json['finished_time'] ?? "",
+      createdDate: DateTime.parse(json['created_date'] ?? ''),
+      finishedDate: DateTime.parse(json['finished_date'] ?? ''),
+      finishedTime: json['finished_time'] ?? '',
       cat: json['cat'] ?? 0,
     );
   }

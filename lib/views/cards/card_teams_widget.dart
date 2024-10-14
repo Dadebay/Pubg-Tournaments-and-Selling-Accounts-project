@@ -11,7 +11,7 @@ class CardTeansAll extends StatefulWidget {
   late Function(int id) selectTeam;
   late TeamUsers teamUsers;
   late int usersCount;
-  CardTeansAll({required this.teams, required this.selectedTeam, required this.selectTeam, required this.usersCount});
+  CardTeansAll({required this.teams, required this.selectedTeam, required this.selectTeam, required this.usersCount, super.key});
 
   @override
   State<CardTeansAll> createState() => _CardTeansAllState();
@@ -27,7 +27,7 @@ class _CardTeansAllState extends State<CardTeansAll> {
         widget.selectTeam(widget.teams.id!);
       },
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25)), side: BorderSide(width: 1, color: Colors.black26)),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25)), side: BorderSide(width: 1, color: Colors.black26)),
         // color: _selectedIndex == widget.team.id!.toInt() ? Colors.white : Colors.grey,
         color: widget.selectedTeam == widget.teams.id ? Colors.white : Colors.grey[800],
         child: Column(
@@ -50,13 +50,14 @@ class _CardTeansAllState extends State<CardTeansAll> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                  // height: 310,
-                  width: double.infinity,
-                  child: Column(
-                    children: [for (var i = 0; i < widget.usersCount; i++) widget.teams.teamUsers!.length >= i + 1 ? TeamUserCard(teamUsers: widget.teams.teamUsers![i]) : EmptyUsersCard()],
-                  )),
-            )
+              child: SizedBox(
+                // height: 310,
+                width: double.infinity,
+                child: Column(
+                  children: [for (var i = 0; i < widget.usersCount; i++) widget.teams.teamUsers!.length >= i + 1 ? TeamUserCard(teamUsers: widget.teams.teamUsers![i]) : const EmptyUsersCard()],
+                ),
+              ),
+            ),
           ],
         ),
       ),

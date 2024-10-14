@@ -74,20 +74,12 @@ class UcModel {
     print(response.body);
     print(response.statusCode);
     print(jsonDecode(response.body)['formUrl']);
-    Get.to(() => OpenOnlinePaymentWebsite(url: jsonDecode(response.body)['formUrl']));
-    //      final List list = [];
-    //                   for (var element in walletController.cartList) {
-    //                     list.add({'status': element['name'], 'id': element['id'], 'count': element['count'], 'pubg_id': widget.pubgID});
-    //                   }
-    //   final response2 = await http.post(
-    //   Uri.parse('$serverURL/api/category/paymentStatus/'),
-    //   headers: <String, String>{
-    //     HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-    //     HttpHeaders.authorizationHeader: 'Bearer $token',
-    //   },
-    //   body: jsonEncode(list),
-    // );
-    // return response.statusCode;
+    Get.to(
+      () => OpenOnlinePaymentWebsite(
+        url: jsonDecode(response.body)['formUrl'],
+        list: list,
+      ),
+    );
   }
 
   Future<List<UcModel>> getUCS() async {

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,12 +15,11 @@ class WalletPageCard extends StatelessWidget {
     required this.text,
     required this.size,
     required this.ontapp,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    print("Asd");
     return GestureDetector(
       onTap: ontapp,
       child: Stack(
@@ -51,7 +52,7 @@ class WalletPageCard extends StatelessWidget {
                 style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 35),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

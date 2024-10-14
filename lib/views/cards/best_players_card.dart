@@ -12,7 +12,7 @@ class BestPlayersCard extends StatelessWidget {
   final String? image;
   final int index;
   final bool referalPage;
-  BestPlayersCard({super.key, required this.name, required this.image, required this.index, required this.points, required this.referalPage});
+  const BestPlayersCard({required this.name, required this.image, required this.index, required this.points, required this.referalPage, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +20,14 @@ class BestPlayersCard extends StatelessWidget {
 
     return ListTile(
       onTap: () {
-        Get.to(() => OtherUserProductProfil(
-              points: points,
-              name: name,
-              image: image,
-              index: index,
-            ));
+        Get.to(
+          () => OtherUserProductProfil(
+            points: points,
+            name: name,
+            image: image,
+            index: index,
+          ),
+        );
       },
       dense: true,
       tileColor: index % 2 == 0 ? kPrimaryColorBlack1 : kPrimaryColorBlack,

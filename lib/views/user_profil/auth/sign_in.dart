@@ -1,10 +1,10 @@
 // ignore_for_file: file_names, must_be_immutable
 
-import '../../constants/index.dart';
-
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 import 'package:game_app/views/user_profil/auth/otp_check.dart';
+
+import '../../constants/index.dart';
 
 class SingIn extends StatelessWidget {
   TextEditingController fullNameController = TextEditingController();
@@ -22,7 +22,7 @@ class SingIn extends StatelessWidget {
   final _signUp = GlobalKey<FormState>();
   final bool loginType;
 
-  SingIn({super.key, required this.loginType});
+  SingIn({required this.loginType, super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(

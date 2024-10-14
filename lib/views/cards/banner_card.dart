@@ -15,8 +15,8 @@ class BannerCard extends StatelessWidget {
     required this.image,
     required this.title,
     required this.content,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;

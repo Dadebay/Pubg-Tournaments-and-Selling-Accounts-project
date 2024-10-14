@@ -13,13 +13,13 @@ class UCCard2 extends StatelessWidget {
   const UCCard2({
     required this.model,
     required this.selectedIndex,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 8, right: 8, top: 8),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: borderRadius20,
         color: Colors.white60,
       ),
@@ -57,6 +57,8 @@ class UCCard2 extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15, right: 6),
             child: Text(
               model.nameTm,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.black,
                 fontSize: Get.size.width >= 800 ? 27 : 25,

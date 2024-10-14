@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/views/user_profil/pages/referal_list.dart';
 
@@ -51,7 +53,7 @@ class ReferalPage extends StatelessWidget {
               children: [
                 Text(
                   referalcode!,
-                  style: TextStyle(fontFamily: josefinSansBold, fontSize: 24),
+                  style: const TextStyle(fontFamily: josefinSansBold, fontSize: 24),
                 ),
                 IconButton(
                   onPressed: () {
@@ -64,7 +66,7 @@ class ReferalPage extends StatelessWidget {
                     color: kPrimaryColor,
                     size: 20,
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -79,28 +81,29 @@ class ReferalPage extends StatelessWidget {
             ),
           ),
           FutureBuilder<List<ReferalModel>>(
-              future: getData.getDryPortsModel(),
-              builder: (BuildContext context, AsyncSnapshot<List<ReferalModel>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: spinKit());
-                } else if (snapshot.hasError) {
-                  return errorData(onTap: () {});
-                } else if (snapshot.data == null) {
-                  return emptyData();
-                }
+            future: getData.getDryPortsModel(),
+            builder: (BuildContext context, AsyncSnapshot<List<ReferalModel>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: spinKit());
+              } else if (snapshot.hasError) {
+                return errorData(onTap: () {});
+              } else if (snapshot.data == null) {
+                return emptyData();
+              }
 
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ReferalUserCard(
-                        index: index,
-                        getMeModel: snapshot.data![index],
-                      );
-                    },
-                  ),
-                );
-              }),
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ReferalUserCard(
+                      index: index,
+                      getMeModel: snapshot.data![index],
+                    );
+                  },
+                ),
+              );
+            },
+          ),
           // dividder(),
           // Container(
           //   color: kPrimaryColorBlack,

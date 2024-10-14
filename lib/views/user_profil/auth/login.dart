@@ -11,7 +11,7 @@ class Login extends StatelessWidget {
   FocusNode phoneNumberFocusNode = FocusNode();
   final login = GlobalKey<FormState>();
   final bool loginType;
-  Login({super.key, required this.loginType});
+  Login({required this.loginType, super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -63,8 +63,6 @@ class Login extends StatelessWidget {
       Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
       if (loginType == true) {
         UserSignInModel().gmailLogin(email: phoneNumberController.text).then((value) {
-          print("gggggggggggggggkgkgkgkgkgkkg");
-          print(value);
           if (value == 200) {
             Get.to(
               () => OtpCheck(
@@ -81,8 +79,6 @@ class Login extends StatelessWidget {
         });
       } else {
         UserSignInModel().login(phone: phoneNumberController.text).then((value) {
-          print("ddddddddddddsssssss");
-          print(value);
           if (value == 200) {
             Get.to(
               () => OtpCheck(

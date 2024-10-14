@@ -17,8 +17,8 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
     required this.name,
     required this.elevationWhite,
     this.icon,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget get child => Text('ad');
@@ -53,7 +53,7 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
               Padding(
                 padding: const EdgeInsets.only(right: 5),
                 child: icon,
-              )
+              ),
           ],
           automaticallyImplyLeading: false,
           backgroundColor: kPrimaryColorBlack,
@@ -94,8 +94,8 @@ class MyAppBarNew extends StatelessWidget implements PreferredSize {
     required this.name,
     required this.elevationWhite,
     this.icon,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget get child => Text('ad');
@@ -130,7 +130,7 @@ class MyAppBarNew extends StatelessWidget implements PreferredSize {
               Padding(
                 padding: const EdgeInsets.only(right: 5),
                 child: icon,
-              )
+              ),
           ],
           automaticallyImplyLeading: false,
           backgroundColor: kPrimaryColorBlack,

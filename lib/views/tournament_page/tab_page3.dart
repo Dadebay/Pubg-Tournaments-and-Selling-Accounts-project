@@ -20,101 +20,81 @@ class TabPage3 extends StatefulWidget {
     required this.tournamentType,
     required this.teams,
     required this.tournamentId,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<TabPage3> createState() => _TabPage3State();
 }
 
 class _TabPage3State extends State<TabPage3> {
-  List<Teams> team_users = [];
-  late String dateNow;
-  late String dateTurnir;
-  late DateTime dt1;
-  late DateTime dt2;
+  final List<Teams> teamUsers = [];
+  late final String dateNow;
+  late final String dateTurnir;
+  late final DateTime dt1;
+  late final DateTime dt2;
 
   @override
   void initState() {
     super.initState();
     for (var e in widget.model.teams!) {
-      if (e.teamUsers!.length > 0) team_users.add(e);
+      if (e.teamUsers!.isNotEmpty) {
+        teamUsers.add(e);
+      }
     }
-    print(team_users.length);
+    final now = DateTime.now();
+    final turnirF = widget.model.finish_date;
 
-    var now = new DateTime.now();
-    String? turnirF = widget.model.finish_date;
-
-    var formatter = new DateFormat('yyyy-MM-dd hh:mm:ss');
+    final formatter = DateFormat('yyyy-MM-dd hh:mm:ss');
     dateNow = formatter.format(now);
 
-    var dateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss+zzz").parse(turnirF!);
+    final dateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(turnirF!);
     dateTurnir = formatter.format(dateTime);
     dt1 = DateTime.parse(dateNow);
     dt2 = DateTime.parse(dateTurnir);
   }
 
+  int getUsersCount(String type) {
+    switch (type) {
+      case 'solo':
+        return 1;
+      case 'duo':
+        return 2;
+      case 'squad':
+        return 4;
+      default:
+        return 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final itemCount = widget.model.winners!.isEmpty ? teamUsers.length : widget.model.winners!.length;
     return ListView.builder(
-      itemCount: widget.model.winners!.length == 0 ? team_users.length : widget.model.winners!.length,
+      itemCount: itemCount,
       itemBuilder: (BuildContext context, int index) {
-        if (widget.model.winners!.length == 0 && dt1.compareTo(dt2) < 0) {
+        if (widget.model.winners!.isEmpty && dt1.isBefore(dt2)) {
           return Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Gatnashyanlatr(
-                teams: team_users[index],
-                usersCount: widget.model.type! == "solo"
-                    ? 1
-                    : widget.model.type! == "duo"
-                        ? 2
-                        : widget.model.type! == "squad"
-                            ? 4
-                            : 0),
+              teams: teamUsers[index],
+              usersCount: getUsersCount(widget.model.type!),
+            ),
           );
         }
-        if (widget.model.winners!.length != 0) {
+        if (widget.model.winners!.isNotEmpty) {
           return Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: WinnersAll(
-                winners: widget.model.winners![index],
-                team_users: widget.teams,
-                usersCount: widget.model.type! == "solo"
-                    ? 1
-                    : widget.model.type! == "duo"
-                        ? 2
-                        : widget.model.type! == "squad"
-                            ? 4
-                            : 0),
+              winners: widget.model.winners![index],
+              team_users: widget.teams,
+              usersCount: getUsersCount(widget.model.type!),
+            ),
           );
         }
         return Container();
-
-        // if (model.type == "solo") {
-        //   return tab3PageTypeSolo(
-        //     finised: finised,
-        //     index: index,
-        //     model: model,
-        //   );
-        // } else if (tournamentType == "duo") {
-        //   return type3PageTypeDuo(
-        //     finised: finised,
-        //     index: index,
-        //     model: model,
-        //     teams: model.teams![index],
-        //     usersCount : 2
-        //   );
-        // } else {
-        //   return type3PageSquad(
-        //     finised: finised,
-        //     index: index,
-        //     model: model,
-        //      teams: model.teams![index],
-        //      usersCount: 4
-        //   );
-        // }
       },
     );
   }

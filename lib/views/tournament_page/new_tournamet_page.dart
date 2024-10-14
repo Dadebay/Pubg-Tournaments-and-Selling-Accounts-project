@@ -5,7 +5,7 @@ import '../../controllers/wallet_controller.dart';
 import 'local_widgets.dart';
 
 class NewTournamentPage extends StatefulWidget {
-  const NewTournamentPage({Key? key}) : super(key: key);
+  const NewTournamentPage({super.key});
 
   @override
   State<NewTournamentPage> createState() => _NewTournamentPageState();

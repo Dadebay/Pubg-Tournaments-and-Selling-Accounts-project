@@ -1,6 +1,5 @@
 // ignore_for_file: missing_return, file_names, must_be_immutable, require_trailing_commas, deprecated_member_use
 
-import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/views/buttons/bottom_nav_bar_button.dart';
 import 'package:game_app/views/concurs/koncurs_screen.dart';
 import 'package:game_app/views/constants/index.dart';
@@ -12,7 +11,7 @@ import 'views/user_profil/user_profil.dart';
 import 'views/wallet/wallet_page.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key}) : super(key: key);
+  const BottomNavBar({super.key});
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
@@ -24,16 +23,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
   List page = [
     const HomePage(),
     const NewTournamentPage(),
-    KonkursScreen(),
+    const KonkursScreen(),
     const WalletPage(),
     const UserProfil(),
   ];
   @override
-  void initState() {
-    super.initState();
-    Get.find<WalletController>().getUserMoney();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

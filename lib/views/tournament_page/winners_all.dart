@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 import '../../models/tournament_model.dart';
@@ -13,7 +15,7 @@ class WinnersAll extends StatefulWidget {
   late Teams teamUsers;
   late int usersCount;
 
-  WinnersAll({required this.winners, required this.usersCount, required this.team_users});
+  WinnersAll({required this.winners, required this.usersCount, required this.team_users, super.key});
 
   @override
   State<WinnersAll> createState() => _WinnersAllState();
@@ -25,7 +27,7 @@ class _WinnersAllState extends State<WinnersAll> {
     return Card(
       // color: _selectedIndex == widget.team.id!.toInt() ? Colors.white : Colors.grey,
       color: Colors.grey[800],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25)), side: BorderSide(width: 1, color: Colors.black26)),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25)), side: BorderSide(width: 1, color: Colors.black26)),
       child: Column(
         children: [
           Padding(
@@ -33,26 +35,27 @@ class _WinnersAllState extends State<WinnersAll> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Team: ',
                   style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   widget.winners.team_number.toString(),
-                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Container(
-                // height: 310,
-                width: double.infinity,
-                child: Column(
-                  children: [for (var i = 0; i < widget.usersCount; i++) widget.winners.teamUsers!.length >= i + 1 ? GatnashyanlarCard(teamUsers: widget.winners.teamUsers![i]) : EmptyUsersCard()],
-                )),
-          )
+            child: SizedBox(
+              // height: 310,
+              width: double.infinity,
+              child: Column(
+                children: [for (var i = 0; i < widget.usersCount; i++) widget.winners.teamUsers!.length >= i + 1 ? GatnashyanlarCard(teamUsers: widget.winners.teamUsers![i]) : const EmptyUsersCard()],
+              ),
+            ),
+          ),
         ],
       ),
     );

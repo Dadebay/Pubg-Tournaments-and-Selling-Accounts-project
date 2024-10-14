@@ -10,7 +10,7 @@ import '../constants/index.dart';
 
 class OrderPage extends StatefulWidget {
   final String pubgID;
-  const OrderPage({super.key, required this.pubgID});
+  const OrderPage({required this.pubgID, super.key});
 
   @override
   State<OrderPage> createState() => _OrderPageState();
@@ -63,9 +63,9 @@ class _OrderPageState extends State<OrderPage> {
                     style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansBold, fontSize: 20),
                   );
                 }
-                return Text(
+                return const Text(
                   '0 TMT',
-                  style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansBold, fontSize: 20),
+                  style: TextStyle(color: kPrimaryColor, fontFamily: josefinSansBold, fontSize: 20),
                 );
               }),
             ],
@@ -104,7 +104,7 @@ class _OrderPageState extends State<OrderPage> {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Expanded(

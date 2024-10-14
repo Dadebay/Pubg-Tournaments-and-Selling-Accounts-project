@@ -23,29 +23,29 @@ class BoughtGifts extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "giftName".tr,
+                    'giftName'.tr,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
                   ),
                 ),
                 Expanded(
                   child: Text(
-                    "userPhoneNumber".tr,
+                    'userPhoneNumber'.tr,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
                   ),
                 ),
                 Expanded(
                   child: Text(
-                    "code".tr,
+                    'code'.tr,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
                   ),
                 ),
               ],
@@ -81,8 +81,8 @@ class BoughtGifts extends StatelessWidget {
                           Expanded(
                             child: Row(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 6, bottom: 4),
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 6, bottom: 4),
                                   child: Icon(
                                     CupertinoIcons.gift,
                                     color: Colors.green,

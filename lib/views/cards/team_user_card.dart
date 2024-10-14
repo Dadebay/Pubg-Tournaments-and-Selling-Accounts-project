@@ -7,7 +7,7 @@ class TeamUserCard extends StatefulWidget {
   // late Teams team;
   late TeamUsers teamUsers;
   late String turnirType;
-  TeamUserCard({required this.teamUsers});
+  TeamUserCard({required this.teamUsers, super.key});
 
   @override
   State<TeamUserCard> createState() => _TeamUserCardState();
@@ -18,7 +18,7 @@ class _TeamUserCardState extends State<TeamUserCard> {
   Widget build(BuildContext context) {
     return Card(
       color: kPrimaryColorBlack,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)), side: BorderSide(width: 1, color: Colors.black26)),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15)), side: BorderSide(width: 1, color: Colors.black26)),
       child: Row(
         children: [
           Padding(
@@ -38,24 +38,24 @@ class _TeamUserCardState extends State<TeamUserCard> {
             children: [
               Row(
                 children: [
-                  Text('Pubg user name: '),
+                  const Text('Pubg user name: '),
                   Text(widget.teamUsers.user!.nickname.toString()),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 children: [
-                  Text('Pubg id:'),
-                  SizedBox(
+                  const Text('Pubg id:'),
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(widget.teamUsers.user!.pubgId.toString()),
                 ],
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

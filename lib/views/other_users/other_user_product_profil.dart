@@ -1,3 +1,5 @@
+// ignore_for_file: always_put_required_named_parameters_first
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +11,7 @@ class OtherUserProductProfil extends StatelessWidget {
   final String? name;
   final String? image;
   final int index;
-  OtherUserProductProfil({
+  const OtherUserProductProfil({
     super.key,
     required this.name,
     required this.image,
@@ -30,13 +32,13 @@ class OtherUserProductProfil extends StatelessWidget {
               child: Column(
                 children: [
                   Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25)), side: BorderSide(width: 1, color: Colors.black26)),
-                    child: Container(
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25)), side: BorderSide(width: 1, color: Colors.black26)),
+                    child: SizedBox(
                       width: double.infinity,
                       height: 220,
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Center(
@@ -72,7 +74,7 @@ class OtherUserProductProfil extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Text(
@@ -81,23 +83,23 @@ class OtherUserProductProfil extends StatelessWidget {
                             maxLines: 1,
                             style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 24),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),
                   ),
                   Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25)), side: BorderSide(width: 1, color: Colors.black26)),
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25)), side: BorderSide(width: 1, color: Colors.black26)),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 40, right: 40),
-                      child: Container(
+                      child: SizedBox(
                         height: 60,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               'Points ',
-                              style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
+                              style: TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
                             ),
                             Text(
                               points!.substring(0, 5),
@@ -110,11 +112,11 @@ class OtherUserProductProfil extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             )
-          : Center(
+          : const Center(
               child: Text('Other user product proifil'),
             ),
     );

@@ -13,8 +13,8 @@ class HomePageCard extends StatelessWidget {
   const HomePageCard({
     required this.vip,
     required this.model,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

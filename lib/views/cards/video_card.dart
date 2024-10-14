@@ -13,8 +13,8 @@ class VideoCard extends StatelessWidget {
   const VideoCard({
     required this.videoPath,
     required this.image,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

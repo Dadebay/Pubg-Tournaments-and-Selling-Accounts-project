@@ -11,6 +11,8 @@ import '../../constants/index.dart';
 import '../../constants/price.dart';
 
 class AddCash extends StatefulWidget {
+  const AddCash({super.key});
+
   @override
   State<AddCash> createState() => _AddCashState();
 }
@@ -139,8 +141,8 @@ class AskMoneyPage extends StatefulWidget {
   const AskMoneyPage({
     required this.text,
     required this.textSend,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AskMoneyPage> createState() => _AskMoneyPageState();
@@ -269,6 +271,7 @@ class _AskMoneyPageState extends State<AskMoneyPage> {
                       )
                     : ElevatedButton(
                         onPressed: () async {
+                          // ignore: prefer_interpolation_to_compose_strings
                           await launch('tel://' + snapshot.data!['phone_three']);
                         },
                         style: ElevatedButton.styleFrom(

@@ -1,23 +1,23 @@
-// ignore_for_file: file_names, deprecated_member_use, prefer_typing_uninitialized_variables
+// ignore_for_file: file_names, deprecated_member_use, prefer_typing_uninitialized_variables, depend_on_referenced_packages
 
 import 'dart:io';
 
+import 'package:async/async.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vibration/vibration.dart';
+
 import '../../../models/user_models/auth_model.dart';
 import '../../constants/index.dart';
-import 'package:http/http.dart' as http;
-
-import 'package:http_parser/http_parser.dart';
-import 'package:async/async.dart';
 
 class ProfileSettings extends StatefulWidget {
-  const ProfileSettings({Key? key, required this.image}) : super(key: key);
+  const ProfileSettings({required this.image, super.key});
   final String image;
   @override
   State<ProfileSettings> createState() => _ProfileSettingsState();
@@ -33,7 +33,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   File? selectedImage;
 
-  changeData(String name, String phone, String pubgID) {
+  dynamic changeData(String name, String phone, String pubgID) {
     pubgNameController.text = name;
     phoneController.text = phone;
     pubgIDController.text = pubgID;
@@ -86,7 +86,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
         // await Get.to(() => const VideoUploadPage());
       } else {
-        print("eewej weogwojwgowg wg wogjw");
         showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
       }
       Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
@@ -133,25 +132,26 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   boxShadow: [BoxShadow(color: Colors.white30, blurRadius: 15.0, offset: Offset(1.0, 1.0), spreadRadius: 5.0)],
                                 ),
                                 child: ClipOval(
-                                    child: Material(
-                                  elevation: 3,
-                                  child: CachedNetworkImage(
-                                    fadeInCurve: Curves.ease,
-                                    imageUrl: '$serverURL/${widget.image}',
-                                    imageBuilder: (context, imageProvider) => Container(
-                                      width: Get.size.width,
-                                      decoration: BoxDecoration(
-                                        borderRadius: borderRadius20,
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
+                                  child: Material(
+                                    elevation: 3,
+                                    child: CachedNetworkImage(
+                                      fadeInCurve: Curves.ease,
+                                      imageUrl: '$serverURL/${widget.image}',
+                                      imageBuilder: (context, imageProvider) => Container(
+                                        width: Get.size.width,
+                                        decoration: BoxDecoration(
+                                          borderRadius: borderRadius20,
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
+                                      placeholder: (context, url) => Center(child: spinKit()),
+                                      errorWidget: (context, url, error) => noBannerImage(),
                                     ),
-                                    placeholder: (context, url) => Center(child: spinKit()),
-                                    errorWidget: (context, url, error) => noBannerImage(),
                                   ),
-                                )),
+                                ),
                               ),
                             ),
                           )
@@ -235,26 +235,27 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                   // Image.network('$serverURL/' + snapshot.data!.image.toString()),
                   AgreeButton(
-                      name: 'agree',
-                      onTap: () {
-                        if (selectedImage != null) {
-                          onTapp();
+                    name: 'agree',
+                    onTap: () {
+                      if (selectedImage != null) {
+                        onTapp();
+                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+                      } else {
+                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+                        GetMeModel().shortUpdate(pubgUserId: pubgIDController.text, pubgUserName: pubgNameController.text).then((value) {
+                          if (value == 200) {
+                            Get.back();
+                            showSnackBar('copySucces', 'changedData', Colors.green);
+                            pubgNameController.clear();
+                            pubgIDController.clear();
+                          } else {
+                            showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+                          }
                           Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                        } else {
-                          Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                          GetMeModel().shortUpdate(pubgUserId: pubgIDController.text, pubgUserName: pubgNameController.text).then((value) {
-                            if (value == 200) {
-                              Get.back();
-                              showSnackBar('copySucces', 'changedData', Colors.green);
-                              pubgNameController.clear();
-                              pubgIDController.clear();
-                            } else {
-                              showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
-                            }
-                            Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                          });
-                        }
-                      })
+                        });
+                      }
+                    },
+                  ),
                 ],
               ),
             ),

@@ -1,19 +1,19 @@
-// ignore_for_file: file_names, deprecated_member_use
+// ignore_for_file: file_names, deprecated_member_use, depend_on_referenced_packages
 
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
-
+import 'package:async/async.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vibration/vibration.dart';
+
 import '../constants/index.dart';
 import 'video_upload_page.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:async/async.dart';
 
 class AddPage extends StatefulWidget {
   final int locationID;
@@ -21,8 +21,8 @@ class AddPage extends StatefulWidget {
   const AddPage({
     required this.locationID,
     required this.vipOrNot,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AddPage> createState() => _AddPageState();
@@ -131,7 +131,7 @@ class _AddPageState extends State<AddPage> {
                     ),
                   ),
                 ),
-              )
+              ),
       ],
     );
   }
@@ -224,7 +224,7 @@ class _AddPageState extends State<AddPage> {
             'for_sale': '1',
             'edit': '0',
             'vip': '${widget.vipOrNot}',
-            'price': priceController.text
+            'price': priceController.text,
           });
           request.headers.addAll(headers);
 
@@ -311,7 +311,7 @@ class _AddPageState extends State<AddPage> {
                     onTap: onTapp,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

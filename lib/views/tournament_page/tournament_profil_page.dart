@@ -1,14 +1,13 @@
 // ignore_for_file: file_names
 
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:game_app/controllers/tournament_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
-import 'package:game_app/views/tournament_page/tab_page2.dart';
 import 'package:game_app/views/tournament_page/tab_page1.dart';
+import 'package:game_app/views/tournament_page/tab_page2.dart';
+
 import '../../controllers/settings_controller.dart';
 import '../constants/index.dart';
-
 import 'tab_page3.dart';
 
 class TournamentProfilPage extends StatefulWidget {
@@ -25,8 +24,8 @@ class TournamentProfilPage extends StatefulWidget {
     required this.finised,
     required this.tournamentType,
     required this.winners,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<TournamentProfilPage> createState() => _TournamentProfilPageState();
@@ -149,7 +148,7 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
           ),
           Tab(
             text: widget.finised ? 'tournamentInfo3'.tr : 'tournamentInfo4'.tr,
-          )
+          ),
         ],
       ),
       flexibleSpace: Container(

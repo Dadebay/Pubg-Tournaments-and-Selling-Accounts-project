@@ -19,7 +19,7 @@ import 'package:video_player/video_player.dart';
 import '../constants/index.dart';
 
 class VideoUploadPage extends StatefulWidget {
-  const VideoUploadPage({Key? key}) : super(key: key);
+  const VideoUploadPage({super.key});
 
   @override
   State<VideoUploadPage> createState() => _VideoUploadPageState();
@@ -174,7 +174,7 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
                     style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 20),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -227,7 +227,7 @@ class _VideoUploadPageState extends State<VideoUploadPage> {
                         size: 30,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

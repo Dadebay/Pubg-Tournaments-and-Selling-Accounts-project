@@ -13,8 +13,8 @@ class WalletCard extends StatelessWidget {
   const WalletCard({
     required this.model,
     required this.selectedIndex,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     double a = 0.0;
@@ -36,7 +36,7 @@ class WalletCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 5,
+            flex: 4,
             child: ClipRRect(
               borderRadius: borderRadius20,
               child: CachedNetworkImage(

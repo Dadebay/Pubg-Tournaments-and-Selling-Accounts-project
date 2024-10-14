@@ -8,8 +8,8 @@ class DialogButton extends StatelessWidget {
     required this.name,
     required this.onTapp,
     required this.color,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
