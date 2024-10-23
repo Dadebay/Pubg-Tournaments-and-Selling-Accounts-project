@@ -1,29 +1,29 @@
 import 'dart:async';
 
+import 'package:game_app/bottom_nav_bar.dart';
 import 'package:game_app/models/tournament_model.dart';
+import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/cards/card_teams_widget.dart';
 import 'package:game_app/views/constants/index.dart';
 
-import 'new_tournamet_page.dart';
-
 // ignore: must_be_immutable
 class SellctTeam extends StatefulWidget {
-  TournamentModel turnir;
   SellctTeam({required this.turnir, super.key});
+
+  TournamentModel turnir;
 
   @override
   State<SellctTeam> createState() => _SellctTeamState();
 }
 
 class _SellctTeamState extends State<SellctTeam> {
-  int selectedTeam = 0;
   int id = 1;
+  int selectedTeam = 0;
 
   Function selectTeam(int id) {
     setState(() {
       selectedTeam = id;
     });
-
     return selectTeam(id);
   }
 
@@ -32,79 +32,144 @@ class _SellctTeamState extends State<SellctTeam> {
       Timer(
         const Duration(seconds: 3),
         () {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const NewTournamentPage()), (route) => false);
-
-          // Navigator.of(context).pop();
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const BottomNavBar()), (route) => false);
         },
       );
     });
   }
 
+  dynamic enterSQUADIDS() {
+    final List<TextEditingController> controllers = [
+      TextEditingController(), // controller
+      TextEditingController(), // controller1
+      TextEditingController(), // controller3
+    ];
+
+    final List<FocusNode> focusNode = [
+      FocusNode(), // focusNode
+      FocusNode(), // focusNode1
+      FocusNode(), // focusNode2
+      FocusNode(), // focusNode3
+    ];
+
+    Get.defaultDialog(
+      title: widget.turnir.type == 'squad' ? 'buySQUAD3'.tr : 'buyDUO'.tr,
+      titleStyle: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Column(
+            children: List.generate(widget.turnir.type == 'squad' ? 3 : 1, (index) {
+              return CustomTextField(labelName: '${index + 1} - ${'signIn2'.tr}', borderRadius: true, controller: controllers[index], focusNode: focusNode[index], requestfocusNode: focusNode[index + 1], isNumber: false);
+            }),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          AgreeButton(
+            onTap: () async {
+              final token = await Auth().getToken();
+              print(token);
+              print(selectedTeam);
+              if (widget.turnir.type == 'squad') {
+                await TournamentModel()
+                    .participateTournamentSQUAD(
+                  teamId: selectedTeam,
+                  pubgID1: controllers[0].text.toString(),
+                  pubgID2: controllers[1].text.toString(),
+                  pubgID3: controllers[2].text.toString(),
+                )
+                    .then((value) {
+                  if (value == 200) {
+                    backTurnir();
+                  }
+                });
+              } else {
+                await TournamentModel().participateTournamentDUAL(teamId: selectedTeam, pubgID1: controllers[0].text.toString()).then((value) {
+                  if (value == 200) {
+                    backTurnir();
+                  }
+                });
+              }
+            },
+            name: 'agree',
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Teams'),
-      ),
-      body: Stack(
-        children: [
-          ListView.builder(
-            itemCount: widget.turnir.teams!.length,
-            itemBuilder: (BuildContext context, int index) {
-              // return TeamsCard(team: widget.turnir.teams![index]);
-              return Container(
-                width: double.infinity,
-                // height: 400,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: CardTeansAll(
-                  teams: widget.turnir.teams![index],
-                  selectedTeam: selectedTeam,
-                  selectTeam: (int id) {
-                    setState(() {
-                      selectedTeam = id;
-                    });
-                  },
-                  usersCount: widget.turnir.type! == 'solo'
-                      ? 1
-                      : widget.turnir.type! == 'duo'
-                          ? 2
-                          : widget.turnir.type! == 'squad'
-                              ? 4
-                              : 0,
-                ),
-              );
-            },
-          ),
-          Positioned(
-            bottom: 15,
-            left: 20,
-            right: 20,
-            child: GestureDetector(
-              onTap: () {
-                selectedTeam == 0
-                    ? showSnackBar('Üns beriň!', 'Team Saýlaň!', Colors.red)
-                    : TournamentModel().participateTournamentPost(teamId: selectedTeam).then((value) {
-                        // ignore: unnecessary_statements
-                        value == 200 ? backTurnir() : null;
-                        // subscribeTurnirPost(price: widget.turnir.price!, id: widget.turnir.id!, tournamentType: widget.turnir.type.toString()) : null;
-                      });
-              },
-              child: SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.white),
-                  child: Center(
-                    child: Text(
-                      'Tassykla',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.amber[800]),
-                    ),
+      appBar: const MyAppBar(fontSize: 18, backArrow: true, iconRemove: false, name: 'Teams', elevationWhite: true),
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          selectedTeam == 0
+              ? showSnackBar('Üns beriň!', 'Team Saýlaň!', Colors.red)
+              : Get.defaultDialog(
+                  backgroundColor: kPrimaryColorBlack,
+                  title: 'buySQUAD'.tr,
+                  titleStyle: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 23),
+                  content: Column(
+                    children: [
+                      AgreeButton(
+                        onTap: () {
+                          // Uri.parse('$serverURL/api/turnirs/participate/'),
+                          TournamentModel().participateTournamentPost(teamId: selectedTeam).then((value) {
+                            value == 200 ? backTurnir() : null;
+                          });
+                        },
+                        name: 'buySQUAD1',
+                      ),
+                      AgreeButton(
+                        onTap: () {
+                          enterSQUADIDS();
+                        },
+                        name: 'buySQUAD2',
+                      ),
+                    ],
                   ),
-                ),
-              ),
+                );
+        },
+        child: SizedBox(
+          width: double.infinity,
+          height: 60,
+          child: Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.white),
+            alignment: Alignment.center,
+            child: Text(
+              'agree'.tr,
+              style: TextStyle(fontSize: 20, fontFamily: josefinSansBold, color: Colors.amber[800]),
             ),
           ),
-        ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      body: ListView.builder(
+        itemCount: widget.turnir.teams!.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: CardTeansAll(
+              teams: widget.turnir.teams![index],
+              selectedTeam: selectedTeam,
+              selectTeam: (int id) {
+                setState(() {
+                  selectedTeam = id;
+                });
+              },
+              usersCount: widget.turnir.type! == 'solo'
+                  ? 1
+                  : widget.turnir.type! == 'duo'
+                      ? 2
+                      : widget.turnir.type! == 'squad'
+                          ? 4
+                          : 0,
+            ),
+          );
+        },
       ),
     );
   }

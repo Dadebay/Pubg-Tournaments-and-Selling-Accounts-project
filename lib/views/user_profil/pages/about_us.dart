@@ -1,6 +1,8 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, deprecated_member_use
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/models/user_models/abous_us_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/index.dart';
 
@@ -25,7 +27,7 @@ class _AboutUsState extends State<AboutUs> {
       ),
       body: Container(
         padding: const EdgeInsets.all(14.0),
-        child: FutureBuilder<AboutUsModel>(
+        child: FutureBuilder<List<AboutUsModel>>(
           future: AboutUsModel().getAboutUs(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -40,7 +42,6 @@ class _AboutUsState extends State<AboutUs> {
               return emptyData();
             }
             return Column(
-              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -50,17 +51,21 @@ class _AboutUsState extends State<AboutUs> {
                     style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 20),
                   ),
                 ),
-                simpleWidget(
-                  icon: IconlyBold.message,
-                  name: snapshot.data!.email!,
-                ),
-                simpleWidget(
-                  icon: IconlyBold.location,
-                  name: Get.locale?.languageCode == 'tr' ? snapshot.data!.address_tm! : snapshot.data!.address_ru!,
-                ),
-                simpleWidget(
-                  icon: Icons.phone,
-                  name: Get.locale?.languageCode == 'tr' ? snapshot.data!.phone! : snapshot.data!.phone!,
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemExtent: 80,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return simpleWidget(
+                        icon: '$serverURL${snapshot.data![index].icon}',
+                        name: snapshot.data![index].name!,
+                        onTap: () {
+                          handleLink(snapshot.data![index].link!);
+                        },
+                      );
+                    },
+                  ),
                 ),
               ],
             );
@@ -70,24 +75,62 @@ class _AboutUsState extends State<AboutUs> {
     );
   }
 
+  void handleLink(String link) async {
+    final phonePattern = RegExp(r'^\+?[0-9]+$'); // Regex to check if link is a phone number
+    print(phonePattern.hasMatch(link));
+    final isPhoneNumber = phonePattern.hasMatch(link);
+
+    final Uri uri = isPhoneNumber ? Uri(scheme: 'tel', path: link) : Uri.parse(link);
+
+    if (await canLaunch(uri.toString())) {
+      await launch(uri.toString());
+    } else {
+      throw 'Could not launch $link';
+    }
+  }
+
   ListTile simpleWidget({
-    required IconData icon,
+    required String icon,
     required String name,
+    required Function() onTap,
   }) {
     return ListTile(
       dense: true,
-      onTap: () async {},
-      minLeadingWidth: 10,
+      onTap: onTap,
+      minLeadingWidth: 40,
       contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 14),
       shape: const RoundedRectangleBorder(borderRadius: borderRadius5),
-      leading: Icon(
-        icon,
-        color: kPrimaryColor,
+      leading: CachedNetworkImage(
+        fadeInCurve: Curves.ease,
+        imageUrl: icon,
+        imageBuilder: (context, imageProvider) => Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.transparent,
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        placeholder: (context, url) => spinKit(),
+        errorWidget: (context, url, error) => Center(
+          child: Text(
+            'noImage'.tr,
+            style: const TextStyle(color: Colors.black, fontFamily: josefinSansSemiBold),
+          ),
+        ),
       ),
       title: Text(
         name,
         textAlign: TextAlign.start,
         style: const TextStyle(fontFamily: josefinSansMedium, fontSize: 18, color: Colors.white),
+      ),
+      trailing: const Icon(
+        IconlyLight.arrowRightCircle,
+        color: Colors.white,
       ),
     );
   }

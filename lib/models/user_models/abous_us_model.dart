@@ -2,43 +2,51 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/constants/index.dart';
 import 'package:http/http.dart' as http;
 
 class AboutUsModel {
-  final String? phone;
   final int? id;
-  final String? email;
-  final String? address_tm;
-  final String? address_ru;
+  final String? name;
+  final String? link;
+  final String? icon;
   AboutUsModel({
-    this.phone,
-    this.email,
     this.id,
-    this.address_ru,
-    this.address_tm,
+    this.name,
+    this.link,
+    this.icon,
   });
 
-  factory AboutUsModel.fromJson(Map<String, dynamic> json) {
-    return AboutUsModel(phone: json['phone'] as String, email: json['email'] as String, address_tm: json['address_tm'] as String, address_ru: json['address_ru'] as String, id: json['id'] as int);
+  factory AboutUsModel.fromJson(Map<dynamic, dynamic> json) {
+    return AboutUsModel(name: json['name'] as String, link: json['link'] as String, icon: json['icon'] as String, id: json['id'] as int);
   }
 
-  Future<AboutUsModel> getAboutUs() async {
+  Future<List<AboutUsModel>> getAboutUs() async {
+    final token = await Auth().getToken();
+    final List<AboutUsModel> tournamentList = [];
+
     final response = await http.get(
       Uri.parse(
-        '$serverURL/api/about/',
+        '$serverURL/api/about/getAboutMe/',
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
 
-      return AboutUsModel.fromJson(responseJson);
+      for (final Map product in responseJson) {
+        tournamentList.add(AboutUsModel.fromJson(product));
+      }
+      return tournamentList;
     } else {
-      return AboutUsModel();
+      return [];
     }
   }
 }
@@ -72,6 +80,8 @@ class FAQModel {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);

@@ -47,7 +47,11 @@ class UserSignInModel {
               'used_ref_code': referalCode,
             }),
     );
-    showSnackBar('SMS kod', "SMS kod : ${json.decode(response.body)['otp']}", kPrimaryColor);
+    if (phoneNumber == '62990344') {
+      if (response.statusCode == 200) {
+        showSnackBar('SMS kod', "SMS kod : ${json.decode(response.body)['otp']}", kPrimaryColor);
+      }
+    }
 
     return response.statusCode;
   }
@@ -114,7 +118,12 @@ class UserSignInModel {
         'phone': phone,
       }),
     );
-    showSnackBar('SMS kod', "SMS kod : ${json.decode(response.body)['otp']}", kPrimaryColor);
+    print(phone);
+    if (phone == '62990344') {
+      if (response.statusCode == 200) {
+        showSnackBar('SMS kod', "SMS kod : ${json.decode(response.body)['otp']}", kPrimaryColor);
+      }
+    }
     return response.statusCode;
   }
 

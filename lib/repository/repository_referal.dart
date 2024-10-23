@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../../../models/user_models/auth_model.dart';
-import '../../../models/user_models/referal_model.dart';
-import '../../constants/constants.dart';
+import '../models/user_models/auth_model.dart';
+import '../models/user_models/referal_model.dart';
+import '../views/constants/constants.dart';
 
 class ReferalRespositori {
   Future<List<ReferalModel>> getDryPortsModel() async {

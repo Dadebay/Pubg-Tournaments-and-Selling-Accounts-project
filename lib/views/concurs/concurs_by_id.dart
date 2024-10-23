@@ -8,6 +8,7 @@ import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/provider/getkonkur.dart';
 import 'package:game_app/views/constants/index.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
@@ -72,23 +73,30 @@ class _ConcursByIDState extends State<ConcursByID> {
 
   dynamic addPaymentOnWallet() async {
     final token = await Auth().getToken();
-    if (token != null && double.parse(walletController.userMoney.toString()) > 0) {
-      settingsController.agreeButton.value = !settingsController.agreeButton.value;
-      final List list = [];
-      list.add({'status': 'konkurs', 'id': widget.id, 'count': '1'});
-      await UcModel().addCart(list).then((value) {
-        if (value == 200 || value == 500) {
-          walletController.cartList.clear();
-          walletController.cartList.refresh();
-          walletController.getUserMoney();
-          showSnackBar('copySucces', 'orderSubtitle', Colors.green);
-        } else if (value == 404) {
-          showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
-        } else {
-          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
-        }
-      });
-      settingsController.agreeButton.value = !settingsController.agreeButton.value;
+
+    if (token != null) {
+      if (double.parse(walletController.userMoney.toString()) > 0) {
+        settingsController.agreeButton.value = !settingsController.agreeButton.value;
+        final List list = [];
+        print('_________________________________________)))))))))))))))))))))))))_____');
+
+        list.add({'status': 'konkurs', 'id': widget.id, 'count': '1'});
+        await UcModel().addCart(list).then((value) {
+          if (value == 200 || value == 500) {
+            walletController.cartList.clear();
+            walletController.cartList.refresh();
+            walletController.getUserMoney();
+            showSnackBar('copySucces', 'orderSubtitle', Colors.green);
+          } else if (value == 404) {
+            showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+          } else {
+            showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+          }
+        });
+        settingsController.agreeButton.value = !settingsController.agreeButton.value;
+      } else {
+        showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+      }
     } else {
       showSnackBar('loginError', 'loginError1', Colors.red);
     }
@@ -244,19 +252,33 @@ class _ConcursByIDState extends State<ConcursByID> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<List<BoughtKonkursModel>>(
-              future: BoughtKonkursModel().getMyKonkurs(),
+            child: FutureBuilder<List<GetBoughtKonkursByIDModel>>(
+              future: GetBoughtKonkursByIDModel().getMyKonkursByID(id: int.parse(widget.id.toString())),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
+                } else if (snapshot.data == null) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Lottie.asset(noDataLottie, width: 350, height: 350),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        'notBoughtConcurs'.tr,
+                        style: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 18),
+                      ),
+                    ],
+                  );
                 } else if (snapshot.hasError) {
                   return errorData(
                     onTap: () {
-                      BoughtKonkursModel().getMyKonkurs();
+                      GetBoughtKonkursByIDModel().getMyKonkursByID(id: int.parse(widget.id.toString()));
                     },
                   );
-                } else if (snapshot.data == null) {
-                  return emptyData();
                 } else if (snapshot.data.toString() == '[]') {
                   return noData('noOrder');
                 }
@@ -298,6 +320,7 @@ class _ConcursByIDState extends State<ConcursByID> {
                               ],
                             ),
                           ),
+                          const SizedBox(width: 20),
                           Expanded(
                             flex: 1,
                             child: Text(
@@ -365,7 +388,6 @@ class _ConcursByIDState extends State<ConcursByID> {
                   Center(
                     child: AgreeButton(
                       onTap: () async {
-                        //create dialog and ask user if he want to buy  card or wallet
                         _showPurchaseDialog(context);
                       },
                       name: 'tournamentInfo11',

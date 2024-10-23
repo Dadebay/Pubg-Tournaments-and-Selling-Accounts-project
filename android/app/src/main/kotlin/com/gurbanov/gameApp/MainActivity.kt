@@ -1,4 +1,4 @@
-package com.northernerwolf.gameApp
+package com.gurbanov.gameApp
 
 import io.flutter.embedding.android.FlutterActivity
 

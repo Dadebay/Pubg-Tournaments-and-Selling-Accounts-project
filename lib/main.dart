@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:game_app/provider/getkonkur.dart';
+import 'package:game_app/views/constants/notification_service.dart';
 import 'package:provider/provider.dart';
 
 import 'connection_check.dart';
@@ -18,64 +17,24 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-AndroidNotificationChannel channel = const AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  // 'This channel is used for important notifications.', // description
-  importance: Importance.high,
-);
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-
-  await flutterLocalNotificationsPlugin.show(
-    message.data.hashCode,
-    message.notification!.title,
-    message.notification!.body,
-    NotificationDetails(
-      android: AndroidNotificationDetails(
-        channel.id,
-        channel.name,
-        // channel.description,
-        color: Colors.white,
-        styleInformation: const BigTextStyleInformation(''),
-        icon: '@mipmap/ic_launcher',
-      ),
-    ),
-  );
+Future<void> backgroundNotificationHandler(RemoteMessage message) async {
+  await FCMConfig().sendNotification(body: message.notification!.body!, title: message.notification!.title!);
+  return;
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
 
   HttpOverrides.global = MyHttpOverrides();
-  await FirebaseMessaging.instance.requestPermission();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
-  const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  const InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    iOS: null,
-    macOS: null,
-  );
-  await flutterLocalNotificationsPlugin.initialize(
-    initializationSettings,
-  );
-
+  await FCMConfig().requestPermission();
+  await FCMConfig().initAwesomeNotification();
+  FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarBrightness: Brightness.light,
-      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
       systemNavigationBarColor: kPrimaryColorBlack,
       statusBarColor: kPrimaryColorBlack,
     ),
@@ -110,35 +69,16 @@ class MyAppRun extends StatefulWidget {
 class _MyAppRunState extends State<MyAppRun> {
   final storage = GetStorage();
 
-  dynamic firebaseMessagingPart() {
-    FirebaseMessaging.instance.subscribeToTopic('EVENT');
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      flutterLocalNotificationsPlugin.show(
-        message.data.hashCode,
-        message.notification!.title,
-        message.notification!.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            styleInformation: const BigTextStyleInformation(''),
-            color: Colors.white,
-            icon: '@mipmap/ic_launcher',
-          ),
-        ),
-      );
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Get.to(() => const ConnectionCheck());
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    firebaseMessagingPart();
+    firebaseTask();
+  }
+
+  dynamic firebaseTask() async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      FCMConfig().sendNotification(body: message.notification!.body!, title: message.notification!.title!);
+    });
   }
 
   @override

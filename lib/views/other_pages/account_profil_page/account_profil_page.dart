@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, deprecated_member_use
 
 import 'package:game_app/models/accouts_for_sale_model.dart';
+import 'package:game_app/models/add_account_model.dart';
 import 'package:game_app/models/get_posts_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,6 +22,59 @@ class AccountProfilPage extends StatefulWidget {
 }
 
 class _AccountProfilPageState extends State<AccountProfilPage> {
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  dynamic getData() {
+    AddAccountModel().getConsts().then((value) {
+      print(value);
+      //show dialog
+      showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel: 'asdasd',
+        pageBuilder: (context, animation1, animation2) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                backgroundColor: kPrimaryColorBlack,
+                title: Text(
+                  'accountsForSale'.tr,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansSemiBold),
+                ),
+                shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      value['text_one'],
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansRegular),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    AgreeButton(
+                      onTap: () {
+                        Get.back();
+                      },
+                      showIcon: false,
+                      name: 'readAndAgree',
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

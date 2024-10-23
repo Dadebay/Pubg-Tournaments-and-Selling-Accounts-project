@@ -6,8 +6,8 @@ class MyTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'tr': {
-          ''
-              'aboutUs': 'Biz Barada',
+          'notBoughtConcurs': 'Hiç konkurs satyn almadyňyz !',
+          'aboutUs': 'Biz Barada',
           'account_profil_not_found': 'Ulanyjy maglumatlary tapylmady täzeden synanşyň',
           'account_profil_not_video': 'Ulanyjyda şu wagt wideo ýok !',
           'account_type_Vip_or_not': 'Hyzmatyň görnüşi',
@@ -187,6 +187,7 @@ class MyTranslations extends Translations {
           'tournamentInfo15': 'Turnir maglumatlaty:',
           'code': 'Kody:',
           'lobid': 'Lobb ID:',
+          'close': 'Ýapmak',
           'tournamentInfo16': 'Garaşmagyňyzy haýyş edýaris Turnir başlamagyna 10 minut galanda görkeziler',
           'tournamentInfo17': 'Üstünlikli goşuldyňyz',
           'tournamentInfo18': 'Goşuldyňyz',
@@ -228,7 +229,6 @@ class MyTranslations extends Translations {
           'userProfilImage': 'Profil suraty',
           'blokedTitle': 'Bloklandyňyz',
           'blokedSubtitle': 'Siz Programma düzgünlerini bozanyňyz üçin Admin tarapyndan bloklandyňyz.\nAçmak üçin admin bilen habarlaşmagyňyzy Sizden haýyş edýäris',
-          //////
           'errorLoadEmptyData': 'Waglaýynça maglumat ýok',
           'errorLoadData': 'Maglumatlar ýüklenmedi täzeden synanşyň !',
           'referalSubtitle': 'Bu kod üsti bilen ulanyjylary çagyryp bilersiňiz ve Pul gazanyp bilersiňiz',
@@ -244,26 +244,38 @@ class MyTranslations extends Translations {
           'referalKod': 'Referal Kody : ',
           'work_time': 'Irden sagat 08:00 - 22:00 habarlaşyp bilersiňiz!',
           'boughtGifts': 'Satyn alan Giftlerim',
+          'boughtUC': 'Satyn alan UC-lerim',
+          'boughtCODES': 'Satyn alan kodlarym',
           'giftName': 'Sowgat ady',
           'startDate': 'Başlan wagty : ',
           'endDate': 'Gutarýan wagty : ',
           'boughtKonkurs': 'Satyn alan Konkurslarym',
           'konkursName': 'Konkurs ady',
           'enterIDGift': 'Maglumatyňyzy giriziň',
+          'readAndAgree': 'Okadym we Tanyşdym',
+          'buySQUAD': 'Satyn almak',
+          'buySQUAD1': '1 orun satyn almak',
+          'buySQUAD2': 'Tutuş topary satyn almak',
+          'buySQUAD3': 'SQUAD ID-laryňyzy giriziň',
+          'buyDUO': 'DUO ID-laryňyzy giriziň',
         },
         'ru': {
+          'buySQUAD': 'Купить',
+          'buySQUAD1': 'Купить 1 место',
+          'buySQUAD2': 'Купить всю команду',
+          'buySQUAD3': 'Введите ваш SQUAD ID',
+          'buyDUO': 'Введите ваш DUO ID',
+          'readAndAgree': 'Я прочитал и согласен',
+          'boughtUC': 'Мои купленные  UC',
+          'boughtCODES': 'Мои купленные коды',
+          'notBoughtConcurs': 'Вы не купили ни одного конкурса!',
           'enterIDGift': 'Введите вашу информацию',
-
           'konkursName': 'Название конкурса',
-
           'boughtKonkurs': 'Приобретенные конкурсы',
-
           'startDate': 'Время начала : ',
           'endDate': 'Время окончания : ',
           'giftName': 'Имя подарка',
-
           'boughtGifts': 'Мои купленные подарки',
-
           'errorLoadEmptyData': 'Данные недоступны',
           'errorLoadData': 'Не удалось загрузить данные, попробуйте еще раз!',
           'referalSubtitle': 'С помощью этого кода вы можете привлекать пользователей и зарабатывать деньги',
@@ -279,7 +291,6 @@ class MyTranslations extends Translations {
           'referalKod': 'Реферальный код :',
           'lobid': 'Lobb ID:',
           'code': 'Код:',
-          //
           'blokedTitle': 'Заблокировано',
           'blokedSubtitle': 'Вы были заблокированы администратором за нарушение правил программы.\nПожалуйста, свяжитесь с администратором, чтобы разблокировать',
           'userProfilImage': 'Изображение профиля',
@@ -482,7 +493,6 @@ class MyTranslations extends Translations {
           'tournamentInfo2': 'Награды',
           'tournamentInfo20': 'Если вы приняли участие в турнире, подойдите к замку через 10 минут после начала турнира и получите код.',
           'tournamentInfo21': 'В турнире могут участвовать не более 100 человек. Участвуйте в других турнирах',
-
           'tournamentInfo3': 'Победители',
           'tournamentInfo4': 'Участники',
           'tournamentInfo5': 'Режим : ',

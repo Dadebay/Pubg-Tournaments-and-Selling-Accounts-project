@@ -150,3 +150,149 @@ class BoughtKonkurs extends StatelessWidget {
     );
   }
 }
+
+class BoughtCODES extends StatelessWidget {
+  const BoughtCODES({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kPrimaryColorBlack,
+      appBar: const MyAppBar(backArrow: true, fontSize: 0.0, elevationWhite: true, iconRemove: true, name: 'boughtKonkurs'),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    'giftName'.tr,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    'price'.tr,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    'code'.tr,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<List<BoughtThingsModel>>(
+              future: BoughtThingsModel().getGifts(),
+              builder: (context, snapshot) {
+                print(snapshot.data);
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: spinKit());
+                } else if (snapshot.hasError) {
+                  return errorData(
+                    onTap: () {
+                      BoughtThingsModel().getGifts();
+                    },
+                  );
+                } else if (snapshot.data == null) {
+                  return emptyData();
+                } else if (snapshot.data.toString() == '[]') {
+                  return noData('noOrder');
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  scrollDirection: Axis.vertical,
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      onTap: () {},
+                      title: Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 6, bottom: 4),
+                                  child: Icon(
+                                    CupertinoIcons.gift,
+                                    color: Colors.green,
+                                    size: 24,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${snapshot.data![index].thingName}',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.start,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: josefinSansMedium,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              '${snapshot.data![index].thingCommonPrice} TMT',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: josefinSansBold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              '${snapshot.data![index].thingCount}',
+                              textAlign: TextAlign.end,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: josefinSansMedium,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      iconColor: Colors.white,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

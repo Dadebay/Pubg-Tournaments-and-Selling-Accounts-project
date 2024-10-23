@@ -89,7 +89,7 @@ class _TournamentPageState extends State<TournamentPage> {
         child: Scaffold(
           appBar: MyAppBar(
             fontSize: 22.0,
-            backArrow: false,
+            backArrow: true,
             iconRemove: false,
             icon: userAppBarMoney(),
             name: 'tournament',

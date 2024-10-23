@@ -4,7 +4,7 @@ import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/views/user_profil/pages/referal_list.dart';
 
 import '../../../models/user_models/referal_model.dart';
-import '../auth/repository_referal.dart';
+import '../../../repository/repository_referal.dart';
 
 // ignore: must_be_immutable
 class ReferalPage extends StatelessWidget {
@@ -104,29 +104,6 @@ class ReferalPage extends StatelessWidget {
               );
             },
           ),
-          // dividder(),
-          // Container(
-          //   color: kPrimaryColorBlack,
-          //   padding: const EdgeInsets.only(bottom: 15, left: 12, right: 12),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       Expanded(
-          //         child: Text(
-          //           'referalKodEarnedMoney'.tr,
-          //           style: const TextStyle(color: Colors.white, fontFamily: josefinSansBold, fontSize: 24),
-          //         ),
-          //       ),
-          //       const Expanded(
-          //         child: Text(
-          //           '0 TMT',
-          //           textAlign: TextAlign.end,
-          //           style: TextStyle(color: kPrimaryColor, fontFamily: josefinSansBold, fontSize: 24),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // )
         ],
       ),
     );

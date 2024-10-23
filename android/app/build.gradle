@@ -53,7 +53,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.northernerwolf.gameApp"
+        applicationId "com.gurbanov.gameApp"
         minSdkVersion  21
         targetSdkVersion 34
         versionCode 7

@@ -77,11 +77,10 @@ Widget userAppBarMoney() {
           padding: EdgeInsets.only(
             left: 5,
             right: 5,
-            top: 5,
           ),
-          child: Text(
-            'TMT',
-            style: TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 15),
+          child: Icon(
+            IconlyLight.wallet,
+            color: Colors.white,
           ),
         ),
       ],

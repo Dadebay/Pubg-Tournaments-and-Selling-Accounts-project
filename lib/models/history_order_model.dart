@@ -87,6 +87,46 @@ class BoughtGiftsModel {
   }
 }
 
+class BoughtThingsModel {
+  final String? thingCommonPrice;
+  final String? thingName;
+  final String? thingCount;
+  BoughtThingsModel({this.thingCommonPrice, this.thingCount, this.thingName});
+
+  factory BoughtThingsModel.fromJson(Map<dynamic, dynamic> json) {
+    return BoughtThingsModel(
+      thingName: json['thing_name'].toString() ?? '+99362990344',
+      thingCount: json['thing_count'].toString() ?? '0',
+      thingCommonPrice: json['thingCommonPrice'].toString() ?? '0',
+    );
+  }
+
+  Future<List<BoughtThingsModel>> getGifts() async {
+    final token = await Auth().getToken();
+    // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYwNjkyODIxLCJpYXQiOjE3MjkxNTY4MjEsImp0aSI6IjY4NDRlNjVkMWZmODQ3MDY4NDc4MDg0NzhkZTJmY2M3IiwidXNlcl9pZCI6NDc4fQ.-CqApdrLph6D1cS7Px_delAVCyPkG_ZvPe-91SzwQk8';
+    final List<BoughtThingsModel> testList = [];
+    final response = await http.get(
+      Uri.parse(
+        '$serverURL/api/category/getMyThings/',
+      ),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      final decoded = utf8.decode(response.bodyBytes);
+      final responseJson = json.decode(decoded);
+      for (final Map product in responseJson) {
+        testList.add(BoughtThingsModel.fromJson(product));
+      }
+      return testList;
+    } else {
+      return [];
+    }
+  }
+}
+
 class BoughtKonkursModel {
   final int? id;
   final String? phone;
@@ -127,6 +167,46 @@ class BoughtKonkursModel {
       final responseJson = json.decode(decoded);
       for (final Map product in responseJson) {
         tournamentList.add(BoughtKonkursModel.fromJson(product));
+      }
+      return tournamentList;
+    } else {
+      return [];
+    }
+  }
+}
+
+class GetBoughtKonkursByIDModel {
+  final String? code;
+
+  final String? konkursName;
+  final String? price;
+  GetBoughtKonkursByIDModel({this.code, this.konkursName, this.price});
+
+  factory GetBoughtKonkursByIDModel.fromJson(Map<dynamic, dynamic> json) {
+    return GetBoughtKonkursByIDModel(
+      code: json['code'] ?? false,
+      konkursName: json['kon_name'].toString(),
+      price: json['kon_price'].toString(),
+    );
+  }
+
+  Future<List<GetBoughtKonkursByIDModel>> getMyKonkursByID({required int id}) async {
+    final token = await Auth().getToken();
+    final List<GetBoughtKonkursByIDModel> tournamentList = [];
+    final response = await http.get(
+      Uri.parse(
+        '$serverURL/api/category/getMyKonkursId/$id/',
+      ),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      final decoded = utf8.decode(response.bodyBytes);
+      final responseJson = json.decode(decoded);
+      for (final Map product in responseJson) {
+        tournamentList.add(GetBoughtKonkursByIDModel.fromJson(product));
       }
       return tournamentList;
     } else {

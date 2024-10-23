@@ -32,7 +32,7 @@ class BannerProfileView extends GetView {
         backgroundColor: kPrimaryColorBlack,
         elevation: 0,
         centerTitle: true,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColorBlack, statusBarIconBrightness: Brightness.light),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColorBlack, statusBarIconBrightness: Brightness.dark),
       ),
       body: ListView(
         children: [

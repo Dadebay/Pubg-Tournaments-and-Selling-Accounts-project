@@ -1,20 +1,24 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:game_app/controllers/wallet_controller.dart';
-import 'package:game_app/provider/getkonkur.dart';
+import 'package:game_app/models/get_gifts_model.dart';
 import 'package:game_app/views/cards/concurs_card.dart';
 import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/views/wallet/order_page.dart';
-import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../models/user_models/auth_model.dart';
 
-class GetGiftsScreen extends StatefulWidget {
-  const GetGiftsScreen({super.key});
-
+class OtherConcursScreen extends StatefulWidget {
+  const OtherConcursScreen({required this.pageName, required this.sellingID, super.key});
+  final String pageName;
+  final int sellingID;
   @override
-  State<GetGiftsScreen> createState() => _GetGiftsScreenState();
+  State<OtherConcursScreen> createState() => _OtherConcursScreenState();
 }
 
-class _GetGiftsScreenState extends State<GetGiftsScreen> {
+class _OtherConcursScreenState extends State<OtherConcursScreen> {
   String dialogTitle = '';
   TextEditingController pubgUserIDController = TextEditingController();
   TextEditingController pubgUserIDController2 = TextEditingController();
@@ -24,25 +28,6 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
   String title = 'selectUCType'.tr;
   final validator = GlobalKey<FormState>();
   final WalletController walletController = Get.put(WalletController());
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-    walletController.getUserMoney();
-  }
-
-  dynamic fetchData() async {
-    await Provider.of<getGiftsProvider>(context, listen: false).getGiftsCart(context);
-    await getGiftsProvider().getGiftData().then((value) async {
-      if (value == '') {
-        dialogTitle = 'enterID'.tr;
-      } else {
-        dialogTitle = value;
-      }
-    });
-    setState(() {});
-  }
 
   AppBar appBar() {
     return AppBar(
@@ -61,12 +46,12 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
       actions: [userAppBarMoney()],
       automaticallyImplyLeading: false,
       backgroundColor: kPrimaryColorBlack,
-      title: const Text(
-        'Gifts',
+      title: Text(
+        widget.pageName,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontFamily: josefinSansSemiBold,
           fontSize: 25,
@@ -135,7 +120,7 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                dialogTitle,
+                'enterIDGift'.tr,
                 style: const TextStyle(
                   color: Colors.white,
                   fontFamily: josefinSansBold,
@@ -147,7 +132,7 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
                 child: Form(
                   key: validator,
                   child: CustomTextField(
-                    labelName: 'enterIDGift'.tr,
+                    labelName: dialogTitle,
                     controller: pubgUserIDController,
                     borderRadius: true,
                     focusNode: pubgUserIDFocusNode,
@@ -189,6 +174,30 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
     );
   }
 
+  Future<List<ThingsMODEL>> getThingsProducts({required int id}) async {
+    final List<ThingsMODEL> pubgPost = [];
+    final token = await Auth().getToken();
+    final response = await http.get(
+      Uri.parse(
+        '$serverURL/api/category/sellings/$id/',
+      ),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      final responseJson = json.decode(response.body);
+      for (final Map product in responseJson) {
+        pubgPost.add(ThingsMODEL.fromJson(product));
+      }
+      dialogTitle = pubgPost[0].asking;
+      return pubgPost;
+    } else {
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,25 +217,33 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
         children: [
           customDivider(),
           Expanded(
-            child: dialogTitle == ''
-                ? spinKit()
-                : Consumer<getGiftsProvider>(
-                    builder: (_, gifts, __) {
-                      return GridView.builder(
-                        itemCount: gifts.giftsCart.length,
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2.8 / 4),
-                        itemBuilder: (context, index) {
-                          return UCCard2(
-                            model: gifts.giftsCart[index],
-                            selectedIndex: selectedIndex,
-                          );
-                        },
-                      );
-                    },
-                  ),
+            child: FutureBuilder<List<ThingsMODEL>>(
+              future: getThingsProducts(id: widget.sellingID),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return spinKit();
+                } else if (snapshot.data == null) {
+                  return emptyData();
+                } else if (snapshot.data!.isEmpty) {
+                  return emptyData();
+                } else if (snapshot.hasError) {
+                  return errorData(onTap: () {});
+                }
+                return GridView.builder(
+                  itemCount: snapshot.data!.length,
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2.8 / 4),
+                  itemBuilder: (context, index) {
+                    return ThingsCards(
+                      model: snapshot.data![index],
+                      selectedIndex: selectedIndex,
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),

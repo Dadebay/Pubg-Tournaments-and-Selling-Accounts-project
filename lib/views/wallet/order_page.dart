@@ -113,27 +113,31 @@ class _OrderPageState extends State<OrderPage> {
                   showIcon: true,
                   onTap: () async {
                     final token = await Auth().getToken();
-                    if (token != null && walletController.finalPRice > 0) {
-                      settingsController.agreeButton.value = !settingsController.agreeButton.value;
-                      final List list = [];
-                      for (var element in walletController.cartList) {
-                        list.add({'status': element['name'], 'id': element['id'], 'count': element['count'], 'pubg_id': widget.pubgID});
-                      }
-                      await UcModel().addCart(list).then((value) {
-                        if (value == 200 || value == 500) {
-                          walletController.cartList.clear();
-                          walletController.cartList.refresh();
-                          Get.back();
-                          Get.back();
-                          walletController.getUserMoney();
-                          showSnackBar('copySucces', 'orderSubtitle', Colors.green);
-                        } else if (value == 404) {
-                          showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
-                        } else {
-                          showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+                    if (token != null) {
+                      if (double.parse(walletController.userMoney.toString()) > 0) {
+                        settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                        final List list = [];
+                        for (var element in walletController.cartList) {
+                          list.add({'status': element['name'], 'id': element['id'], 'count': element['count'], 'pubg_id': widget.pubgID});
                         }
-                      });
-                      settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                        await UcModel().addCart(list).then((value) {
+                          if (value == 200 || value == 500) {
+                            walletController.cartList.clear();
+                            walletController.cartList.refresh();
+                            Get.back();
+                            Get.back();
+                            walletController.getUserMoney();
+                            showSnackBar('copySucces', 'orderSubtitle', Colors.green);
+                          } else if (value == 404) {
+                            showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+                          } else {
+                            showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+                          }
+                        });
+                        settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                      } else {
+                        showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+                      }
                     } else {
                       showSnackBar('loginError', 'loginError1', Colors.red);
                     }

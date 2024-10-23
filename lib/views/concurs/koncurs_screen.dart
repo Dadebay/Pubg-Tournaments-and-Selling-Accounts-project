@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:game_app/views/concurs/get_concurs.dart';
 import 'package:game_app/views/concurs/get_gifts.dart';
+import 'package:game_app/views/concurs/other_konkurs.dart';
 import 'package:game_app/views/constants/index.dart';
 import 'package:provider/provider.dart';
 
@@ -53,6 +54,15 @@ class _KonkursScreenState extends State<KonkursScreen> {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GetConcursScreen()));
                       } else if (index == 1) {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GetGiftsScreen()));
+                      } else {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => OtherConcursScreen(
+                              pageName: concurs.conCatigory[index].nameTm,
+                              sellingID: concurs.conCatigory[index].id,
+                            ),
+                          ),
+                        );
                       }
                     },
                     child: Container(

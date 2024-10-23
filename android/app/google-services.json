@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:35945321409:android:b85a6d607a2213d91a5540",
+        "mobilesdk_app_id": "1:35945321409:android:d6ead6f51f699f981a5540",
         "android_client_info": {
-          "package_name": "com.northernerwolf.gameApp"
+          "package_name": "com.gurbanov.gameApp"
         }
       },
       "oauth_client": [

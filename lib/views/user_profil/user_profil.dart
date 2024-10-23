@@ -1,21 +1,19 @@
 // ignore_for_file: file_names
 
-import 'package:flutter/cupertino.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 import 'package:game_app/views/constants/dialogs.dart';
 import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/views/constants/profile_button.dart';
+import 'package:game_app/views/user_profil/auth/tab_bar_view.dart';
+import 'package:game_app/views/user_profil/pages/about_us.dart';
 import 'package:game_app/views/user_profil/pages/add_cash.dart';
-import 'package:game_app/views/user_profil/pages/bought_gifts.dart';
-import 'package:game_app/views/user_profil/pages/bought_konkurs.dart';
+import 'package:game_app/views/user_profil/pages/bought_things.dart';
 import 'package:game_app/views/user_profil/pages/edit_work_profil.dart';
-import 'package:game_app/views/user_profil/pages/history_orders_page.dart';
 import 'package:game_app/views/user_profil/pages/profile_settings.dart';
 import 'package:game_app/views/user_profil/pages/settings.dart';
 
 import '../../controllers/wallet_controller.dart';
-import 'auth/tab_bar_view.dart';
 import 'pages/notification.dart';
 
 class UserProfil extends StatefulWidget {
@@ -86,6 +84,13 @@ class _UserProfilState extends State<UserProfil> {
                   icon: IconlyLight.notification,
                 ),
                 settingsController.loginUser.value ? whenUserLogin(snapshot.data!.forSale!, snapshot.data!) : const SizedBox.shrink(),
+                ProfilButton(
+                  name: 'aboutUs',
+                  onTap: () {
+                    Get.to(() => const AboutUs());
+                  },
+                  icon: IconlyLight.infoSquare,
+                ),
                 loginLogout(),
               ],
             );
@@ -99,29 +104,13 @@ class _UserProfilState extends State<UserProfil> {
     return ProfilButton(
       name: settingsController.loginUser.value ? 'log_out' : 'signUp',
       onTap: () {
-        settingsController.loginUser.value
-            ? logOut()
-            : defaultBottomSheet(
-                child: Column(
-                  children: [
-                    ProfilButton(
-                      name: 'loginWithPhone',
-                      onTap: () {
-                        Get.to(
-                          () => const TabBarViewPage(
-                            loginType: false,
-                          ),
-                        );
-                      },
-                      icon: IconlyLight.profile,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-                name: 'signUp',
-              );
+        if (settingsController.loginUser.value == false) {
+          Get.to(
+            () => const TabBarViewPage(),
+          );
+        } else {
+          logOut();
+        }
       },
       icon: IconlyLight.login,
     );
@@ -157,23 +146,9 @@ class _UserProfilState extends State<UserProfil> {
               )
             : const SizedBox.shrink(),
         ProfilButton(
-          name: 'boughtGifts',
-          onTap: () {
-            Get.to(() => const BoughtGifts());
-          },
-          icon: CupertinoIcons.gift,
-        ),
-        ProfilButton(
-          name: 'boughtKonkurs',
-          onTap: () {
-            Get.to(() => const BoughtKonkurs());
-          },
-          icon: CupertinoIcons.gift,
-        ),
-        ProfilButton(
           name: 'orders',
           onTap: () {
-            Get.to(() => const HistoryOrdersPage());
+            Get.to(() => const BoughtThings());
           },
           icon: IconlyLight.document,
         ),

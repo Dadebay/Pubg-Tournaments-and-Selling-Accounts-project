@@ -126,53 +126,63 @@ class _TournamentProfilPageState extends State<TournamentProfilPage> {
           color: Colors.white,
         ),
       ),
-      bottom: TabBar(
-        indicatorSize: TabBarIndicatorSize.label,
-        indicatorColor: kPrimaryColor,
-        labelStyle: const TextStyle(fontFamily: josefinSansSemiBold, fontSize: 20),
-        unselectedLabelStyle: const TextStyle(fontFamily: josefinSansMedium, fontSize: 18),
-        labelColor: Colors.white,
-        isScrollable: widget.finised ? false : true,
-        indicatorWeight: 4,
-        indicatorPadding: const EdgeInsets.only(
-          top: 45,
-        ),
-        indicator: const BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        unselectedLabelColor: Colors.grey,
-        tabs: [
-          Tab(
-            text: 'tournamentInfo1'.tr,
-          ),
-          Tab(
-            text: 'tournamentInfo2'.tr,
-          ),
-          Tab(
-            text: widget.finised ? 'tournamentInfo3'.tr : 'tournamentInfo4'.tr,
-          ),
-        ],
-      ),
       flexibleSpace: Container(
         color: kPrimaryColorBlack1,
         height: Get.size.height,
         width: Get.size.width,
-        child: Hero(
-          tag: widget.tag,
-          child: CachedNetworkImage(
-            fadeInCurve: Curves.ease,
-            imageUrl: widget.image,
-            imageBuilder: (context, imageProvider) => Container(
-              width: Get.size.width,
-              decoration: BoxDecoration(
+        child: Stack(
+          children: [
+            Hero(
+              tag: widget.tag,
+              child: CachedNetworkImage(
+                fadeInCurve: Curves.ease,
+                imageUrl: widget.image,
+                imageBuilder: (context, imageProvider) => Container(
+                  width: Get.size.width,
+                  decoration: BoxDecoration(
+                    color: kPrimaryColorBlack,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) => Center(child: spinKit()),
+                errorWidget: (context, url, error) => const Text('No Image'),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
                 color: kPrimaryColorBlack,
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
+                child: TabBar(
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicatorColor: kPrimaryColor,
+                  labelStyle: const TextStyle(fontFamily: josefinSansSemiBold, fontSize: 20),
+                  unselectedLabelStyle: const TextStyle(fontFamily: josefinSansMedium, fontSize: 18),
+                  labelColor: Colors.white,
+                  isScrollable: widget.finised ? false : true,
+                  indicatorWeight: 4,
+                  indicatorPadding: const EdgeInsets.only(
+                    top: 45,
+                  ),
+                  indicator: const BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                  unselectedLabelColor: Colors.grey,
+                  tabs: [
+                    Tab(
+                      text: 'tournamentInfo1'.tr,
+                    ),
+                    Tab(
+                      text: 'tournamentInfo2'.tr,
+                    ),
+                    Tab(
+                      text: widget.finised ? 'tournamentInfo3'.tr : 'tournamentInfo4'.tr,
+                    ),
+                  ],
                 ),
               ),
             ),
-            placeholder: (context, url) => Center(child: spinKit()),
-            errorWidget: (context, url, error) => const Text('No Image'),
-          ),
+          ],
         ),
       ),
     );

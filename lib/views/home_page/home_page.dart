@@ -82,11 +82,6 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           const Text('Ünus Beriň!'),
-                          // Container(
-                          //   color: Colors.white,
-                          //   height: 1,
-                          //   width: 115,
-                          // ),
                           const Text(
                             'Siz Bloсklandyňyz!',
                             style: TextStyle(fontSize: 16),
@@ -144,50 +139,6 @@ class _HomePageState extends State<HomePage> {
               listViewName('pubgTypes'.tr, false, size),
               PubgTypes(),
               listViewName('accountsForSale'.tr, true, size),
-              // FutureBuilder<GetMeModel>(
-              //   future: GetMeModel().getMe(),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.connectionState == ConnectionState.waiting) {
-              //       return Center(child: spinKit());
-              //     } else if (snapshot.hasError) {
-              //       return errorData(onTap: () {});
-              //     } else if (snapshot.data == null) {
-              //       return emptyData();
-              //     }
-              //     snapshot.data!.blocked == true
-              //         ? showDialog(
-              //             context: context,
-              //             builder: ((context) => AlertDialog(
-              //                   backgroundColor: kPrimaryColorBlack,
-              //                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-              //                   title: Container(
-              //                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              //                       child: Padding(
-              //                         padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 20),
-              //                         child: Column(
-              //                           children: [
-              //                             Text('Ünus Beriň!'),
-              //                             Container(
-              //                               color: Colors.white,
-              //                               height: 1,
-              //                               width: 115,
-              //                             ),
-              //                             SizedBox(
-              //                               height: 10,
-              //                             ),
-              //                             Text(
-              //                               'text_three',
-              //                               style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
-              //                             ),
-              //                           ],
-              //                         ),
-              //                       )),
-              //                 )))
-              //         : null;
-
-              //     return Container();
-              //   },
-              // ),
               FutureBuilder<List<GetPostsAccountModel>>(
                 future: GetPostsAccountModel().getVIPPosts(parametrs: {}),
                 builder: (context, snapshot) {

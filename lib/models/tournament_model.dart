@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:game_app/bottom_nav_bar.dart';
 import 'package:game_app/controllers/tournament_controller.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:http/http.dart' as http;
@@ -237,6 +238,78 @@ class TournamentModel {
       },
       body: jsonEncode(<String, dynamic>{
         'team_id': teamId,
+      }),
+    );
+    final bodys = jsonDecode(response.body);
+    response.statusCode == 200 ? showSnackBar('Üns beriň!', 'Siz üstunlikli turnire goşulduňyz!', Colors.green) : null;
+    response.statusCode != 200
+        ? showSnackBar(
+            'Üns beriň!',
+            bodys['error'] == 'User has not enough money to participate!'
+                ? 'Ulanyjynyň gatnaşmak üçin ýeterlik puly ýok!'
+                : bodys['error'] == 'User already participated!'
+                    ? 'Ulanyjy eýýäm gatnaşdy!'
+                    : bodys['error'],
+            Colors.red,
+          )
+        : null;
+    return response.statusCode;
+  }
+
+  Future participateTournamentSQUAD({required int teamId, required String pubgID1, required String pubgID2, required String pubgID3}) async {
+    final token = await Auth().getToken();
+    print(teamId);
+    print(pubgID1);
+    print(pubgID2);
+    print(pubgID3);
+    print('__________________________________________+++++++++++++++++++++++++++++++++++');
+    print(token);
+    final response = await http.post(
+      Uri.parse('$serverURL/api/turnirs/participatesquad/'),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+      body: jsonEncode(<String, String>{
+        'team_id': teamId.toString(),
+        'pubg_id1': pubgID1,
+        'pubg_id2': pubgID2,
+        'pubg_id3': pubgID3,
+      }),
+    );
+    print('__________________________________________+++++++++++++++++++++++++++++++++++');
+    print(response.statusCode);
+    print(response.body);
+    print(response.body);
+    // final bodys = jsonDecode(response.body);
+
+    response.statusCode == 200 ? showSnackBar('Üns beriň!', 'Siz üstunlikli turnire goşulduňyz!', Colors.green) : showSnackBar('Üns beriň!', 'tournamentInfo14', Colors.red);
+    Get.to(() => BottomNavBar());
+    // response.statusCode != 200
+    //     ? showSnackBar(
+    //         'Üns beriň!',
+    //         bodys['error'] == 'User has not enough money to participate!'
+    //             ? 'Ulanyjynyň gatnaşmak üçin ýeterlik puly ýok!'
+    //             : bodys['error'] == 'User already participated!'
+    //                 ? 'Ulanyjy eýýäm gatnaşdy!'
+    //                 : bodys['error'],
+    //         Colors.red,
+    //       )
+    //     : null;
+    return response.statusCode;
+  }
+
+  Future participateTournamentDUAL({required int teamId, required String pubgID1}) async {
+    final token = await Auth().getToken();
+    final response = await http.post(
+      Uri.parse('$serverURL/api/turnirs/participateduall/'),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'team_id': teamId,
+        'pubg_id': pubgID1,
       }),
     );
     final bodys = jsonDecode(response.body);

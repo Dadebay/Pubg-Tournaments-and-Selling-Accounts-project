@@ -45,7 +45,6 @@ class UcModel {
   }
 
   Future addCart(List list) async {
-    print(list);
     final String? token = await Auth().getToken();
     final response = await http.post(
       Uri.parse('$serverURL/api/category/paymentFromPoint/'),
@@ -55,7 +54,7 @@ class UcModel {
       },
       body: jsonEncode(list),
     );
-    print(response.body);
+    print('_________________________________________)))))))))))))))))))))))))_____');
     print(response.statusCode);
     return response.statusCode;
   }
