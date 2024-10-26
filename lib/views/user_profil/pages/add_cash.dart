@@ -1,9 +1,14 @@
 // ignore_for_file: file_names, deprecated_member_use
 
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/history_order_model.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
+import 'package:game_app/views/wallet/online_add_wallet_money.dart';
+import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/add_account_model.dart';
@@ -162,7 +167,32 @@ class _AskMoneyPageState extends State<AskMoneyPage> {
   FocusNode phoneFocusNode = FocusNode();
 
   final _login = GlobalKey<FormState>();
+  Future addMoneyToCARD() async {
+    final String? token = await Auth().getToken();
+    final response = await http.post(
+      Uri.parse('$serverURL/api/paymentToPoint/'),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+      body: jsonEncode({
+        'amount': amountController.text,
+      }),
+    );
+    print(response.body);
+    print(response.statusCode);
+    print(jsonDecode(response.body)['formUrl']);
+    await Get.to(
+      () => OnlineAddMoneyToWallet(
+        url: jsonDecode(response.body)['formUrl'],
+        amount: amountController.text,
+      ),
+    );
+  }
 
+  TextEditingController amountController = TextEditingController();
+
+  FocusNode amountFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,13 +213,6 @@ class _AskMoneyPageState extends State<AskMoneyPage> {
             child: ListView(
               padding: const EdgeInsets.all(15),
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                //   child: Text(
-                //     widget.text == 'message' ? widget.text.tr : 'addCash'.tr,
-                //     style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, height: 1.3, fontSize: 18),
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                   child: Text(
@@ -287,6 +310,48 @@ class _AskMoneyPageState extends State<AskMoneyPage> {
                           style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold, fontSize: 22),
                         ),
                       ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text('payCARD'.tr, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, height: 1.3, fontSize: 18)),
+                ),
+                AgreeButton(
+                  onTap: () {
+                    //fill up your balance write how much you want show dialog
+
+                    Get.dialog(
+                      AlertDialog(
+                        title: Text(
+                          'OnlinePayment'.tr,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: josefinSansSemiBold,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CustomTextField(labelName: 'OnlinePayment1', borderRadius: true, controller: amountController, focusNode: amountFocusNode, requestfocusNode: amountFocusNode, isNumber: true),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            AgreeButton(
+                              onTap: () {
+                                addMoneyToCARD();
+                              },
+                              name: 'agree',
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                    // addMoneyToCARD
+                  },
+                  name: 'agree'.tr,
+                ),
               ],
             ),
           );

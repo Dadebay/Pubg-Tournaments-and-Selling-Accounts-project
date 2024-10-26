@@ -13,11 +13,13 @@ class OrderCard extends StatefulWidget {
   final int count;
   final String title;
   final String image;
+  final String status;
   final String price;
   const OrderCard({
     required this.id,
     required this.count,
     required this.title,
+    required this.status,
     required this.image,
     required this.price,
     super.key,
@@ -125,7 +127,14 @@ class _OrderCardState extends State<OrderCard> {
                       style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansBold, fontSize: 18),
                     ),
                   ),
-                  AddCartButton(productProfil: true, id: widget.id, price: widget.price, title: widget.title, image: widget.image),
+                  AddCartButton(
+                    productProfil: true,
+                    id: widget.id,
+                    price: widget.price,
+                    title: widget.title,
+                    image: widget.image,
+                    status: widget.status,
+                  ),
                 ],
               ),
             ),

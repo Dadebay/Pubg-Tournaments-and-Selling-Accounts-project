@@ -3,7 +3,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:game_app/bottom_nav_bar.dart';
 import 'package:game_app/controllers/tournament_controller.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:http/http.dart' as http;
@@ -281,21 +280,21 @@ class TournamentModel {
     print(response.statusCode);
     print(response.body);
     print(response.body);
-    // final bodys = jsonDecode(response.body);
+    final bodys = jsonDecode(response.body);
 
     response.statusCode == 200 ? showSnackBar('Üns beriň!', 'Siz üstunlikli turnire goşulduňyz!', Colors.green) : showSnackBar('Üns beriň!', 'tournamentInfo14', Colors.red);
-    Get.to(() => BottomNavBar());
-    // response.statusCode != 200
-    //     ? showSnackBar(
-    //         'Üns beriň!',
-    //         bodys['error'] == 'User has not enough money to participate!'
-    //             ? 'Ulanyjynyň gatnaşmak üçin ýeterlik puly ýok!'
-    //             : bodys['error'] == 'User already participated!'
-    //                 ? 'Ulanyjy eýýäm gatnaşdy!'
-    //                 : bodys['error'],
-    //         Colors.red,
-    //       )
-    //     : null;
+    // Get.to(() => BottomNavBar());
+    response.statusCode != 200
+        ? showSnackBar(
+            'Üns beriň!',
+            bodys['error'] == 'User has not enough money to participate!'
+                ? 'Ulanyjynyň gatnaşmak üçin ýeterlik puly ýok!'
+                : bodys['error'] == 'User already participated!'
+                    ? 'Ulanyjy eýýäm gatnaşdy!'
+                    : bodys['error'],
+            Colors.red,
+          )
+        : null;
     return response.statusCode;
   }
 

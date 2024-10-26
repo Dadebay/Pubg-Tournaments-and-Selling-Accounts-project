@@ -1,6 +1,7 @@
 import 'package:flutter_html/flutter_html.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/user_models/auth_model.dart';
 import '../constants/index.dart';
@@ -19,6 +20,11 @@ class TabPage1 extends StatelessWidget {
     required this.model,
     super.key,
   });
+  String formatDateString(String dateString) {
+    final DateTime parsedDate = DateTime.parse(dateString);
+    final DateFormat formatter = DateFormat('yyyy-MM-dd  -  hh:mm');
+    return formatter.format(parsedDate);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +50,7 @@ class TabPage1 extends StatelessWidget {
                 ),
                 twoText(name1: 'tournamentInfo5'.tr, name2: model.mode ?? ''),
                 twoText(name1: 'tournamentInfo6'.tr, name2: model.map ?? ''),
-                twoText(name1: 'tournamentInfo7'.tr, name2: model.start_date.toString()),
+                twoText(name1: 'tournamentInfo7'.tr, name2: formatDateString(model.start_date.toString())),
                 twoText(name1: 'tournamentInfo8'.tr, name2: finised ? 'tournamentInfo9'.tr : 'tournamentInfo10'.tr),
                 const SizedBox(height: 25),
                 Html(

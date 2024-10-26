@@ -13,10 +13,10 @@ class PubgTypes extends StatelessWidget {
     'notification',
   ];
   List images = [
-    'assets/image/1.png',
-    'assets/image/2.png',
-    'assets/image/3.png',
-    'assets/image/4.png',
+    'assets/image/8.png',
+    'assets/image/6.png',
+    'assets/image/5.png',
+    'assets/image/7.png',
   ];
 
   PubgTypes({super.key});

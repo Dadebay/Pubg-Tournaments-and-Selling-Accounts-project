@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:game_app/bottom_nav_bar.dart';
 import 'package:game_app/models/tournament_model.dart';
-import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/cards/card_teams_widget.dart';
 import 'package:game_app/views/constants/index.dart';
 
@@ -53,14 +52,14 @@ class _SellctTeamState extends State<SellctTeam> {
     ];
 
     Get.defaultDialog(
-      title: widget.turnir.type == 'squad' ? 'buySQUAD3'.tr : 'buyDUO'.tr,
+      title: 'buySQUAD3'.tr,
       titleStyle: const TextStyle(color: Colors.white, fontFamily: josefinSansSemiBold, fontSize: 22),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Column(
             children: List.generate(widget.turnir.type == 'squad' ? 3 : 1, (index) {
-              return CustomTextField(labelName: '${index + 1} - ${'signIn2'.tr}', borderRadius: true, controller: controllers[index], focusNode: focusNode[index], requestfocusNode: focusNode[index + 1], isNumber: false);
+              return CustomTextField(labelName: '${index + 1} - ${'buySQUAD4'.tr}', borderRadius: true, controller: controllers[index], focusNode: focusNode[index], requestfocusNode: focusNode[index + 1], isNumber: false);
             }),
           ),
           const SizedBox(
@@ -68,9 +67,6 @@ class _SellctTeamState extends State<SellctTeam> {
           ),
           AgreeButton(
             onTap: () async {
-              final token = await Auth().getToken();
-              print(token);
-              print(selectedTeam);
               if (widget.turnir.type == 'squad') {
                 await TournamentModel()
                     .participateTournamentSQUAD(

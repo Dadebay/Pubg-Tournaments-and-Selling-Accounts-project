@@ -10,7 +10,8 @@ import '../constants/index.dart';
 
 class OrderPage extends StatefulWidget {
   final String pubgID;
-  const OrderPage({required this.pubgID, super.key});
+  final bool onlyCard;
+  const OrderPage({required this.pubgID, required this.onlyCard, super.key});
 
   @override
   State<OrderPage> createState() => _OrderPageState();
@@ -70,83 +71,111 @@ class _OrderPageState extends State<OrderPage> {
               }),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: AgreeButton(
-                  name: 'Kartdan',
-                  showIcon: true,
-                  onTap: () async {
-                    final token = await Auth().getToken();
-                    if (token != null) {
-                      settingsController.agreeButton.value = !settingsController.agreeButton.value;
-                      final List list = [];
-                      for (var element in walletController.cartList) {
-                        list.add({'status': element['name'], 'id': element['id'], 'count': element['count'], 'pubg_id': widget.pubgID});
-                      }
-                      await UcModel().addCartPlasticCARD(list).then((value) {
-                        if (value == 200) {
-                          walletController.cartList.clear();
-                          walletController.cartList.refresh();
-                          Get.back();
-                          Get.back();
-                          walletController.getUserMoney();
-                          showSnackBar('copySucces', 'orderSubtitle', Colors.green);
-                        } else if (value == 404) {
-                          showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
-                        }
-                      });
-                      settingsController.agreeButton.value = !settingsController.agreeButton.value;
-                    } else {
-                      showSnackBar('loginError', 'loginError1', Colors.red);
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              Expanded(
-                child: AgreeButton(
-                  name: 'Nagt',
-                  showIcon: true,
-                  onTap: () async {
-                    final token = await Auth().getToken();
-                    if (token != null) {
-                      if (double.parse(walletController.userMoney.toString()) > 0) {
-                        settingsController.agreeButton.value = !settingsController.agreeButton.value;
-                        final List list = [];
-                        for (var element in walletController.cartList) {
-                          list.add({'status': element['name'], 'id': element['id'], 'count': element['count'], 'pubg_id': widget.pubgID});
-                        }
-                        await UcModel().addCart(list).then((value) {
-                          if (value == 200 || value == 500) {
-                            walletController.cartList.clear();
-                            walletController.cartList.refresh();
-                            Get.back();
-                            Get.back();
-                            walletController.getUserMoney();
-                            showSnackBar('copySucces', 'orderSubtitle', Colors.green);
-                          } else if (value == 404) {
-                            showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+          widget.onlyCard
+              ? kartdan()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: kartdan(),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(
+                      child: AgreeButton(
+                        name: 'Nagt',
+                        showIcon: true,
+                        onTap: () async {
+                          final token = await Auth().getToken();
+                          if (token != null) {
+                            if (double.parse(walletController.userMoney.toString()) > 0) {
+                              settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                              final List list = [];
+                              for (var element in walletController.cartList) {
+                                if (element['status'] == 'thing') {
+                                  list.add({'status': element['status'], 'id': element['id'], 'count': element['count'], 'asking': widget.pubgID});
+                                } else {
+                                  if (element['status'] == 'gift') {
+                                    list.add({'status': element['status'], 'id': element['id'], 'count': element['count'], 'pubg_id': 'gift'});
+                                  } else {
+                                    list.add({'status': element['status'], 'id': element['id'], 'count': element['count'], 'pubg_id': widget.pubgID});
+                                  }
+                                }
+                              }
+                              print(list);
+                              print(list);
+                              print(list);
+                              print(list);
+                              await UcModel().addCart(list).then((value) {
+                                if (value == 200) {
+                                  walletController.cartList.clear();
+                                  walletController.cartList.refresh();
+                                  Get.back();
+                                  Get.back();
+                                  walletController.getUserMoney();
+                                  showSnackBar('copySucces', 'orderSubtitle', Colors.green);
+                                } else if (value == 404) {
+                                  showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+                                } else {
+                                  showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+                                }
+                              });
+                              settingsController.agreeButton.value = !settingsController.agreeButton.value;
+                            } else {
+                              showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+                            }
                           } else {
-                            showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+                            showSnackBar('loginError', 'loginError1', Colors.red);
                           }
-                        });
-                        settingsController.agreeButton.value = !settingsController.agreeButton.value;
-                      } else {
-                        showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
-                      }
-                    } else {
-                      showSnackBar('loginError', 'loginError1', Colors.red);
-                    }
-                  },
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ],
+      ),
+    );
+  }
+
+  Widget kartdan() {
+    return Center(
+      child: AgreeButton(
+        name: 'Kartdan',
+        showIcon: true,
+        onTap: () async {
+          final token = await Auth().getToken();
+          if (token != null) {
+            settingsController.agreeButton.value = !settingsController.agreeButton.value;
+            final List list = [];
+            for (var element in walletController.cartList) {
+              if (element['status'] == 'thing') {
+                list.add({'status': element['status'], 'id': element['id'], 'count': element['count'], 'asking': widget.pubgID});
+              } else {
+                if (element['status'] == 'gift') {
+                  list.add({'status': element['status'], 'id': element['id'], 'count': element['count'], 'pubg_id': 'gift'});
+                } else {
+                  list.add({'status': element['status'], 'id': element['id'], 'count': element['count'], 'pubg_id': widget.pubgID});
+                }
+              }
+            }
+            await UcModel().addCartPlasticCARD(list).then((value) {
+              if (value == 200) {
+                walletController.cartList.clear();
+                walletController.cartList.refresh();
+                Get.back();
+                Get.back();
+                walletController.getUserMoney();
+                showSnackBar('copySucces', 'orderSubtitle', Colors.green);
+              } else if (value == 404) {
+                showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
+              }
+            });
+            settingsController.agreeButton.value = !settingsController.agreeButton.value;
+          } else {
+            showSnackBar('loginError', 'loginError1', Colors.red);
+          }
+        },
       ),
     );
   }
@@ -200,6 +229,7 @@ class _OrderPageState extends State<OrderPage> {
                           title: walletController.cartList[index]['name'] ?? 'Pubg UC',
                           price: walletController.cartList[index]['price'].toString(),
                           count: walletController.cartList[index]['count'],
+                          status: walletController.cartList[index]['status'] ?? 'thing',
                         );
                       },
                     );

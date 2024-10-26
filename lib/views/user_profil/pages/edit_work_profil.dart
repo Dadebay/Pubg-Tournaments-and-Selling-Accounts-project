@@ -10,7 +10,6 @@ import 'package:game_app/models/home_page_model.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 import 'package:game_app/views/add_page/video_upload_page.dart';
-import 'package:game_app/views/user_profil/pages/edit_work_videos.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
@@ -69,15 +68,6 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
         }
       }
     });
-    // await PubgTypesModel().getTypes().then((value) {
-    //   for (var element in value) {
-    //     if (widget.model.pubgType == element.id) {
-    //       pubgName = element.title.toString();
-    //       pubgID = element.id!;
-    //       setState(() {});
-    //     }
-    //   }
-    // });
   }
 
   Future pickImage() async {
@@ -542,11 +532,11 @@ class _EditWorkProfileState extends State<EditWorkProfile> {
               ),
               TextButton(
                 onPressed: () {
-                  Get.to(
-                    () => EditWorkVideos(
-                      userId: widget.model.user!,
-                    ),
-                  );
+                  // Get.to(
+                  //   () => EditWorkVideos(
+                  //     userId: widget.model.user!,
+                  //   ),
+                  // );
                 },
                 child: Text(
                   'editVideo'.tr,

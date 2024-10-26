@@ -201,6 +201,7 @@ class _WalletPageState extends State<WalletPage> {
                       await Get.to(
                         () => OrderPage(
                           pubgID: pubgUserIDController.text,
+                          onlyCard: false,
                         ),
                       );
                     } else {

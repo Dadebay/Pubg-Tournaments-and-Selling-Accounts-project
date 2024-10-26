@@ -84,6 +84,7 @@ class _UserProfilState extends State<UserProfil> {
                   icon: IconlyLight.notification,
                 ),
                 settingsController.loginUser.value ? whenUserLogin(snapshot.data!.forSale!, snapshot.data!) : const SizedBox.shrink(),
+                // settingsController.loginUser.value ? whenUserLogin(true, snapshot.data!) : const SizedBox.shrink(),
                 ProfilButton(
                   name: 'aboutUs',
                   onTap: () {

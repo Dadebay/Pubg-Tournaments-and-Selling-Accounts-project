@@ -11,11 +11,13 @@ class AddCartButton extends StatefulWidget {
   final String price;
   final String title;
   final String image;
+  final String status;
 
   const AddCartButton({
     required this.productProfil,
     required this.id,
     required this.price,
+    required this.status,
     required this.title,
     required this.image,
     super.key,
@@ -89,7 +91,7 @@ class _AddCartButtonState extends State<AddCartButton> {
         GestureDetector(
           onTap: () {
             number++;
-            walletController.addCart(id: widget.id, image: widget.image, price: widget.price, title: widget.title);
+            walletController.addCart(id: widget.id, image: widget.image, price: widget.price, title: widget.title, status: widget.status);
             setState(() {
               final double b = double.parse(widget.price);
               walletController.finalCount.value = number.toDouble();
@@ -144,7 +146,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                 onPressed: () {
                   setState(() {
                     if (value == false) {
-                      walletController.addCart(id: widget.id, image: widget.image, price: widget.price, title: widget.title);
+                      walletController.addCart(id: widget.id, image: widget.image, price: widget.price, title: widget.title, status: widget.status);
 
                       value = !value;
                     }

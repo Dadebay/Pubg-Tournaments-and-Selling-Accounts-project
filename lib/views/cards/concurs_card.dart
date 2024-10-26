@@ -7,10 +7,10 @@ import 'package:game_app/views/constants/index.dart';
 
 import '../constants/price.dart';
 
-class UCCard2 extends StatelessWidget {
+class GiftCARD extends StatelessWidget {
   final GiftsMOdel model;
   final int selectedIndex;
-  const UCCard2({
+  const GiftCARD({
     required this.model,
     required this.selectedIndex,
     super.key,
@@ -70,13 +70,29 @@ class UCCard2 extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15, right: 6),
             child: Price(showDiscountedPrice: false, textColor: Colors.black, selectedIndex: selectedIndex, price: model.price.toStringAsFixed(1)),
           ),
-          AddCartButton(
-            productProfil: false,
-            id: model.id,
-            price: model.price.toString(),
-            image: "/media/${model.image['name']}",
-            title: 'gift',
-          ),
+          model.count_left == 0
+              ? Container(
+                  margin: const EdgeInsets.all(8),
+                  decoration: const BoxDecoration(
+                    color: kPrimaryColorBlack,
+                    borderRadius: borderRadius15,
+                  ),
+                  width: Get.size.width,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    'noStock'.tr,
+                    style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansSemiBold),
+                  ),
+                )
+              : AddCartButton(
+                  productProfil: false,
+                  id: model.id,
+                  price: model.price.toString(),
+                  image: "/media/${model.image['name']}",
+                  title: model.nameTm,
+                  status: 'gift',
+                ),
         ],
       ),
     );
@@ -152,6 +168,7 @@ class ThingsCards extends StatelessWidget {
             price: model.price.toString(),
             image: model.image,
             title: model.nameTm,
+            status: 'thing',
           ),
         ],
       ),

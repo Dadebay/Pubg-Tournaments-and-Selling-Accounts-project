@@ -21,7 +21,6 @@ class OtherConcursScreen extends StatefulWidget {
 class _OtherConcursScreenState extends State<OtherConcursScreen> {
   String dialogTitle = '';
   TextEditingController pubgUserIDController = TextEditingController();
-  TextEditingController pubgUserIDController2 = TextEditingController();
   FocusNode pubgUserIDFocusNode = FocusNode();
   FocusNode pubgUserIDFocusNode2 = FocusNode();
   int selectedIndex = 2;
@@ -154,9 +153,13 @@ class _OtherConcursScreenState extends State<OtherConcursScreen> {
                       }
                       walletController.finalPRice.value = value;
                       walletController.finalCount.value = counts;
+                      //if widget.pageName contains belet text
+                      final bool containsBelet = widget.pageName.toLowerCase().contains('belet'.toLowerCase()); // case insensitive
+                      print(containsBelet);
                       await Get.to(
                         () => OrderPage(
-                          pubgID: '${pubgUserIDController.text} - ${pubgUserIDController2.text}',
+                          pubgID: pubgUserIDController.text,
+                          onlyCard: containsBelet,
                         ),
                       );
                     } else {

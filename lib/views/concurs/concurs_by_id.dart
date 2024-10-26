@@ -61,6 +61,7 @@ class _ConcursByIDState extends State<ConcursByID> {
           walletController.cartList.refresh();
           walletController.getUserMoney();
           showSnackBar('copySucces', 'orderSubtitle', Colors.green);
+          setState(() {});
         } else if (value == 404) {
           showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
         }
@@ -82,11 +83,12 @@ class _ConcursByIDState extends State<ConcursByID> {
 
         list.add({'status': 'konkurs', 'id': widget.id, 'count': '1'});
         await UcModel().addCart(list).then((value) {
-          if (value == 200 || value == 500) {
+          if (value == 200) {
             walletController.cartList.clear();
             walletController.cartList.refresh();
             walletController.getUserMoney();
             showSnackBar('copySucces', 'orderSubtitle', Colors.green);
+            setState(() {});
           } else if (value == 404) {
             showSnackBar('money_error_title', 'money_error_subtitle', Colors.red);
           } else {

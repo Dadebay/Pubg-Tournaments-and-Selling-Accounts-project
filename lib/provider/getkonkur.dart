@@ -69,6 +69,8 @@ class getGiftsProvider with ChangeNotifier {
       final response = await dio.get(
         'http://216.250.11.240/api/category/getGifts/',
       );
+      print(response.data);
+      print(response.data);
       if (response.statusCode == 200) {
         if (response.data != null) {
           giftsCart = List<GiftsMOdel>.from(

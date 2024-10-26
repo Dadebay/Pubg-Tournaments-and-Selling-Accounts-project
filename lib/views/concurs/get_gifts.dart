@@ -16,13 +16,10 @@ class GetGiftsScreen extends StatefulWidget {
 
 class _GetGiftsScreenState extends State<GetGiftsScreen> {
   String dialogTitle = '';
-  TextEditingController pubgUserIDController = TextEditingController();
-  TextEditingController pubgUserIDController2 = TextEditingController();
   FocusNode pubgUserIDFocusNode = FocusNode();
   FocusNode pubgUserIDFocusNode2 = FocusNode();
   int selectedIndex = 2;
   String title = 'selectUCType'.tr;
-  final validator = GlobalKey<FormState>();
   final WalletController walletController = Get.put(WalletController());
 
   @override
@@ -79,7 +76,22 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
     return ElevatedButton(
       onPressed: () async {
         if (await _checkToken()) {
-          await onTapFunction();
+          double value = 0.0;
+          double counts = 0.0;
+          for (var element in walletController.cartList) {
+            value += double.parse(element['price']) * element['count'];
+            counts += element['count'];
+          }
+          walletController.finalPRice.value = value;
+          walletController.finalCount.value = counts;
+          await Get.to(
+            () => const OrderPage(
+              pubgID: 'gift',
+              onlyCard: false,
+            ),
+          );
+        } else {
+          showSnackBar('noConnection3', 'order_error_subtitle', Colors.red);
         }
       },
       style: ElevatedButton.styleFrom(
@@ -121,74 +133,6 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
     return true;
   }
 
-  Future<void> onTapFunction() async {
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: kPrimaryColorBlack,
-          shape: const RoundedRectangleBorder(
-            borderRadius: borderRadius20,
-            side: BorderSide(color: Colors.white),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                dialogTitle,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontFamily: josefinSansBold,
-                  fontSize: 22,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Form(
-                  key: validator,
-                  child: CustomTextField(
-                    labelName: 'enterIDGift'.tr,
-                    controller: pubgUserIDController,
-                    borderRadius: true,
-                    focusNode: pubgUserIDFocusNode,
-                    requestfocusNode: pubgUserIDFocusNode2,
-                    isNumber: false,
-                  ),
-                ),
-              ),
-              AgreeButton(
-                name: 'agree',
-                onTap: () async {
-                  if (await _checkToken()) {
-                    if (validator.currentState!.validate()) {
-                      double value = 0.0;
-                      double counts = 0.0;
-                      for (var element in walletController.cartList) {
-                        value += double.parse(element['price']) * element['count'];
-                        counts += element['count'];
-                      }
-                      walletController.finalPRice.value = value;
-                      walletController.finalCount.value = counts;
-                      await Get.to(
-                        () => OrderPage(
-                          pubgID: '${pubgUserIDController.text} - ${pubgUserIDController2.text}',
-                        ),
-                      );
-                    } else {
-                      showSnackBar('tournamentInfo14', 'errorEmpty', Colors.red);
-                    }
-                  } else {
-                    showSnackBar('noConnection3', 'order_error_subtitle', Colors.red);
-                  }
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -216,10 +160,10 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
                         itemCount: gifts.giftsCart.length,
                         physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
+                        // shrinkWrap: true,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2.8 / 4),
                         itemBuilder: (context, index) {
-                          return UCCard2(
+                          return GiftCARD(
                             model: gifts.giftsCart[index],
                             selectedIndex: selectedIndex,
                           );

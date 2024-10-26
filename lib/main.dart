@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:game_app/firebase_options.dart';
 import 'package:game_app/provider/getkonkur.dart';
 import 'package:game_app/views/constants/notification_service.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +30,9 @@ Future<void> main() async {
   // await Firebase.initializeApp();
 
   HttpOverrides.global = MyHttpOverrides();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await FCMConfig().requestPermission();
   await FCMConfig().initAwesomeNotification();
   FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
@@ -76,6 +81,11 @@ class _MyAppRunState extends State<MyAppRun> {
   }
 
   dynamic firebaseTask() async {
+    await FCMConfig().requestPermission();
+
+    await FirebaseMessaging.instance.getToken().then((value) {
+      print(value);
+    });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       FCMConfig().sendNotification(body: message.notification!.body!, title: message.notification!.title!);
     });

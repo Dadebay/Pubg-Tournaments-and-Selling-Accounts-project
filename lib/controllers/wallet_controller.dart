@@ -18,6 +18,7 @@ class WalletController extends GetxController {
     required String price,
     required String title,
     required String image,
+    required String status,
   }) {
     if (cartList.isEmpty) {
       cartList.add({
@@ -25,6 +26,7 @@ class WalletController extends GetxController {
         'count': 1,
         'price': price,
         'name': title,
+        'status': status,
         'image': image,
       });
     } else {
@@ -41,10 +43,12 @@ class WalletController extends GetxController {
           'count': 1,
           'price': price,
           'name': title,
+          'status': status,
           'image': image,
         });
       }
     }
+    print(cartList);
     storage.write('cart', cartList);
   }
 
