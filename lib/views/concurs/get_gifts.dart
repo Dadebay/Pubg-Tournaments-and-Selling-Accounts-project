@@ -88,6 +88,7 @@ class _GetGiftsScreenState extends State<GetGiftsScreen> {
             () => const OrderPage(
               pubgID: 'gift',
               onlyCard: false,
+              asking: 'gift',
             ),
           );
         } else {

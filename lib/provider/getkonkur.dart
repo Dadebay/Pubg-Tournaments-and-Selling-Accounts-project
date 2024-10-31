@@ -28,7 +28,7 @@ class ConCatigoryProvider with ChangeNotifier {
       final response = await dio.get(
         'http://216.250.11.240/api/category/',
       );
-
+      print(response.data);
       if (response.statusCode == 200) {
         if (response.data != null) {
           conCatigory = List<ConCatigory>.from(
@@ -36,7 +36,6 @@ class ConCatigoryProvider with ChangeNotifier {
               return ConCatigory.fromJson(e);
             }),
           );
-          print(response.data);
           isLoading = false;
           notifyListeners();
         }
@@ -69,7 +68,6 @@ class getGiftsProvider with ChangeNotifier {
       final response = await dio.get(
         'http://216.250.11.240/api/category/getGifts/',
       );
-      print(response.data);
       print(response.data);
       if (response.statusCode == 200) {
         if (response.data != null) {

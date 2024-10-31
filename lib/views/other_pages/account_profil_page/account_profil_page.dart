@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, deprecated_member_use
 
+import 'package:flutter_html/flutter_html.dart';
 import 'package:game_app/models/accouts_for_sale_model.dart';
 import 'package:game_app/models/add_account_model.dart';
 import 'package:game_app/models/get_posts_model.dart';
@@ -30,42 +31,63 @@ class _AccountProfilPageState extends State<AccountProfilPage> {
 
   dynamic getData() {
     AddAccountModel().getConsts().then((value) {
-      print(value);
-      //show dialog
       showGeneralDialog(
         context: context,
         barrierDismissible: true,
-        barrierLabel: 'asdasd',
+        barrierColor: Colors.grey.withOpacity(0.7),
+        barrierLabel: 'test',
         pageBuilder: (context, animation1, animation2) {
           return StatefulBuilder(
             builder: (context, setState) {
               return AlertDialog(
                 backgroundColor: kPrimaryColorBlack,
-                title: Text(
-                  'accountsForSale'.tr,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansSemiBold),
+                title: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(IconlyLight.infoSquare, color: kPrimaryColor, size: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        'accountsForSale'.tr,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white, fontSize: 24, fontFamily: josefinSansSemiBold),
+                      ),
+                    ),
+                    const Icon(IconlyLight.infoSquare, color: kPrimaryColor, size: 30),
+                  ],
                 ),
                 shape: const OutlineInputBorder(borderRadius: borderRadius15, borderSide: BorderSide(color: Colors.white)),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      value['text_one'],
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansRegular),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    AgreeButton(
-                      onTap: () {
-                        Get.back();
-                      },
-                      showIcon: false,
-                      name: 'readAndAgree',
-                    ),
-                  ],
+                content: SizedBox(
+                  width: Get.size.width * 0.8,
+                  // height: Get.size.height * 0.5,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Html(
+                        data: value['text_one'],
+                        style: {
+                          'body': Style(
+                            fontFamily: josefinSansRegular,
+                            fontSize: FontSize(20.0),
+                            color: Colors.white,
+                            textAlign: TextAlign.center,
+                          ),
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      AgreeButton(
+                        onTap: () {
+                          Get.back();
+                        },
+                        showIcon: false,
+                        name: 'readAndAgree',
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

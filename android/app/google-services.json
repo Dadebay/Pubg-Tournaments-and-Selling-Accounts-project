@@ -33,6 +33,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35945321409:android:a31697d67e9cd1c11a5540",
+        "android_client_info": {
+          "package_name": "com.northernerwolf.gameApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35945321409-28jmf9sp7kvpc5urqdh7ecu7u8bjn2dl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC00fgrPbGm54V4XLofYt9XLhWFKbiqkLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35945321409-28jmf9sp7kvpc5urqdh7ecu7u8bjn2dl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

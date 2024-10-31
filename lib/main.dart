@@ -31,6 +31,7 @@ Future<void> main() async {
 
   HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp(
+    name: 'gameApp',
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FCMConfig().requestPermission();
@@ -78,14 +79,11 @@ class _MyAppRunState extends State<MyAppRun> {
   void initState() {
     super.initState();
     firebaseTask();
+    ErrorWidget.builder = (FlutterErrorDetails details) => const Material();
   }
 
   dynamic firebaseTask() async {
     await FCMConfig().requestPermission();
-
-    await FirebaseMessaging.instance.getToken().then((value) {
-      print(value);
-    });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       FCMConfig().sendNotification(body: message.notification!.body!, title: message.notification!.title!);
     });

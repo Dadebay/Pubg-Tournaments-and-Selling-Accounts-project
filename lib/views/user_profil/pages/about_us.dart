@@ -85,6 +85,9 @@ class _AboutUsState extends State<AboutUs> {
     } else {
       uri = Uri.parse(link);
     }
+    print(link);
+    print(uri);
+    print(await canLaunch(uri.toString()));
     if (await canLaunch(uri.toString())) {
       await launch(uri.toString());
     } else {

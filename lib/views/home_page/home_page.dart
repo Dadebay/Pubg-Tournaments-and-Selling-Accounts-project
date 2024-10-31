@@ -6,7 +6,6 @@ import 'package:game_app/controllers/home_page_controller.dart';
 import 'package:game_app/models/home_page_model.dart';
 import 'package:game_app/views/constants/index.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../models/get_posts_model.dart';
@@ -35,7 +34,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   late String dateTurnir;
-  late DateTime dt2;
 
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
@@ -62,52 +60,45 @@ class _HomePageState extends State<HomePage> {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
-      final formatter = DateFormat('yyyy-MM-dd');
-      final dateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss+zzz").parse(responseJson['blocked_date']);
-      dateTurnir = formatter.format(dateTime);
-      dt2 = DateTime.parse(dateTurnir);
-      final bool blocked = responseJson['blocked'];
-      unawaited(
-        blocked == true
-            ? showDialog(
-                // ignore: use_build_context_synchronously
-                context: context,
-                builder: (ctxt) => AlertDialog(
-                  backgroundColor: kPrimaryColorBlack,
-                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
-                  title: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 20),
-                      child: Column(
-                        children: [
-                          const Text('Ünus Beriň!'),
-                          const Text(
-                            'Siz Bloсklandyňyz!',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            responseJson['block_reason'],
-                            style: const TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            dateTurnir.toString(),
-                            style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
-                          ),
-                        ],
-                      ),
+      final bool blocked = responseJson['blocked'] ?? false;
+      if (blocked == true) {
+        await showDialog(
+          context: context,
+          builder: (ctxt) => AlertDialog(
+            backgroundColor: kPrimaryColorBlack,
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            title: Container(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 20),
+                child: Column(
+                  children: [
+                    const Text('Ünus Beriň!'),
+                    const Text(
+                      'Siz Bloсklandyňyz!',
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      responseJson['block_reason'],
+                      style: const TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      dateTurnir.toString(),
+                      style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.normal, fontFamily: josefinSansRegular),
+                    ),
+                  ],
                 ),
-              )
-            : null,
-      );
+              ),
+            ),
+          ),
+        );
+      }
 
       return GetMeModel.fromJson(responseJson);
     } else {

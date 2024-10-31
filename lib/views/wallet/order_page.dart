@@ -10,8 +10,9 @@ import '../constants/index.dart';
 
 class OrderPage extends StatefulWidget {
   final String pubgID;
+  final String asking;
   final bool onlyCard;
-  const OrderPage({required this.pubgID, required this.onlyCard, super.key});
+  const OrderPage({required this.pubgID, required this.onlyCard, required this.asking, super.key});
 
   @override
   State<OrderPage> createState() => _OrderPageState();
@@ -48,7 +49,7 @@ class _OrderPageState extends State<OrderPage> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: text('accountDetaile2', widget.pubgID),
+            child: text(widget.asking, widget.pubgID),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

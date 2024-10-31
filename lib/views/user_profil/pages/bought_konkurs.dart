@@ -1,11 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:game_app/models/history_order_model.dart';
-import 'package:game_app/views/constants/app_bar.dart';
-import 'package:game_app/views/constants/constants.dart';
-import 'package:get/utils.dart';
-
-import '../../constants/widgets.dart';
+import 'package:game_app/views/constants/index.dart';
 
 class BoughtKonkurs extends StatelessWidget {
   const BoughtKonkurs({super.key});
@@ -78,7 +73,11 @@ class BoughtKonkurs extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: snapshot.data![index].code.toString())).then((value) {
+                          showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
+                        });
+                      },
                       title: Row(
                         children: [
                           Expanded(
@@ -158,13 +157,23 @@ class BoughtCODES extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColorBlack,
-      appBar: const MyAppBar(backArrow: true, fontSize: 0.0, elevationWhite: true, iconRemove: true, name: 'boughtKonkurs'),
+      appBar: const MyAppBar(backArrow: true, fontSize: 0.0, elevationWhite: true, iconRemove: true, name: 'boughtCODES'),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    'kodName'.tr,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(color: Colors.white, fontSize: 18, fontFamily: josefinSansSemiBold),
+                  ),
+                ),
                 Expanded(
                   flex: 3,
                   child: Text(
@@ -188,7 +197,7 @@ class BoughtCODES extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: Text(
-                    'code'.tr,
+                    'count'.tr,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,
@@ -202,8 +211,6 @@ class BoughtCODES extends StatelessWidget {
             child: FutureBuilder<List<BoughtThingsModel>>(
               future: BoughtThingsModel().getGifts(),
               builder: (context, snapshot) {
-                print(snapshot.data);
-
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
                 } else if (snapshot.hasError) {
@@ -228,31 +235,31 @@ class BoughtCODES extends StatelessWidget {
                       title: Row(
                         children: [
                           Expanded(
-                            flex: 3,
-                            child: Row(
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(right: 6, bottom: 4),
-                                  child: Icon(
-                                    CupertinoIcons.gift,
-                                    color: Colors.green,
-                                    size: 24,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    '${snapshot.data![index].thingName}',
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.start,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: josefinSansMedium,
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            flex: 2,
+                            child: Text(
+                              '${snapshot.data![index].asking}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: josefinSansBold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              '${snapshot.data![index].thingName}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: josefinSansMedium,
+                                fontSize: 17,
+                              ),
                             ),
                           ),
                           Expanded(
@@ -270,7 +277,7 @@ class BoughtCODES extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            flex: 2,
+                            flex: 1,
                             child: Text(
                               '${snapshot.data![index].thingCount}',
                               textAlign: TextAlign.end,

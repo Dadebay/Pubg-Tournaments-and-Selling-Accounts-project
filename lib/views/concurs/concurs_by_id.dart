@@ -6,6 +6,7 @@ import 'package:game_app/models/history_order_model.dart';
 import 'package:game_app/models/uc_models.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/provider/getkonkur.dart';
+import 'package:game_app/views/concurs/concurs_winners.dart';
 import 'package:game_app/views/constants/index.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
@@ -79,7 +80,6 @@ class _ConcursByIDState extends State<ConcursByID> {
       if (double.parse(walletController.userMoney.toString()) > 0) {
         settingsController.agreeButton.value = !settingsController.agreeButton.value;
         final List list = [];
-        print('_________________________________________)))))))))))))))))))))))))_____');
 
         list.add({'status': 'konkurs', 'id': widget.id, 'count': '1'});
         await UcModel().addCart(list).then((value) {
@@ -390,9 +390,17 @@ class _ConcursByIDState extends State<ConcursByID> {
                   Center(
                     child: AgreeButton(
                       onTap: () async {
-                        _showPurchaseDialog(context);
+                        if (concurs.concursCartById!.finishedDate.isBefore(DateTime.now())) {
+                          Get.to(
+                            () => ConcursWinners(
+                              concursID: widget.id,
+                            ),
+                          );
+                        } else {
+                          _showPurchaseDialog(context);
+                        }
                       },
-                      name: 'tournamentInfo11',
+                      name: concurs.concursCartById!.finishedDate.isBefore(DateTime.now()) == true ? 'showWinners' : 'tournamentInfo11',
                     ),
                   ),
                 ],

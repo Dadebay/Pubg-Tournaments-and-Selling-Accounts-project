@@ -210,6 +210,15 @@ class OrderByID extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 15),
+                              child: Row(
+                                children: [
+                                  Expanded(flex: 1, child: Text('${'signIn2'.tr} :', textAlign: TextAlign.start, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontFamily: josefinSansMedium, fontSize: 18))),
+                                  Expanded(flex: 3, child: Text(snapshot.data!.pubgID!, textAlign: TextAlign.start, style: const TextStyle(color: kPrimaryColor, fontFamily: josefinSansMedium, fontSize: 18))),
+                                ],
+                              ),
+                            ),
                             ask
                                 ? const SizedBox.shrink()
                                 : Padding(

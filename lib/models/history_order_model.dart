@@ -13,12 +13,13 @@ class HistoryOrderModel {
   final String? status;
   final String? created_date;
   final String? price;
+  final String? pubgID;
   final String? note;
   final bool? ask;
-  HistoryOrderModel({this.id, this.ask, this.status, this.created_date, this.note, this.price});
+  HistoryOrderModel({this.id, this.ask, this.pubgID, this.status, this.created_date, this.note, this.price});
 
   factory HistoryOrderModel.fromJson(Map<dynamic, dynamic> json) {
-    return HistoryOrderModel(id: json['id'], status: json['status'] ?? 'pending', ask: json['ask'] ?? false, price: json['price'].toString(), note: json['note'] ?? '', created_date: json['created_date']);
+    return HistoryOrderModel(id: json['id'], status: json['status'] ?? 'pending', pubgID: json['pubg_id'] ?? 'pubg_id', ask: json['ask'] ?? false, price: json['price'].toString(), note: json['note'] ?? '', created_date: json['created_date']);
   }
 
   Future<List<HistoryOrderModel>> getOrders() async {
@@ -33,6 +34,8 @@ class HistoryOrderModel {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+    print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
@@ -91,12 +94,14 @@ class BoughtThingsModel {
   final String? thingCommonPrice;
   final String? thingName;
   final String? thingCount;
-  BoughtThingsModel({this.thingCommonPrice, this.thingCount, this.thingName});
+  final String? asking;
+  BoughtThingsModel({this.thingCommonPrice, this.thingCount, this.asking, this.thingName});
 
   factory BoughtThingsModel.fromJson(Map<dynamic, dynamic> json) {
     return BoughtThingsModel(
       thingName: json['thing_name'].toString() ?? '+99362990344',
       thingCount: json['thing_count'].toString() ?? '0',
+      asking: json['asking'].toString() ?? '',
       thingCommonPrice: json['thingCommonPrice'].toString() ?? '0',
     );
   }

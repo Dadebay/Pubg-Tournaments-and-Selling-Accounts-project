@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC00fgrPbGm54V4XLofYt9XLhWFKbiqkLw',
-    appId: '1:35945321409:android:0f489d237aba33dd1a5540',
+    appId: '1:35945321409:android:a31697d67e9cd1c11a5540',
     messagingSenderId: '35945321409',
     projectId: 'uc-dayy-45236',
     storageBucket: 'uc-dayy-45236.appspot.com',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyD-1cPPeDHnm_J8l5EheI2XyxJUddMH9t8',
-    appId: '1:35945321409:ios:8a22192f717d68e91a5540',
+    appId: '1:35945321409:ios:7fa243453083f6381a5540',
     messagingSenderId: '35945321409',
     projectId: 'uc-dayy-45236',
     storageBucket: 'uc-dayy-45236.appspot.com',
-    iosBundleId: 'com.gurbanov.gameApp',
+    iosBundleId: 'com.northernerwolf.gameApp',
   );
 
 }

@@ -202,6 +202,7 @@ class _WalletPageState extends State<WalletPage> {
                         () => OrderPage(
                           pubgID: pubgUserIDController.text,
                           onlyCard: false,
+                          asking: 'accountDetaile2'.tr,
                         ),
                       );
                     } else {

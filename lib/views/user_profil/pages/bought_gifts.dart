@@ -1,11 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:game_app/models/history_order_model.dart';
-import 'package:game_app/views/constants/app_bar.dart';
-import 'package:game_app/views/constants/constants.dart';
-import 'package:get/utils.dart';
-
-import '../../constants/widgets.dart';
+import 'package:game_app/views/constants/index.dart';
 
 class BoughtGifts extends StatelessWidget {
   const BoughtGifts({super.key});
@@ -75,7 +70,11 @@ class BoughtGifts extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: snapshot.data![index].code.toString())).then((value) {
+                          showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
+                        });
+                      },
                       title: Row(
                         children: [
                           Expanded(

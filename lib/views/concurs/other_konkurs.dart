@@ -155,11 +155,11 @@ class _OtherConcursScreenState extends State<OtherConcursScreen> {
                       walletController.finalCount.value = counts;
                       //if widget.pageName contains belet text
                       final bool containsBelet = widget.pageName.toLowerCase().contains('belet'.toLowerCase()); // case insensitive
-                      print(containsBelet);
                       await Get.to(
                         () => OrderPage(
                           pubgID: pubgUserIDController.text,
                           onlyCard: containsBelet,
+                          asking: dialogTitle,
                         ),
                       );
                     } else {
