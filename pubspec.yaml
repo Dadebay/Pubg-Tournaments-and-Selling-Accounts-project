@@ -35,7 +35,7 @@ dependencies:
   time_machine: ^0.9.17
   provider: ^6.0.5
   dio: ^5.3.0
-  flutter_launcher_icons: ^0.11.0
+  # flutter_launcher_icons: ^0.11.0
   timer_count_down: 
   webview_flutter: ^4.0.0
   change_app_package_name: ^1.1.0
@@ -45,19 +45,20 @@ dependencies:
     sdk: flutter
   async: ^2.11.0
 
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/image/logo.png"
-  min_sdk_android: 21
-  adaptive_icon_background: "assets/image/logo.png" # only available for Android 8.0 devices and above
-  adaptive_icon_foreground: "assets/image/logo.png"
-flutter_icons:
-  android: true
-  ios: true
-  image_path: "assets/image/logo.png"
-  adaptive_icon_background: "assets/image/logo.png" # only available for Android 8.0 devices and above
-  adaptive_icon_foreground: "assets/image/logo.png"
+# flutter_launcher_icons:
+#   android: "launcher_icon"
+#   ios: true
+#   remove_alpha_ios: true
+#   image_path: "assets/image/logo.png"
+#   min_sdk_android: 21
+#   adaptive_icon_background: "assets/image/logo.png" 
+#   adaptive_icon_foreground: "assets/image/logo.png"
+# flutter_icons:
+#   android: true
+#   ios: true
+#   image_path: "assets/image/logo.png"
+#   adaptive_icon_background: "assets/image/logo.png" 
+#   adaptive_icon_foreground: "assets/image/logo.png"
 
 dev_dependencies:
   flutter_lints: ^4.0.0

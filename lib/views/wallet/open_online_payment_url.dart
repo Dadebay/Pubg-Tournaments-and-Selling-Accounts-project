@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:game_app/bottom_nav_bar.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/constants/index.dart';
@@ -58,6 +59,7 @@ class _OpenOnlinePaymentWebsiteState extends State<OpenOnlinePaymentWebsite> {
                           'id': e['id'],
                           'count': e['count'],
                           'orderId': orderId,
+                          'pubg_id': e['pubg_id'],
                         },
                       )
                       .toList();
@@ -80,8 +82,7 @@ class _OpenOnlinePaymentWebsiteState extends State<OpenOnlinePaymentWebsite> {
                     walletController.cartList.clear();
                     walletController.cartList.refresh();
                     showSnackBar('copySucces', 'orderSubtitle', Colors.green);
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
+                    Get.to(() => const BottomNavBar());
                   }
                   return response2.statusCode;
                 } else {

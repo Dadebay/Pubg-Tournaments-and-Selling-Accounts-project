@@ -32,7 +32,6 @@ class AboutUsModel {
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
     print(response.statusCode);

@@ -1,10 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/tournament_model.dart';
+import 'package:game_app/views/constants/widgets.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/user_models/auth_model.dart';
-import '../constants/index.dart';
+import '../buttons/agree_button.dart';
+import '../constants/constants.dart';
 import 'local_widgets.dart';
 
 class TabPage1 extends StatelessWidget {
@@ -22,8 +26,14 @@ class TabPage1 extends StatelessWidget {
   });
   String formatDateString(String dateString) {
     final DateTime parsedDate = DateTime.parse(dateString);
-    final DateFormat formatter = DateFormat('yyyy-MM-dd  -  hh:mm');
-    return formatter.format(parsedDate);
+    print(dateString);
+
+    // Adjust the parsed date to the local time zone
+    final DateTime localTime = parsedDate.toLocal();
+
+    final DateFormat formatter = DateFormat('yyyy-MM-dd  -  HH:mm');
+    print(formatter.format(localTime));
+    return formatter.format(localTime);
   }
 
   @override

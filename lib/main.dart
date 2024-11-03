@@ -27,7 +27,7 @@ Future<void> backgroundNotificationHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp(

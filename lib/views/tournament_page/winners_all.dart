@@ -52,7 +52,17 @@ class _WinnersAllState extends State<WinnersAll> {
               // height: 310,
               width: double.infinity,
               child: Column(
-                children: [for (var i = 0; i < widget.usersCount; i++) widget.winners.teamUsers!.length >= i + 1 ? GatnashyanlarCard(teamUsers: widget.winners.teamUsers![i]) : const EmptyUsersCard()],
+                children: [
+                  for (var i = 0; i < widget.usersCount; i++)
+                    widget.winners.teamUsers!.length >= i + 1
+                        ? GatnashyanlarCard(
+                            teamUsers: widget.winners.teamUsers![i],
+                            teamID: '',
+                            showButton: false,
+                            turnirID: '',
+                          )
+                        : const EmptyUsersCard(),
+                ],
               ),
             ),
           ),

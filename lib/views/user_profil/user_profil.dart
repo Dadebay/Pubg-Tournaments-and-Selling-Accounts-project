@@ -62,7 +62,7 @@ class _UserProfilState extends State<UserProfil> {
                         onTap: () {
                           Get.to(
                             () => ProfileSettings(
-                              image: snapshot.data!.image!,
+                              image: snapshot.data!.bgImage!,
                             ),
                           );
                         },

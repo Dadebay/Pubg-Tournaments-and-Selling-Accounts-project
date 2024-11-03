@@ -34,6 +34,7 @@ class MyAppBar extends StatelessWidget implements PreferredSize {
         AppBar(
           systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColorBlack, statusBarIconBrightness: Brightness.dark),
           elevation: 0,
+          scrolledUnderElevation: 0.0,
           centerTitle: true,
           leadingWidth: 60,
           leading: backArrow

@@ -101,6 +101,7 @@ class HomePageCard extends StatelessWidget {
   }
 
   Expanded imagePart(Size size) {
+    print('$serverURL${model.image}');
     return Expanded(
       flex: size.width >= 800 ? 2 : 1,
       child: ClipRRect(

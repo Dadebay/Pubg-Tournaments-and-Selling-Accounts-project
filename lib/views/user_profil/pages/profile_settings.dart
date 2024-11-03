@@ -39,6 +39,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     pubgIDController.text = pubgID;
   }
 
+  @override
+  void initState() {
+    super.initState();
+    Get.find<SettingsController>().agreeButton.value = false;
+  }
+
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
@@ -49,6 +55,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       setState(() {
         selectedImage = imageTemporary;
       });
+      onTapp();
     } catch (error) {
       showSnackBar('noConnection3', '$error', Colors.red);
     }
@@ -73,13 +80,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       final stream = http.ByteStream(DelegatingStream.typed(selectedImage!.openRead()));
       final length = await selectedImage!.length();
       final mimeTypeData = lookupMimeType(selectedImage!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-      final multipartFileSign = http.MultipartFile('image', stream, length, filename: fileName, contentType: MediaType(mimeTypeData.first, mimeTypeData[1]));
+      final multipartFileSign = http.MultipartFile('bg_image', stream, length, filename: fileName, contentType: MediaType(mimeTypeData.first, mimeTypeData[1]));
       request.files.add(multipartFileSign);
 
       final http.StreamedResponse response = await request.send();
       Get.find<SettingsController>().agreeButton.value = false;
+      print(response.statusCode);
+      print(response.stream);
+      Get.find<SettingsController>().agreeButton.value = false;
+
       if (response.statusCode == 200) {
-        Get.back();
         showSnackBar('copySucces', 'changedData', Colors.green);
         pubgNameController.clear();
         pubgIDController.clear();
@@ -88,7 +98,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       } else {
         showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
       }
-      Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
     }
   }
 
@@ -108,6 +117,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             return const Center(child: Text('Empty'));
           }
           changeData(snapshot.data!.nickname!, snapshot.data!.phone!, snapshot.data!.pubgId!);
+          print('$serverURL${widget.image}');
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(
@@ -115,7 +125,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  textpart('userProfilImage'),
                   Center(
                     child: widget.image.toString() != 'null'
                         ? GestureDetector(
@@ -136,7 +145,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     elevation: 3,
                                     child: CachedNetworkImage(
                                       fadeInCurve: Curves.ease,
-                                      imageUrl: '$serverURL/${widget.image}',
+                                      // imageUrl: '$serverURL${widget.image}',
+                                      imageUrl: 'http://216.250.11.240/media/bg-images/2024/10/31/scaled_original-48b015795807f5bf56924d69731931c3.png',
+                                      // imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9SRRmhH4X5N2e4QalcoxVbzYsD44C-sQv-w&s',
+
                                       imageBuilder: (context, imageProvider) => Container(
                                         width: Get.size.width,
                                         decoration: BoxDecoration(
@@ -234,27 +246,29 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     height: 25,
                   ),
                   // Image.network('$serverURL/' + snapshot.data!.image.toString()),
-                  AgreeButton(
-                    name: 'agree',
-                    onTap: () {
-                      if (selectedImage != null) {
-                        onTapp();
-                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                      } else {
-                        Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                        GetMeModel().shortUpdate(pubgUserId: pubgIDController.text, pubgUserName: pubgNameController.text).then((value) {
-                          if (value == 200) {
-                            Get.back();
-                            showSnackBar('copySucces', 'changedData', Colors.green);
-                            pubgNameController.clear();
-                            pubgIDController.clear();
-                          } else {
-                            showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
-                          }
+                  Center(
+                    child: AgreeButton(
+                      name: 'agree',
+                      onTap: () {
+                        if (selectedImage != null) {
+                          onTapp();
                           Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
-                        });
-                      }
-                    },
+                        } else {
+                          Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+                          GetMeModel().shortUpdate(pubgUserId: pubgIDController.text, pubgUserName: pubgNameController.text).then((value) {
+                            if (value == 200) {
+                              Get.back();
+                              showSnackBar('copySucces', 'changedData', Colors.green);
+                              pubgNameController.clear();
+                              pubgIDController.clear();
+                            } else {
+                              showSnackBar('noConnection3', 'tournamentInfo14', Colors.red);
+                            }
+                            Get.find<SettingsController>().agreeButton.value = !Get.find<SettingsController>().agreeButton.value;
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),

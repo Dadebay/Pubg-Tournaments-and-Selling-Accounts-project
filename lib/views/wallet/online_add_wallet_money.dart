@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:game_app/bottom_nav_bar.dart';
 import 'package:game_app/controllers/wallet_controller.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/constants/index.dart';
@@ -22,7 +23,6 @@ class OnlineAddMoneyToWallet extends StatefulWidget {
 class _OnlineAddMoneyToWalletState extends State<OnlineAddMoneyToWallet> {
   late WebViewController _controller;
   final WalletController walletController = Get.put(WalletController());
-
   @override
   void initState() {
     super.initState();
@@ -38,6 +38,8 @@ class _OnlineAddMoneyToWalletState extends State<OnlineAddMoneyToWallet> {
 
               // Assuming the JSON data is in the body text
               try {
+                print('|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;');
+
                 // Log the type of result to understand its structure
                 print('Result type: ${result.runtimeType}');
                 print('Result: $result');
@@ -49,11 +51,10 @@ class _OnlineAddMoneyToWalletState extends State<OnlineAddMoneyToWallet> {
                 // Extract orderId from the URL
                 final Uri uri = Uri.parse(url);
                 final String? orderId = uri.queryParameters['orderId'];
-                print('Order ID from URL: $orderId');
+                print('Order ID fro: $orderId');
 
                 if (orderId != null) {
                   final String? token = await Auth().getToken();
-
                   final response2 = await http.post(
                     Uri.parse('$serverURL/api/paymentToPointStatus/'),
                     headers: <String, String>{
@@ -61,12 +62,13 @@ class _OnlineAddMoneyToWalletState extends State<OnlineAddMoneyToWallet> {
                       HttpHeaders.authorizationHeader: 'Bearer $token',
                     },
                     body: jsonEncode({
-                      'order_id': orderId,
+                      // 'orderId': '7678982a-bb66-4316-ab94-1a6604272b81',
+                      'orderId': orderId,
                       'amount': widget.amount,
                     }),
                   );
-
-                  print('______________________________________________________________________________________________???????????????????????????');
+                  print(token);
+                  print('______________________________________________________________________________________________---------------0000000');
                   print(response2.body);
                   print(response2.statusCode);
                   print('______________________________________________________________________________________________???????????????????????????');
@@ -74,10 +76,8 @@ class _OnlineAddMoneyToWalletState extends State<OnlineAddMoneyToWallet> {
                     walletController.cartList.clear();
                     walletController.cartList.refresh();
                     showSnackBar('copySucces', 'orderSubtitle', Colors.green);
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
+                    Get.to(() => const BottomNavBar());
                   }
-                  return response2.statusCode;
                 } else {
                   print('Order ID not found in URL.');
                 }

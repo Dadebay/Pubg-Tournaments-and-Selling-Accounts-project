@@ -62,6 +62,7 @@ class _KonkursScreenState extends State<KonkursScreen> {
             return ListView.builder(
               itemCount: newList.length,
               itemBuilder: (BuildContext context, int index) {
+                print('http://216.250.11.240${newList[index].image}');
                 return InkWell(
                   onTap: () {
                     if (newList[index].nameTm.toLowerCase() == 'konkurs') {

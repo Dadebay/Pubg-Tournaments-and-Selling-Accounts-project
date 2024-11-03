@@ -267,8 +267,10 @@ class MyTranslations extends Translations {
           'phoneNumberConcurs': 'Telefon belgisi',
           'showWinners': 'Ýeňijileri görkez',
           'kodName': 'Kod ady',
+          'edit': 'Düzetmek',
         },
         'ru': {
+          'edit': 'Редактировать',
           'kodName': 'Имя кода',
 
           'phoneNumberConcurs': 'Номер телефона',

@@ -116,14 +116,9 @@ class _TabBarViewPageState extends State<TabBarViewPage> {
             const SizedBox(
               height: 20,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                AgreeButton(
-                  onTap: onTapp,
-                  name: 'agree',
-                ),
-              ],
+            AgreeButton(
+              onTap: page ? onTappSignIn : onTapp,
+              name: 'agree',
             ),
           ],
         ),

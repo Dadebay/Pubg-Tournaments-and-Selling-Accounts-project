@@ -104,10 +104,6 @@ class _OrderPageState extends State<OrderPage> {
                                   }
                                 }
                               }
-                              print(list);
-                              print(list);
-                              print(list);
-                              print(list);
                               await UcModel().addCart(list).then((value) {
                                 if (value == 200) {
                                   walletController.cartList.clear();

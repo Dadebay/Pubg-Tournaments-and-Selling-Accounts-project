@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, unnecessary_statements
 
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:game_app/controllers/tournament_controller.dart';
@@ -70,6 +71,7 @@ class TournamentModel {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
+    log(response.body);
     if (response.statusCode == 200) {
       controller.tournamentLoading.value = 2;
       final decoded = utf8.decode(response.bodyBytes);
@@ -298,6 +300,43 @@ class TournamentModel {
     return response.statusCode;
   }
 
+  Future editSQUAD({required int turnirID, required int id, required String pubgID1}) async {
+    final token = await Auth().getToken();
+    print(pubgID1);
+    print(turnirID);
+    final response = await http.post(
+      Uri.parse('$serverURL/api/turnirs/turnir/$turnirID/'),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+      body: jsonEncode(<String, String>{
+        'id': id.toString(),
+        'pubg_id': pubgID1,
+      }),
+    );
+    print('__________________________________________+++++++++++++++++++++++++++++++++++');
+    print(response.statusCode);
+    print(response.body);
+    print(response.body);
+    final bodys = jsonDecode(response.body);
+
+    response.statusCode == 200 ? showSnackBar('Üns beriň!', 'Siz üstunlikli turnire goşulduňyz!', Colors.green) : showSnackBar('Üns beriň!', 'tournamentInfo14', Colors.red);
+    // Get.to(() => BottomNavBar());
+    response.statusCode != 200
+        ? showSnackBar(
+            'Üns beriň!',
+            bodys['error'] == 'Siz bu ulanyjy id üýtgedip bilmersiňiz!'
+                ? 'Ulanyjynyň gatnaşmak üçin ýeterlik puly ýok!'
+                : bodys['error'] == 'User already participated!'
+                    ? 'Ulanyjy eýýäm gatnaşdy!'
+                    : bodys['error'],
+            Colors.red,
+          )
+        : null;
+    return response.statusCode;
+  }
+
   Future participateTournamentDUAL({required int teamId, required String pubgID1}) async {
     final token = await Auth().getToken();
     final response = await http.post(
@@ -311,6 +350,10 @@ class TournamentModel {
         'pubg_id': pubgID1,
       }),
     );
+    print('__________________________________________+++++++++++++++++++++++++++++++++++');
+    print(response.statusCode);
+    print(response.body);
+    print(response.body);
     final bodys = jsonDecode(response.body);
     response.statusCode == 200 ? showSnackBar('Üns beriň!', 'Siz üstunlikli turnire goşulduňyz!', Colors.green) : null;
     response.statusCode != 200

@@ -80,6 +80,9 @@ class _TabPage3State extends State<TabPage3> {
             child: Gatnashyanlatr(
               teams: teamUsers[index],
               usersCount: getUsersCount(widget.model.type!),
+              teamID: teamUsers[index].id.toString(),
+              turnirType: widget.model.type!,
+              turnirID: widget.tournamentId.toString(),
             ),
           );
         }

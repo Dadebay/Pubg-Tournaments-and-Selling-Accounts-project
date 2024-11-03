@@ -122,7 +122,7 @@ class _SellctTeamState extends State<SellctTeam> {
                         onTap: () {
                           enterSQUADIDS();
                         },
-                        name: 'buySQUAD2',
+                        name: widget.turnir.type == 'squad' ? 'buySQUAD2' : 'buySQUAD22',
                       ),
                     ],
                   ),
