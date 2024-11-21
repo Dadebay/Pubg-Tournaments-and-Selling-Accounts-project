@@ -85,8 +85,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
       final http.StreamedResponse response = await request.send();
       Get.find<SettingsController>().agreeButton.value = false;
-      print(response.statusCode);
-      print(response.stream);
       Get.find<SettingsController>().agreeButton.value = false;
 
       if (response.statusCode == 200) {
@@ -117,7 +115,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             return const Center(child: Text('Empty'));
           }
           changeData(snapshot.data!.nickname!, snapshot.data!.phone!, snapshot.data!.pubgId!);
-          print('$serverURL${widget.image}');
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(

@@ -268,8 +268,11 @@ class MyTranslations extends Translations {
           'showWinners': 'Ýeňijileri görkez',
           'kodName': 'Kod ady',
           'edit': 'Düzetmek',
+          'deleteAccount': 'Hesaby pozmak',
         },
         'ru': {
+          'deleteAccount': 'Удалить аккаунт',
+
           'edit': 'Редактировать',
           'kodName': 'Имя кода',
 

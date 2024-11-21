@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, must_be_immutable
 
-import 'package:game_app/bottom_nav_bar.dart';
+import 'package:game_app/connection_check.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 
@@ -51,7 +51,7 @@ class OtpCheck extends StatelessWidget {
                       if (value == true) {
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavBar(),
+                            builder: (context) => const ConnectionCheck(),
                           ),
                           (Route<dynamic> route) => false,
                         );
@@ -64,7 +64,7 @@ class OtpCheck extends StatelessWidget {
                       if (value == true) {
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavBar(),
+                            builder: (context) => const ConnectionCheck(),
                           ),
                           (Route<dynamic> route) => false,
                         );

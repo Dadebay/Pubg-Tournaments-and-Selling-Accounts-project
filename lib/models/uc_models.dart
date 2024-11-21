@@ -54,14 +54,10 @@ class UcModel {
       },
       body: jsonEncode(list),
     );
-    print('_________________________________________)))))))))))))))))))))))))_____');
-    print(response.statusCode);
-    print(response.body);
     return response.statusCode;
   }
 
-  Future addCartPlasticCARD(List list) async {
-    print(list);
+  Future addCartPlasticCARD(List list, bool buything, bool buykonkurs) async {
     final String? token = await Auth().getToken();
     final response = await http.post(
       Uri.parse('$serverURL/api/category/payment/'),
@@ -71,13 +67,12 @@ class UcModel {
       },
       body: jsonEncode(list),
     );
-    print(response.body);
-    print(response.statusCode);
-    print(jsonDecode(response.body)['formUrl']);
-    Get.to(
+    await Get.to(
       () => OpenOnlinePaymentWebsite(
         url: jsonDecode(response.body)['formUrl'],
         list: list,
+        thingBuy: buything,
+        konkursBuy: buykonkurs,
       ),
     );
   }

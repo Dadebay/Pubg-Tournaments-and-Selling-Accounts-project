@@ -26,8 +26,18 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>To allow users to take a photo and set it as their profile picture within the app, you need to request camera permissions because users will need to capture their own photos. This feature will help users find their friends more easily and participate in tournaments together.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>To allow users to take a photo and set it as their profile picture within the app, you need to request camera permissions because users will need to capture their own photos. This feature will help users find their friends more easily and participate in tournaments together.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To allow users to take a photo and set it as their profile picture within the app, you need to request camera permissions because users will need to capture their own photos. This feature will help users find their friends more easily and participate in tournaments together.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

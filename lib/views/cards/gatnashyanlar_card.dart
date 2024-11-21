@@ -21,8 +21,6 @@ class _GatnashyanlarCardState extends State<GatnashyanlarCard> {
   dynamic enterSQUADIDS() {
     final TextEditingController controllers = TextEditingController();
     final FocusNode focusNode = FocusNode();
-    print(widget.turnirID.toString());
-    print(widget.teamUsers.id.toString());
 
     Get.defaultDialog(
       title: 'buySQUAD3'.tr,
@@ -44,7 +42,14 @@ class _GatnashyanlarCardState extends State<GatnashyanlarCard> {
               )
                   .then((value) {
                 if (value == 200) {
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const BottomNavBar()), (route) => false);
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const BottomNavBar(
+                        showPages: false,
+                      ),
+                    ),
+                    (route) => false,
+                  );
                 }
               });
             },

@@ -14,11 +14,21 @@ class BottomNavbarButton extends StatelessWidget {
     'UC',
     'profil',
   ];
+  List namesAPPLE = [
+    'bottomNavBar1',
+    'bottomNavBar2',
+    'profil',
+  ];
   List iconsLight = [
     IconlyLight.home,
     IconlyLight.document,
     CupertinoIcons.gift,
     IconlyLight.wallet,
+    IconlyLight.profile,
+  ];
+  List iconsLightAPPLE = [
+    IconlyLight.home,
+    IconlyLight.document,
     IconlyLight.profile,
   ];
   List iconsBold = [
@@ -28,15 +38,23 @@ class BottomNavbarButton extends StatelessWidget {
     IconlyBold.wallet,
     IconlyBold.profile,
   ];
+
+  List iconsBoldAPPLE = [
+    IconlyBold.home,
+    IconlyBold.document,
+    IconlyBold.profile,
+  ];
   final Function() onTapp;
   final int selectedIndex;
   final int index;
   final bool icon;
+  final bool showPage;
   BottomNavbarButton({
     required this.onTapp,
     required this.selectedIndex,
     required this.index,
     required this.icon,
+    required this.showPage,
     super.key,
   });
 
@@ -73,18 +91,18 @@ class BottomNavbarButton extends StatelessWidget {
                   Expanded(
                     child: index != selectedIndex
                         ? Icon(
-                            iconsLight[index],
+                            showPage ? iconsLightAPPLE[index] : iconsLight[index],
                             size: 24,
                             color: Colors.white,
                           )
                         : Icon(
-                            iconsBold[index],
+                            showPage ? iconsBoldAPPLE[index] : iconsBold[index],
                             size: 24,
                             color: Colors.white,
                           ),
                   ),
                   Text(
-                    '${names[index]}'.tr,
+                    showPage ? '${namesAPPLE[index]}'.tr : '${names[index]}'.tr,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: Colors.white, fontFamily: index == selectedIndex ? josefinSansMedium : josefinSansRegular, fontSize: index == selectedIndex ? 13 : 12),
                   ),

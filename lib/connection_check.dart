@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:game_app/models/user_models/abous_us_model.dart';
 import 'package:game_app/views/constants/index.dart';
 import 'package:game_app/views/user_profil/auth/tab_bar_view.dart';
 import 'package:lottie/lottie.dart';
@@ -33,12 +34,24 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
   void checkConnection() async {
     try {
       final result = await InternetAddress.lookup('google.com');
+      int a = 0;
+      bool showPage = false;
+      await AboutUsModel().getAboutUs().then((value) {
+        for (var element in value) {
+          if (element.pageShow == true) {
+            a++;
+          }
+        }
+      });
+      if (a == 3) {
+        showPage = true;
+      }
       if (result.isNotEmpty && result.first.rawAddress.isNotEmpty) {
         await Future.delayed(const Duration(seconds: 3), () {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (BuildContext context) {
-                return const BottomNavBar();
+                return BottomNavBar(showPages: showPage);
               },
             ),
           );
@@ -47,7 +60,7 @@ class _ConnectionCheckState extends State<ConnectionCheck> {
           if (Get.find<SettingsController>().loginUser.value != true) {
             await showDeleteDialog(context, 'loginError', 'welcome', () {
               Get.to(
-                () => TabBarViewPage(),
+                () => const TabBarViewPage(),
               );
             });
           }

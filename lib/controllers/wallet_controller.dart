@@ -48,7 +48,6 @@ class WalletController extends GetxController {
         });
       }
     }
-    print(cartList);
     storage.write('cart', cartList);
   }
 

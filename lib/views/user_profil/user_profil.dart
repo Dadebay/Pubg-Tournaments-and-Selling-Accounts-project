@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:game_app/controllers/settings_controller.dart';
+import 'package:game_app/models/user_models/abous_us_model.dart';
 import 'package:game_app/models/user_models/user_sign_in_model.dart';
 import 'package:game_app/views/constants/dialogs.dart';
 import 'package:game_app/views/constants/index.dart';
@@ -11,7 +12,7 @@ import 'package:game_app/views/user_profil/pages/add_cash.dart';
 import 'package:game_app/views/user_profil/pages/bought_things.dart';
 import 'package:game_app/views/user_profil/pages/edit_work_profil.dart';
 import 'package:game_app/views/user_profil/pages/profile_settings.dart';
-import 'package:game_app/views/user_profil/pages/settings.dart';
+import 'package:game_app/views/user_profil/pages/settings.dart' as page;
 
 import '../../controllers/wallet_controller.dart';
 import 'pages/notification.dart';
@@ -24,11 +25,29 @@ class UserProfil extends StatefulWidget {
 }
 
 class _UserProfilState extends State<UserProfil> {
+  bool showPage = false;
   final SettingsController settingsController = Get.put(SettingsController());
   @override
   void initState() {
     super.initState();
     Get.find<WalletController>().getUserMoney();
+    getData();
+  }
+
+  dynamic getData() async {
+    int a = 0;
+    await AboutUsModel().getAboutUs().then((value) {
+      print(value);
+      for (var element in value) {
+        if (element.pageShow == true) {
+          a++;
+        }
+      }
+    });
+    if (a == 3) {
+      showPage = true;
+    }
+    setState(() {});
   }
 
   @override
@@ -72,7 +91,7 @@ class _UserProfilState extends State<UserProfil> {
                 ProfilButton(
                   name: 'settings',
                   onTap: () {
-                    Get.to(() => const Settings());
+                    Get.to(() => const page.Settings());
                   },
                   icon: IconlyLight.setting,
                 ),
@@ -92,7 +111,7 @@ class _UserProfilState extends State<UserProfil> {
                   },
                   icon: IconlyLight.infoSquare,
                 ),
-                loginLogout(),
+                loginLogout(context),
               ],
             );
           });
@@ -101,7 +120,7 @@ class _UserProfilState extends State<UserProfil> {
     );
   }
 
-  ProfilButton loginLogout() {
+  ProfilButton loginLogout(BuildContext context) {
     return ProfilButton(
       name: settingsController.loginUser.value ? 'log_out' : 'signUp',
       onTap: () {
@@ -110,7 +129,7 @@ class _UserProfilState extends State<UserProfil> {
             () => const TabBarViewPage(),
           );
         } else {
-          logOut();
+          logOut(context);
         }
       },
       icon: IconlyLight.login,
@@ -146,13 +165,15 @@ class _UserProfilState extends State<UserProfil> {
                 icon: IconlyLight.category,
               )
             : const SizedBox.shrink(),
-        ProfilButton(
-          name: 'orders',
-          onTap: () {
-            Get.to(() => const BoughtThings());
-          },
-          icon: IconlyLight.document,
-        ),
+        showPage
+            ? const SizedBox.shrink()
+            : ProfilButton(
+                name: 'orders',
+                onTap: () {
+                  Get.to(() => const BoughtThings());
+                },
+                icon: IconlyLight.document,
+              ),
         divider(),
       ],
     );

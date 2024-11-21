@@ -11,8 +11,8 @@ import 'views/user_profil/user_profil.dart';
 import 'views/wallet/wallet_page.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
-
+  const BottomNavBar({required this.showPages, super.key});
+  final bool showPages;
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
@@ -27,7 +27,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const WalletPage(),
     const UserProfil(),
   ];
-  @override
+  List page2 = [
+    const HomePage(),
+    const NewTournamentPage(),
+    const UserProfil(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +45,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 icon: false,
                 index: 0,
                 selectedIndex: selectedIndex,
+                showPage: widget.showPages,
                 onTapp: () => onTapp(0),
               )),
               Expanded(
@@ -48,28 +53,36 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 icon: false,
                 index: 1,
                 selectedIndex: selectedIndex,
+                showPage: widget.showPages,
                 onTapp: () => onTapp(1),
               )),
-              Expanded(
-                  child: BottomNavbarButton(
-                icon: true,
-                index: 2,
-                selectedIndex: selectedIndex,
-                onTapp: () => onTapp(2),
-              )),
+              widget.showPages
+                  ? const SizedBox.shrink()
+                  : Expanded(
+                      child: BottomNavbarButton(
+                      icon: true,
+                      index: 2,
+                      selectedIndex: selectedIndex,
+                      showPage: widget.showPages,
+                      onTapp: () => onTapp(2),
+                    )),
+              widget.showPages
+                  ? const SizedBox.shrink()
+                  : Expanded(
+                      child: BottomNavbarButton(
+                      icon: false,
+                      index: 3,
+                      selectedIndex: selectedIndex,
+                      onTapp: () => onTapp(3),
+                      showPage: widget.showPages,
+                    )),
               Expanded(
                   child: BottomNavbarButton(
                 icon: false,
-                index: 3,
+                index: widget.showPages ? 2 : 4,
                 selectedIndex: selectedIndex,
-                onTapp: () => onTapp(3),
-              )),
-              Expanded(
-                  child: BottomNavbarButton(
-                icon: false,
-                index: 4,
-                selectedIndex: selectedIndex,
-                onTapp: () => onTapp(4),
+                showPage: widget.showPages,
+                onTapp: () => onTapp(widget.showPages ? 2 : 4),
               )),
             ],
           ),
@@ -77,7 +90,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         body: Stack(
           children: [
             Center(
-              child: page[selectedIndex],
+              child: widget.showPages == false ? page[selectedIndex] : page2[selectedIndex],
             ),
             // blokedPage(),
           ],

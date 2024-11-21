@@ -26,32 +26,33 @@ class ReferalModel {
   final String used_ref_code;
   final String pubg_username;
 
-  ReferalModel(
-      {required this.id,
-      required this.pubgType,
-      required this.vip,
-      required this.bgImage,
-      required this.location,
-      required this.user,
-      required this.verified,
-      required this.forSale,
-      required this.bio,
-      required this.createdDate,
-      required this.email,
-      // ignore: require_trailing_commas
-      required this.image,
-      required this.lastName,
-      required this.nickname,
-      required this.phone,
-      required this.points,
-      required this.pointsFromTurnir,
-      required this.price,
-      required this.pubgId,
-      required this.updatedDate,
-      required this.ref_code,
-      required this.used_ref_code,
-      required this.pubg_username,
-      this.firstName});
+  ReferalModel({
+    required this.id,
+    required this.pubgType,
+    required this.vip,
+    required this.bgImage,
+    required this.location,
+    required this.user,
+    required this.verified,
+    required this.forSale,
+    required this.bio,
+    required this.createdDate,
+    required this.email,
+    // ignore: require_trailing_commas
+    required this.image,
+    required this.lastName,
+    required this.nickname,
+    required this.phone,
+    required this.points,
+    required this.pointsFromTurnir,
+    required this.price,
+    required this.pubgId,
+    required this.updatedDate,
+    required this.ref_code,
+    required this.used_ref_code,
+    required this.pubg_username,
+    this.firstName,
+  });
 
   factory ReferalModel.fromJson(Map<dynamic, dynamic> json) {
     return ReferalModel(

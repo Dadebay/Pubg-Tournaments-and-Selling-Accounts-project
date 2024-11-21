@@ -34,8 +34,6 @@ class HistoryOrderModel {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
@@ -99,10 +97,10 @@ class BoughtThingsModel {
 
   factory BoughtThingsModel.fromJson(Map<dynamic, dynamic> json) {
     return BoughtThingsModel(
-      thingName: json['thing_name'].toString() ?? '+99362990344',
-      thingCount: json['thing_count'].toString() ?? '0',
-      asking: json['asking'].toString() ?? '',
-      thingCommonPrice: json['thingCommonPrice'].toString() ?? '0',
+      thingName: json['thing_name'].toString(),
+      thingCount: json['thing_count'].toString(),
+      asking: json['asking'].toString(),
+      thingCommonPrice: json['thingCommonPrice'].toString(),
     );
   }
 

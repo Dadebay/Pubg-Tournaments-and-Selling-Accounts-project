@@ -118,7 +118,6 @@ class UserSignInModel {
         'phone': phone,
       }),
     );
-    print(phone);
     if (phone == '62990344') {
       if (response.statusCode == 200) {
         showSnackBar('SMS kod', "SMS kod : ${json.decode(response.body)['otp']}", kPrimaryColor);

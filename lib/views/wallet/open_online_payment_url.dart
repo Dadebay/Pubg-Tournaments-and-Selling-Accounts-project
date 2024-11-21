@@ -9,8 +9,10 @@ import 'package:http/http.dart' as http;
 import 'package:webview_flutter/webview_flutter.dart';
 
 class OpenOnlinePaymentWebsite extends StatefulWidget {
-  const OpenOnlinePaymentWebsite({required this.url, required this.list, super.key});
+  const OpenOnlinePaymentWebsite({required this.url, required this.list, required this.thingBuy, required this.konkursBuy, super.key});
   final String url;
+  final bool thingBuy;
+  final bool konkursBuy;
   final List list;
   @override
   State<OpenOnlinePaymentWebsite> createState() => _OpenOnlinePaymentWebsiteState();
@@ -52,17 +54,43 @@ class _OpenOnlinePaymentWebsiteState extends State<OpenOnlinePaymentWebsite> {
                   final String? token = await Auth().getToken();
 
                   // Add orderId to each item in widget.list
-                  final List listTest = widget.list
-                      .map(
-                        (e) => {
-                          'status': e['status'],
-                          'id': e['id'],
-                          'count': e['count'],
-                          'orderId': orderId,
-                          'pubg_id': e['pubg_id'],
-                        },
-                      )
-                      .toList();
+                  List listTest = [];
+                  if (widget.thingBuy == false) {
+                    listTest = widget.list
+                        .map(
+                          (e) => {
+                            'status': e['status'],
+                            'id': e['id'],
+                            'count': e['count'],
+                            'orderId': orderId,
+                            'pubg_id': e['pubg_id'],
+                          },
+                        )
+                        .toList();
+                  } else if (widget.konkursBuy == true) {
+                    listTest = widget.list
+                        .map(
+                          (e) => {
+                            'status': 'konkurs',
+                            'id': e['id'],
+                            'count': e['count'],
+                            'orderId': orderId,
+                          },
+                        )
+                        .toList();
+                  } else {
+                    listTest = widget.list
+                        .map(
+                          (e) => {
+                            'status': e['status'],
+                            'id': e['id'],
+                            'count': e['count'],
+                            'asking': e['asking'],
+                            'orderId': orderId,
+                          },
+                        )
+                        .toList();
+                  }
 
                   final response2 = await http.post(
                     Uri.parse('$serverURL/api/category/paymentStatus/'),
@@ -82,7 +110,9 @@ class _OpenOnlinePaymentWebsiteState extends State<OpenOnlinePaymentWebsite> {
                     walletController.cartList.clear();
                     walletController.cartList.refresh();
                     showSnackBar('copySucces', 'orderSubtitle', Colors.green);
-                    Get.to(() => const BottomNavBar());
+                    Get.to(() => const BottomNavBar(
+                          showPages: false,
+                        ));
                   }
                   return response2.statusCode;
                 } else {

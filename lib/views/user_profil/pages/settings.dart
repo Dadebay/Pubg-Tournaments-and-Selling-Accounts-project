@@ -1,7 +1,9 @@
 // ignore_for_file: file_names, deprecated_member_use
 
+import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/constants/dialogs.dart';
 import 'package:game_app/views/constants/index.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -81,6 +83,21 @@ class _SettingsState extends State<Settings> {
               onPressed: () {},
               icon: const Icon(
                 IconlyLight.arrowRightCircle,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          SettingButton(
+            name: 'deleteAccount',
+            onTap: () {
+              Restart.restartApp();
+              Auth().removeToken();
+              Auth().removeRefreshToken();
+            },
+            icon: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                IconlyLight.delete,
                 color: Colors.white,
               ),
             ),

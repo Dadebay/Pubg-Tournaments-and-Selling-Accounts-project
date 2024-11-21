@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:game_app/connection_check.dart';
 import 'package:game_app/controllers/settings_controller.dart';
 import 'package:game_app/models/user_models/auth_model.dart';
 import 'package:game_app/views/buttons/dialog_button.dart';
 import 'package:game_app/views/constants/index.dart';
-import 'package:restart_app/restart_app.dart';
 
-void logOut() {
+void logOut(BuildContext context) {
   Get.bottomSheet(
     Container(
       decoration: const BoxDecoration(color: kPrimaryColorBlack),
@@ -47,7 +47,12 @@ void logOut() {
             onTap: () async {
               await Auth().logout();
               Get.back();
-              await Restart.restartApp();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => const ConnectionCheck(),
+                ),
+                (Route<dynamic> route) => false,
+              );
             },
             child: Container(
               width: Get.size.width,

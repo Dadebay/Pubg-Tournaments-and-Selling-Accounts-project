@@ -26,13 +26,11 @@ class TabPage1 extends StatelessWidget {
   });
   String formatDateString(String dateString) {
     final DateTime parsedDate = DateTime.parse(dateString);
-    print(dateString);
 
     // Adjust the parsed date to the local time zone
     final DateTime localTime = parsedDate.toLocal();
 
     final DateFormat formatter = DateFormat('yyyy-MM-dd  -  HH:mm');
-    print(formatter.format(localTime));
     return formatter.format(localTime);
   }
 

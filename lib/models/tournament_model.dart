@@ -259,12 +259,6 @@ class TournamentModel {
 
   Future participateTournamentSQUAD({required int teamId, required String pubgID1, required String pubgID2, required String pubgID3}) async {
     final token = await Auth().getToken();
-    print(teamId);
-    print(pubgID1);
-    print(pubgID2);
-    print(pubgID3);
-    print('__________________________________________+++++++++++++++++++++++++++++++++++');
-    print(token);
     final response = await http.post(
       Uri.parse('$serverURL/api/turnirs/participatesquad/'),
       headers: <String, String>{
@@ -278,10 +272,6 @@ class TournamentModel {
         'pubg_id3': pubgID3,
       }),
     );
-    print('__________________________________________+++++++++++++++++++++++++++++++++++');
-    print(response.statusCode);
-    print(response.body);
-    print(response.body);
     final bodys = jsonDecode(response.body);
 
     response.statusCode == 200 ? showSnackBar('Üns beriň!', 'Siz üstunlikli turnire goşulduňyz!', Colors.green) : showSnackBar('Üns beriň!', 'tournamentInfo14', Colors.red);
@@ -302,8 +292,6 @@ class TournamentModel {
 
   Future editSQUAD({required int turnirID, required int id, required String pubgID1}) async {
     final token = await Auth().getToken();
-    print(pubgID1);
-    print(turnirID);
     final response = await http.post(
       Uri.parse('$serverURL/api/turnirs/turnir/$turnirID/'),
       headers: <String, String>{
@@ -315,10 +303,6 @@ class TournamentModel {
         'pubg_id': pubgID1,
       }),
     );
-    print('__________________________________________+++++++++++++++++++++++++++++++++++');
-    print(response.statusCode);
-    print(response.body);
-    print(response.body);
     final bodys = jsonDecode(response.body);
 
     response.statusCode == 200 ? showSnackBar('Üns beriň!', 'Siz üstunlikli turnire goşulduňyz!', Colors.green) : showSnackBar('Üns beriň!', 'tournamentInfo14', Colors.red);
@@ -350,10 +334,6 @@ class TournamentModel {
         'pubg_id': pubgID1,
       }),
     );
-    print('__________________________________________+++++++++++++++++++++++++++++++++++');
-    print(response.statusCode);
-    print(response.body);
-    print(response.body);
     final bodys = jsonDecode(response.body);
     response.statusCode == 200 ? showSnackBar('Üns beriň!', 'Siz üstunlikli turnire goşulduňyz!', Colors.green) : null;
     response.statusCode != 200

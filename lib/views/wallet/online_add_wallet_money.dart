@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:game_app/bottom_nav_bar.dart';
@@ -31,30 +32,21 @@ class _OnlineAddMoneyToWalletState extends State<OnlineAddMoneyToWallet> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (String url) {
-            print(url);
             _controller.runJavaScriptReturningResult('document.body.innerText').then((result) async {
-              print('----------------------------------------------------------------------');
-              print(result);
-
               // Assuming the JSON data is in the body text
               try {
-                print('|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;|;;;;;;');
-
                 // Log the type of result to understand its structure
-                print('Result type: ${result.runtimeType}');
-                print('Result: $result');
 
                 // Attempt to decode the JSON
+                // ignore: unused_local_variable
                 final jsonData = jsonDecode(result.toString());
-                print('Decoded JSON: $jsonData');
 
                 // Extract orderId from the URL
                 final Uri uri = Uri.parse(url);
                 final String? orderId = uri.queryParameters['orderId'];
-                print('Order ID fro: $orderId');
+                final String? token = await Auth().getToken();
 
                 if (orderId != null) {
-                  final String? token = await Auth().getToken();
                   final response2 = await http.post(
                     Uri.parse('$serverURL/api/paymentToPointStatus/'),
                     headers: <String, String>{
@@ -62,28 +54,39 @@ class _OnlineAddMoneyToWalletState extends State<OnlineAddMoneyToWallet> {
                       HttpHeaders.authorizationHeader: 'Bearer $token',
                     },
                     body: jsonEncode({
-                      // 'orderId': '7678982a-bb66-4316-ab94-1a6604272b81',
                       'orderId': orderId,
                       'amount': widget.amount,
                     }),
                   );
-                  print(token);
-                  print('______________________________________________________________________________________________---------------0000000');
-                  print(response2.body);
-                  print(response2.statusCode);
-                  print('______________________________________________________________________________________________???????????????????????????');
+                  log(token.toString());
+                  log(token.toString());
+                  log(token.toString());
+                  log(token.toString());
+                  log(token.toString());
+                  log(
+                    jsonEncode({
+                      'orderId': orderId,
+                      'amount': widget.amount,
+                    }),
+                  );
+                  log(response2.statusCode.toString());
+                  log(response2.body.toString());
+
                   if (response2.statusCode == 200) {
                     walletController.cartList.clear();
                     walletController.cartList.refresh();
                     showSnackBar('copySucces', 'orderSubtitle', Colors.green);
-                    Get.to(() => const BottomNavBar());
+                    await Get.to(
+                      () => const BottomNavBar(
+                        showPages: false,
+                      ),
+                    );
                   }
                 } else {
-                  print('Order ID not found in URL.');
+                  showSnackBar('tournamentInfo1', 'tournamentInfo14', Colors.red);
                 }
-              } catch (e) {
-                print('Error parsing JSON: $e');
-              }
+                // ignore: empty_catches
+              } catch (e) {}
             });
           },
         ),

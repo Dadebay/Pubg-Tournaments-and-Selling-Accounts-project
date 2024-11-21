@@ -56,7 +56,7 @@ class _ConcursByIDState extends State<ConcursByID> {
       final List list = [];
       list.add({'status': 'konkurs', 'id': widget.id, 'count': '1'});
 
-      await UcModel().addCartPlasticCARD(list).then((value) {
+      await UcModel().addCartPlasticCARD(list, false, true).then((value) {
         if (value == 200) {
           walletController.cartList.clear();
           walletController.cartList.refresh();
@@ -391,7 +391,7 @@ class _ConcursByIDState extends State<ConcursByID> {
                     child: AgreeButton(
                       onTap: () async {
                         if (concurs.concursCartById!.finishedDate.isBefore(DateTime.now())) {
-                          Get.to(
+                          await Get.to(
                             () => ConcursWinners(
                               concursID: widget.id,
                             ),

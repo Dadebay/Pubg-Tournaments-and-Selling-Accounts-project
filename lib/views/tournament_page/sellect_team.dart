@@ -31,7 +31,14 @@ class _SellctTeamState extends State<SellctTeam> {
       Timer(
         const Duration(seconds: 3),
         () {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const BottomNavBar()), (route) => false);
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const BottomNavBar(
+                showPages: false,
+              ),
+            ),
+            (route) => false,
+          );
         },
       );
     });
@@ -113,6 +120,7 @@ class _SellctTeamState extends State<SellctTeam> {
                         onTap: () {
                           // Uri.parse('$serverURL/api/turnirs/participate/'),
                           TournamentModel().participateTournamentPost(teamId: selectedTeam).then((value) {
+                            // ignore: unnecessary_statements
                             value == 200 ? backTurnir() : null;
                           });
                         },

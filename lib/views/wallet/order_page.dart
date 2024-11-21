@@ -104,6 +104,7 @@ class _OrderPageState extends State<OrderPage> {
                                   }
                                 }
                               }
+                              print(list);
                               await UcModel().addCart(list).then((value) {
                                 if (value == 200) {
                                   walletController.cartList.clear();
@@ -145,8 +146,10 @@ class _OrderPageState extends State<OrderPage> {
           if (token != null) {
             settingsController.agreeButton.value = !settingsController.agreeButton.value;
             final List list = [];
+            bool buything = false;
             for (var element in walletController.cartList) {
               if (element['status'] == 'thing') {
+                buything = true;
                 list.add({'status': element['status'], 'id': element['id'], 'count': element['count'], 'asking': widget.pubgID});
               } else {
                 if (element['status'] == 'gift') {
@@ -156,7 +159,14 @@ class _OrderPageState extends State<OrderPage> {
                 }
               }
             }
-            await UcModel().addCartPlasticCARD(list).then((value) {
+            print(list);
+            await UcModel()
+                .addCartPlasticCARD(
+              list,
+              buything,
+              false,
+            )
+                .then((value) {
               if (value == 200) {
                 walletController.cartList.clear();
                 walletController.cartList.refresh();

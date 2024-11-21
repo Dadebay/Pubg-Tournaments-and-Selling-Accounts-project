@@ -179,9 +179,6 @@ class _AskMoneyPageState extends State<AskMoneyPage> {
         'amount': amountController.text,
       }),
     );
-    print(response.body);
-    print(response.statusCode);
-    print(jsonDecode(response.body)['formUrl']);
     await Get.to(
       () => OnlineAddMoneyToWallet(
         url: jsonDecode(response.body)['formUrl'],

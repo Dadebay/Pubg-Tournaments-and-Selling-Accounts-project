@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> {
       final bool blocked = responseJson['blocked'] ?? false;
       if (blocked == true) {
         await showDialog(
+          // ignore: use_build_context_synchronously
           context: context,
           builder: (ctxt) => AlertDialog(
             backgroundColor: kPrimaryColorBlack,

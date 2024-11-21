@@ -179,7 +179,6 @@ class _OtherConcursScreenState extends State<OtherConcursScreen> {
 
   Future<List<ThingsMODEL>> getThingsProducts({required int id}) async {
     final List<ThingsMODEL> pubgPost = [];
-    final token = await Auth().getToken();
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/category/sellings/$id/',
@@ -189,8 +188,6 @@ class _OtherConcursScreenState extends State<OtherConcursScreen> {
         // HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       for (final Map product in responseJson) {
